@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Recurse -Force)",
+      "Bash(Select-Object -First 200 FullName)",
+      "Bash(Sort-Object)",
+      "Bash(Get-ChildItem -Path \"D:\\\\claude\\\\svelte_frontend\\\\frontend\" -Recurse -Force)",
+      "Bash(Select-Object FullName)"
+    ]
+  }
+}
