@@ -258,6 +258,51 @@
   const top3Setup = $derived(top3Machines(r => r.setup_conv_min,                  ['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']));
   const top3Sbo   = $derived(top3Criteria(['SETUP BY OPERATOR']));
 
+  // ── MTTR / MTTW + event counts per loss category ─────────────────────────
+  const DOWN_TYPES  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
+  const SETUP_TYPES = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+  const SBO_TYPES   = new Set(['SETUP BY OPERATOR']);
+
+  const lossStats = $derived.by(() => {
+    let downEv=0, downMin=0;
+    let waitDownMin=0, waitSetupMin=0;  // wait split by category
+    let setupEv=0, setupMin=0;
+    let sboEv=0, sboMin=0;
+
+    for (const m of machines) {
+      downMin      += m.down_min;
+      waitDownMin  += m.wait_down_min;   // wait for tech (M/C DOWN only)
+      waitSetupMin += m.wait_setup_min;  // wait before setup starts
+      setupMin     += m.setup_conv_min;
+      sboMin       += m.sbo_min;
+      for (const ev of m.events) {
+        const jt = (ev.job_type || '').toUpperCase();
+        if (DOWN_TYPES.has(jt))  downEv++;
+        if (SETUP_TYPES.has(jt)) setupEv++;
+        if (SBO_TYPES.has(jt))   sboEv++;
+      }
+    }
+    const r = (min: number, ev: number) => ev > 0 ? Math.round(min / ev) : 0;
+    return {
+      down:  { events: downEv,  mttr: r(downMin,  downEv)  },
+      // WAIT: split into "wait for tech" (per M/C DOWN event) and "wait for setup"
+      wait:  {
+        evDown:  downEv,
+        evSetup: setupEv,
+        mttwDown:  r(waitDownMin,  downEv),   // avg wait/tech per DOWN event
+        mttwSetup: r(waitSetupMin, setupEv),  // avg wait/setup per SETUP/CONV event
+      },
+      setup: { events: setupEv, mttr: r(setupMin, setupEv) },
+      sbo:   { events: sboEv,   mttr: r(sboMin,   sboEv)   },
+    };
+  });
+
+  function fmtMtx(min: number): string {
+    if (!min) return '—';
+    if (min < 60) return `${min}m`;
+    return `${Math.floor(min/60)}h ${min%60}m`;
+  }
+
   onMount(() => { loadPackages(); });
 </script>
 
@@ -352,34 +397,46 @@
 {#if kpi}
   <!-- ── KPI row ──────────────────────────────────────────────────────────── -->
   <div class="kpi-section">
-    <div class="kpi-group">
-      <div class="kpi-card" style="--c:var(--color-primary)">
-        <div class="kv">{kpi.total}</div>
-        <div class="kl">TOTAL MACHINES</div>
-      </div>
-      <div class="kpi-card" style="--c:#CC0000">
-        <div class="kv">{kpi.n_down}</div>
-        <div class="kl">M/C DOWN</div>
-      </div>
-      <div class="kpi-card" style="--c:{utilColor(kpi.avg_util)}">
-        <div class="kv">{kpi.avg_util}%</div>
-        <div class="kl">AVG UTILIZATION</div>
-      </div>
-      <div class="kpi-card" style="--c:#702076">
-        <div class="kv">{kpi.n_tech}</div>
-        <div class="kl">TECHS ON SHIFT</div>
-        <div class="ks">M/C DOWN · Setup · Convert</div>
+
+    <!-- Group A: Fleet overview -->
+    <div class="kpi-block">
+      <div class="kpi-block-label">FLEET</div>
+      <div class="kpi-row-cards">
+        <div class="kc" style="--c:var(--color-primary)">
+          <span class="kc-val">{kpi.total}</span>
+          <span class="kc-lbl">Machines</span>
+        </div>
+        <div class="kc" style="--c:#CC0000">
+          <span class="kc-val">{kpi.n_down}</span>
+          <span class="kc-lbl">M/C Down</span>
+        </div>
+        <div class="kc" style="--c:{utilColor(kpi.avg_util)}">
+          <span class="kc-val">{kpi.avg_util}%</span>
+          <span class="kc-lbl">Avg Util</span>
+        </div>
+        <div class="kc" style="--c:#702076">
+          <span class="kc-val">{kpi.n_tech}</span>
+          <span class="kc-lbl">Techs</span>
+        </div>
       </div>
     </div>
 
-    <div class="kpi-divider-v">SHIFT LOSS %</div>
+    <div class="kpi-vdivider"></div>
 
-    <div class="kpi-group">
-      <!-- DOWN TIME -->
-      <div class="kpi-card kpi-sm kpi-hoverable" style="--c:#CC0000">
-        <div class="kv">{kpi.down_pct}%</div>
-        <div class="kl">DOWN TIME</div>
-        <div class="ks">M/C DOWN repair</div>
+    <!-- Group B: Shift loss -->
+    <div class="kpi-block kpi-block-loss">
+      <div class="kpi-block-label">SHIFT LOSS %</div>
+      <div class="kpi-row-cards">
+
+        <!-- DOWN TIME -->
+        <div class="kc kc-hoverable" style="--c:#CC0000">
+          <span class="kc-pct">{kpi.down_pct}%</span>
+          <span class="kc-lbl">Down Time</span>
+          <div class="kc-meta">
+            <span class="kc-ev">{lossStats.down.events} ev</span>
+            <span class="kc-dot">·</span>
+            <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.down.mttr)}</b></span>
+          </div>
         {#if top3Down.length}
           <div class="loss-tooltip">
             <div class="tt-title" style="color:#CC0000">Top · M/C DOWN</div>
@@ -393,69 +450,92 @@
             {/each}
           </div>
         {/if}
-      </div>
+        </div><!-- /DOWN TIME kc -->
 
-      <!-- WAIT -->
-      <div class="kpi-card kpi-sm kpi-hoverable" style="--c:#FD7F20">
-        <div class="kv">{kpi.wait_pct}%</div>
-        <div class="kl">WAIT</div>
-        <div class="ks">All waiting</div>
-        {#if top3Wait.length}
-          <div class="loss-tooltip">
-            <div class="tt-title" style="color:#FD7F20">Top · Wait time</div>
-            {#each top3Wait as r, i}
-              <div class="tt-row">
-                <span class="tt-rank">#{i+1}</span>
-                <span class="tt-mc">{r.id}</span>
-                <span class="tt-val" style="color:#FD7F20">{r.val}m</span>
-              </div>
-              {#if r.criteria}<div class="tt-criteria">{r.criteria}</div>{/if}
-            {/each}
+        <!-- WAIT -->
+        <div class="kc kc-hoverable" style="--c:#FD7F20">
+          <span class="kc-pct">{kpi.wait_pct}%</span>
+          <span class="kc-lbl">Wait</span>
+          <div class="kc-meta kc-meta-col">
+            <div class="wait-row">
+              <span class="wait-tag">Tech</span>
+              <span class="kc-ev">{lossStats.wait.evDown} ev</span>
+              <span class="kc-dot">·</span>
+              <span class="kc-rate">MTTW <b style="color:#CC0000">{fmtMtx(lossStats.wait.mttwDown)}</b></span>
+            </div>
+            <div class="wait-row">
+              <span class="wait-tag">Setup</span>
+              <span class="kc-ev">{lossStats.wait.evSetup} ev</span>
+              <span class="kc-dot">·</span>
+              <span class="kc-rate">MTTW <b style="color:#FD7F20">{fmtMtx(lossStats.wait.mttwSetup)}</b></span>
+            </div>
           </div>
-        {/if}
-      </div>
+          {#if top3Wait.length}
+            <div class="loss-tooltip">
+              <div class="tt-title" style="color:#FD7F20">Top · Wait time</div>
+              {#each top3Wait as r, i}
+                <div class="tt-row">
+                  <span class="tt-rank">#{i+1}</span>
+                  <span class="tt-mc">{r.id}</span>
+                  <span class="tt-val" style="color:#FD7F20">{r.val}m</span>
+                </div>
+                {#if r.criteria}<div class="tt-criteria">{r.criteria}</div>{/if}
+              {/each}
+            </div>
+          {/if}
+        </div>
 
-      <!-- SETUP+CONV -->
-      <div class="kpi-card kpi-sm kpi-hoverable" style="--c:#1D9CE4">
-        <div class="kv">{kpi.setup_conv_pct}%</div>
-        <div class="kl">SETUP+CONV</div>
-        <div class="ks">Setup / Convert</div>
-        {#if top3Setup.length}
-          <div class="loss-tooltip">
-            <div class="tt-title" style="color:#1D9CE4">Top · Setup+Convert</div>
-            {#each top3Setup as r, i}
-              <div class="tt-row">
-                <span class="tt-rank">#{i+1}</span>
-                <span class="tt-mc">{r.id}</span>
-                <span class="tt-val" style="color:#1D9CE4">{r.val}m</span>
-              </div>
-              {#if r.criteria}<div class="tt-criteria">{r.criteria}</div>{/if}
-            {/each}
+        <!-- SETUP+CONV -->
+        <div class="kc kc-hoverable" style="--c:#1D9CE4">
+          <span class="kc-pct">{kpi.setup_conv_pct}%</span>
+          <span class="kc-lbl">Setup+Conv</span>
+          <div class="kc-meta">
+            <span class="kc-ev">{lossStats.setup.events} ev</span>
+            <span class="kc-dot">·</span>
+            <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.setup.mttr)}</b></span>
           </div>
-        {/if}
-      </div>
+          {#if top3Setup.length}
+            <div class="loss-tooltip">
+              <div class="tt-title" style="color:#1D9CE4">Top · Setup+Convert</div>
+              {#each top3Setup as r, i}
+                <div class="tt-row">
+                  <span class="tt-rank">#{i+1}</span>
+                  <span class="tt-mc">{r.id}</span>
+                  <span class="tt-val" style="color:#1D9CE4">{r.val}m</span>
+                </div>
+                {#if r.criteria}<div class="tt-criteria">{r.criteria}</div>{/if}
+              {/each}
+            </div>
+          {/if}
+        </div>
 
-      <!-- SBO -->
-      <div class="kpi-card kpi-sm kpi-hoverable" style="--c:#009688">
-        <div class="kv">{kpi.sbo_pct}%</div>
-        <div class="kl">SBO</div>
-        <div class="ks">Setup by Operator</div>
-        {#if top3Sbo.length}
-          <div class="loss-tooltip">
-            <div class="tt-title" style="color:#009688">Top criteria · SBO</div>
-            {#each top3Sbo as r, i}
-              <div class="tt-row tt-row-criteria">
-                <span class="tt-rank">#{i+1}</span>
-                <span class="tt-crit">{r.criteria}</span>
-                <span class="tt-val" style="color:#009688">{r.hours}h</span>
-              </div>
-              <div class="tt-criteria">{r.count} event{r.count !== 1 ? 's' : ''}</div>
-            {/each}
+        <!-- SBO -->
+        <div class="kc kc-hoverable" style="--c:#009688">
+          <span class="kc-pct">{kpi.sbo_pct}%</span>
+          <span class="kc-lbl">SBO</span>
+          <div class="kc-meta">
+            <span class="kc-ev">{lossStats.sbo.events} ev</span>
+            <span class="kc-dot">·</span>
+            <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.sbo.mttr)}</b></span>
           </div>
-        {/if}
-      </div>
-    </div>
-  </div>
+          {#if top3Sbo.length}
+            <div class="loss-tooltip">
+              <div class="tt-title" style="color:#009688">Top criteria · SBO</div>
+              {#each top3Sbo as r, i}
+                <div class="tt-row tt-row-criteria">
+                  <span class="tt-rank">#{i+1}</span>
+                  <span class="tt-crit">{r.criteria}</span>
+                  <span class="tt-val" style="color:#009688">{r.hours}h</span>
+                </div>
+                <div class="tt-criteria">{r.count} event{r.count !== 1 ? 's' : ''}</div>
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+      </div><!-- /kpi-row-cards -->
+    </div><!-- /kpi-block-loss -->
+  </div><!-- /kpi-section -->
 
   <!-- ── Chip filter ────────────────────────────────────────────────────── -->
   <div class="chip-bar">
@@ -680,26 +760,62 @@
 
   /* ── KPI section ─────────────────────────────────────────────────────── */
   .kpi-section {
-    display: flex; align-items: stretch; gap: 12px; flex-wrap: wrap;
-    padding: 14px 24px; background: var(--color-surface-alt);
+    display: flex; align-items: stretch; gap: 0;
+    padding: 0; background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
   }
-  .kpi-group { display: flex; gap: 10px; flex-wrap: wrap; flex: 1; }
-  .kpi-card {
-    background: var(--color-surface); border-radius: var(--r-sm);
-    border-top: 3px solid var(--c);
-    box-shadow: 0 1px 4px rgba(0,0,0,.08);
-    padding: 10px 14px; flex: 1; min-width: 90px;
-    display: flex; flex-direction: column;
+
+  /* Each labelled block (FLEET / SHIFT LOSS %) */
+  .kpi-block {
+    padding: 14px 20px; flex: 1;
+    display: flex; flex-direction: column; gap: 10px;
   }
-  .kv { font-size: 26px; font-weight: 800; color: var(--c); line-height: 1.1; }
-  .kl { font-size: 10px; font-weight: 700; color: var(--color-text-muted); margin-top: 3px; letter-spacing: .5px; }
-  .ks { font-size: 10px; color: var(--color-text-disabled); margin-top: 1px; }
-  .kpi-sm .kv { font-size: 22px; }
+  .kpi-block-loss { background: var(--color-surface-alt); }
+  .kpi-block-label {
+    font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--color-text-disabled);
+  }
+  .kpi-row-cards { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Vertical divider between blocks */
+  .kpi-vdivider {
+    width: 1px; background: var(--color-border-strong);
+    margin: 12px 0; flex-shrink: 0;
+  }
+
+  /* Fleet cards — compact number + label */
+  .kc {
+    display: flex; flex-direction: column; align-items: flex-start;
+    background: var(--color-surface); border-radius: var(--r-sm);
+    border-left: 3px solid var(--c);
+    padding: 8px 14px; flex: 1; min-width: 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    position: relative;
+  }
+  .kc-val  { font-size: 24px; font-weight: 800; color: var(--c); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .kc-lbl  { font-size: 10px; font-weight: 700; color: var(--color-text-muted); margin-top: 2px; letter-spacing: .4px; text-transform: uppercase; }
+  .ks      { font-size: 10px; color: var(--color-text-disabled); margin-top: 1px; }
+
+  /* Loss cards — larger % + events + MTTR row */
+  .kc-pct  { font-size: 26px; font-weight: 800; color: var(--c); line-height: 1; font-variant-numeric: tabular-nums; }
+  .kc-meta-col { flex-direction: column !important; align-items: flex-start !important; gap: 3px !important; }
+  .wait-row    { display: flex; align-items: center; gap: 4px; }
+  .wait-tag    { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--color-text-disabled); width: 28px; flex-shrink: 0; }
+
+  .kc-meta {
+    display: flex; align-items: center; gap: 5px;
+    margin-top: 5px; padding-top: 5px;
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+  }
+  .kc-ev   { font-size: 10px; color: var(--color-text-muted); white-space: nowrap; }
+  .kc-dot  { font-size: 10px; color: var(--color-text-disabled); }
+  .kc-rate { font-size: 10px; color: var(--color-text-muted); white-space: nowrap; }
+  .kc-rate b { color: var(--c); font-weight: 700; }
 
   /* Hover tooltip on loss cards */
-  .kpi-hoverable { position: relative; cursor: default; }
-  .kpi-hoverable:hover { box-shadow: 0 4px 16px rgba(0,0,0,.14); z-index: 10; }
+  .kc-hoverable { position: relative; cursor: default; }
+  .kc-hoverable:hover { box-shadow: 0 4px 16px rgba(0,0,0,.14); z-index: 10; }
 
   .loss-tooltip {
     display: none;
@@ -718,7 +834,7 @@
     margin-bottom: -1px;
     border: 5px solid transparent; border-bottom-color: #fff;
   }
-  .kpi-hoverable:hover .loss-tooltip { display: block; }
+  .kc-hoverable:hover .loss-tooltip { display: block; }
 
   .tt-title    { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; }
   .tt-row      { display: flex; align-items: center; gap: 6px; padding: 4px 0 2px; }
