@@ -263,37 +263,84 @@
   const SETUP_TYPES = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
   const SBO_TYPES   = new Set(['SETUP BY OPERATOR']);
 
+  // SBO events classified as IDLE: des_job starts with "Idle" or "Wait ..."
+  function isIdleEvent(desJob: string): boolean {
+    const d = (desJob || '').trim().toLowerCase();
+    return d.startsWith('idle') || d.startsWith('wait ');
+  }
+
   const lossStats = $derived.by(() => {
     let downEv=0, downMin=0;
-    let waitDownMin=0, waitSetupMin=0;  // wait split by category
+    let waitDownMin=0, waitSetupMin=0;
     let setupEv=0, setupMin=0;
     let sboEv=0, sboMin=0;
+    let idleEv=0, idleDurMin=0;  // IDLE: SBO events with idle/wait criteria
+    let sboOnlyEv=0, sboOnlyDurMin=0;  // SBO: non-idle SBO events
 
     for (const m of machines) {
       downMin      += m.down_min;
-      waitDownMin  += m.wait_down_min;   // wait for tech (M/C DOWN only)
-      waitSetupMin += m.wait_setup_min;  // wait before setup starts
+      waitDownMin  += m.wait_down_min;
+      waitSetupMin += m.wait_setup_min;
       setupMin     += m.setup_conv_min;
       sboMin       += m.sbo_min;
       for (const ev of m.events) {
         const jt = (ev.job_type || '').toUpperCase();
         if (DOWN_TYPES.has(jt))  downEv++;
         if (SETUP_TYPES.has(jt)) setupEv++;
-        if (SBO_TYPES.has(jt))   sboEv++;
+        if (SBO_TYPES.has(jt)) {
+          sboEv++;
+          if (isIdleEvent(ev.des_job)) {
+            idleEv++;
+            idleDurMin += ev.dur_min;
+          } else {
+            sboOnlyEv++;
+            sboOnlyDurMin += ev.dur_min;
+          }
+        }
       }
     }
+    // Accumulate total repair minutes for total-time display
+    let totalDownRepair = 0, totalWait = 0, totalSetupRepair = 0;
+    for (const m of machines) {
+      totalDownRepair  += m.down_min;
+      totalWait        += m.wait_down_min + m.wait_setup_min;
+      totalSetupRepair += m.setup_conv_min;
+    }
+
     const r = (min: number, ev: number) => ev > 0 ? Math.round(min / ev) : 0;
+    const fleetMin = machines.length * 720 || 1;
+
+    // IDLE top 3 criteria by total duration
+    const idleCriteriaMap = new Map<string, { min: number; count: number }>();
+    for (const m of machines) {
+      for (const ev of m.events) {
+        if ((ev.job_type||'').toUpperCase() !== 'SETUP BY OPERATOR') continue;
+        if (!isIdleEvent(ev.des_job)) continue;
+        // Normalise: truncate long criteria at first comma
+        const key = (ev.des_job||'').split(',')[0].trim() || 'Idle';
+        const prev = idleCriteriaMap.get(key) ?? { min: 0, count: 0 };
+        idleCriteriaMap.set(key, { min: prev.min + ev.dur_min, count: prev.count + 1 });
+      }
+    }
+    const idleTop3 = [...idleCriteriaMap.entries()]
+      .sort((a, b) => b[1].min - a[1].min)
+      .slice(0, 3)
+      .map(([criteria, { min, count }]) => ({ criteria, min, count }));
+
+    // SBO-only % = sbo_pct minus idle fraction
+    const idlePct = Math.round(idleDurMin / fleetMin * 100 * 10) / 10;
+
     return {
-      down:  { events: downEv,  mttr: r(downMin,  downEv)  },
-      // WAIT: split into "wait for tech" (per M/C DOWN event) and "wait for setup"
+      down:  { events: downEv,  mttr: r(downMin, downEv),  totalMin: totalDownRepair },
       wait:  {
-        evDown:  downEv,
-        evSetup: setupEv,
-        mttwDown:  r(waitDownMin,  downEv),   // avg wait/tech per DOWN event
-        mttwSetup: r(waitSetupMin, setupEv),  // avg wait/setup per SETUP/CONV event
+        evDown: downEv, evSetup: setupEv,
+        mttwDown:  r(waitDownMin,  downEv),
+        mttwSetup: r(waitSetupMin, setupEv),
+        totalMin: totalWait,
       },
-      setup: { events: setupEv, mttr: r(setupMin, setupEv) },
-      sbo:   { events: sboEv,   mttr: r(sboMin,   sboEv)   },
+      setup: { events: setupEv, mttr: r(setupMin, setupEv), totalMin: totalSetupRepair },
+      sbo:   { events: sboOnlyEv, mttr: r(sboOnlyDurMin, sboOnlyEv), totalMin: sboOnlyDurMin },
+      idle:  { events: idleEv, totalMin: idleDurMin, pct: idlePct, avg: r(idleDurMin, idleEv), top3: idleTop3 },
     };
   });
 
@@ -323,14 +370,14 @@
 <div class="filter-bar">
   <!-- Date -->
   <div class="fb-group">
-    <label class="flbl">DATE</label>
-    <input type="date" class="input" style="width:150px" bind:value={selDate}
+    <label class="flbl" for="wb-date">DATE</label>
+    <input id="wb-date" type="date" class="input" style="width:150px" bind:value={selDate}
       onchange={() => { loadPackages(); machines=[]; kpi=null; }} />
   </div>
 
   <!-- Shift -->
   <div class="fb-group">
-    <label class="flbl">SHIFT</label>
+    <span class="flbl">SHIFT</span>
     <div class="shift-btns">
       <button class="shift-btn" class:active={selShift==='Day'}   onclick={()=>{selShift='Day';   machines=[]; kpi=null;}}>☀ Day</button>
       <button class="shift-btn" class:active={selShift==='Night'} onclick={()=>{selShift='Night'; machines=[]; kpi=null;}}>🌙 Night</button>
@@ -339,12 +386,12 @@
 
   <!-- Package -->
   <div class="fb-group" style="flex:1;min-width:240px">
-    <label class="flbl">
+    <span class="flbl">
       PACKAGE
       {#if selPackages.length > 0}
         <span class="pkg-badge">{selPackages.length} selected</span>
       {/if}
-    </label>
+    </span>
     {#if pkgLoading}
       <div class="pkg-placeholder">Loading…</div>
     {:else if pkgOptions.length === 0}
@@ -383,7 +430,7 @@
   </div>
 
   <div class="fb-group" style="justify-content:flex-end">
-    <label class="flbl">&nbsp;</label>
+    <span class="flbl">&nbsp;</span>
     <button class="btn-load" onclick={loadReport} disabled={loading || selPackages.length===0}>
       {loading ? 'Loading…' : 'Load Report'}
     </button>
@@ -395,37 +442,41 @@
 {/if}
 
 {#if kpi}
-  <!-- ── KPI row ──────────────────────────────────────────────────────────── -->
+  <!-- ── KPI section ──────────────────────────────────────────────────────── -->
   <div class="kpi-section">
 
-    <!-- Group A: Fleet overview -->
-    <div class="kpi-block">
-      <div class="kpi-block-label">FLEET</div>
-      <div class="kpi-row-cards">
-        <div class="kc" style="--c:var(--color-primary)">
-          <span class="kc-val">{kpi.total}</span>
-          <span class="kc-lbl">Machines</span>
-        </div>
-        <div class="kc" style="--c:#CC0000">
-          <span class="kc-val">{kpi.n_down}</span>
-          <span class="kc-lbl">M/C Down</span>
-        </div>
-        <div class="kc" style="--c:{utilColor(kpi.avg_util)}">
-          <span class="kc-val">{kpi.avg_util}%</span>
-          <span class="kc-lbl">Avg Util</span>
-        </div>
-        <div class="kc" style="--c:#702076">
-          <span class="kc-val">{kpi.n_tech}</span>
-          <span class="kc-lbl">Techs</span>
-        </div>
+    <!-- Row 1: Fleet — compact stat strip -->
+    <div class="fleet-row">
+      <span class="kpi-block-label">FLEET</span>
+      <div class="fleet-stat" style="--c:var(--color-primary)">
+        <span class="fs-val">{kpi.total}</span>
+        <span class="fs-lbl">Machines</span>
+      </div>
+      <div class="fleet-stat" style="--c:#CC0000">
+        <span class="fs-val">{kpi.n_down}</span>
+        <span class="fs-lbl">M/C Down</span>
+      </div>
+      <div class="fleet-stat" style="--c:{utilColor(kpi.avg_util)}">
+        <span class="fs-val">{kpi.avg_util}%</span>
+        <span class="fs-lbl">Avg Util</span>
+      </div>
+      <div class="fleet-stat" style="--c:#702076">
+        <span class="fs-val">{kpi.n_tech}</span>
+        <span class="fs-lbl">Techs</span>
+      </div>
+      <div class="fleet-stat" style="--c:#5EBF33">
+        <span class="fs-val">{kpi.n_full}</span>
+        <span class="fs-lbl">100% Util</span>
+      </div>
+      <div class="fleet-stat" style="--c:#CC0000">
+        <span class="fs-val">{kpi.n_low}</span>
+        <span class="fs-lbl">Util &lt;85%</span>
       </div>
     </div>
 
-    <div class="kpi-vdivider"></div>
-
-    <!-- Group B: Shift loss -->
-    <div class="kpi-block kpi-block-loss">
-      <div class="kpi-block-label">SHIFT LOSS %</div>
+    <!-- Row 2: Shift Loss % — full width -->
+    <div class="loss-row">
+      <span class="kpi-block-label" style="white-space:nowrap">SHIFT LOSS %</span>
       <div class="kpi-row-cards">
 
         <!-- DOWN TIME -->
@@ -437,6 +488,7 @@
             <span class="kc-dot">·</span>
             <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.down.mttr)}</b></span>
           </div>
+          <div class="kc-total" style="color:#CC0000">Total <b>{fmtMtx(lossStats.down.totalMin)}</b></div>
         {#if top3Down.length}
           <div class="loss-tooltip">
             <div class="tt-title" style="color:#CC0000">Top · M/C DOWN</div>
@@ -458,18 +510,15 @@
           <span class="kc-lbl">Wait</span>
           <div class="kc-meta kc-meta-col">
             <div class="wait-row">
-              <span class="wait-tag">Tech</span>
-              <span class="kc-ev">{lossStats.wait.evDown} ev</span>
-              <span class="kc-dot">·</span>
+              <span class="wait-tag">Down</span>
               <span class="kc-rate">MTTW <b style="color:#CC0000">{fmtMtx(lossStats.wait.mttwDown)}</b></span>
             </div>
             <div class="wait-row">
               <span class="wait-tag">Setup</span>
-              <span class="kc-ev">{lossStats.wait.evSetup} ev</span>
-              <span class="kc-dot">·</span>
               <span class="kc-rate">MTTW <b style="color:#FD7F20">{fmtMtx(lossStats.wait.mttwSetup)}</b></span>
             </div>
           </div>
+          <div class="kc-total" style="color:#FD7F20">Total <b>{fmtMtx(lossStats.wait.totalMin)}</b></div>
           {#if top3Wait.length}
             <div class="loss-tooltip">
               <div class="tt-title" style="color:#FD7F20">Top · Wait time</div>
@@ -494,6 +543,7 @@
             <span class="kc-dot">·</span>
             <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.setup.mttr)}</b></span>
           </div>
+          <div class="kc-total" style="color:#1D9CE4">Total <b>{fmtMtx(lossStats.setup.totalMin)}</b></div>
           {#if top3Setup.length}
             <div class="loss-tooltip">
               <div class="tt-title" style="color:#1D9CE4">Top · Setup+Convert</div>
@@ -509,15 +559,16 @@
           {/if}
         </div>
 
-        <!-- SBO -->
+        <!-- SBO (excludes idle/wait) -->
         <div class="kc kc-hoverable" style="--c:#009688">
-          <span class="kc-pct">{kpi.sbo_pct}%</span>
+          <span class="kc-pct">{Math.max(0, Math.round((kpi.sbo_pct - lossStats.idle.pct) * 10) / 10)}%</span>
           <span class="kc-lbl">SBO</span>
           <div class="kc-meta">
             <span class="kc-ev">{lossStats.sbo.events} ev</span>
             <span class="kc-dot">·</span>
             <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.sbo.mttr)}</b></span>
           </div>
+          <div class="kc-total" style="color:#009688">Total <b>{fmtMtx(lossStats.sbo.totalMin)}</b></div>
           {#if top3Sbo.length}
             <div class="loss-tooltip">
               <div class="tt-title" style="color:#009688">Top criteria · SBO</div>
@@ -533,8 +584,28 @@
           {/if}
         </div>
 
+        <!-- IDLE (Idle + Wait Plasma/Cratering etc.) -->
+        {#if lossStats.idle.events > 0}
+          <div class="kc" style="--c:#8B5CF6">
+            <span class="kc-pct">{lossStats.idle.pct}%</span>
+            <span class="kc-lbl">Idle</span>
+            <div class="kc-meta kc-meta-col" style="gap:3px">
+              {#each lossStats.idle.top3 as t}
+                <div class="idle-row">
+                  <span class="idle-crit">{t.criteria.length > 14 ? t.criteria.slice(0,14)+'…' : t.criteria}</span>
+                  <span class="idle-stats">
+                    <span class="idle-ev">{t.count}ev</span>
+                    <b style="color:#8B5CF6;font-size:10px">{fmtMtx(Math.round(t.min / t.count))}</b>
+                  </span>
+                </div>
+              {/each}
+            </div>
+            <div class="kc-total" style="color:#8B5CF6">Total <b>{fmtMtx(lossStats.idle.totalMin)}</b></div>
+          </div>
+        {/if}
+
       </div><!-- /kpi-row-cards -->
-    </div><!-- /kpi-block-loss -->
+    </div><!-- /loss-row -->
   </div><!-- /kpi-section -->
 
   <!-- ── Chip filter ────────────────────────────────────────────────────── -->
@@ -670,12 +741,13 @@
 <style>
   /* ── Header ──────────────────────────────────────────────────────────── */
   .wb-header {
-    background: linear-gradient(135deg, var(--color-primary) 0%, #1a4a9e 100%);
-    padding: 14px 24px; color: #fff;
+    background: #0F172A;
+    border-bottom: 3px solid #1D9CE4;
+    padding: 14px 24px; color: #fff !important;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
   }
-  .wb-header h2 { margin:0; font-size:20px; font-weight:700; }
-  .wb-header p  { margin:3px 0 0; font-size:12px; opacity:.8; }
+  .wb-header h2 { margin:0; font-size:18px; font-weight:700; color:#fff !important; letter-spacing:-.01em; }
+  .wb-header p  { margin:4px 0 0; font-size:12px; color:rgba(255,255,255,.65); font-weight:500; }
   .hdr-actions  { flex-shrink:0; }
 
   /* ── Filter bar ──────────────────────────────────────────────────────── */
@@ -758,52 +830,74 @@
     color: var(--status-down); font-weight: 600; padding: 10px 24px; font-size: 13px;
   }
 
-  /* ── KPI section ─────────────────────────────────────────────────────── */
+  /* ── KPI section — 2 rows ────────────────────────────────────────────── */
   .kpi-section {
-    display: flex; align-items: stretch; gap: 0;
-    padding: 0; background: var(--color-surface);
+    display: flex; flex-direction: column; gap: 0;
+    background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* Each labelled block (FLEET / SHIFT LOSS %) */
-  .kpi-block {
-    padding: 14px 20px; flex: 1;
-    display: flex; flex-direction: column; gap: 10px;
+  /* Row 1: Fleet — horizontal stat strip */
+  .fleet-row {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    padding: 10px 20px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
   }
-  .kpi-block-loss { background: var(--color-surface-alt); }
+  .fleet-stat {
+    display: flex; align-items: baseline; gap: 6px;
+    background: var(--color-surface-alt);
+    border-left: 3px solid var(--c);
+    border-radius: var(--r-sm);
+    padding: 6px 14px; flex-shrink: 0;
+  }
+  .fs-val { font-size: 20px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; }
+  .fs-lbl { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; }
+
+  /* Row 2: Shift Loss % — full width */
+  .loss-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px;
+    background: var(--color-surface-alt);
+  }
+
   .kpi-block-label {
     font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
-    text-transform: uppercase; color: var(--color-text-disabled);
+    text-transform: uppercase; color: var(--color-text-disabled); flex-shrink: 0;
   }
-  .kpi-row-cards { display: flex; gap: 8px; flex-wrap: wrap; }
 
-  /* Vertical divider between blocks */
-  .kpi-vdivider {
-    width: 1px; background: var(--color-border-strong);
-    margin: 12px 0; flex-shrink: 0;
-  }
+  .kpi-row-cards { display: flex; gap: 6px; flex: 1; }
 
   /* Fleet cards — compact number + label */
   .kc {
     display: flex; flex-direction: column; align-items: flex-start;
     background: var(--color-surface); border-radius: var(--r-sm);
     border-left: 3px solid var(--c);
-    padding: 8px 14px; flex: 1; min-width: 80px;
+    padding: 8px 10px; flex: 1; min-width: 0;
     box-shadow: 0 1px 3px rgba(0,0,0,.06);
-    position: relative;
+    position: relative; overflow: hidden;
   }
-  .kc-val  { font-size: 24px; font-weight: 800; color: var(--c); line-height: 1.1; font-variant-numeric: tabular-nums; }
   .kc-lbl  { font-size: 10px; font-weight: 700; color: var(--color-text-muted); margin-top: 2px; letter-spacing: .4px; text-transform: uppercase; }
-  .ks      { font-size: 10px; color: var(--color-text-disabled); margin-top: 1px; }
 
-  /* Loss cards — larger % + events + MTTR row */
-  .kc-pct  { font-size: 26px; font-weight: 800; color: var(--c); line-height: 1; font-variant-numeric: tabular-nums; }
-  .kc-meta-col { flex-direction: column !important; align-items: flex-start !important; gap: 3px !important; }
-  .wait-row    { display: flex; align-items: center; gap: 4px; }
-  .wait-tag    { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--color-text-disabled); width: 28px; flex-shrink: 0; }
+  /* Loss cards */
+  .kc-pct  { font-size: 22px; font-weight: 800; color: var(--c); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .kc-meta-col { flex-direction: column !important; align-items: flex-start !important; gap: 2px !important; }
+  .wait-row    { display: flex; align-items: center; gap: 5px; }
+  .wait-tag    { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--color-text-disabled); width: 30px; flex-shrink: 0; }
+  .idle-row    { display: flex; align-items: center; justify-content: space-between; gap: 4px; width: 100%; }
+  .idle-crit   { font-size: 9px; color: var(--color-text-muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .idle-stats  { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .idle-ev     { font-size: 9px; color: var(--color-text-disabled); }
+  .kc-total {
+    font-size: 10px; color: var(--color-text-muted);
+    margin-top: 4px; padding-top: 4px;
+    border-top: 1px dashed var(--color-border);
+    white-space: nowrap;
+  }
+  .kc-total b { font-weight: 700; }
 
   .kc-meta {
-    display: flex; align-items: center; gap: 5px;
+    display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
     margin-top: 5px; padding-top: 5px;
     border-top: 1px solid var(--color-border);
     width: 100%;
@@ -852,12 +946,6 @@
   /* SBO row: criteria is the main content */
   .tt-row-criteria .tt-crit {
     font-size: 12px; font-weight: 600; color: var(--color-text-dark); flex: 1;
-  }
-  .kpi-divider-v {
-    align-self: center; writing-mode: vertical-lr;
-    font-size: 9px; font-weight: 700; color: var(--color-text-disabled);
-    letter-spacing: 1.5px; text-transform: uppercase;
-    border-left: 1px solid var(--color-border-strong); padding-left: 8px; margin: 0 4px;
   }
 
   /* ── Chip bar ─────────────────────────────────────────────────────────── */
