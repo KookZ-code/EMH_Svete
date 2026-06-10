@@ -11,7 +11,7 @@
 
   let { label, value, accent = 'var(--color-primary)', icon, sub, trend, href }: Props = $props();
 
-  const tag = href ? 'a' : 'div';
+  const tag = $derived(href ? 'a' : 'div');
 
   function trendColor(t: number): string {
     return t > 0 ? 'var(--status-running)' : t < 0 ? 'var(--status-down)' : 'var(--color-text-muted)';

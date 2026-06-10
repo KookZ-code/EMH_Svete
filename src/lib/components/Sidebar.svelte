@@ -12,6 +12,7 @@
     { icon: '👷', label: 'Tech Performance', path: '/timeline' },
     { icon: '📦', label: 'Inventory',        path: '/inventory' },
     { icon: '📋', label: 'WB Report',        path: '/wb-report' },
+    { icon: '🔬', label: 'DA Report',        path: '/da-report' },
     { icon: '🏪', label: 'Store Items',      path: '/store-items' },
     { icon: '⚙️', label: 'Admin',            path: '/admin' },
   ];
