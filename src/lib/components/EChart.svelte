@@ -1,15 +1,30 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
+  export interface EChartClickParams {
+    seriesName: string;
+    name: string;
+    value: number;
+    dataIndex: number;
+    seriesIndex: number;
+  }
+
   interface Props {
     option: object;
     height?: string;
     loading?: boolean;
+    onclick?: (params: EChartClickParams) => void;
   }
 
-  let { option, height = '300px', loading = false }: Props = $props();
+  let { option, height = '300px', loading = false, onclick }: Props = $props();
 
-  type ChartInstance = { setOption: (o: object, r?: boolean) => void; resize: () => void; dispose: () => void };
+  type ChartInstance = {
+    setOption: (o: object, r?: boolean) => void;
+    resize: () => void;
+    dispose: () => void;
+    on:  (event: string, handler: (p: unknown) => void) => void;
+    off: (event: string, handler: (p: unknown) => void) => void;
+  };
 
   let el: HTMLDivElement;
   let chartInstance = $state<ChartInstance | null>(null);
@@ -17,7 +32,7 @@
   onMount(() => {
     let ro: ResizeObserver;
     import('echarts').then(({ init }) => {
-      chartInstance = init(el) as ChartInstance;   // setting $state triggers $effect
+      chartInstance = init(el) as ChartInstance;
       ro = new ResizeObserver(() => chartInstance?.resize());
       ro.observe(el);
     });
@@ -27,12 +42,18 @@
     };
   });
 
-  // Read option BEFORE the guard so Svelte always tracks it as a dependency,
-  // even on the first run when chartInstance is still null.
   $effect(() => {
     const opt = option;
     if (!chartInstance) return;
     chartInstance.setOption(opt, true);
+  });
+
+  // Register/deregister click handler whenever chartInstance or onclick changes.
+  $effect(() => {
+    if (!chartInstance || !onclick) return;
+    const handler = onclick as (p: unknown) => void;
+    chartInstance.on('click', handler);
+    return () => chartInstance?.off('click', handler);
   });
 </script>
 

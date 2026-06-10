@@ -155,7 +155,7 @@ export interface MachineUtilRaw {
 // ─── Downtime ─────────────────────────────────────────────────────────────
 
 export const downtimeApi = {
-  detail: (p: FilterParams & { job_types?: JobType[]; limit?: number }) =>
+  detail: (p: FilterParams & { job_types?: JobType[]; limit?: number; drill_day?: string }) =>
     apiFetch<DowntimeDetailPayload>(`/api/downtime/detail${qs(p as Record<string, string | string[] | number | undefined>)}`),
 };
 

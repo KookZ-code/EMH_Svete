@@ -10,7 +10,7 @@
   interface ReasonRow { reason: string; hours: number; count: number; avg_repair_min: number; cumulative_pct: number; }
   interface MachRow   { code_machine: string; area: string; total_hours: number; [k: string]: unknown; }
   interface ShiftRow  { day: string; shift_name: string; events: number; repair_hrs: number; wait_hrs: number; }
-  interface KpiData   { total_hours: number; total_events: number; avg_repair_h: number; top_machine: string; top_machine_h: number; }
+  interface KpiData   { total_hours: number; total_events: number; avg_repair_min: number; avg_wait_min: number; }
 
   interface SectionData {
     reasons: ReasonRow[]; machines: MachRow[]; shift: ShiftRow[];
@@ -19,7 +19,7 @@
 
   const empty = (): SectionData => ({
     reasons: [], machines: [], shift: [],
-    kpi: { total_hours:0, total_events:0, avg_repair_h:0, top_machine:'—', top_machine_h:0 },
+    kpi: { total_hours:0, total_events:0, avg_repair_min:0, avg_wait_min:0 },
     loading: true, error: null,
   });
 
@@ -48,11 +48,13 @@
   });
 
   async function fetchSection(types: JobType[]): Promise<SectionData> {
+    const activeShift = drilldown?.shift ?? (filters.shift !== 'all' ? filters.shift : undefined);
     const res = await downtimeApi.detail({
       job_types: types,
       start: filters.start, end: filters.end,
-      shift: filters.shift !== 'all' ? filters.shift : undefined,
+      shift: activeShift,
       areas: filters.areas.length > 0 ? filters.areas : undefined,
+      drill_day: drilldown?.day,
     });
     if (res.error) return { ...empty(), loading:false, error:res.error.message };
     const d = res.data as { reason?:ReasonRow[]; machines_by_reason?:MachRow[]; daily_shift?:ShiftRow[]; kpi?:KpiData };
@@ -83,35 +85,62 @@
   }
 
   // ── Chart builders ────────────────────────────────────────────────────────
-  function shiftChart(sec: SectionData, color: string) {
+  function shiftChart(sec: SectionData, color: string, activeShift: 'all'|'day'|'night') {
     const df = sec.shift;
     const days = [...new Set(df.map(r=>r.day))].sort();
+    const dayOpa   = activeShift === 'night' ? 0.22 : 1;
+    const nightOpa = activeShift === 'day'   ? 0.22 : 1;
     return {
       tooltip: { trigger:'axis', axisPointer:{type:'shadow'} },
       legend: { data:['Day','Night'], top:0, textStyle:{fontSize:10} },
-      grid:  { top:30, left:42, right:10, bottom:55 },
+      grid:  { top:30, left:46, right:10, bottom:55 },
       xAxis: { type:'category', data:days, axisLabel:{rotate:35,fontSize:9,formatter:(v:string)=>v.slice(5)} },
       yAxis: { type:'value', name:'h', nameTextStyle:{fontSize:9}, axisLabel:{fontSize:9} },
       series: [
-        { name:'Day',   type:'bar', barMaxWidth:20, itemStyle:{color},
-          data: days.map(d=>{ const r=df.find(x=>x.day===d&&x.shift_name==='Day'); return r?+(r.repair_hrs+r.wait_hrs).toFixed(1):0; }) },
-        { name:'Night', type:'bar', barMaxWidth:20, itemStyle:{color:'#702076'},
+        { name:'Day',   type:'bar', barMaxWidth:20, cursor:'pointer',
+          itemStyle:{color, opacity:dayOpa},
+          emphasis:{itemStyle:{opacity:1}},
+          data: days.map(d=>{ const r=df.find(x=>x.day===d&&x.shift_name==='Day');   return r?+(r.repair_hrs+r.wait_hrs).toFixed(1):0; }) },
+        { name:'Night', type:'bar', barMaxWidth:20, cursor:'pointer',
+          itemStyle:{color:'#702076', opacity:nightOpa},
+          emphasis:{itemStyle:{opacity:1}},
           data: days.map(d=>{ const r=df.find(x=>x.day===d&&x.shift_name==='Night'); return r?+(r.repair_hrs+r.wait_hrs).toFixed(1):0; }) },
       ],
     };
   }
 
+  // Drill-down: click a specific day+shift bar → filter ALL page data to that day+shift.
+  // Uses drill_day param (computed chart-day, handles cross-midnight Night shift correctly).
+  // Does NOT modify filters.start/end — the date range stays intact.
+  interface Drilldown { day: string; shift: 'day'|'night'; }
+  let drilldown = $state<Drilldown | null>(null);
+
+  function handleShiftClick(params: { seriesName: string; name: string }) {
+    const day   = params.name; // echarts category value = full date "2026-06-05"
+    const shift = (params.seriesName === 'Day' ? 'day' : 'night') as 'day'|'night';
+    drilldown = (drilldown?.day === day && drilldown?.shift === shift) ? null : { day, shift };
+    loadAll();
+  }
+
+  function clearDrilldown() { drilldown = null; loadAll(); }
+
   function paretoChart(sec: SectionData, color: string) {
     const r = sec.reasons;
+    // cumulative_pct now comes from backend computed from count
     return {
       tooltip: {
-        trigger:'axis', axisPointer:{type:'cross'},
-        formatter: (ps:unknown[]) => {
-          const p = ps as Array<{axisValue:string;value:number;seriesName:string}>;
-          const bar = p.find(x=>x.seriesName==='Hours');
+        trigger:'axis', axisPointer:{type:'shadow'},
+        formatter: (ps: Array<{name:string;value:number;seriesName:string;color:string}>) => {
+          const bar = ps.find(x=>x.seriesName==='Hours');
           if (!bar) return '';
-          const row = r.find(x=>x.reason===bar.axisValue);
-          return `<b>${bar.axisValue}</b><br>Hours: <b>${bar.value.toFixed(1)}</b><br>Events: <b>${row?.count??0}</b><br>MTTR: <b>${row?.avg_repair_min??0}m</b>`;
+          const row = r.find(x=>x.reason===bar.name || x.reason.slice(0,16)+'…'===bar.name);
+          const cum  = ps.find(x=>x.seriesName==='Cum%');
+          const mttr = row ? (row.avg_repair_min || (row.count > 0 ? Math.round(row.hours / row.count * 60) : 0)) : 0;
+          return `<b>${bar.name}</b><br>` +
+            `<span style="color:${bar.color}">●</span> Hours: <b>${(bar.value||0).toFixed(1)}h</b>` +
+            ` <span style="color:var(--color-text-muted);font-size:11px">(${row?.count??0} events)</span><br>` +
+            `<span style="color:#1C355E">●</span> Cumulative: <b>${cum?.value??0}%</b><br>` +
+            `MTTR: <b>${mttr}m</b>`;
         },
       },
       grid: { top:8, left:20, right:55, bottom:90, containLabel:true },
@@ -121,7 +150,7 @@
         axisLabel:{rotate:38,fontSize:9,interval:0},
       },
       yAxis: [
-        { type:'value', name:'h', nameTextStyle:{fontSize:10}, axisLabel:{fontSize:9} },
+        { type:'value', name:'h', nameTextStyle:{fontSize:10}, axisLabel:{fontSize:9,formatter:(v:number)=>v>=1000?`${(v/1000).toFixed(0)}k`:String(v)} },
         { type:'value', max:100, axisLabel:{formatter:'{value}%',fontSize:9}, splitLine:{show:false} },
       ],
       series: [
@@ -133,25 +162,25 @@
   }
 
   function machineChart(sec: SectionData, color: string) {
-    const top5 = sec.reasons.slice(0,5).map(r=>r.reason);
-    const COLS  = ['#CC0000','#8B0000','#FD7F20','#702076','#1D9CE4'];
-    const rows  = sec.machines.slice(0,15);
+    const rows = sec.machines.slice(0, 15);
     return {
-      tooltip: { trigger:'axis', axisPointer:{type:'shadow'} },
-      legend: { data:top5.map(n=>n.length>20?n.slice(0,20)+'…':n), top:0, textStyle:{fontSize:8} },
-      grid: { top:36, left:80, right:10, bottom:8 },
-      xAxis: { type:'value', name:'h', nameTextStyle:{fontSize:9}, axisLabel:{fontSize:9} },
+      tooltip: { trigger:'axis', axisPointer:{type:'shadow'},
+        formatter:(ps:Array<{name:string;value:number}>) =>
+          `${ps[0]?.name}: <b>${(ps[0]?.value||0).toLocaleString()} events</b>` },
+      grid: { top:8, left:82, right:52, bottom:8 },
+      xAxis: { type:'value', name:'events', nameTextStyle:{fontSize:9},
+        axisLabel:{fontSize:9, formatter:(v:number)=>v>=1000?`${(v/1000).toFixed(0)}k`:String(v)} },
       yAxis: { type:'category', data:rows.map(r=>r.code_machine).reverse(), axisLabel:{fontSize:9} },
-      series: top5.map((rn,i)=>({
-        name: rn.length>20?rn.slice(0,20)+'…':rn,
-        type:'bar', stack:'total',
-        data: rows.map(r=>Number(r[rn]??0)).reverse(),
-        itemStyle:{color:COLS[i]??'#8A8A8A'},
-      })),
+      series: [{ name:'Events', type:'bar', barMaxWidth:20,
+        data: rows.map(r=>Number((r as {total_hours?:number}).total_hours??0)).reverse(),
+        itemStyle:{color},
+        label:{show:true, position:'right', fontSize:9,
+          formatter:(p:{value:number})=>p.value?p.value.toLocaleString():'' } }],
     };
   }
 
-  function fmtH(h:number){ if(!h||h<0.1)return '—'; return h<1?`${Math.round(h*60)}m`:`${h.toFixed(1)}h`; }
+  function fmtH(h:number){ if(h===null||h===undefined)return '—'; if(h<0.1)return h===0?'0h':'<6m'; return h<1?`${Math.round(h*60)}m`:`${h.toFixed(1)}h`; }
+  function fmtMin(m:number){ if(!m||m===0)return '—'; return m<60?`${Math.round(m)}m`:`${(m/60).toFixed(1)}h`; }
 
   // ── Event Detail ─────────────────────────────────────────────────────────
   const ALL_JOB_TYPES: JobType[] = ['M/C DOWN','SETUP','SETUP BY OPERATOR','PM','CONVERT','CHANGE CAP','FACILITY DOWN','ENGINEERING DOWN'];
@@ -234,8 +263,8 @@
   ];
 
   // ── $derived chart options ────────────────────────────────────────────────
-  const downShiftOpt   = $derived.by(() => shiftChart(down,  DOWN_COLOR));
-  const setupShiftOpt  = $derived.by(() => shiftChart(setup, SETUP_COLOR));
+  const downShiftOpt   = $derived.by(() => shiftChart(down,  DOWN_COLOR,  filters.shift));
+  const setupShiftOpt  = $derived.by(() => shiftChart(setup, SETUP_COLOR, filters.shift));
   const downParetoOpt  = $derived.by(() => paretoChart(down,  DOWN_COLOR));
   const setupParetoOpt = $derived.by(() => paretoChart(setup, SETUP_COLOR));
   const downMachOpt    = $derived.by(() => machineChart(down,  DOWN_COLOR));
@@ -286,23 +315,22 @@
           <span class="sec-status">{sec.kpi.total_events.toLocaleString()} events · {fmtH(sec.kpi.total_hours)}</span>
         {/if}
       </div>
-      <!-- Single-row KPI: Total Hours | Avg Repair | Top Machine -->
+      <!-- KPI: Total Hours | MTTR | MTTW -->
       <div class="kpi-row">
         <div class="kpi-card" style="--acc:{color}">
           <div class="kv" style="color:{color}">{fmtH(sec.kpi.total_hours)}</div>
-          <div class="kl">Total Hours</div>
+          <div class="kl">Total Loss</div>
           <div class="ksub">{sec.kpi.total_events.toLocaleString()} events</div>
         </div>
         <div class="kpi-card" style="--acc:{color}">
-          <div class="kv">{sec.kpi.avg_repair_h > 0 ? fmtH(sec.kpi.avg_repair_h) : '—'}</div>
-          <div class="kl">Avg Repair</div>
-          <div class="ksub">per event</div>
+          <div class="kv">{fmtMin(sec.kpi.avg_repair_min)}</div>
+          <div class="kl">MTTR</div>
+          <div class="ksub">mean repair time</div>
         </div>
-        <div class="kpi-card kpi-top" style="--acc:{color}">
-          <div class="kv kv-machine">{sec.kpi.top_machine}</div>
-          <div class="kl">Top Machine
-            <span class="top-hrs" style="color:{color}">{fmtH(sec.kpi.top_machine_h)}</span>
-          </div>
+        <div class="kpi-card" style="--acc:{color}">
+          <div class="kv">{fmtMin(sec.kpi.avg_wait_min)}</div>
+          <div class="kl">MTTW</div>
+          <div class="ksub">mean wait time</div>
         </div>
       </div>
     </div>
@@ -312,14 +340,32 @@
 <!-- ── Row 2: Shift trend ────────────────────────────────────────────────── -->
 <div class="grid-2" style="margin-bottom:var(--gutter)">
   <div class="chart-card">
-    <div class="chart-title"><span class="sec-dot" style="background:{DOWN_COLOR}"></span>M/C DOWN — Daily Trend · Day vs Night</div>
+    <div class="chart-title">
+      <span class="sec-dot" style="background:{DOWN_COLOR}"></span>
+      M/C DOWN — Daily Trend · Day vs Night
+      {#if drilldown}
+        <button class="shift-active-pill" style="--pill-bg:{drilldown.shift==='day'?'#E07B00':'#702076'}" onclick={clearDrilldown}>
+          {drilldown.day.slice(5)} · {drilldown.shift === 'day' ? '☀ Day' : '🌙 Night'} &times;
+        </button>
+      {:else}
+        <span class="shift-hint">click bar to drill down</span>
+      {/if}
+    </div>
     {#if down.error}<div class="ph err">⚠ {down.error}</div>{/if}
-    <EChart option={downShiftOpt}  height="240px" loading={down.loading} />
+    <EChart option={downShiftOpt}  height="240px" loading={down.loading} onclick={handleShiftClick} />
   </div>
   <div class="chart-card">
-    <div class="chart-title"><span class="sec-dot" style="background:{SETUP_COLOR}"></span>{activeSetup.label} — Daily Trend · Day vs Night</div>
+    <div class="chart-title">
+      <span class="sec-dot" style="background:{SETUP_COLOR}"></span>
+      {activeSetup.label} — Daily Trend · Day vs Night
+      {#if drilldown}
+        <button class="shift-active-pill" style="--pill-bg:{drilldown.shift==='day'?'#E07B00':'#702076'}" onclick={clearDrilldown}>
+          {drilldown.day.slice(5)} · {drilldown.shift === 'day' ? '☀ Day' : '🌙 Night'} &times;
+        </button>
+      {/if}
+    </div>
     {#if setup.error}<div class="ph err">⚠ {setup.error}</div>{/if}
-    <EChart option={setupShiftOpt} height="240px" loading={setup.loading} />
+    <EChart option={setupShiftOpt} height="240px" loading={setup.loading} onclick={handleShiftClick} />
   </div>
 </div>
 
@@ -340,12 +386,12 @@
 <!-- ── Row 4: Machine charts ─────────────────────────────────────────────── -->
 <div class="grid-2">
   <div class="chart-card">
-    <div class="chart-title"><span class="sec-dot" style="background:{DOWN_COLOR}"></span>M/C DOWN — Top Machines by Hours</div>
+    <div class="chart-title"><span class="sec-dot" style="background:{DOWN_COLOR}"></span>M/C DOWN — Top Machines by Events</div>
     {#if down.error}<div class="ph err">⚠ {down.error}</div>{/if}
     <EChart option={downMachOpt}  height="340px" loading={down.loading} />
   </div>
   <div class="chart-card">
-    <div class="chart-title"><span class="sec-dot" style="background:{SETUP_COLOR}"></span>{activeSetup.label} — Top Machines by Hours</div>
+    <div class="chart-title"><span class="sec-dot" style="background:{SETUP_COLOR}"></span>{activeSetup.label} — Top Machines by Events</div>
     {#if setup.error}<div class="ph err">⚠ {setup.error}</div>{/if}
     <EChart option={setupMachOpt} height="340px" loading={setup.loading} />
   </div>
@@ -383,20 +429,20 @@
   <!-- Sub-filters row -->
   <div class="evt-subfilters">
     <div class="sf-group">
-      <label class="filter-lbl">MACHINE</label>
-      <input class="input sf-input" type="text" placeholder="e.g. W/B #275R" bind:value={evtMachine} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
+      <label class="filter-lbl" for="sf-machine">MACHINE</label>
+      <input id="sf-machine" class="input sf-input" type="text" placeholder="e.g. W/B #275R" bind:value={evtMachine} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
     </div>
     <div class="sf-group">
-      <label class="filter-lbl">SYMPTOM</label>
-      <input class="input sf-input" type="text" placeholder="All Symptoms" bind:value={evtSymptom} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
+      <label class="filter-lbl" for="sf-symptom">SYMPTOM</label>
+      <input id="sf-symptom" class="input sf-input" type="text" placeholder="All Symptoms" bind:value={evtSymptom} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
     </div>
     <div class="sf-group">
-      <label class="filter-lbl">CAUSE</label>
-      <input class="input sf-input" type="text" placeholder="All Causes" bind:value={evtCause} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
+      <label class="filter-lbl" for="sf-cause">CAUSE</label>
+      <input id="sf-cause" class="input sf-input" type="text" placeholder="All Causes" bind:value={evtCause} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
     </div>
     <div class="sf-group">
-      <label class="filter-lbl">TECH</label>
-      <input class="input sf-input" type="text" placeholder="All Techs" bind:value={evtTech} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
+      <label class="filter-lbl" for="sf-tech">TECH</label>
+      <input id="sf-tech" class="input sf-input" type="text" placeholder="All Techs" bind:value={evtTech} onkeydown={(e)=>e.key==='Enter'&&searchEvents()} />
     </div>
     <button class="btn btn-solid sf-search" onclick={searchEvents} disabled={evtLoading}>
       {evtLoading ? 'Loading…' : 'Search'}
@@ -488,7 +534,7 @@
   /* KPI row — single horizontal row */
   .kpi-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr;   /* 3 cols, top-machine fills 2fr */
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     margin-bottom: 0;
   }
@@ -500,12 +546,8 @@
     padding: 12px 16px;
     text-align: center;
   }
-  .kpi-top { text-align: center; }
-
-  .kv { font-size: 26px; font-weight: 700; color: var(--color-primary); line-height: 1.1; }
-  .kv-machine { font-size: 18px; color: var(--color-primary); }
-  .kl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted); margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .top-hrs { font-weight: 700; font-size: 12px; }
+  .kv   { font-size: 26px; font-weight: 700; color: var(--color-primary); line-height: 1.1; }
+  .kl   { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted); margin-top: 4px; }
   .ksub { font-size: 11px; color: var(--color-text-disabled); margin-top: 2px; }
 
   /* Chart card title */
@@ -518,6 +560,25 @@
     margin-bottom: 10px;
   }
   .sec-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Active shift pill — dismissible filter indicator */
+  .shift-active-pill {
+    margin-left: auto;
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 9px; border-radius: 10px;
+    background: var(--pill-bg, var(--color-primary)); color: #fff;
+    border: none; cursor: pointer;
+    letter-spacing: 0.02em;
+    opacity: 0.92;
+    transition: opacity 0.12s;
+  }
+  .shift-active-pill:hover { opacity: 1; }
+  .shift-hint {
+    margin-left: auto;
+    font-size: 10px; font-weight: 400; font-style: italic;
+    color: var(--color-text-disabled); text-transform: none; letter-spacing: 0;
+  }
 
   /* Placeholders */
   .ph { padding: 32px; color: var(--color-text-muted); font-size: 13px; text-align: center; }
