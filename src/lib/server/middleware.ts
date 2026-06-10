@@ -1,15 +1,10 @@
-// src/lib/server/middleware.ts — server-only fetch wrapper for Python middleware API
+// src/lib/server/middleware.ts — server-only fetch wrapper for Rust middleware API
 // $lib/server/* is automatically treated as server-only by SvelteKit
 
 import { env } from '$env/dynamic/private';
 
-function getBase() {
-  const raw = env.API_BASE_URL ?? '';
-  // Port 8000 is occupied by stale processes — redirect to 8001 automatically
-  if (!raw || raw.includes(':8000')) return 'http://localhost:8001';
-  return raw.replace(/\/$/, '');
-}
-function getApiKey()  { return env.API_KEY || 'mch_dev_12345'; }
+function getBase()    { return (env.API_BASE_URL ?? 'http://localhost:8080').replace(/\/$/, ''); }
+function getApiKey()  { return env.API_KEY ?? ''; }
 function getTimeout() { return Number(env.API_TIMEOUT ?? 10000); }
 
 export class MiddlewareError extends Error {
@@ -49,14 +44,15 @@ export async function mwGet<T>(path: string, params?: Record<string, string | st
     throw new MiddlewareError('HTTP_ERROR', `Middleware returned ${res.status}`);
   }
 
-  const body = await res.json() as { status: string; data: T; error?: { code: string; message: string } };
+  // Rust API returns { data: T, error: null } on success, { data: null, error: {...} } on failure
+  const body = await res.json() as { data: T | null; error: { code: string; message: string } | null };
 
-  if (body.status !== 'ok') {
+  if (body.error !== null) {
     const e = body.error;
     throw new MiddlewareError(e?.code ?? 'API_ERROR', e?.message ?? 'Unknown API error');
   }
 
-  return body.data;
+  return body.data as T;
 }
 
 /** Wrap a server route handler — returns JSON or a 500 error envelope. */

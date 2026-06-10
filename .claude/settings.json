@@ -5,7 +5,9 @@
       "Bash(Select-Object -First 200 FullName)",
       "Bash(Sort-Object)",
       "Bash(Get-ChildItem -Path \"D:\\\\claude\\\\svelte_frontend\\\\frontend\" -Recurse -Force)",
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "Bash(curl -s --max-time 15 \"http://localhost:5173/testSvelte/api/downtime?start=2025-06-09&end=2026-06-09&area=WB\")",
+      "Bash(python -c ' *)"
     ]
   }
 }
