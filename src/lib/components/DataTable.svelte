@@ -79,6 +79,7 @@
 
   $effect(() => {
     search;
+    rows;
     currentPage = 1;
   });
 </script>

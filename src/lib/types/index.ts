@@ -242,13 +242,26 @@ export interface InventoryKpi {
   total_machines: number;
   key_machines: number;
   areas: number;
-  avg_age_years: number;
+  models: number;
 }
 
+export type HealthStatus = 'critical' | 'warning' | 'monitor' | 'healthy';
+
 export interface InventoryMachine extends Machine {
+  des_machine: string;
+  area_name?: string;
   year_install: number | null;
   serial_no: string | null;
+  is_gold: boolean;
   notes: string | null;
+  // 7-day downtime (joined from /inventory/downtime)
+  down_events: number;
+  down_hrs: number;
+  avg_mttr_min: number;
+  health: HealthStatus;
+  // last run package (joined from /inventory/last-package)
+  last_package: string | null;
+  last_run_date: string | null;
 }
 
 // ─── Filters ──────────────────────────────────────────────────────────────

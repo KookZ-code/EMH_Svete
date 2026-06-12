@@ -4,7 +4,8 @@
   export interface EChartClickParams {
     seriesName: string;
     name: string;
-    value: number;
+    value: unknown;
+    data: unknown;
     dataIndex: number;
     seriesIndex: number;
   }
