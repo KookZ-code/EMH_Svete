@@ -63,15 +63,31 @@ export const GET: RequestHandler = async ({ url }) => {
       let status: MachineStatus = 'Running';
       let elapsed_min = 0;
 
+      let started_at: string | null = null;
+
       if (job) {
         status = jobTypeToStatus(job.job_type, job.status, job.des_job);
         if (job.status?.toLowerCase() === 'waiting') {
-          // Waiting for tech: use backend wait_min (timezone-safe, server-computed)
           elapsed_min = job.wait_min ?? 0;
+          started_at  = job.datex ? job.datex.substring(11, 16) : null;
         } else {
-          // On Process: calculate from job open time; clamp to 0 to avoid negative
-          const started = Date.parse(job.datex);
-          elapsed_min = isNaN(started) ? 0 : Math.max(0, Math.floor((Date.now() - started) / 60000));
+          // datex inconsistency: backend sometimes stores Thailand local time with Z suffix.
+          // If Date.now() - Date.parse(datex) < 0 → datex is local (+7h offset needed).
+          // If positive → datex is real UTC, convert to Thailand local for display.
+          const raw = Date.parse(job.datex ?? '');
+          if (!isNaN(raw)) {
+            const diff = Date.now() - raw;
+            if (diff >= 0) {
+              // Real UTC datex
+              elapsed_min = Math.floor(diff / 60000);
+              const localMs = raw + 7 * 3600 * 1000;
+              started_at  = new Date(localMs).toISOString().substring(11, 16);
+            } else {
+              // Local time stored as Z — add 7h to get elapsed, use raw HH:MM as-is
+              elapsed_min = Math.max(0, Math.floor((diff + 7 * 3600 * 1000) / 60000));
+              started_at  = job.datex.substring(11, 16);
+            }
+          }
         }
       }
 
@@ -83,7 +99,7 @@ export const GET: RequestHandler = async ({ url }) => {
         tech_name:    job?.tech ?? null,
         symptom:      job?.des_job ?? null,
         elapsed_min,
-        started_at:   job?.datex ? job.datex.substring(11, 16) : null,
+        started_at,
         is_key:       m.flag_key === 1,
       };
     });
