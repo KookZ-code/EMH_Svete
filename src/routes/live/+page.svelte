@@ -27,7 +27,7 @@
     lastRefresh = new Date().toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit' });
   }
 
-  const statusRank: Record<string, number> = { 'Waiting': 0, 'M/C Down': 1, 'PM': 2, 'Setup': 3, 'Convert': 4, 'Lost Time': 5, 'Other': 6, 'Running': 7 };
+  const statusRank: Record<string, number> = { 'Waiting': 0, 'M/C Down': 1, 'Idle': 2, 'PM': 3, 'Setup': 4, 'Convert': 5, 'Lost Time': 6, 'Other': 7, 'Running': 8 };
 
   const filtered = $derived.by(() => {
     const list = machines.filter(m => {

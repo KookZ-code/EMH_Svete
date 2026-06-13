@@ -55,6 +55,7 @@ export type MachineStatus =
   | 'M/C Down'
   | 'PM'
   | 'Setup'
+  | 'Idle'
   | 'Convert'
   | 'Waiting'
   | 'Lost Time'

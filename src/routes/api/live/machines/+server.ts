@@ -22,12 +22,18 @@ interface MwJob {
 }
 
 // Map job_type → MachineStatus
-function jobTypeToStatus(jobType: string, jobStatus: string): MachineStatus {
+// SBO des_job keywords that indicate machine is idle/waiting (not actively setting up)
+const IDLE_SBO_RE = /^idle|^wait/i;
+
+function jobTypeToStatus(jobType: string, jobStatus: string, desJob?: string): MachineStatus {
   if (jobStatus?.toLowerCase() === 'waiting') return 'Waiting';
   const t = jobType?.toUpperCase();
   if (t === 'M/C DOWN')            return 'M/C Down';
   if (t === 'PM')                  return 'PM';
-  if (t === 'SETUP' || t === 'SETUP BY OPERATOR') return 'Setup';
+  if (t === 'SETUP' || t === 'SETUP BY OPERATOR') {
+    // Separate SBO machines that are idle/waiting from those actively setting up
+    return IDLE_SBO_RE.test(desJob ?? '') ? 'Idle' : 'Setup';
+  }
   if (t === 'CONVERT')             return 'Convert';
   if (t === 'ENGINEERING DOWN' || t === 'FACILITY DOWN') return 'Other';
   return 'Other';
@@ -58,10 +64,15 @@ export const GET: RequestHandler = async ({ url }) => {
       let elapsed_min = 0;
 
       if (job) {
-        status = jobTypeToStatus(job.job_type, job.status);
-        // Use backend-supplied wait_min directly — avoids timezone drift from
-        // calculating (Date.now() - datex) where datex is in server local time.
-        elapsed_min = job.wait_min ?? 0;
+        status = jobTypeToStatus(job.job_type, job.status, job.des_job);
+        if (job.status?.toLowerCase() === 'waiting') {
+          // Waiting for tech: use backend wait_min (timezone-safe, server-computed)
+          elapsed_min = job.wait_min ?? 0;
+        } else {
+          // On Process: calculate from job open time; clamp to 0 to avoid negative
+          const started = Date.parse(job.datex);
+          elapsed_min = isNaN(started) ? 0 : Math.max(0, Math.floor((Date.now() - started) / 60000));
+        }
       }
 
       return {
