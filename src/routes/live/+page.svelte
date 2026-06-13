@@ -48,11 +48,11 @@
   const waitingCount = $derived(machines.filter(m => m.status === 'Waiting').length);
   const idleCount    = $derived(machines.filter(m => m.status === 'Idle').length);
 
-  // Summary counts for all non-Running statuses (over all machines, ignoring area/status filter)
+  // Summary counts from filtered machines (respects area + status filter)
   const summary = $derived.by(() => {
     const counts: Record<string, number> = {};
-    for (const m of machines) {
-      if (m.status !== 'Running') counts[m.status] = (counts[m.status] ?? 0) + 1;
+    for (const m of filtered) {
+      counts[m.status] = (counts[m.status] ?? 0) + 1;
     }
     return Object.entries(counts)
       .sort((a, b) => (statusRank[a[0]] ?? 9) - (statusRank[b[0]] ?? 9))
@@ -89,25 +89,6 @@
   <div class="alert-banner">
     ⚠️ ALERT — {downCount} machine{downCount !== 1 ? 's' : ''} DOWN &nbsp;·&nbsp;
     {waitingCount} waiting for tech &nbsp;·&nbsp; {idleCount} idle
-  </div>
-{/if}
-
-<!-- Status summary bar -->
-{#if summary.length > 0}
-  <div class="summary-bar">
-    {#each summary as [s, n]}
-      {@const cfg = statusConfig[s] ?? statusConfig['Other']}
-      <button
-        class="sum-chip"
-        style:background={cfg.bg}
-        style:color={cfg.text}
-        onclick={() => { selectedStatuses = [s]; }}
-        title="Click to filter"
-      >
-        {cfg.label} <span class="sum-n">{n}</span>
-      </button>
-    {/each}
-    <span class="sum-total">{machines.filter(m => m.status !== 'Running').length} non-running &nbsp;/&nbsp; {machines.length} total</span>
   </div>
 {/if}
 
@@ -157,6 +138,23 @@
     <span>{filtered.length} machines shown</span>
     <span class="muted">{loading ? 'Loading…' : `Refresh: ${lastRefresh}`}</span>
   </div>
+</div>
+
+<!-- Summary bar — counts from current filtered view, below filter controls -->
+<div class="summary-bar">
+  {#each summary as [s, n]}
+    {@const cfg = statusConfig[s] ?? statusConfig['Other']}
+    <button
+      class="sum-chip"
+      style:background={cfg.bg}
+      style:color={cfg.text}
+      onclick={() => { selectedStatuses = [s]; }}
+      title="Click to filter to {cfg.label} only"
+    >
+      {cfg.label} <span class="sum-n">{n}</span>
+    </button>
+  {/each}
+  <span class="sum-total">{filtered.filter(m => m.status !== 'Running').length} non-running &nbsp;/&nbsp; {filtered.length} shown</span>
 </div>
 
 <div class="machine-grid" id="machine-grid">
