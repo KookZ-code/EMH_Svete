@@ -83,6 +83,7 @@ export const GET: RequestHandler = async ({ url }) => {
         tech_name:    job?.tech ?? null,
         symptom:      job?.des_job ?? null,
         elapsed_min,
+        started_at:   job?.datex ? job.datex.substring(11, 16) : null,
         is_key:       m.flag_key === 1,
       };
     });

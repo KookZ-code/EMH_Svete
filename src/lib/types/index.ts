@@ -130,6 +130,7 @@ export interface LiveMachine {
   tech_name: string | null;
   symptom: string | null;
   elapsed_min: number;
+  started_at: string | null;   // "HH:MM" local start time of the job
   is_key: boolean;
 }
 

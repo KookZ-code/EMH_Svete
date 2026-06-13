@@ -9,7 +9,7 @@ export const statusConfig: Record<string, StatusStyle> = {
   'M/C Down':  { bg: '#CC0000', text: '#fff',  label: 'M/C DOWN' },
   'PM':        { bg: '#702076', text: '#fff',  label: 'PM' },
   'Setup':     { bg: '#1D9CE4', text: '#fff',  label: 'SETUP' },
-  'Idle':      { bg: '#E8A030', text: '#fff',  label: 'IDLE' },
+  'Idle':      { bg: '#78909C', text: '#fff',  label: 'IDLE' },
   'Convert':   { bg: '#FFD53A', text: '#333',  label: 'CONVERT' },
   'Waiting':   { bg: '#FD7F20', text: '#fff',  label: 'WAITING' },
   'Lost Time': { bg: '#FD7F20', text: '#fff',  label: 'LOST TIME' },

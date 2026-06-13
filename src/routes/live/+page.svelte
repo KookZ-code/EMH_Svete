@@ -144,7 +144,9 @@
       </div>
       <div class="tile-status">{cfg.label}</div>
       {#if m.status !== 'Running'}
-        <div class="tile-elapsed">{fmtElapsed(m.elapsed_min)}</div>
+        <div class="tile-elapsed">
+          {#if m.started_at}{m.started_at} ({fmtElapsed(m.elapsed_min)}){:else}{fmtElapsed(m.elapsed_min)}{/if}
+        </div>
         {#if m.tech_name}
           <div class="tile-tech">{m.tech_name}</div>
         {:else}
