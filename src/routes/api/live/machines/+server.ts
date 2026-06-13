@@ -16,14 +16,14 @@ interface MwJob {
   job_type: string;
   des_job: string;
   tech: string | null;
-  wait_min: number;
-  status: string;
+  wait_min: number;   // minutes since job opened (backend-computed, timezone-safe)
+  status: string;     // "Waiting" = no tech yet | "On Process" = tech assigned
   datex: string;
 }
 
 // Map job_type → MachineStatus
 function jobTypeToStatus(jobType: string, jobStatus: string): MachineStatus {
-  if (jobStatus === 'waiting') return 'Waiting';
+  if (jobStatus?.toLowerCase() === 'waiting') return 'Waiting';
   const t = jobType?.toUpperCase();
   if (t === 'M/C DOWN')            return 'M/C Down';
   if (t === 'PM')                  return 'PM';
@@ -52,7 +52,6 @@ export const GET: RequestHandler = async ({ url }) => {
       jobMap.set(job.code_machine, job);
     }
 
-    const now = Date.now();
     const live: LiveMachine[] = machines.map(m => {
       const job = jobMap.get(m.machine_id);
       let status: MachineStatus = 'Running';
@@ -60,8 +59,9 @@ export const GET: RequestHandler = async ({ url }) => {
 
       if (job) {
         status = jobTypeToStatus(job.job_type, job.status);
-        const started = new Date(job.datex).getTime();
-        elapsed_min = isNaN(started) ? 0 : Math.floor((now - started) / 60000);
+        // Use backend-supplied wait_min directly — avoids timezone drift from
+        // calculating (Date.now() - datex) where datex is in server local time.
+        elapsed_min = job.wait_min ?? 0;
       }
 
       return {

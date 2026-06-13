@@ -2,29 +2,22 @@
   // Live Board — Shop Floor TV Display
   import { onMount } from 'svelte';
   import { liveApi } from '$lib/utils/api';
+  import { statusConfig, fmtElapsed } from '$lib/config/machine_status';
+  import WbFloorMap from '$lib/components/WbFloorMap.svelte';
   import type { LiveMachine, MachineArea } from '$types';
 
   const ALL_AREAS: MachineArea[] = ['BG','SAW','DA','WB','MOLD','PLATE','MARK','SAW_QFN','TF','ISO','FS'];
 
-  const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
-    'Running':  { bg: '#5EBF33', text: '#fff', label: 'RUNNING' },
-    'M/C Down': { bg: '#CC0000', text: '#fff', label: 'M/C DOWN' },
-    'PM':       { bg: '#702076', text: '#fff', label: 'PM' },
-    'Setup':    { bg: '#1D9CE4', text: '#fff', label: 'SETUP' },
-    'Convert':  { bg: '#FFD53A', text: '#333', label: 'CONVERT' },
-    'Waiting':  { bg: '#FD7F20', text: '#fff', label: 'WAITING' },
-    'Lost Time':{ bg: '#FD7F20', text: '#fff', label: 'LOST TIME' },
-    'Other':    { bg: '#8A8A8A', text: '#fff', label: 'OTHER' },
-  };
-
-  let machines        = $state<LiveMachine[]>([]);
-  let selectedStatuses = $state<string[]>(['M/C Down','Waiting','PM']);
+  let machines         = $state<LiveMachine[]>([]);
+  let selectedStatuses = $state<string[]>([]);          // [] = show all (no status filter)
   let selectedAreas    = $state<MachineArea[]>([...ALL_AREAS]);
-  let showAll          = $state(false);
   let clock            = $state('');
   let lastRefresh      = $state('');
   let loading          = $state(true);
   let error            = $state<string | null>(null);
+  let highlightCode    = $state<string | null>(null);
+
+  const ALL_STATUSES = Object.keys(statusConfig);
 
   async function loadData() {
     const res = await liveApi.machines();
@@ -34,11 +27,20 @@
     lastRefresh = new Date().toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit' });
   }
 
+  const statusRank: Record<string, number> = { 'Waiting': 0, 'M/C Down': 1, 'PM': 2, 'Setup': 3, 'Convert': 4, 'Lost Time': 5, 'Other': 6, 'Running': 7 };
+
   const filtered = $derived.by(() => {
-    return machines.filter(m => {
+    const list = machines.filter(m => {
       const areaOk   = selectedAreas.includes(m.area);
-      const statusOk = showAll || selectedStatuses.length === 0 || selectedStatuses.includes(m.status);
+      const statusOk = selectedStatuses.length === 0 || selectedStatuses.includes(m.status);
       return areaOk && statusOk;
+    });
+    // Waiting first (elapsed desc), then M/C Down (elapsed desc), then rest
+    return list.sort((a, b) => {
+      const ra = statusRank[a.status] ?? 6;
+      const rb = statusRank[b.status] ?? 6;
+      if (ra !== rb) return ra - rb;
+      return b.elapsed_min - a.elapsed_min;
     });
   });
 
@@ -54,11 +56,6 @@
   function toggleArea(a: MachineArea) {
     if (selectedAreas.includes(a)) selectedAreas = selectedAreas.filter(x => x !== a);
     else selectedAreas = [...selectedAreas, a];
-  }
-
-  function fmtElapsed(min: number): string {
-    if (min < 60) return `${min}m`;
-    return `${Math.floor(min/60)}h ${min%60}m`;
   }
 
   function updateClock() {
@@ -97,24 +94,26 @@
   <div class="live-controls">
     <div class="ctrl-group">
       <span class="ctrl-label">Status</span>
-      <button class="chip" class:active={showAll} onclick={() => { showAll = !showAll; selectedStatuses = []; }}>All</button>
+      <button class="chip chip-sm" class:active={selectedStatuses.length === 0}
+              onclick={() => { selectedStatuses = []; }}>All</button>
+      <button class="chip chip-sm"
+              onclick={() => { selectedStatuses = [...ALL_STATUSES]; }}>None</button>
       {#each Object.entries(statusConfig) as [s, cfg] (s)}
-        {#if s !== 'Running' || showAll}
-          <button
-            class="chip"
-            class:active={selectedStatuses.includes(s)}
-            style:background-color={selectedStatuses.includes(s) ? cfg.bg : ''}
-            style:color={selectedStatuses.includes(s) ? cfg.text : ''}
-            onclick={() => { showAll = false; toggleStatus(s); }}
-          >
-            {cfg.label}
-          </button>
-        {/if}
+        <button
+          class="chip"
+          class:active={selectedStatuses.includes(s)}
+          style:background-color={selectedStatuses.includes(s) ? cfg.bg : ''}
+          style:color={selectedStatuses.includes(s) ? cfg.text : ''}
+          onclick={() => toggleStatus(s)}
+        >{cfg.label}</button>
       {/each}
     </div>
-
     <div class="ctrl-group">
       <span class="ctrl-label">Area</span>
+      <button class="chip chip-sm" class:active={selectedAreas.length === ALL_AREAS.length}
+              onclick={() => { selectedAreas = [...ALL_AREAS]; }}>All</button>
+      <button class="chip chip-sm" class:active={selectedAreas.length === 0}
+              onclick={() => { selectedAreas = []; }}>None</button>
       {#each ALL_AREAS as a (a)}
         <button class="chip" class:active={selectedAreas.includes(a)} onclick={() => toggleArea(a)}>
           {a}
@@ -129,11 +128,12 @@
   </div>
 </div>
 
-<div class="machine-grid">
+<div class="machine-grid" id="machine-grid">
   {#each filtered as m (m.code_machine)}
     {@const cfg = statusConfig[m.status] ?? statusConfig['Other']}
     <div
       class="machine-tile"
+      class:highlight={highlightCode === m.code_machine}
       style:background-color={cfg.bg}
       style:color={cfg.text}
       title="{m.code_machine} — {m.status}{m.symptom ? ': ' + m.symptom : ''}"
@@ -154,6 +154,16 @@
     </div>
   {/each}
 </div>
+
+{#if selectedAreas.includes('WB')}
+  <WbFloorMap
+    machines={machines.filter((m) => m.area === 'WB')}
+    onMachineClick={(code) => {
+      highlightCode = code;
+      document.getElementById('machine-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }}
+  />
+{/if}
 
 <style>
   .state-err {
@@ -187,9 +197,11 @@
 
   .live-clock { font-size: 16px; font-weight: 400; color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
 
-  .live-controls { flex: 1; display: flex; flex-wrap: wrap; gap: 12px; }
-  .ctrl-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .ctrl-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); white-space: nowrap; margin-right: 2px; }
+  .live-controls { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .ctrl-group { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+  .ctrl-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); white-space: nowrap; margin-right: 2px; min-width: 46px; }
+  .chip-sm { font-size: 10px; padding: 2px 7px; opacity: 0.75; }
+  .chip-sm.active { opacity: 1; }
 
   .live-meta { display: flex; flex-direction: column; gap: 2px; font-size: 12px; color: var(--color-text-muted); text-align: right; white-space: nowrap; }
   .muted { color: var(--color-text-disabled); }
@@ -198,6 +210,8 @@
 
   .machine-tile { border-radius: var(--r-sm); padding: 10px; min-height: 90px; display: flex; flex-direction: column; gap: 4px; cursor: default; transition: opacity 0.15s, transform 0.15s; }
   .machine-tile:hover { opacity: 0.9; transform: scale(1.02); }
+  .machine-tile.highlight { outline: 3px solid #1A3A5C; outline-offset: 2px; animation: hl-pulse 1s ease-in-out 3; }
+  @keyframes hl-pulse { 0%,100%{ outline-color: #1A3A5C; } 50%{ outline-color: #4A90D9; } }
 
   .tile-code { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
   .tile-key { font-size: 9px; font-weight: 700; background: rgba(255,255,255,0.3); border-radius: 3px; padding: 1px 4px; }
