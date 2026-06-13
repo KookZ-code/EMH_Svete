@@ -129,8 +129,9 @@ export interface LiveMachine {
   job_type: JobType | null;
   tech_name: string | null;
   symptom: string | null;
+  package_type: string | null;
   elapsed_min: number;
-  started_at: string | null;   // "HH:MM" local start time of the job
+  started_at: string | null;
   is_key: boolean;
 }
 

@@ -46,7 +46,19 @@
 
   const downCount    = $derived(machines.filter(m => m.status === 'M/C Down').length);
   const waitingCount = $derived(machines.filter(m => m.status === 'Waiting').length);
-  const showAlert    = $derived(downCount > 5 || waitingCount > 3);
+  const idleCount    = $derived(machines.filter(m => m.status === 'Idle').length);
+
+  // Summary counts for all non-Running statuses (over all machines, ignoring area/status filter)
+  const summary = $derived.by(() => {
+    const counts: Record<string, number> = {};
+    for (const m of machines) {
+      if (m.status !== 'Running') counts[m.status] = (counts[m.status] ?? 0) + 1;
+    }
+    return Object.entries(counts)
+      .sort((a, b) => (statusRank[a[0]] ?? 9) - (statusRank[b[0]] ?? 9))
+      .filter(([, n]) => n > 0);
+  });
+  const showAlert    = $derived(downCount > 5 || waitingCount > 3 || idleCount > 10);
 
   function toggleStatus(s: string) {
     if (selectedStatuses.includes(s)) selectedStatuses = selectedStatuses.filter(x => x !== s);
@@ -76,7 +88,26 @@
 {#if showAlert}
   <div class="alert-banner">
     ⚠️ ALERT — {downCount} machine{downCount !== 1 ? 's' : ''} DOWN &nbsp;·&nbsp;
-    {waitingCount} waiting for tech
+    {waitingCount} waiting for tech &nbsp;·&nbsp; {idleCount} idle
+  </div>
+{/if}
+
+<!-- Status summary bar -->
+{#if summary.length > 0}
+  <div class="summary-bar">
+    {#each summary as [s, n]}
+      {@const cfg = statusConfig[s] ?? statusConfig['Other']}
+      <button
+        class="sum-chip"
+        style:background={cfg.bg}
+        style:color={cfg.text}
+        onclick={() => { selectedStatuses = [s]; }}
+        title="Click to filter"
+      >
+        {cfg.label} <span class="sum-n">{n}</span>
+      </button>
+    {/each}
+    <span class="sum-total">{machines.filter(m => m.status !== 'Running').length} non-running &nbsp;/&nbsp; {machines.length} total</span>
   </div>
 {/if}
 
@@ -136,7 +167,7 @@
       class:highlight={highlightCode === m.code_machine}
       style:background-color={cfg.bg}
       style:color={cfg.text}
-      title="{m.code_machine} — {m.status}{m.symptom ? ': ' + m.symptom : ''}"
+      title="{m.code_machine} — {m.status}{m.symptom ? ': ' + m.symptom : ''}{m.package_type ? ' | ' + m.package_type : ''}"
     >
       <div class="tile-code">
         {m.code_machine}
@@ -173,6 +204,23 @@
     padding: 8px 16px; border-radius: var(--r-sm); margin-bottom: 12px;
     font-size: 13px; font-weight: 600;
   }
+
+  .summary-bar {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 10px; padding: 6px 0;
+  }
+  .sum-chip {
+    display: flex; align-items: center; gap: 5px;
+    border-radius: var(--r-sm); padding: 4px 10px;
+    font-size: 12px; font-weight: 700; border: none; cursor: pointer;
+    transition: opacity .15s; white-space: nowrap;
+  }
+  .sum-chip:hover { opacity: 0.85; }
+  .sum-n {
+    font-size: 14px; font-weight: 800;
+    background: rgba(255,255,255,0.25); border-radius: 4px; padding: 0 5px;
+  }
+  .sum-total { margin-left: auto; font-size: 12px; color: var(--color-text-muted); white-space: nowrap; }
 
   .alert-banner {
     background: var(--status-down); color: #fff; text-align: center;

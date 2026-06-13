@@ -16,9 +16,10 @@ interface MwJob {
   job_type: string;
   des_job: string;
   tech: string | null;
-  wait_min: number;   // minutes since job opened (backend-computed, timezone-safe)
-  status: string;     // "Waiting" = no tech yet | "On Process" = tech assigned
+  wait_min: number;
+  status: string;
   datex: string;
+  package_type: string | null;
 }
 
 // Map job_type → MachineStatus
@@ -98,6 +99,7 @@ export const GET: RequestHandler = async ({ url }) => {
         job_type:     job ? (job.job_type as JobType) : null,
         tech_name:    job?.tech ?? null,
         symptom:      job?.des_job ?? null,
+        package_type: job?.package_type ?? null,
         elapsed_min,
         started_at,
         is_key:       m.flag_key === 1,
