@@ -1,0 +1,25 @@
+diff --git a/node_modules/sveltekit-adapter-iis/index.js b/node_modules/sveltekit-adapter-iis/index.js
+index 700efa4..2d9e134 100644
+--- a/node_modules/sveltekit-adapter-iis/index.js
++++ b/node_modules/sveltekit-adapter-iis/index.js
+@@ -37,7 +37,19 @@ function moveOutputToServerFolder() {
+       return
+     }
+ 
+-    fs.moveSync(from, to, (err) => console.error(err))
++    // moveSync uses renameSync which throws EPERM on Windows when the OS
++    // briefly locks newly-created directories (Defender/Search Indexer).
++    // Fall back to copySync + removeSync which avoids the rename entirely.
++    try {
++      fs.moveSync(from, to)
++    } catch (err) {
++      if (err.code === 'EPERM' || err.code === 'EACCES') {
++        fs.copySync(from, to)
++        fs.removeSync(from)
++      } else {
++        throw err
++      }
++    }
+   })
+ }
+ 

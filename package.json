@@ -12,7 +12,8 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "test": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^3.0.0",
@@ -20,6 +21,7 @@
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
     "autoprefixer": "^10.4.0",
     "dotenv": "^17.4.2",
+    "patch-package": "^8.0.1",
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^3.0.0",
     "svelte": "^5.0.0",
