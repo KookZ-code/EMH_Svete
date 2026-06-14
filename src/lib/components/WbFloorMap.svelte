@@ -20,12 +20,16 @@
 
   const byId = $derived(new Map(machines.map((m) => [m.code_machine, m])));
 
-  // base number → physical machines present (plain, L, R) — each its own cell
+  // base number → physical machines to show.
+  // If L/R variants exist, show only those (the plain id is the same physical unit).
+  // If no L/R, show the plain machine only.
   function expandVariants(num: number): LiveMachine[] {
     const pad = String(num).padStart(3, '0');
-    return ['', 'L', 'R']
-      .map((s) => byId.get(`W/B # ${pad}${s}`))
-      .filter((m): m is LiveMachine => m != null);
+    const L = byId.get(`W/B # ${pad}L`);
+    const R = byId.get(`W/B # ${pad}R`);
+    if (L || R) return [L, R].filter((m): m is LiveMachine => m != null);
+    const plain = byId.get(`W/B # ${pad}`);
+    return plain ? [plain] : [];
   }
 
   function variantLabel(num: number, code: string): string {
