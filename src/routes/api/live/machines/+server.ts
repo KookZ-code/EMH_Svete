@@ -108,7 +108,19 @@ export const GET: RequestHandler = async ({ url }) => {
       };
     });
 
-    return apiResponse(live);
+    // If a machine has L/R variants, drop the plain entry (same physical unit).
+    // Build a set of base IDs that have at least one L/R sibling.
+    const hasLR = new Set<string>();
+    for (const m of live) {
+      const match = m.code_machine.match(/^(.+?)[LR]$/);
+      if (match) hasLR.add(match[1].trimEnd());
+    }
+    const deduped = live.filter(m =>
+      /[LR]$/.test(m.code_machine) ||            // keep all L/R
+      !hasLR.has(m.code_machine.trimEnd())        // keep plain only if no L/R sibling
+    );
+
+    return apiResponse(deduped);
   } catch (err) {
     return apiError(err);
   }
