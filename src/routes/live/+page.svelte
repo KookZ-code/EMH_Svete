@@ -165,7 +165,7 @@
       class:highlight={highlightCode === m.code_machine}
       style:background-color={cfg.bg}
       style:color={cfg.text}
-      title="{m.code_machine} — {m.status}{m.symptom ? ': ' + m.symptom : ''}{m.package_type ? ' | ' + m.package_type : ''}"
+      title="{m.code_machine}{m.model ? ' (' + m.model + ')' : ''} — {m.status}{m.symptom ? ': ' + m.symptom : ''}{m.package_type ? ' | ' + m.package_type : ''}"
     >
       <div class="tile-code">
         {m.code_machine}

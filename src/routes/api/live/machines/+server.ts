@@ -8,6 +8,7 @@ interface MwMachine {
   area: string;
   flag_key: number;
   flag_automotive: number;
+  model: string | null;
 }
 
 interface MwJob {
@@ -100,6 +101,7 @@ export const GET: RequestHandler = async ({ url }) => {
         tech_name:    job?.tech ?? null,
         symptom:      job?.des_job ?? null,
         package_type: job?.package_type ?? null,
+        model:        m.model ?? null,
         elapsed_min,
         started_at,
         is_key:       m.flag_key === 1,

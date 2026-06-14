@@ -130,6 +130,7 @@ export interface LiveMachine {
   tech_name: string | null;
   symptom: string | null;
   package_type: string | null;
+  model: string | null;
   elapsed_min: number;
   started_at: string | null;
   is_key: boolean;
