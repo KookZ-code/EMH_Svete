@@ -44,9 +44,9 @@
     });
   });
 
-  const downCount    = $derived(machines.filter(m => m.status === 'M/C Down').length);
-  const waitingCount = $derived(machines.filter(m => m.status === 'Waiting').length);
-  const idleCount    = $derived(machines.filter(m => m.status === 'Idle').length);
+  const downCount    = $derived(filtered.filter(m => m.status === 'M/C Down').length);
+  const waitingCount = $derived(filtered.filter(m => m.status === 'Waiting').length);
+  const idleCount    = $derived(filtered.filter(m => m.status === 'Idle').length);
 
   // Summary counts from filtered machines (respects area + status filter)
   const summary = $derived.by(() => {
