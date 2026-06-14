@@ -35,12 +35,13 @@
 
   function tooltipOf(mc: LiveMachine): string {
     const cfg = statusStyle(mc.status);
-    let t = `${mc.code_machine} — ${cfg.label}`;
+    let t = `${mc.code_machine}${mc.model ? ' (' + mc.model + ')' : ''} — ${cfg.label}`;
     if (mc.symptom) t += `: ${mc.symptom}`;
     if (mc.status !== 'Running') {
       t += ` | ${fmtElapsed(mc.elapsed_min)}`;
       if (mc.tech_name) t += ` | ${mc.tech_name}`;
     }
+    if (mc.package_type) t += `\n${mc.package_type}`;
     return t;
   }
 
