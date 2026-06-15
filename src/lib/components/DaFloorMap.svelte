@@ -42,7 +42,7 @@
         <div class="frow" class:grid-row={row.grid}>
           {#each row.cells as cell}
             {#if cell.kind === 'line'}
-              <div class="lline" style:grid-column={row.grid ? cell.col : null}>{cell.v}</div>
+              <div class="lline" class:blank={!cell.v} style:grid-column={row.grid ? cell.col : null}>{cell.v}</div>
             {:else if cell.kind === 'support'}
               <div
                 class="sup"
@@ -106,6 +106,13 @@
     gap: 3px;
     align-items: center;
   }
+  /* Clip support text in grid rows — prevent overflow into adjacent cells */
+  .frow.grid-row .sup {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 7.5px;
+  }
 
   .mc {
     min-width: 26px; height: 18px; border-radius: 2px; font-size: 9px; font-weight: 600;
@@ -122,6 +129,8 @@
     border-radius: 2px; font-size: 9px; font-weight: 700; color: #0A4A4A;
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
+  /* Empty placeholder — same size as LINE label but invisible */
+  .lline.blank { background: transparent; border-color: transparent; }
 
   .sup {
     min-width: 30px; height: 18px; border-radius: 2px; font-size: 8px; font-weight: 700; color: #333;

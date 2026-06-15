@@ -53,6 +53,8 @@ function parseRow(r) {
     const v = c.v;
     if (isLine(v))           out.push(lc(v));
     else if (isDaMachine(v)) out.push(mc(v, c.rgb));
+    // Replace lone "-" at col 1 with empty LINE placeholder (keeps alignment)
+    else if (v === '-' && c.c === 1) out.push(lc(''));
     else                     out.push(sc(v, c.rgb));
   }
   return out;
