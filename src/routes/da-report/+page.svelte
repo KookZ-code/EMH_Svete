@@ -50,6 +50,79 @@
   let error        = $state<string|null>(null);
   let chip         = $state('ALL');
   let pkgSearch    = $state('');
+  let hmMode       = $state<'ev'|'min'>('ev');   // heatmap toggle: event count vs minutes
+
+  // ── Heatmap data — hourly event buckets ───────────────────────────────────
+  interface HmBucket { ev: number; min: number; }
+  interface HmRow { key: string; label: string; baseRgb: string; hours: HmBucket[]; }
+
+  const heatmap = $derived.by((): { shiftHours: number[]; rows: HmRow[] } | null => {
+    if (!machines.length) return null;
+    const isNight = selShift === 'Night';
+    const shiftHours = isNight
+      ? [19,20,21,22,23,0,1,2,3,4,5,6]
+      : [7,8,9,10,11,12,13,14,15,16,17,18];
+
+    const DOWN_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
+    const SETUP_T = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+    const WAIT_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']); // wait is per machine, not event
+
+    type Cat = 'down' | 'setup' | 'sbo';
+    const buckets: Record<number, Record<Cat, HmBucket>> = {};
+    for (const h of shiftHours) buckets[h] = {
+      down:  { ev:0, min:0 }, setup: { ev:0, min:0 }, sbo: { ev:0, min:0 },
+    };
+
+    for (const m of machines) {
+      for (const e of m.events) {
+        if (!e.t_start) continue;
+        const hr = parseInt(e.t_start.split(':')[0]);
+        if (!(hr in buckets)) continue;
+        const jt = (e.job_type || '').toUpperCase();
+        const dur = e.dur_min || 0;
+        if (DOWN_T.has(jt))       { buckets[hr].down.ev++;  buckets[hr].down.min  += dur; }
+        else if (SETUP_T.has(jt)) { buckets[hr].setup.ev++; buckets[hr].setup.min += dur; }
+        else if (jt === 'SETUP BY OPERATOR') { buckets[hr].sbo.ev++; buckets[hr].sbo.min += dur; }
+      }
+    }
+
+    const rowDefs: { key: Cat; label: string; baseRgb: string }[] = [
+      { key:'down',  label:'M/C DOWN',   baseRgb:'204,0,0'     },
+      { key:'setup', label:'SETUP+CONV', baseRgb:'29,156,228'  },
+      { key:'sbo',   label:'SBO',        baseRgb:'23,162,184'  },
+    ];
+    const rows: HmRow[] = rowDefs.map(({ key, label, baseRgb }) => ({
+      key, label, baseRgb,
+      hours: shiftHours.map(h => ({ ...buckets[h][key] })),
+    }));
+    return { shiftHours, rows };
+  });
+
+  function hmIntensity(val: number, rowMax: number): number {
+    if (rowMax === 0) return 0;
+    return Math.round((val / rowMax) * 90 + 8) / 100;   // 0.08–0.98
+  }
+  function hmCellBg(val: number, rowMax: number, rgb: string): string {
+    const a = hmIntensity(val, rowMax);
+    return `rgba(${rgb},${a})`;
+  }
+  function hmTextColor(val: number, rowMax: number): string {
+    return hmIntensity(val, rowMax) > 0.5 ? '#fff' : '#1a1a2e';
+  }
+  function hmFmt(b: HmBucket): string {
+    return hmMode === 'ev' ? String(b.ev) : b.min >= 60
+      ? `${Math.floor(b.min/60)}h${b.min%60 ? (b.min%60)+'m' : ''}` : `${b.min}m`;
+  }
+  function hmRowMax(row: HmRow): number {
+    return Math.max(...row.hours.map(h => hmMode === 'ev' ? h.ev : h.min), 1);
+  }
+  function hmTotal(row: HmRow): string {
+    const ev  = row.hours.reduce((s,h) => s+h.ev, 0);
+    const min = row.hours.reduce((s,h) => s+h.min, 0);
+    if (hmMode === 'ev') return `${ev} ev`;
+    return min >= 60 ? `${Math.floor(min/60)}h ${min%60}m` : `${min}m`;
+  }
+  function hmHour(h: number): string { return `${String(h).padStart(2,'0')}:00`; }
 
   const filteredPkgOpts = $derived(
     pkgSearch.trim()
@@ -741,6 +814,82 @@
   </div>
   {/if}
 
+  <!-- ── Hourly Event Heatmap ─────────────────────────────────────────────── -->
+  {#if heatmap}
+  <div class="hm-card">
+    <div class="hm-card-hdr">
+      <div class="hm-card-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Event Pattern — Hourly
+        <span class="hm-card-sub">Hover cell for details</span>
+      </div>
+      <div class="hm-toggle-group">
+        <button class="hm-toggle-btn" class:hm-tog-active={hmMode==='ev'}  onclick={()=>hmMode='ev'} >Events</button>
+        <button class="hm-toggle-btn" class:hm-tog-active={hmMode==='min'} onclick={()=>hmMode='min'}>Minutes</button>
+      </div>
+    </div>
+
+    <div class="hm-grid" style="--hm-cols:{heatmap.shiftHours.length}">
+      <!-- Hour headers -->
+      <div class="hm-label-cell hm-axis-corner"></div>
+      {#each heatmap.shiftHours as h (h)}
+        <div class="hm-col-hdr">{hmHour(h)}</div>
+      {/each}
+      <div class="hm-col-hdr hm-total-hdr">TOTAL</div>
+
+      <!-- Data rows -->
+      {#each heatmap.rows as row (row.key)}
+        {@const rmax = hmRowMax(row)}
+        <!-- Row label -->
+        <div class="hm-row-label" style="--rc:rgb({row.baseRgb})">
+          <span class="hm-row-dot"></span>
+          {row.label}
+        </div>
+        <!-- Cells -->
+        {#each row.hours as bucket, i (i)}
+          {@const val = hmMode === 'ev' ? bucket.ev : bucket.min}
+          {@const bg  = hmCellBg(val, rmax, row.baseRgb)}
+          {@const tc  = hmTextColor(val, rmax)}
+          {@const pct = Math.round(val / rmax * 100)}
+          <div class="hm-cell" style:background={bg} style:color={tc}
+               title="{hmHour(heatmap.shiftHours[i])} · {row.label}&#10;Events: {bucket.ev} · {bucket.min >= 60 ? Math.floor(bucket.min/60)+'h '+(bucket.min%60)+'m' : bucket.min+'m'}">
+            <span class="hm-cell-val">{val > 0 ? (hmMode==='ev' ? val : hmFmt(bucket)) : ''}</span>
+            {#if val > 0}
+              <div class="hm-cell-bar" style:width="{pct}%" style:background="rgb({row.baseRgb})"></div>
+            {/if}
+          </div>
+        {/each}
+        <!-- Row total -->
+        <div class="hm-total-cell" style="--rc:rgb({row.baseRgb})">{hmTotal(row)}</div>
+      {/each}
+
+      <!-- Column sum row -->
+      <div class="hm-label-cell hm-sum-label">All events</div>
+      {#each heatmap.shiftHours as h, i (h)}
+        {@const colSum = heatmap.rows.reduce((s,r) => s + (hmMode==='ev' ? r.hours[i].ev : r.hours[i].min), 0)}
+        <div class="hm-sum-cell">{colSum > 0 ? (hmMode==='ev' ? colSum : colSum >= 60 ? Math.floor(colSum/60)+'h '+(colSum%60)+'m' : colSum+'m') : '—'}</div>
+      {/each}
+      <div class="hm-sum-cell hm-sum-grand">
+        {heatmap.rows.reduce((s,r) => s + (hmMode==='ev' ? r.hours.reduce((a,b)=>a+b.ev,0) : r.hours.reduce((a,b)=>a+b.min,0)), 0)}{hmMode==='ev' ? ' ev' : 'm'}
+      </div>
+    </div>
+
+    <!-- Peak annotation -->
+    <div class="hm-peaks">
+      {#each heatmap.rows as row (row.key)}
+        {@const rmax = hmRowMax(row)}
+        {@const peakIdx = row.hours.findIndex(h => (hmMode==='ev' ? h.ev : h.min) === rmax)}
+        {#if rmax > 0 && peakIdx >= 0}
+          <div class="hm-peak-badge" style="--rc:rgb({row.baseRgb})">
+            <span class="hm-peak-dot"></span>
+            {row.label} peak: {hmHour(heatmap.shiftHours[peakIdx])} &nbsp;({hmMode==='ev' ? rmax+' ev' : hmFmt(row.hours[peakIdx])})
+          </div>
+        {/if}
+      {/each}
+    </div>
+  </div>
+  {/if}
+
   <!-- ── Chip filter ────────────────────────────────────────────────────── -->
   <div class="chip-bar">
     <div class="chip-left">
@@ -1001,6 +1150,100 @@
   .kc-ev-delta { font-size: 10px; font-weight: 700; margin-left: 3px; }
   .kc-ev-delta.ev-good { color: #2E7D32; }
   .kc-ev-delta.ev-bad  { color: #C62828; }
+  /* ── Heatmap ─────────────────────────────────────────────────────────── */
+  .hm-card {
+    background: var(--color-surface); border: 1px solid var(--color-border-strong);
+    border-radius: var(--r-sm); padding: 16px 20px; margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .hm-card-hdr {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .hm-card-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; color: var(--color-text-heading);
+  }
+  .hm-card-sub { font-size: 11px; font-weight: 400; color: var(--color-text-muted); margin-left: 4px; }
+  .hm-toggle-group { display: flex; gap: 0; border: 1px solid var(--color-border-strong); border-radius: 6px; overflow: hidden; }
+  .hm-toggle-btn {
+    padding: 4px 12px; font-size: 11px; font-weight: 600; border: none; cursor: pointer;
+    background: transparent; color: var(--color-text-muted); transition: all .15s;
+  }
+  .hm-toggle-btn.hm-tog-active { background: var(--color-primary); color: #fff; }
+
+  .hm-grid {
+    display: grid;
+    grid-template-columns: 100px repeat(var(--hm-cols), minmax(0,1fr)) 72px;
+    gap: 3px;
+    align-items: stretch;
+  }
+
+  /* Header row */
+  .hm-axis-corner { }
+  .hm-col-hdr {
+    font-size: 10px; font-weight: 700; color: var(--color-text-muted);
+    text-align: center; padding: 4px 2px; letter-spacing: .3px;
+    border-bottom: 2px solid var(--color-border-strong);
+  }
+  .hm-total-hdr { color: var(--color-text-heading); font-weight: 800; }
+
+  /* Row labels */
+  .hm-row-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; color: var(--color-text-heading);
+    padding: 0 4px;
+    border-left: 3px solid var(--rc);
+  }
+  .hm-row-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--rc); flex-shrink: 0;
+  }
+  .hm-label-cell { display: flex; align-items: center; }
+
+  /* Data cells */
+  .hm-cell {
+    position: relative; border-radius: 4px; min-height: 44px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    overflow: hidden; transition: transform .12s, box-shadow .12s; cursor: default;
+    background: var(--color-surface-alt);
+  }
+  .hm-cell:hover { transform: scale(1.06); z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+  .hm-cell-val { font-size: 13px; font-weight: 700; line-height: 1; z-index: 1; }
+  .hm-cell-bar {
+    position: absolute; bottom: 0; left: 0; height: 3px;
+    border-radius: 0 0 4px 4px; opacity: .6; transition: width .2s;
+  }
+
+  /* Total column */
+  .hm-total-cell {
+    font-size: 11px; font-weight: 800; color: var(--rc);
+    display: flex; align-items: center; justify-content: flex-end; padding-right: 4px;
+    border-left: 1px solid var(--color-border-strong);
+  }
+
+  /* Sum row */
+  .hm-sum-label {
+    font-size: 10px; font-weight: 700; color: var(--color-text-muted); padding: 4px;
+    border-top: 2px solid var(--color-border-strong);
+  }
+  .hm-sum-cell {
+    font-size: 11px; font-weight: 600; color: var(--color-text-muted);
+    text-align: center; padding: 5px 2px;
+    border-top: 2px solid var(--color-border-strong);
+  }
+  .hm-sum-grand { font-weight: 800; color: var(--color-text-heading); }
+
+  /* Peak badges */
+  .hm-peaks { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .hm-peak-badge {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 600; color: var(--color-text-body);
+    background: var(--color-surface-alt); border: 1px solid var(--color-border-strong);
+    border-left: 3px solid var(--rc); border-radius: 4px; padding: 4px 10px;
+  }
+  .hm-peak-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rc); }
+
   /* Narrative */
   .narrative-card {
     background: var(--color-surface); border: 1px solid var(--color-border-strong);
