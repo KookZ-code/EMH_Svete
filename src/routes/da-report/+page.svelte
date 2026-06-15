@@ -121,10 +121,21 @@
   function hmRowMax(row: HmRow): number {
     return Math.max(...row.hours.map(h => hmMode === 'ev' ? h.ev : h.min), 1);
   }
+  // Use authoritative event counts from lossStats (matches KPI cards exactly).
+  // Cells show events that STARTED in each hour; total = all events in report.
+  // Difference = events that started before shift window (Night→Day overlap).
   function hmTotal(row: HmRow): string {
-    const ev  = row.hours.reduce((s,h) => s+h.ev, 0);
-    const min = row.hours.reduce((s,h) => s+h.min, 0);
-    if (hmMode === 'ev') return `${ev} ev`;
+    if (hmMode === 'ev') {
+      const auth = row.key === 'down'  ? lossStats.down.events
+                 : row.key === 'setup' ? lossStats.setup.events
+                 : lossStats.sbo.events;
+      const inWindow = row.hours.reduce((s,h) => s+h.ev, 0);
+      const overlap  = auth - inWindow;
+      return overlap > 0 ? `${auth} ev*` : `${auth} ev`;
+    }
+    const min = row.key === 'down'  ? lossStats.down.totalMin
+              : row.key === 'setup' ? lossStats.setup.totalMin
+              : lossStats.sbo.totalMin;
     return min >= 60 ? `${Math.floor(min/60)}h ${min%60}m` : `${min}m`;
   }
   function hmHour(h: number): string { return `${String(h).padStart(2,'0')}:00`; }
@@ -182,17 +193,9 @@
       const pkgsParam = selPackages.join(',');
       const pkgsEnc = encodeURIComponent(pkgsParam);
 
-      // Fetch current + last 7 days in parallel
-      const base7 = Array.from({ length: 7 }, (_, i) => {
-        const d = new Date(selDate);
-        d.setDate(d.getDate() - (i + 1));
-        return d.toISOString().slice(0, 10);
-      });
-      const [main, ...hist] = await Promise.all([
-        fetch(`${base}/api/da/report?date=${selDate}&shift=${selShift}&packages=${pkgsEnc}`).then(r => r.json()),
-        ...base7.map(d => fetch(`${base}/api/da/report?date=${d}&shift=${selShift}&packages=${pkgsEnc}`)
-          .then(r => r.json()).catch(() => null)),
-      ]);
+      // Load main data first to detect actual shift from timeRange,
+      // then use that shift for 7-day history so vs-avg compares same shift.
+      const main = await fetch(`${base}/api/da/report?date=${selDate}&shift=${selShift}&packages=${pkgsEnc}`).then(r => r.json());
 
       if (main.error) { error = main.error.message; loading = false; return; }
       const d = main.data;
@@ -201,6 +204,21 @@
       pkgLabel  = d.pkg_label  ?? '';
       timeRange = d.time_range ?? '';
       chip      = 'ALL';
+
+      // Detect actual shift from timeRange (backend-authoritative) so historical
+      // average uses the same shift window even when backend resolves it differently.
+      const startHour = timeRange.match(/^(\d{1,2}):/)?.[1];
+      const actualShift = startHour && parseInt(startHour) >= 12 ? 'Night' : selShift;
+
+      const base7 = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(selDate);
+        d.setDate(d.getDate() - (i + 1));
+        return d.toISOString().slice(0, 10);
+      });
+      const hist = await Promise.all(
+        base7.map(d => fetch(`${base}/api/da/report?date=${d}&shift=${actualShift}&packages=${pkgsEnc}`)
+          .then(r => r.json()).catch(() => null))
+      );
 
       // Compute 7-day averages from historical data (kpi fields + event counts)
       const DOWN_T = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
@@ -891,6 +909,13 @@
           </div>
         {/if}
       {/each}
+      {#if hmMode === 'ev'}
+        {@const downOverlap  = lossStats.down.events  - heatmap.rows.find(r=>r.key==='down')!.hours.reduce((s,h)=>s+h.ev,0)}
+        {@const setupOverlap = lossStats.setup.events - heatmap.rows.find(r=>r.key==='setup')!.hours.reduce((s,h)=>s+h.ev,0)}
+        {#if downOverlap > 0 || setupOverlap > 0}
+          <span class="hm-overlap-note">* รวม {downOverlap + setupOverlap} event ที่เริ่มก่อน shift window (carry-over จากกะก่อนหน้า)</span>
+        {/if}
+      {/if}
     </div>
   </div>
   {/if}
@@ -1248,6 +1273,7 @@
     border-left: 3px solid var(--rc); border-radius: 4px; padding: 4px 10px;
   }
   .hm-peak-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rc); }
+  .hm-overlap-note { font-size: 10px; color: var(--color-text-disabled); align-self: center; margin-left: auto; }
 
   /* Narrative */
   .narrative-card {
