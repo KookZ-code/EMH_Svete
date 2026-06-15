@@ -46,19 +46,22 @@ export const GET: RequestHandler = async ({ url }) => {
     const areas = url.searchParams.get('areas') ?? undefined;
     const params = areas ? { areas } : undefined;
 
-    const [machinesData, jobsData] = await Promise.all([
+    const [machinesData, jobsData, pkgData] = await Promise.all([
       mwGet<{ machines: MwMachine[] }>('/api/v1/machines', params),
       mwGet<{ jobs: MwJob[] }>('/api/v1/overview/open-jobs', params),
+      mwGet<{ packages: { code_machine: string; package_type: string }[] }>('/api/v1/inventory/last-package')
+        .catch(() => ({ packages: [] as { code_machine: string; package_type: string }[] })),
     ]);
 
     const machines = machinesData.machines ?? [];
     const openJobs = jobsData.jobs ?? [];
 
-    // Index open jobs by machine id for quick lookup
     const jobMap = new Map<string, MwJob>();
-    for (const job of openJobs) {
-      jobMap.set(job.code_machine, job);
-    }
+    for (const job of openJobs) jobMap.set(job.code_machine, job);
+
+    // Last-run package per machine (for Running machines that have no open job)
+    const pkgMap = new Map<string, string>();
+    for (const p of pkgData.packages ?? []) pkgMap.set(p.code_machine.trim(), p.package_type);
 
     const live: LiveMachine[] = machines.map(m => {
       const job = jobMap.get(m.machine_id);
@@ -100,7 +103,8 @@ export const GET: RequestHandler = async ({ url }) => {
         job_type:     job ? (job.job_type as JobType) : null,
         tech_name:    job?.tech ?? null,
         symptom:      job?.des_job ?? null,
-        package_type: job?.package_type ?? null,
+        // Running machines show last-run package; non-Running show the open-job package
+        package_type: job?.package_type ?? pkgMap.get(m.machine_id.trim()) ?? null,
         model:        m.model ?? null,
         elapsed_min,
         started_at,
