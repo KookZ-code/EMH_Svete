@@ -38,12 +38,18 @@
       <div class="zhdr">{zone.label}{zone.supervisor ? ' · ' + zone.supervisor : ''}</div>
 
       {#each zone.rows as row (row)}
-        <div class="frow">
+        <!-- grid=true rows use explicit col placement for vertical alignment -->
+        <div class="frow" class:grid-row={row.grid}>
           {#each row.cells as cell}
             {#if cell.kind === 'line'}
-              <div class="lline">{cell.v}</div>
+              <div class="lline" style:grid-column={row.grid ? cell.col : null}>{cell.v}</div>
             {:else if cell.kind === 'support'}
-              <div class="sup" class:wide={cell.v.length > 8} style:background={cell.color}>{cell.v}</div>
+              <div
+                class="sup"
+                class:wide={!row.grid && cell.v.length > 8}
+                style:background={cell.color}
+                style:grid-column={row.grid ? cell.col : null}
+              >{cell.v}</div>
             {:else}
               {@const mc = lookupMachine(cell.v)}
               {#if mc}
@@ -52,6 +58,7 @@
                   class="mc"
                   style:background={cfg.bg}
                   style:color={cfg.text}
+                  style:grid-column={row.grid ? cell.col : null}
                   title={tooltipOf(mc)}
                   onclick={() => onMachineClick(mc.code_machine)}
                 >
@@ -59,7 +66,11 @@
                   {#if mc.is_key}<span class="k">K</span>{/if}
                 </button>
               {:else}
-                <div class="mc off" title="{cell.v} — no live data">
+                <div
+                  class="mc off"
+                  style:grid-column={row.grid ? cell.col : null}
+                  title="{cell.v} — no live data"
+                >
                   {cell.v.replace('D/B # ', '').replace(/^0+/, '') || '0'}
                 </div>
               {/if}
@@ -88,6 +99,13 @@
   .zone.z2 .zhdr { border-color: #E8A040; color: #B23A00; }
 
   .frow { display: flex; gap: 3px; margin-bottom: 3px; align-items: center; flex-wrap: wrap; }
+  /* Zone 2 grid rows: 12 fixed columns matching Excel column positions */
+  .frow.grid-row {
+    display: grid;
+    grid-template-columns: 56px repeat(11, 30px);
+    gap: 3px;
+    align-items: center;
+  }
 
   .mc {
     min-width: 26px; height: 18px; border-radius: 2px; font-size: 9px; font-weight: 600;
