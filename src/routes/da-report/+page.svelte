@@ -43,7 +43,7 @@
 
   let machines     = $state<MachineRow[]>([]);
   let kpi          = $state<DaKpi|null>(null);
-  let kpi7d        = $state<Partial<DaKpi> & { days: number } | null>(null);
+  let kpi7d        = $state<Partial<DaKpi> & { days: number; down_events?: number; setup_events?: number } | null>(null);
   let pkgLabel     = $state('');
   let timeRange    = $state('');
   let loading      = $state(false);
@@ -62,7 +62,7 @@
     if (chip === 'DOWN')  return machines.filter(r => r.down_min > 0);
     if (chip === 'SETUP') return machines.filter(r => r.down_min === 0 && r.setup_min + r.wait_setup_min > 0);
     if (chip === 'FULL')  return machines.filter(r => r.total_loss_min === 0);
-    if (chip === '<85%')  return machines.filter(r => r.util_pct < 85);
+    if (chip === '<80%')  return machines.filter(r => r.util_pct < 80);
     return machines;
   });
 
@@ -71,7 +71,7 @@
     DOWN:  machines.filter(r => r.down_min > 0).length,
     SETUP: machines.filter(r => r.down_min === 0 && r.setup_min + r.wait_setup_min > 0).length,
     FULL:  machines.filter(r => r.total_loss_min === 0).length,
-    '<85%': machines.filter(r => r.util_pct < 85).length,
+    '<80%': machines.filter(r => r.util_pct < 80).length,
   });
 
   // ── Helpers ───────────────────────────────────────────────────────────────
@@ -124,16 +124,29 @@
       timeRange = d.time_range ?? '';
       chip      = 'ALL';
 
-      // Compute 7-day averages from historical data
-      const valid = hist.filter(h => h?.data?.kpi?.total > 0).map(h => h.data.kpi as DaKpi);
+      // Compute 7-day averages from historical data (kpi fields + event counts)
+      const DOWN_T = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
+      const SETUP_T = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+      const valid = hist.filter(h => h?.data?.kpi?.total > 0);
       if (valid.length > 0) {
+        const kpis = valid.map(h => h.data.kpi as DaKpi);
         const avg = <T extends keyof DaKpi>(k: T) =>
-          Math.round(valid.reduce((s, v) => s + (v[k] as number), 0) / valid.length * 10) / 10;
+          Math.round(kpis.reduce((s, v) => s + (v[k] as number), 0) / kpis.length * 10) / 10;
+        // event counts per day from machines arrays
+        const downEvts = valid.map(h =>
+          (h.data.machines as MachineRow[]).reduce((s, m) =>
+            s + m.events.filter(e => DOWN_T.has((e.job_type||'').toUpperCase())).length, 0));
+        const setupEvts = valid.map(h =>
+          (h.data.machines as MachineRow[]).reduce((s, m) =>
+            s + m.events.filter(e => SETUP_T.has((e.job_type||'').toUpperCase())).length, 0));
+        const avgArr = (arr: number[]) => Math.round(arr.reduce((s,v)=>s+v,0)/arr.length);
         kpi7d = {
           days: valid.length,
           avg_util: avg('avg_util'), down_pct: avg('down_pct'), wait_pct: avg('wait_pct'),
           setup_conv_pct: avg('setup_conv_pct'), sbo_pct: avg('sbo_pct'),
           n_down: avg('n_down'), n_tech: avg('n_tech'), n_low: avg('n_low'), n_full: avg('n_full'),
+          down_events: avgArr(downEvts),
+          setup_events: avgArr(setupEvts),
         };
       }
     } catch (e) { error = e instanceof Error ? e.message : 'Error'; }
@@ -404,32 +417,30 @@
     const nFull = machines.filter(m => m.total_loss_min === 0).length;
     const avgVs7d = kpi7d ? (kpi.avg_util - (kpi7d.avg_util ?? kpi.avg_util)) : null;
     const trendTxt = avgVs7d == null ? '' :
-      avgVs7d > 1 ? `, above the 7-day average of ${kpi7d!.avg_util}%` :
-      avgVs7d < -1 ? `, below the 7-day average of ${kpi7d!.avg_util}%` :
-      ` — in line with the ${kpi7d!.days}-day average of ${kpi7d!.avg_util}%`;
+      avgVs7d > 1 ? ` สูงกว่าค่าเฉลี่ย ${kpi7d!.days} วันที่ผ่านมา (${kpi7d!.avg_util}%)` :
+      avgVs7d < -1 ? ` ต่ำกว่าค่าเฉลี่ย ${kpi7d!.days} วันที่ผ่านมา (${kpi7d!.avg_util}%)` :
+      ` ใกล้เคียงค่าเฉลี่ย ${kpi7d!.days} วัน (${kpi7d!.avg_util}%)`;
 
     const failureSummary = topFailures.length
-      ? `The dominant failure mode was "${topFailures[0][0]}" (${topFailures[0][1]} events)` +
-        (topFailures[1] ? `, followed by "${topFailures[1][0]}" (${topFailures[1][1]})` : '') + '.'
+      ? `สาเหตุ down ที่พบบ่อยที่สุดคือ "${topFailures[0][0]}" (${topFailures[0][1]} ครั้ง)` +
+        (topFailures[1] ? ` รองลงมาคือ "${topFailures[1][0]}" (${topFailures[1][1]} ครั้ง)` : '') + ' '
       : '';
 
-    const waitNote = kpi.wait_pct >= 8
-      ? ` Wait time represented ${kpi.wait_pct}% of capacity — ${kpi.n_tech} machines required technicians at some point; response time is the primary controllable loss this shift.`
+    const waitNote = kpi.wait_pct >= 7
+      ? `เวลารอช่าง ${kpi.wait_pct}% คิดเป็นกว่า 2 เท่าของเวลา down จริง — ควรพิจารณาเพิ่ม coverage ช่างในช่วง peak load `
       : '';
 
     const setupNote = kpi.setup_conv_pct >= 6
-      ? ` Setup & convert accounted for ${kpi.setup_conv_pct}% of capacity loss — ${worstMachine?.machine_id} had the longest setup at ${worstMachine ? Math.round(worstMachine.setup_min/60*10)/10 : 0}h.`
+      ? `Setup+Convert สูงถึง ${kpi.setup_conv_pct}%${kd?.setup ? (kd.setup.good ? ' (ลดลงจาก avg)' : ' (เพิ่มขึ้นจาก avg — อาจมี package ที่ changeover ซับซ้อน)') : ''} `
       : '';
 
     const colletNote = topFailures[0]?.[0]?.toUpperCase().includes('COLLET')
-      ? ` MAX COLLET COUNT was the leading failure with ${topFailures[0][1]} occurrences — this is a consumable wear signal; a proactive batch replacement before the next shift is recommended.`
+      ? `พบ MAX COLLET COUNT ถึง ${topFailures[0][1]} ครั้ง — เป็นสัญญาณ consumable wear ควรวางแผน batch replacement ก่อน shift ถัดไป `
       : '';
 
-    const healthNote = nFull > 0
-      ? ` ${nFull} machine${nFull > 1 ? 's' : ''} achieved 100% utilization (${machines.filter(m=>m.total_loss_min===0).map(m=>m.machine_id).slice(0,3).join(', ')}${nFull>3?' …':''}).`
-      : '';
+    const belowNote = `เครื่องที่ util ต่ำกว่า 80% มีถึง ${machines.filter(m=>m.util_pct<80).length} เครื่อง คิดเป็นสูญเสียกำลังการผลิตสุทธิ ${Math.round(totalLoss/shiftMin*100)}% ของ machine-hour ทั้งหมด`;
 
-    return `The DA fleet achieved ${kpi.avg_util}% average utilization across ${machines.length} machines for this shift${trendTxt}. ${nBelow85} machines (${Math.round(nBelow85/machines.length*100)}%) ran below 85% — the effective capacity loss is ${Math.round(totalLoss/shiftMin*100)}% of total available machine-hours. ${failureSummary}${colletNote}${waitNote}${setupNote}${healthNote}`;
+    return `Fleet DA กะนี้มี utilization เฉลี่ย ${kpi.avg_util}%${trendTxt}. ${belowNote}. ${failureSummary}${colletNote}${waitNote}${setupNote}`.trim();
   });
 
   // Pre-computed deltas (avoids {@const} placement restrictions in template)
@@ -441,9 +452,11 @@
       n_tech:   delta(kpi.n_tech,        kpi7d.n_tech,        false),
       n_full:   delta(kpi.n_full,        kpi7d.n_full,        true),
       n_low:    delta(kpi.n_low,         kpi7d.n_low,         false),
-      down_pct: delta(kpi.down_pct,      kpi7d.down_pct,      false),
-      wait_pct: delta(kpi.wait_pct,      kpi7d.wait_pct,      false),
-      setup:    delta(kpi.setup_conv_pct,kpi7d.setup_conv_pct,false),
+      down_pct:    delta(kpi.down_pct,      kpi7d.down_pct,      false),
+      wait_pct:    delta(kpi.wait_pct,      kpi7d.wait_pct,      false),
+      setup:       delta(kpi.setup_conv_pct,kpi7d.setup_conv_pct,false),
+      down_events: deltaN(lossStats.down.events,  kpi7d.down_events,  false),
+      setup_events:deltaN(lossStats.setup.events, kpi7d.setup_events, false),
     };
   });
 
@@ -567,17 +580,11 @@
       </div>
       <div class="fleet-stat" style="--c:#702076">
         <span class="fs-val">{kpi.n_tech}</span>
-        <span class="fs-lbl">Techs waiting</span>
-        {#if kd?.n_tech}<span class="fs-delta" class:up={kd.n_tech.good} class:dn={!kd.n_tech.good}>{kd.n_tech.txt}</span>{/if}
-      </div>
-      <div class="fleet-stat" style="--c:#5EBF33">
-        <span class="fs-val">{kpi.n_full}</span>
-        <span class="fs-lbl">100% Util</span>
-        {#if kd?.n_full}<span class="fs-delta" class:up={kd.n_full.good} class:dn={!kd.n_full.good}>{kd.n_full.txt}</span>{/if}
+        <span class="fs-lbl">Techs on Shift</span>
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
-        <span class="fs-val">{kpi.n_low}</span>
-        <span class="fs-lbl">Util &lt;85%</span>
+        <span class="fs-val">{machines.filter(r=>r.util_pct<80).length}</span>
+        <span class="fs-lbl">Util &lt;80%</span>
         {#if kd?.n_low}<span class="fs-delta" class:up={kd.n_low.good} class:dn={!kd.n_low.good}>{kd.n_low.txt}</span>{/if}
       </div>
       {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
@@ -595,6 +602,7 @@
           <span class="kc-lbl">Down Time</span>
           <div class="kc-meta">
             <span class="kc-ev">{lossStats.down.events} ev</span>
+            {#if kd?.down_events}<span class="kc-ev-delta" class:ev-good={kd.down_events.good} class:ev-bad={!kd.down_events.good}>({kd.down_events.txt} ev)</span>{/if}
             <span class="kc-dot">·</span>
             <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.down.mttr)}</b></span>
           </div>
@@ -652,6 +660,7 @@
           <span class="kc-lbl">Setup+Conv</span>
           <div class="kc-meta">
             <span class="kc-ev">{lossStats.setup.events} ev</span>
+            {#if kd?.setup_events}<span class="kc-ev-delta" class:ev-good={kd.setup_events.good} class:ev-bad={!kd.setup_events.good}>({kd.setup_events.txt} ev)</span>{/if}
             <span class="kc-dot">·</span>
             <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.setup.mttr)}</b></span>
           </div>
@@ -741,7 +750,7 @@
         {id:'DOWN', label:'M/C Down',    count:chipCounts.DOWN,        alert:false},
         {id:'SETUP',label:'Setup Loss',  count:chipCounts.SETUP,       alert:false},
         {id:'FULL', label:'100% Util',   count:chipCounts.FULL,        alert:false},
-        {id:'<85%', label:'Util < 85%',  count:chipCounts['<85%'],     alert:true},
+        {id:'<80%', label:'Util < 80%',  count:chipCounts['<80%'],     alert:true},
       ] as c (c.id)}
         <button class="chip-btn" class:active={chip===c.id} class:alert-chip={c.alert}
           onclick={()=>chip=c.id}>
@@ -754,7 +763,7 @@
       <span class="leg-item" style="--lc:#CC0000">M/C Down</span>
       <span class="leg-item" style="--lc:#FD7F20">Setup Loss</span>
       <span class="leg-item" style="--lc:#5EBF33">100% Util</span>
-      <span class="leg-item leg-warn" style="--lc:#CC0000">Util &lt; 85%</span>
+      <span class="leg-item leg-warn" style="--lc:#CC0000">Util &lt; 80%</span>
     </div>
   </div>
 
@@ -989,6 +998,9 @@
   .kc-vs { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; display: inline-block; margin-bottom: 2px; }
   .kc-vs.vs-good { background: #E8F5E9; color: #2E7D32; }
   .kc-vs.vs-bad  { background: #FFEBEE; color: #C62828; }
+  .kc-ev-delta { font-size: 10px; font-weight: 700; margin-left: 3px; }
+  .kc-ev-delta.ev-good { color: #2E7D32; }
+  .kc-ev-delta.ev-bad  { color: #C62828; }
   /* Narrative */
   .narrative-card {
     background: var(--color-surface); border: 1px solid var(--color-border-strong);
