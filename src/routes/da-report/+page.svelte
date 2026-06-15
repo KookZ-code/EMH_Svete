@@ -58,7 +58,12 @@
 
   const heatmap = $derived.by((): { shiftHours: number[]; rows: HmRow[] } | null => {
     if (!machines.length) return null;
-    const isNight = selShift === 'Night';
+    // Derive actual shift hours from timeRange (backend-authoritative) rather than
+    // trusting selShift label — backend currently returns same data for both shifts.
+    // timeRange format: "HH:MM → HH:MM" or "HH:MM â HH:MM" (encoding artifact)
+    const startHourMatch = timeRange.match(/^(\d{1,2}):/);
+    const startHour = startHourMatch ? parseInt(startHourMatch[1]) : (selShift === 'Night' ? 19 : 7);
+    const isNight = startHour >= 12;   // 19 = night, 7 = day
     const shiftHours = isNight
       ? [19,20,21,22,23,0,1,2,3,4,5,6]
       : [7,8,9,10,11,12,13,14,15,16,17,18];
