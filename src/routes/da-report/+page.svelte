@@ -863,10 +863,14 @@
       <!-- Data rows -->
       {#each heatmap.rows as row (row.key)}
         {@const rmax = hmRowMax(row)}
-        <!-- Row label -->
+        <!-- Row label + MTTW annotation for DOWN row -->
         <div class="hm-row-label" style="--rc:rgb({row.baseRgb})">
-          <span class="hm-row-dot"></span>
-          {row.label}
+          <span><span class="hm-row-dot"></span> {row.label}</span>
+          {#if row.key === 'down' && lossStats.wait.mttwDown > 0}
+            <span class="hm-mttw" title="Mean Time To Wait — เวลาเฉลี่ยรอช่าง (per down event)">⏱ avg wait {fmtMtx(lossStats.wait.mttwDown)}</span>
+          {:else if row.key === 'setup' && lossStats.wait.mttwSetup > 0}
+            <span class="hm-mttw" title="Mean Time To Wait — เวลาเฉลี่ยรอช่าง (per setup event)">⏱ avg wait {fmtMtx(lossStats.wait.mttwSetup)}</span>
+          {/if}
         </div>
         <!-- Cells -->
         {#each row.hours as bucket, i (i)}
@@ -1220,14 +1224,19 @@
 
   /* Row labels */
   .hm-row-label {
-    display: flex; align-items: center; gap: 6px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
     font-size: 11px; font-weight: 700; color: var(--color-text-heading);
-    padding: 0 4px;
+    padding: 4px 4px 4px 8px;
     border-left: 3px solid var(--rc);
   }
-  .hm-row-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--rc); flex-shrink: 0;
+  .hm-row-label > :first-child { display: flex; align-items: center; gap: 5px; }
+  .hm-row-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--rc); flex-shrink: 0; }
+  .hm-row-name { flex-shrink: 0; }
+  .hm-mttw {
+    font-size: 9px; font-weight: 700; color: var(--rc);
+    background: color-mix(in srgb, rgb(var(--rc-raw,128,128,128)) 10%, transparent);
+    border: 1px solid color-mix(in srgb, rgb(var(--rc-raw,128,128,128)) 20%, transparent);
+    border-radius: 3px; padding: 1px 4px; white-space: nowrap; margin-top: 2px;
   }
   .hm-label-cell { display: flex; align-items: center; }
 
