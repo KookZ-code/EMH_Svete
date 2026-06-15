@@ -1244,16 +1244,16 @@
     border-bottom: 1px solid var(--color-border);
   }
   .fleet-stat {
-    display: flex; align-items: baseline; gap: 6px;
+    display: flex; flex-direction: column; justify-content: center; gap: 2px;
     background: var(--color-surface-alt);
     border-left: 3px solid var(--c);
     border-radius: var(--r-sm);
-    padding: 6px 14px; flex-shrink: 0;
-    min-height: 44px;
+    padding: 8px 16px;
+    flex: 1; min-width: 120px; min-height: 52px;
   }
-  .fs-val { font-size: 20px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; line-height: 1; align-self: center; }
-  .fs-lbl { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; align-self: center; }
-  .fs-delta { font-size: 11px; font-weight: 700; align-self: center; padding: 1px 5px; border-radius: 3px; }
+  .fs-val { font-size: 22px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; line-height: 1; }
+  .fs-lbl { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; }
+  .fs-delta { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 3px; align-self: flex-start; margin-top: 1px; }
   .fs-delta.up  { background: #E8F5E9; color: #2E7D32; }
   .fs-delta.dn  { background: #FFEBEE; color: #C62828; }
   .kpi7d-note { font-size: 9px; font-weight: 600; color: var(--color-text-disabled); align-self: center; margin-left: auto; white-space: nowrap; }
