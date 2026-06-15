@@ -4,6 +4,7 @@
   import { liveApi } from '$lib/utils/api';
   import { statusConfig, fmtElapsed } from '$lib/config/machine_status';
   import WbFloorMap from '$lib/components/WbFloorMap.svelte';
+  import DaFloorMap from '$lib/components/DaFloorMap.svelte';
   import type { LiveMachine, MachineArea } from '$types';
 
   const ALL_AREAS: MachineArea[] = ['BG','SAW','DA','WB','MOLD','PLATE','MARK','SAW_QFN','TF','ISO','FS'];
@@ -189,6 +190,16 @@
 {#if selectedAreas.includes('WB')}
   <WbFloorMap
     machines={machines.filter((m) => m.area === 'WB')}
+    onMachineClick={(code) => {
+      highlightCode = code;
+      document.getElementById('machine-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }}
+  />
+{/if}
+
+{#if selectedAreas.includes('DA')}
+  <DaFloorMap
+    machines={machines.filter((m) => m.area === 'DA')}
     onMachineClick={(code) => {
       highlightCode = code;
       document.getElementById('machine-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
