@@ -2,7 +2,7 @@
 // Source: "Lay Out DA new version.xlsx"
 // Total DA machine positions: 107
 
-export interface DaCell  { kind: 'machine'|'line'|'support'; v: string; num?: number; color?: string; col?: number; }
+export interface DaCell  { kind: 'machine'|'line'|'support'; v: string; num?: number; color?: string; col?: number; span?: number; }
 export interface DaRow   { cells: DaCell[]; grid?: boolean; }
 export interface DaZone  { id: string; label: string; supervisor: string; rows: DaRow[]; }
 
@@ -10,9 +10,9 @@ export const DA_FLOOR: DaZone[] = [
   {
     id: 'Z1', label: 'Zone 1', supervisor: '',
     rows: [
-    {cells:[{kind:'line',v:"LINE10"},{kind:'machine',v:"D/B # 041",num:41},{kind:'machine',v:"D/B # 042",num:42},{kind:'machine',v:"D/B # 043",num:43},{kind:'machine',v:"D/B # 002",num:2},{kind:'machine',v:"D/B # 017",num:17},{kind:'support',v:"Run Production",color:"#E0E4E8"}]},
-    {cells:[{kind:'line',v:"LINE11"},{kind:'machine',v:"D/B # 047",num:47},{kind:'machine',v:"D/B # 050",num:50},{kind:'machine',v:"D/B # 056",num:56},{kind:'machine',v:"D/B # 058",num:58},{kind:'machine',v:"D/B # 060",num:60},{kind:'support',v:"Standby (Close)",color:"#E0E4E8"}]},
-    {cells:[{kind:'line',v:"LINE12"},{kind:'machine',v:"D/B # 064",num:64},{kind:'machine',v:"D/B # 048",num:48},{kind:'machine',v:"D/B # 049",num:49},{kind:'machine',v:"D/B # 057",num:57},{kind:'machine',v:"D/B # 059",num:59},{kind:'support',v:"table Supv",color:"#FFCCFF"},{kind:'support',v:"Shut down",color:"#E0E4E8"}]},
+    {cells:[{kind:'line',v:"LINE10"},{kind:'machine',v:"D/B # 041",num:41},{kind:'machine',v:"D/B # 042",num:42},{kind:'machine',v:"D/B # 043",num:43},{kind:'machine',v:"D/B # 002",num:2},{kind:'machine',v:"D/B # 017",num:17}]},
+    {cells:[{kind:'line',v:"LINE11"},{kind:'machine',v:"D/B # 047",num:47},{kind:'machine',v:"D/B # 050",num:50},{kind:'machine',v:"D/B # 056",num:56},{kind:'machine',v:"D/B # 058",num:58},{kind:'machine',v:"D/B # 060",num:60}]},
+    {cells:[{kind:'line',v:"LINE12"},{kind:'machine',v:"D/B # 064",num:64},{kind:'machine',v:"D/B # 048",num:48},{kind:'machine',v:"D/B # 049",num:49},{kind:'machine',v:"D/B # 057",num:57},{kind:'machine',v:"D/B # 059",num:59},{kind:'support',v:"table Supv",color:"#FFCCFF"}]},
     {cells:[{kind:'line',v:"LINE13"},{kind:'machine',v:"D/B # 036",num:36},{kind:'machine',v:"D/B # 065",num:65},{kind:'machine',v:"D/B # 034",num:34},{kind:'machine',v:"D/B # 038",num:38},{kind:'machine',v:"D/B # 035",num:35},{kind:'support',v:"table Lead",color:"#FFCCFF"}]},
     {cells:[{kind:'line',v:""},{kind:'machine',v:"D/B # 020",num:20},{kind:'machine',v:"D/B # 055",num:55},{kind:'machine',v:"D/B # 037",num:37},{kind:'machine',v:"D/B # 054",num:54},{kind:'machine',v:"D/B # 044",num:44}]},
     {cells:[{kind:'line',v:"LINE14"},{kind:'machine',v:"D/B # 012",num:12},{kind:'machine',v:"D/B # 013",num:13},{kind:'machine',v:"D/B # 022",num:22},{kind:'machine',v:"D/B # 015",num:15},{kind:'machine',v:"D/B # 004",num:4}]},
@@ -28,7 +28,7 @@ export const DA_FLOOR: DaZone[] = [
     rows: [
     {cells:[{kind:'support',v:"LFM#07",color:"#CCFF33",col:2},{kind:'support',v:"LFM#06",color:"#CCFF33",col:3},{kind:'support',v:"LFM#05",color:"#CCFF33",col:4},{kind:'support',v:"LFM#04",color:"#CCFF33",col:5},{kind:'support',v:"LFM#03",color:"#CCFF33",col:6},{kind:'support',v:"LFM#08",color:"#CCFF33",col:7},{kind:'support',v:"LFM#09",color:"#CCFF33",col:8},{kind:'support',v:"PM W/B",color:"#E0E4E8",col:10}],grid:true},
     {cells:[{kind:'support',v:"B/G",color:"#E0E4E8",col:1},{kind:'machine',v:"D/B # 098",num:98,col:2},{kind:'machine',v:"D/B # 095",num:95,col:3},{kind:'machine',v:"D/B # 109",num:109,col:4},{kind:'machine',v:"D/B # 113",num:113,col:5},{kind:'machine',v:"D/B # 107",num:107,col:6},{kind:'machine',v:"D/B # 052",num:52,col:7},{kind:'machine',v:"D/B # 063",num:63,col:8},{kind:'machine',v:"D/B # 051",num:51,col:9}],grid:true},
-    {cells:[{kind:'machine',v:"D/B # 099",num:99,col:2},{kind:'machine',v:"D/B # 096",num:96,col:3},{kind:'machine',v:"D/B # 108",num:108,col:4},{kind:'machine',v:"D/B # 112",num:112,col:5},{kind:'machine',v:"D/B # 088",num:88,col:6},{kind:'machine',v:"D/B # 075",num:75,col:7},{kind:'machine',v:"D/B # 066",num:66,col:8},{kind:'machine',v:"D/B # 045",num:45,col:9},{kind:'support',v:"Magazine Cleaning",color:"#E0E4E8",col:10}],grid:true},
+    {cells:[{kind:'machine',v:"D/B # 099",num:99,col:2},{kind:'machine',v:"D/B # 096",num:96,col:3},{kind:'machine',v:"D/B # 108",num:108,col:4},{kind:'machine',v:"D/B # 112",num:112,col:5},{kind:'machine',v:"D/B # 088",num:88,col:6},{kind:'machine',v:"D/B # 075",num:75,col:7},{kind:'machine',v:"D/B # 066",num:66,col:8},{kind:'machine',v:"D/B # 045",num:45,col:9},{kind:'support',v:"Magazine Cleaning",color:"#E0E4E8",col:10,span:3}],grid:true},
     {cells:[{kind:'support',v:"Die Bank",color:"#E0E4E8",col:1},{kind:'machine',v:"D/B # 104",num:104,col:2},{kind:'machine',v:"D/B # 097",num:97,col:3},{kind:'machine',v:"D/B # 091",num:91,col:4},{kind:'machine',v:"D/B # 105",num:105,col:5},{kind:'machine',v:"D/B # 077",num:77,col:6},{kind:'machine',v:"D/B # 067",num:67,col:7},{kind:'machine',v:"D/B # 068",num:68,col:8},{kind:'machine',v:"D/B # 061",num:61,col:9}],grid:true},
     {cells:[{kind:'machine',v:"D/B # 101",num:101,col:2},{kind:'machine',v:"D/B # 110",num:110,col:3},{kind:'machine',v:"D/B # 103",num:103,col:4},{kind:'machine',v:"D/B # 083",num:83,col:5},{kind:'machine',v:"D/B # 076",num:76,col:6},{kind:'machine',v:"D/B # 070",num:70,col:7},{kind:'machine',v:"D/B # 071",num:71,col:8},{kind:'machine',v:"D/B # 062",num:62,col:9}],grid:true},
     {cells:[{kind:'machine',v:"D/B # 102",num:102,col:2},{kind:'machine',v:"D/B # 111",num:111,col:3},{kind:'machine',v:"D/B # 106",num:106,col:4},{kind:'machine',v:"D/B # 089",num:89,col:5},{kind:'machine',v:"D/B # 069",num:69,col:6},{kind:'machine',v:"D/B # 073",num:73,col:7},{kind:'machine',v:"D/B # 072",num:72,col:8},{kind:'machine',v:"D/B # 121",num:121,col:9},{kind:'machine',v:"D/B # 130",num:130,col:10},{kind:'machine',v:"D/B # 129",num:129,col:11},{kind:'machine',v:"D/B # 128",num:128,col:12}],grid:true},

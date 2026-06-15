@@ -48,7 +48,9 @@
                 class="sup"
                 class:wide={!row.grid && cell.v.length > 8}
                 style:background={cell.color}
-                style:grid-column={row.grid ? cell.col : null}
+                style:grid-column={row.grid && cell.col
+                  ? (cell.span ? `${cell.col} / span ${cell.span}` : String(cell.col))
+                  : null}
               >{cell.v}</div>
             {:else}
               {@const mc = lookupMachine(cell.v)}
