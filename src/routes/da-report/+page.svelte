@@ -54,53 +54,93 @@
 
   // ── Heatmap data — hourly event buckets ───────────────────────────────────
   interface HmBucket { ev: number; min: number; }
-  interface HmRow { key: string; label: string; baseRgb: string; hours: HmBucket[]; }
+  interface HmRow { key: string; label: string; baseRgb: string; hours: HmBucket[]; state: number[]; }
 
-  const heatmap = $derived.by((): { shiftHours: number[]; rows: HmRow[] } | null => {
+  const heatmap = $derived.by((): { shiftHours: number[]; rows: HmRow[]; totalState: number[] } | null => {
     if (!machines.length) return null;
-    // Derive actual shift hours from timeRange (backend-authoritative) rather than
-    // trusting selShift label — backend currently returns same data for both shifts.
-    // timeRange format: "HH:MM → HH:MM" or "HH:MM â HH:MM" (encoding artifact)
     const startHourMatch = timeRange.match(/^(\d{1,2}):/);
     const startHour = startHourMatch ? parseInt(startHourMatch[1]) : (selShift === 'Night' ? 19 : 7);
-    const isNight = startHour >= 12;   // 19 = night, 7 = day
+    const isNight = startHour >= 12;
     const shiftHours = isNight
       ? [19,20,21,22,23,0,1,2,3,4,5,6]
       : [7,8,9,10,11,12,13,14,15,16,17,18];
 
     const DOWN_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
     const SETUP_T = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
-    const WAIT_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']); // wait is per machine, not event
 
     type Cat = 'down' | 'setup' | 'sbo';
     const buckets: Record<number, Record<Cat, HmBucket>> = {};
     for (const h of shiftHours) buckets[h] = {
-      down:  { ev:0, min:0 }, setup: { ev:0, min:0 }, sbo: { ev:0, min:0 },
+      down: {ev:0,min:0}, setup: {ev:0,min:0}, sbo: {ev:0,min:0},
     };
 
+    // Convert "HH:MM" to shift-relative minutes (handles midnight wrap)
+    const toShiftMin = (t: string): number | null => {
+      if (!t) return null;
+      const [hh, mm] = t.split(':').map(Number);
+      if (isNaN(hh) || isNaN(mm)) return null;
+      const abs = hh * 60 + mm;
+      return abs >= startHour * 60 ? abs - startHour * 60 : abs + (24 - startHour) * 60;
+    };
+
+    // State counters: for each hour, how many machines have an active DOWN/SETUP event
+    const stateDown  = new Array(shiftHours.length).fill(0);
+    const stateSetup = new Array(shiftHours.length).fill(0);
+
     for (const m of machines) {
+      // Track per-machine per-hour to avoid double-counting (multiple events)
+      const machineDownAt  = new Set<number>();
+      const machineSetupAt = new Set<number>();
+
       for (const e of m.events) {
         if (!e.t_start) continue;
-        const hr = parseInt(e.t_start.split(':')[0]);
-        if (!(hr in buckets)) continue;
-        const jt = (e.job_type || '').toUpperCase();
+        const jt  = (e.job_type || '').toUpperCase();
         const dur = e.dur_min || 0;
-        if (DOWN_T.has(jt))       { buckets[hr].down.ev++;  buckets[hr].down.min  += dur; }
-        else if (SETUP_T.has(jt)) { buckets[hr].setup.ev++; buckets[hr].setup.min += dur; }
-        else if (jt === 'SETUP BY OPERATOR') { buckets[hr].sbo.ev++; buckets[hr].sbo.min += dur; }
+        const hr  = parseInt(e.t_start.split(':')[0]);
+        const isDown  = DOWN_T.has(jt);
+        const isSetup = SETUP_T.has(jt);
+
+        // Bucket by start hour
+        if (hr in buckets) {
+          if (isDown)              { buckets[hr].down.ev++;  buckets[hr].down.min  += dur; }
+          else if (isSetup)        { buckets[hr].setup.ev++; buckets[hr].setup.min += dur; }
+          else if (jt === 'SETUP BY OPERATOR') { buckets[hr].sbo.ev++; buckets[hr].sbo.min += dur; }
+        }
+
+        // "Machines in state" — active during each shift hour
+        if (!isDown && !isSetup) continue;
+        const eStart = toShiftMin(e.t_start);
+        if (eStart === null) continue;
+        const rawEnd = !e.t_end ? null : toShiftMin(e.t_end);
+        const eEnd   = rawEnd == null ? 9999
+                     : rawEnd < eStart ? rawEnd + shiftHours.length * 60  // midnight wrap
+                     : rawEnd;
+
+        shiftHours.forEach((h, idx) => {
+          const hMin = toShiftMin(`${String(h).padStart(2,'0')}:00`) ?? (idx * 60);
+          if (eStart < hMin + 60 && eEnd > hMin) {
+            if (isDown)  machineDownAt.add(idx);
+            if (isSetup) machineSetupAt.add(idx);
+          }
+        });
       }
+      machineDownAt.forEach(idx  => stateDown[idx]++);
+      machineSetupAt.forEach(idx => stateSetup[idx]++);
     }
 
     const rowDefs: { key: Cat; label: string; baseRgb: string }[] = [
-      { key:'down',  label:'M/C DOWN',   baseRgb:'204,0,0'     },
-      { key:'setup', label:'SETUP+CONV', baseRgb:'29,156,228'  },
-      { key:'sbo',   label:'SBO',        baseRgb:'23,162,184'  },
+      { key:'down',  label:'M/C DOWN',   baseRgb:'204,0,0'    },
+      { key:'setup', label:'SETUP+CONV', baseRgb:'29,156,228' },
+      { key:'sbo',   label:'SBO',        baseRgb:'23,162,184' },
     ];
-    const rows: HmRow[] = rowDefs.map(({ key, label, baseRgb }) => ({
+    const rows: HmRow[] = rowDefs.map(({ key, label, baseRgb }, ri) => ({
       key, label, baseRgb,
-      hours: shiftHours.map(h => ({ ...buckets[h][key] })),
+      hours: shiftHours.map(h => ({ ...buckets[h][key as Cat] })),
+      state: key === 'down' ? stateDown : key === 'setup' ? stateSetup : [],
     }));
-    return { shiftHours, rows };
+
+    const totalState = shiftHours.map((_, i) => stateDown[i] + stateSetup[i]);
+    return { shiftHours, rows, totalState };
   });
 
   function hmIntensity(val: number, rowMax: number): number {
@@ -860,37 +900,77 @@
       {/each}
       <div class="hm-col-hdr hm-total-hdr">TOTAL</div>
 
-      <!-- Data rows -->
+      <!-- Data rows — each row shows: events started + machines-in-state sub-row -->
       {#each heatmap.rows as row (row.key)}
-        {@const rmax = hmRowMax(row)}
-        <!-- Row label + MTTW annotation for DOWN row -->
+        {@const rmax      = hmRowMax(row)}
+        {@const stateMax  = row.state.length ? Math.max(...row.state, 1) : 1}
+        {@const hasState  = row.state.length > 0}
+
+        <!-- Row label -->
         <div class="hm-row-label" style="--rc:rgb({row.baseRgb})">
           <span><span class="hm-row-dot"></span> {row.label}</span>
+          <span class="hm-row-sublbl">events started</span>
           {#if row.key === 'down' && lossStats.wait.mttwDown > 0}
-            <span class="hm-mttw" title="Mean Time To Wait — เวลาเฉลี่ยรอช่าง (per down event)">⏱ avg wait {fmtMtx(lossStats.wait.mttwDown)}</span>
+            <span class="hm-mttw" title="Mean Time To Wait">⏱ {fmtMtx(lossStats.wait.mttwDown)}</span>
           {:else if row.key === 'setup' && lossStats.wait.mttwSetup > 0}
-            <span class="hm-mttw" title="Mean Time To Wait — เวลาเฉลี่ยรอช่าง (per setup event)">⏱ avg wait {fmtMtx(lossStats.wait.mttwSetup)}</span>
+            <span class="hm-mttw" title="Mean Time To Wait">⏱ {fmtMtx(lossStats.wait.mttwSetup)}</span>
           {/if}
         </div>
-        <!-- Cells -->
+        <!-- Event cells -->
         {#each row.hours as bucket, i (i)}
           {@const val = hmMode === 'ev' ? bucket.ev : bucket.min}
           {@const bg  = hmCellBg(val, rmax, row.baseRgb)}
           {@const tc  = hmTextColor(val, rmax)}
-          {@const pct = Math.round(val / rmax * 100)}
           <div class="hm-cell" style:background={bg} style:color={tc}
                title="{hmHour(heatmap.shiftHours[i])} · {row.label}&#10;Events: {bucket.ev} · {bucket.min >= 60 ? Math.floor(bucket.min/60)+'h '+(bucket.min%60)+'m' : bucket.min+'m'}">
             <span class="hm-cell-val">{val > 0 ? (hmMode==='ev' ? val : hmFmt(bucket)) : ''}</span>
             {#if val > 0}
-              <div class="hm-cell-bar" style:width="{pct}%" style:background="rgb({row.baseRgb})"></div>
+              <div class="hm-cell-bar" style:width="{Math.round(val/rmax*100)}%" style:background="rgb({row.baseRgb})"></div>
             {/if}
           </div>
         {/each}
-        <!-- Row total -->
         <div class="hm-total-cell" style="--rc:rgb({row.baseRgb})">{hmTotal(row)}</div>
+
+        <!-- State sub-row (machines in this state per hour) -->
+        {#if hasState}
+          <div class="hm-state-label" style="--rc:rgb({row.baseRgb})">
+            <span class="hm-state-dot"></span>
+            <span>in state</span>
+          </div>
+          {#each row.state as cnt, i (i)}
+            {@const a = Math.round((cnt / stateMax * 0.75 + 0.1) * 100) / 100}
+            {@const tc2 = a > 0.45 ? '#fff' : '#1a1a2e'}
+            <div class="hm-state-cell" style:background="rgba({row.baseRgb},{a})" style:color={tc2}
+                 title="{hmHour(heatmap.shiftHours[i])} · {row.label}&#10;{cnt} machines in state">
+              {#if cnt > 0}<span class="hm-state-val">{cnt}</span>{/if}
+            </div>
+          {/each}
+          <div class="hm-state-total" style="--rc:rgb({row.baseRgb})">
+            peak {Math.max(...row.state)}
+          </div>
+        {/if}
       {/each}
 
-      <!-- Column sum row -->
+      <!-- Total non-running row -->
+      <div class="hm-state-label hm-nonrun-label" style="--rc:#0F172A">
+        <span class="hm-state-dot" style="background:#0F172A"></span>
+        <span>non-running</span>
+      </div>
+      {#each heatmap.totalState as cnt, i (i)}
+        {@const pct = cnt / (machines.length || 1) * 100}
+        {@const a   = Math.round((pct / 100 * 0.8 + 0.08) * 100) / 100}
+        {@const tc3 = a > 0.45 ? '#fff' : '#1a1a2e'}
+        <div class="hm-state-cell hm-nonrun-cell" style:background="rgba(15,23,42,{a})" style:color={tc3}
+             title="{hmHour(heatmap.shiftHours[i])}&#10;{cnt}/{machines.length} machines not running ({pct.toFixed(0)}%)">
+          {#if cnt > 0}<span class="hm-state-val">{cnt}</span>{/if}
+        </div>
+      {/each}
+      <div class="hm-state-total" style="--rc:#0F172A;font-size:10px">
+        peak {Math.max(...heatmap.totalState)}<br>
+        <span style="font-size:9px;opacity:.7">{Math.round(Math.max(...heatmap.totalState)/machines.length*100)}%</span>
+      </div>
+
+      <!-- Event sum row -->
       <div class="hm-label-cell hm-sum-label">All events</div>
       {#each heatmap.shiftHours as h, i (h)}
         {@const colSum = heatmap.rows.reduce((s,r) => s + (hmMode==='ev' ? r.hours[i].ev : r.hours[i].min), 0)}
@@ -1208,7 +1288,7 @@
 
   .hm-grid {
     display: grid;
-    grid-template-columns: 100px repeat(var(--hm-cols), minmax(0,1fr)) 72px;
+    grid-template-columns: 100px repeat(var(--hm-cols), minmax(44px, 72px)) 72px;
     gap: 3px;
     align-items: stretch;
   }
@@ -1230,8 +1310,32 @@
     border-left: 3px solid var(--rc);
   }
   .hm-row-label > :first-child { display: flex; align-items: center; gap: 5px; }
-  .hm-row-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--rc); flex-shrink: 0; }
-  .hm-row-name { flex-shrink: 0; }
+  .hm-row-dot     { width: 8px; height: 8px; border-radius: 50%; background: var(--rc); flex-shrink: 0; }
+  .hm-row-name    { flex-shrink: 0; }
+  .hm-row-sublbl  { font-size: 9px; font-weight: 500; color: var(--color-text-disabled); }
+  /* State sub-row */
+  .hm-state-label {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 9px; font-weight: 700; color: var(--color-text-muted);
+    padding: 2px 4px 2px 12px; border-left: 2px dashed var(--rc); opacity: .85;
+  }
+  .hm-state-dot   { width: 6px; height: 6px; border-radius: 50%; background: var(--rc); flex-shrink: 0; }
+  .hm-state-cell  {
+    border-radius: 4px; min-height: 32px; display: flex; align-items: center;
+    justify-content: center; transition: transform .1s; cursor: default;
+    border: 1px dashed rgba(0,0,0,.08);
+  }
+  .hm-state-cell:hover { transform: scale(1.1); z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+  .hm-state-val   { font-size: 11px; font-weight: 700; }
+  .hm-state-total {
+    font-size: 10px; font-weight: 800; color: var(--rc);
+    display: flex; flex-direction: column; align-items: flex-end;
+    justify-content: center; padding-right: 4px; line-height: 1.3;
+    border-left: 1px solid var(--color-border-strong);
+  }
+  /* Total non-running row */
+  .hm-nonrun-label { margin-top: 4px; border-left-color: #0F172A; border-left-style: solid; border-left-width: 3px; }
+  .hm-nonrun-cell  { min-height: 36px; border-style: solid; border-color: rgba(0,0,0,.06); border-radius: 5px; }
   .hm-mttw {
     font-size: 9px; font-weight: 700; color: var(--rc);
     background: color-mix(in srgb, rgb(var(--rc-raw,128,128,128)) 10%, transparent);
