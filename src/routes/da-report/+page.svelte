@@ -43,6 +43,7 @@
 
   let machines     = $state<MachineRow[]>([]);
   let kpi          = $state<DaKpi|null>(null);
+  let kpi7d        = $state<Partial<DaKpi> & { days: number } | null>(null);
   let pkgLabel     = $state('');
   let timeRange    = $state('');
   let loading      = $state(false);
@@ -95,21 +96,46 @@
     pkgLoading = false;
   }
 
-  // ── Load shift report ─────────────────────────────────────────────────────
+  // ── Load shift report + 7-day historical average ──────────────────────────
   async function loadReport() {
     if (!selDate || selPackages.length === 0) return;
-    loading = true; error = null;
+    loading = true; error = null; kpi7d = null;
     try {
       const pkgsParam = selPackages.join(',');
-      const res = await fetch(`${base}/api/da/report?date=${selDate}&shift=${selShift}&packages=${encodeURIComponent(pkgsParam)}`);
-      const json = await res.json();
-      if (json.error) { error = json.error.message; loading = false; return; }
-      const d = json.data;
+      const pkgsEnc = encodeURIComponent(pkgsParam);
+
+      // Fetch current + last 7 days in parallel
+      const base7 = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(selDate);
+        d.setDate(d.getDate() - (i + 1));
+        return d.toISOString().slice(0, 10);
+      });
+      const [main, ...hist] = await Promise.all([
+        fetch(`${base}/api/da/report?date=${selDate}&shift=${selShift}&packages=${pkgsEnc}`).then(r => r.json()),
+        ...base7.map(d => fetch(`${base}/api/da/report?date=${d}&shift=${selShift}&packages=${pkgsEnc}`)
+          .then(r => r.json()).catch(() => null)),
+      ]);
+
+      if (main.error) { error = main.error.message; loading = false; return; }
+      const d = main.data;
       machines  = d.machines   ?? [];
       kpi       = d.kpi        ?? null;
       pkgLabel  = d.pkg_label  ?? '';
       timeRange = d.time_range ?? '';
       chip      = 'ALL';
+
+      // Compute 7-day averages from historical data
+      const valid = hist.filter(h => h?.data?.kpi?.total > 0).map(h => h.data.kpi as DaKpi);
+      if (valid.length > 0) {
+        const avg = <T extends keyof DaKpi>(k: T) =>
+          Math.round(valid.reduce((s, v) => s + (v[k] as number), 0) / valid.length * 10) / 10;
+        kpi7d = {
+          days: valid.length,
+          avg_util: avg('avg_util'), down_pct: avg('down_pct'), wait_pct: avg('wait_pct'),
+          setup_conv_pct: avg('setup_conv_pct'), sbo_pct: avg('sbo_pct'),
+          n_down: avg('n_down'), n_tech: avg('n_tech'), n_low: avg('n_low'), n_full: avg('n_full'),
+        };
+      }
     } catch (e) { error = e instanceof Error ? e.message : 'Error'; }
     loading = false;
   }
@@ -343,6 +369,84 @@
     };
   });
 
+  // ── 7d delta helpers ──────────────────────────────────────────────────────
+  function delta(cur: number, avg: number | undefined, higherIsBetter = true): { txt: string; good: boolean } | null {
+    if (avg == null) return null;
+    const d = Math.round((cur - avg) * 10) / 10;
+    if (d === 0) return { txt: '→ same', good: true };
+    const sign = d > 0 ? '+' : '';
+    const good = higherIsBetter ? d > 0 : d < 0;
+    return { txt: `${sign}${d}`, good };
+  }
+  function deltaN(cur: number, avg: number | undefined, higherIsBetter = false) {
+    return delta(cur, avg, higherIsBetter);
+  }
+
+  // ── Narrative Insight ─────────────────────────────────────────────────────
+  const narrative = $derived.by(() => {
+    if (!kpi || machines.length === 0) return null;
+
+    const shiftMin = machines.length * 720;
+    const totalLoss = machines.reduce((s, m) => s + m.total_loss_min, 0);
+    const runMin = shiftMin - totalLoss;
+    const topFailures = (() => {
+      const map = new Map<string, number>();
+      for (const m of machines)
+        for (const e of m.events)
+          if (['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN'].includes((e.job_type||'').toUpperCase())) {
+            const k = (e.des_job||'').split(',')[0].trim() || e.job_type;
+            map.set(k, (map.get(k) ?? 0) + 1);
+          }
+      return [...map.entries()].sort((a,b) => b[1]-a[1]).slice(0,3);
+    })();
+    const worstMachine = [...machines].sort((a,b) => a.util_pct - b.util_pct)[0];
+    const nBelow85 = machines.filter(m => m.util_pct < 85).length;
+    const nFull = machines.filter(m => m.total_loss_min === 0).length;
+    const avgVs7d = kpi7d ? (kpi.avg_util - (kpi7d.avg_util ?? kpi.avg_util)) : null;
+    const trendTxt = avgVs7d == null ? '' :
+      avgVs7d > 1 ? `, above the 7-day average of ${kpi7d!.avg_util}%` :
+      avgVs7d < -1 ? `, below the 7-day average of ${kpi7d!.avg_util}%` :
+      ` — in line with the ${kpi7d!.days}-day average of ${kpi7d!.avg_util}%`;
+
+    const failureSummary = topFailures.length
+      ? `The dominant failure mode was "${topFailures[0][0]}" (${topFailures[0][1]} events)` +
+        (topFailures[1] ? `, followed by "${topFailures[1][0]}" (${topFailures[1][1]})` : '') + '.'
+      : '';
+
+    const waitNote = kpi.wait_pct >= 8
+      ? ` Wait time represented ${kpi.wait_pct}% of capacity — ${kpi.n_tech} machines required technicians at some point; response time is the primary controllable loss this shift.`
+      : '';
+
+    const setupNote = kpi.setup_conv_pct >= 6
+      ? ` Setup & convert accounted for ${kpi.setup_conv_pct}% of capacity loss — ${worstMachine?.machine_id} had the longest setup at ${worstMachine ? Math.round(worstMachine.setup_min/60*10)/10 : 0}h.`
+      : '';
+
+    const colletNote = topFailures[0]?.[0]?.toUpperCase().includes('COLLET')
+      ? ` MAX COLLET COUNT was the leading failure with ${topFailures[0][1]} occurrences — this is a consumable wear signal; a proactive batch replacement before the next shift is recommended.`
+      : '';
+
+    const healthNote = nFull > 0
+      ? ` ${nFull} machine${nFull > 1 ? 's' : ''} achieved 100% utilization (${machines.filter(m=>m.total_loss_min===0).map(m=>m.machine_id).slice(0,3).join(', ')}${nFull>3?' …':''}).`
+      : '';
+
+    return `The DA fleet achieved ${kpi.avg_util}% average utilization across ${machines.length} machines for this shift${trendTxt}. ${nBelow85} machines (${Math.round(nBelow85/machines.length*100)}%) ran below 85% — the effective capacity loss is ${Math.round(totalLoss/shiftMin*100)}% of total available machine-hours. ${failureSummary}${colletNote}${waitNote}${setupNote}${healthNote}`;
+  });
+
+  // Pre-computed deltas (avoids {@const} placement restrictions in template)
+  const kd = $derived.by(() => {
+    if (!kpi || !kpi7d) return null;
+    return {
+      n_down:   delta(kpi.n_down,        kpi7d.n_down,        false),
+      avg_util: delta(kpi.avg_util,      kpi7d.avg_util,      true),
+      n_tech:   delta(kpi.n_tech,        kpi7d.n_tech,        false),
+      n_full:   delta(kpi.n_full,        kpi7d.n_full,        true),
+      n_low:    delta(kpi.n_low,         kpi7d.n_low,         false),
+      down_pct: delta(kpi.down_pct,      kpi7d.down_pct,      false),
+      wait_pct: delta(kpi.wait_pct,      kpi7d.wait_pct,      false),
+      setup:    delta(kpi.setup_conv_pct,kpi7d.setup_conv_pct,false),
+    };
+  });
+
   function fmtMtx(min: number): string {
     if (!min) return '—';
     if (min < 60) return `${min}m`;
@@ -454,23 +558,29 @@
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_down}</span>
         <span class="fs-lbl">M/C Down</span>
+        {#if kd?.n_down}<span class="fs-delta" class:up={kd.n_down.good} class:dn={!kd.n_down.good}>{kd.n_down.txt}</span>{/if}
       </div>
       <div class="fleet-stat" style="--c:{utilColor(kpi.avg_util)}">
         <span class="fs-val">{kpi.avg_util}%</span>
         <span class="fs-lbl">Avg Util</span>
+        {#if kd?.avg_util}<span class="fs-delta" class:up={kd.avg_util.good} class:dn={!kd.avg_util.good}>{kd.avg_util.txt}%</span>{/if}
       </div>
       <div class="fleet-stat" style="--c:#702076">
         <span class="fs-val">{kpi.n_tech}</span>
-        <span class="fs-lbl">Techs</span>
+        <span class="fs-lbl">Techs waiting</span>
+        {#if kd?.n_tech}<span class="fs-delta" class:up={kd.n_tech.good} class:dn={!kd.n_tech.good}>{kd.n_tech.txt}</span>{/if}
       </div>
       <div class="fleet-stat" style="--c:#5EBF33">
         <span class="fs-val">{kpi.n_full}</span>
         <span class="fs-lbl">100% Util</span>
+        {#if kd?.n_full}<span class="fs-delta" class:up={kd.n_full.good} class:dn={!kd.n_full.good}>{kd.n_full.txt}</span>{/if}
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_low}</span>
         <span class="fs-lbl">Util &lt;85%</span>
+        {#if kd?.n_low}<span class="fs-delta" class:up={kd.n_low.good} class:dn={!kd.n_low.good}>{kd.n_low.txt}</span>{/if}
       </div>
+      {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
     </div>
 
     <!-- Row 2: Shift Loss % — full width -->
@@ -481,6 +591,7 @@
         <!-- DOWN TIME -->
         <div class="kc kc-hoverable" style="--c:#CC0000">
           <span class="kc-pct">{kpi.down_pct}%</span>
+          {#if kd?.down_pct}<span class="kc-vs" class:vs-good={kd.down_pct.good} class:vs-bad={!kd.down_pct.good}>{kd.down_pct.txt}% vs avg</span>{/if}
           <span class="kc-lbl">Down Time</span>
           <div class="kc-meta">
             <span class="kc-ev">{lossStats.down.events} ev</span>
@@ -506,6 +617,7 @@
         <!-- WAIT -->
         <div class="kc kc-hoverable" style="--c:#FD7F20">
           <span class="kc-pct">{kpi.wait_pct}%</span>
+          {#if kd?.wait_pct}<span class="kc-vs" class:vs-good={kd.wait_pct.good} class:vs-bad={!kd.wait_pct.good}>{kd.wait_pct.txt}% vs avg</span>{/if}
           <span class="kc-lbl">Wait</span>
           <div class="kc-meta kc-meta-col">
             <div class="wait-row">
@@ -536,6 +648,7 @@
         <!-- SETUP+CONV -->
         <div class="kc kc-hoverable" style="--c:#1D9CE4">
           <span class="kc-pct">{kpi.setup_conv_pct}%</span>
+          {#if kd?.setup}<span class="kc-vs" class:vs-good={kd.setup.good} class:vs-bad={!kd.setup.good}>{kd.setup.txt}% vs avg</span>{/if}
           <span class="kc-lbl">Setup+Conv</span>
           <div class="kc-meta">
             <span class="kc-ev">{lossStats.setup.events} ev</span>
@@ -606,6 +719,18 @@
       </div><!-- /kpi-row-cards -->
     </div><!-- /loss-row -->
   </div><!-- /kpi-section -->
+
+  <!-- ── Narrative Insight ────────────────────────────────────────────────── -->
+  {#if narrative}
+  <div class="narrative-card">
+    <div class="narrative-hdr">
+      <span class="narrative-icon">📋</span>
+      <span>Narrative Insight</span>
+      {#if kpi7d}<span class="narrative-badge">vs {kpi7d.days}-day avg</span>{/if}
+    </div>
+    <p class="narrative-body">{narrative}</p>
+  </div>
+  {/if}
 
   <!-- ── Chip filter ────────────────────────────────────────────────────── -->
   <div class="chip-bar">
@@ -856,6 +981,24 @@
   }
   .fs-val { font-size: 20px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; line-height: 1; align-self: center; }
   .fs-lbl { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; align-self: center; }
+  .fs-delta { font-size: 11px; font-weight: 700; align-self: center; padding: 1px 5px; border-radius: 3px; }
+  .fs-delta.up  { background: #E8F5E9; color: #2E7D32; }
+  .fs-delta.dn  { background: #FFEBEE; color: #C62828; }
+  .kpi7d-note { font-size: 9px; font-weight: 600; color: var(--color-text-disabled); align-self: center; margin-left: auto; white-space: nowrap; }
+  /* vs avg badge on loss KPI cards */
+  .kc-vs { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; display: inline-block; margin-bottom: 2px; }
+  .kc-vs.vs-good { background: #E8F5E9; color: #2E7D32; }
+  .kc-vs.vs-bad  { background: #FFEBEE; color: #C62828; }
+  /* Narrative */
+  .narrative-card {
+    background: var(--color-surface); border: 1px solid var(--color-border-strong);
+    border-left: 4px solid #4A90D9;
+    border-radius: var(--r-sm); padding: 14px 18px; margin-bottom: 12px;
+  }
+  .narrative-hdr { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--color-text-heading); margin-bottom: 8px; }
+  .narrative-icon { font-size: 16px; }
+  .narrative-badge { font-size: 10px; font-weight: 700; background: #E3F0FB; color: #1A3A6C; border-radius: 10px; padding: 2px 8px; margin-left: 4px; }
+  .narrative-body { font-size: 13px; line-height: 1.7; color: var(--color-text-body, #334); }
 
   /* Row 2: Shift Loss % */
   .loss-row {
