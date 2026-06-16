@@ -306,35 +306,80 @@
     const rows = filtered;
     const d_fmt = fmtDate(selDate);
     const n = rows.length;
-    const n_down  = rows.filter(r => r.down_min > 0).length;
-    const avg_u   = n ? (rows.reduce((s,r) => s+r.util_pct, 0)/n).toFixed(1) : '0';
-    const uc      = parseFloat(avg_u) >= 90 ? '#5EBF33' : parseFloat(avg_u) >= 85 ? '#FD7F20' : '#CC0000';
-    const fm      = n * 720 || 1;
-    const dpct    = (rows.reduce((s,r)=>s+r.down_min,0)/fm*100).toFixed(1);
-    const wpct    = (rows.reduce((s,r)=>s+r.wait_down_min+r.wait_setup_min,0)/fm*100).toFixed(1);
-    const spct    = (rows.reduce((s,r)=>s+r.setup_conv_min,0)/fm*100).toFixed(1);
-    const sbopct  = (rows.reduce((s,r)=>s+r.sbo_min,0)/fm*100).toFixed(1);
+    const fm = n * 720 || 1;
 
-    const kpiHtml = [
-      kc(String(n), 'TOTAL MACHINES', '#0E3689'),
-      kc(String(n_down), 'M/C DOWN', '#CC0000'),
-      kc(avg_u+'%', 'AVG UTILIZATION', uc),
-      `<div style="align-self:center;font-size:10px;font-weight:700;color:#aaa;border-left:2px solid #e0e0e0;padding-left:10px;margin-left:4px;white-space:nowrap">SHIFT LOSS %</div>`,
-      kc(dpct+'%', '% DOWN TIME', '#CC0000', 'M/C DOWN repair'),
-      kc(wpct+'%', '% WAIT', '#FD7F20', 'All waiting for tech'),
-      kc(spct+'%', '% SETUP+CONV', '#1D9CE4', 'Setup / Convert'),
-      kc(sbopct+'%', '% SBO', '#00897B', 'Setup by Operator'),
-      `<div style="align-self:center;font-size:10px;font-weight:700;color:#aaa;border-left:2px solid #e0e0e0;padding-left:10px;margin-left:4px;white-space:nowrap">TECHS</div>`,
-      kc(String(kpi?.n_tech ?? 0), 'TECH ON SHIFT', '#702076', 'on this package'),
-    ].join('');
+    // ── helpers ──
+    function dlt(cur:number, avg:number|undefined, good:(d:number)=>boolean) {
+      if (avg == null) return '';
+      const d = Math.round((cur - avg) * 10) / 10;
+      const sign = d > 0 ? '+' : '';
+      const col  = good(d) ? '#2E7D32' : '#C62828';
+      const bg   = good(d) ? '#E8F5E9' : '#FFEBEE';
+      return `<span style="font-size:10px;font-weight:700;background:${bg};color:${col};border-radius:3px;padding:1px 5px;margin-left:4px">${sign}${d}</span>`;
+    }
+    function vsAvg(cur:number, avg:number|undefined, lowerBetter=false) {
+      if (avg == null) return '';
+      const d = Math.round((cur - avg) * 10) / 10;
+      const sign = d > 0 ? '+' : '';
+      const good = lowerBetter ? d < 0 : d > 0;
+      const col  = good ? '#2E7D32' : '#C62828';
+      const bg   = good ? '#E8F5E9' : '#FFEBEE';
+      return `<div style="font-size:10px;font-weight:700;background:${bg};color:${col};border-radius:3px;padding:1px 5px;display:inline-block;margin-bottom:3px">${sign}${d}% vs avg</div>`;
+    }
 
-    function kc(val:string, lbl:string, col:string, sub='') {
-      return `<div style="background:#fff;border-radius:8px;padding:12px 16px;border-top:4px solid ${col};box-shadow:0 2px 6px rgba(0,0,0,.08);flex:1;min-width:110px">
-        <div style="font-size:28px;font-weight:800;color:${col};line-height:1.1">${val}</div>
-        <div style="font-size:11px;font-weight:700;color:#555;margin-top:3px;letter-spacing:.5px">${lbl}</div>
-        ${sub ? `<div style="font-size:10px;color:#999;margin-top:2px">${sub}</div>` : ''}
+    // fleet row card
+    function fc(val:string, lbl:string, col:string, delta='') {
+      return `<div style="background:#F8FAFC;border-left:3px solid ${col};border-radius:6px;padding:10px 16px;flex:1;min-width:100px">
+        <div style="font-size:22px;font-weight:800;color:${col};line-height:1">${val}</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:3px">
+          <span style="font-size:10px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.3px">${lbl}</span>${delta}
+        </div></div>`;
+    }
+    // loss % card
+    function lc(pct:string, lbl:string, col:string, meta:string, total:string, vsAvgBadge='') {
+      return `<div style="background:#fff;border-left:3px solid ${col};border-radius:6px;padding:12px 16px;flex:1;min-width:110px">
+        <div style="font-size:24px;font-weight:800;color:${col};line-height:1">${pct}</div>
+        ${vsAvgBadge}
+        <div style="font-size:10px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.4px;margin-top:2px">${lbl}</div>
+        <div style="font-size:11px;color:#888;margin-top:6px">${meta}</div>
+        <div style="font-size:11px;color:${col};font-weight:700;margin-top:4px">${total}</div>
       </div>`;
     }
+
+    const n_down = rows.filter(r=>r.down_min>0).length;
+    const avg_u  = n ? (rows.reduce((s,r)=>s+r.util_pct,0)/n).toFixed(1) : '0';
+    const uc     = parseFloat(avg_u)>=90?'#5EBF33':parseFloat(avg_u)>=85?'#FD7F20':'#CC0000';
+    const n_low  = rows.filter(r=>r.util_pct<80).length;
+
+    const fleetRow = `<div style="display:flex;gap:8px;padding:10px 24px 10px;background:#fff;border-bottom:1px solid #e0e0e0">
+      <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#aaa;width:88px;flex-shrink:0;display:flex;align-items:center">FLEET</span>
+      <div style="display:flex;gap:8px;flex:1">
+        ${fc(String(n), 'Machines', '#0E3689')}
+        ${fc(String(n_down), 'M/C Down', '#CC0000', dlt(n_down, kpi7d?.n_down, d=>d<0))}
+        ${fc(avg_u+'%', 'Avg Util', uc, dlt(parseFloat(avg_u), kpi7d?.avg_util, d=>d>0)+'%')}
+        ${fc(String(n_low), 'Util &lt;80%', '#CC0000', dlt(n_low, kpi7d?.n_low, d=>d<0))}
+        ${fc(String(kpi?.n_tech??0), 'Techs', '#702076')}
+        ${kpi7d ? `<span style="font-size:9px;color:#aaa;align-self:flex-end;padding-bottom:8px;white-space:nowrap">vs ${kpi7d.days}d avg</span>` : ''}
+      </div>
+    </div>`;
+
+    const idlePct = lossStats.idle.pct.toFixed(1);
+    const lossRow = `<div style="display:flex;gap:8px;padding:10px 24px;background:#F8FAFC;border-bottom:1px solid #e0e0e0">
+      <span style="font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#aaa;width:88px;flex-shrink:0;display:flex;align-items:center;white-space:nowrap">SHIFT LOSS %</span>
+      <div style="display:flex;gap:8px;flex:1">
+        ${lc(kpi?.down_pct+'%','Down Time','#CC0000',`${lossStats.down.events} ev · MTTR ${fmtMtx(lossStats.down.mttr)}`,`Total ${fmtMtx(lossStats.down.totalMin)}`,vsAvg(kpi?.down_pct??0,kpi7d?.down_pct,true))}
+        ${lc(kpi?.wait_pct+'%','Wait','#FD7F20',`Down MTTW ${fmtMtx(lossStats.wait.mttwDown)} · Setup MTTW ${fmtMtx(lossStats.wait.mttwSetup)}`,`Total ${fmtMtx(lossStats.wait.totalMin)}`,vsAvg(kpi?.wait_pct??0,kpi7d?.wait_pct,true))}
+        ${lc(kpi?.setup_conv_pct+'%','Setup+Conv','#1D9CE4',`${lossStats.setup.events} ev · MTTR ${fmtMtx(lossStats.setup.mttr)}`,`Total ${fmtMtx(lossStats.setup.totalMin)}`,vsAvg(kpi?.setup_conv_pct??0,kpi7d?.setup_conv_pct,true))}
+        ${lc(kpi?.sbo_pct+'%','SBO','#00897B',`${lossStats.sbo.events} ev · MTTR ${fmtMtx(lossStats.sbo.mttr)}`,`Total ${fmtMtx(lossStats.sbo.totalMin)}`)}
+        ${lc(idlePct+'%','Idle','#8B5CF6',lossStats.idle.top3.map(t=>`${t.criteria.slice(0,18)}: ${t.count}ev`).join(' / '),`Total ${fmtMtx(lossStats.idle.totalMin)}`,vsAvg(lossStats.idle.pct,kpi7d?.idle_pct,true))}
+      </div>
+    </div>`;
+
+    // Narrative
+    const narrativeHtml = narrative ? `<div style="background:#fff;border-left:4px solid #4A90D9;border-radius:6px;padding:14px 18px;margin:0 24px 12px;font-size:13px;line-height:1.7;color:#334">
+      <div style="font-size:12px;font-weight:700;color:#1A3A5C;margin-bottom:6px">📋 Narrative Insight${kpi7d ? ` <span style="font-size:10px;font-weight:600;background:#E3F0FB;color:#1A3A6C;border-radius:8px;padding:1px 7px">vs ${kpi7d.days}-day avg</span>` : ''}</div>
+      ${narrative}
+    </div>` : '';
 
     const trs = rows.map((r,i) => {
       const bg = r.util_pct < 85 ? '#fff0f0' : r.util_pct < 90 ? '#fff8ee' : i%2===0 ? '#fff' : '#f7f7f7';
@@ -371,7 +416,9 @@
       <div style="font-size:20px;font-weight:700;margin-bottom:4px">Die Attach — Utilization &amp; Downtime Report</div>
       <div style="font-size:13px;opacity:.85">${selShift} Shift &nbsp;·&nbsp; ${d_fmt} &nbsp;·&nbsp; ${timeRange} &nbsp;·&nbsp; ${pkgLabel} &nbsp;·&nbsp; ${n} machines</div>
     </div>
-    <div style="padding:16px 24px 8px;display:flex;gap:12px;flex-wrap:wrap">${kpiHtml}</div>
+    ${fleetRow}
+    ${lossRow}
+    ${narrativeHtml}
     <div style="padding:0 24px 28px;overflow-x:auto">
     <table style="width:100%;border-collapse:collapse;font-size:13px">
     <thead><tr style="background:#0E3689">
