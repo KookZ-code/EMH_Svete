@@ -725,26 +725,32 @@
       <span class="kpi-block-label">FLEET</span>
       <div class="fleet-stat" style="--c:var(--color-primary)">
         <span class="fs-val">{kpi.total}</span>
-        <span class="fs-lbl">Machines</span>
+        <div class="fs-row"><span class="fs-lbl">Machines</span></div>
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_down}</span>
-        <span class="fs-lbl">M/C Down</span>
-        {#if kd?.n_down}<span class="fs-delta" class:up={kd.n_down.good} class:dn={!kd.n_down.good}>{kd.n_down.txt}</span>{/if}
+        <div class="fs-row">
+          <span class="fs-lbl">M/C Down</span>
+          {#if kd?.n_down}<span class="fs-delta" class:up={kd.n_down.good} class:dn={!kd.n_down.good}>{kd.n_down.txt}</span>{/if}
+        </div>
       </div>
       <div class="fleet-stat" style="--c:{utilColor(kpi.avg_util)}">
         <span class="fs-val">{kpi.avg_util}%</span>
-        <span class="fs-lbl">Avg Util</span>
-        {#if kd?.avg_util}<span class="fs-delta" class:up={kd.avg_util.good} class:dn={!kd.avg_util.good}>{kd.avg_util.txt}%</span>{/if}
+        <div class="fs-row">
+          <span class="fs-lbl">Avg Util</span>
+          {#if kd?.avg_util}<span class="fs-delta" class:up={kd.avg_util.good} class:dn={!kd.avg_util.good}>{kd.avg_util.txt}%</span>{/if}
+        </div>
       </div>
       <div class="fleet-stat" style="--c:#702076">
         <span class="fs-val">{kpi.n_tech}</span>
-        <span class="fs-lbl">Techs on Shift</span>
+        <div class="fs-row"><span class="fs-lbl">Techs on Shift</span></div>
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{machines.filter(r=>r.util_pct<80).length}</span>
-        <span class="fs-lbl">Util &lt;80%</span>
-        {#if kd?.n_low}<span class="fs-delta" class:up={kd.n_low.good} class:dn={!kd.n_low.good}>{kd.n_low.txt}</span>{/if}
+        <div class="fs-row">
+          <span class="fs-lbl">Util &lt;80%</span>
+          {#if kd?.n_low}<span class="fs-delta" class:up={kd.n_low.good} class:dn={!kd.n_low.good}>{kd.n_low.txt}</span>{/if}
+        </div>
       </div>
       {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
     </div>
@@ -1267,16 +1273,17 @@
     border-bottom: 1px solid var(--color-border);
   }
   .fleet-stat {
-    display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
     background: var(--color-surface-alt);
     border-left: 3px solid var(--c);
     border-radius: var(--r-sm);
-    padding: 8px 16px;
-    flex: 1; min-width: 120px; min-height: 52px;
+    padding: 10px 16px;
+    flex: 1; min-width: 120px; min-height: 56px;
   }
-  .fs-val { font-size: 22px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; line-height: 1; }
-  .fs-lbl { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; }
-  .fs-delta { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 3px; align-self: flex-start; margin-top: 1px; }
+  .fs-val  { font-size: 22px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; line-height: 1; }
+  .fs-row  { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-height: 18px; }
+  .fs-lbl  { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; }
+  .fs-delta { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
   .fs-delta.up  { background: #E8F5E9; color: #2E7D32; }
   .fs-delta.dn  { background: #FFEBEE; color: #C62828; }
   .kpi7d-note { font-size: 9px; font-weight: 600; color: var(--color-text-disabled); align-self: center; margin-left: auto; white-space: nowrap; }
