@@ -409,6 +409,80 @@
       </tr>`;
     }).join('');
 
+    // ── Heatmap HTML ──────────────────────────────────────────────────────────
+    const hmHtml = (() => {
+      if (!heatmap) return '';
+      const { shiftHours, rows: hmRows, totalState } = heatmap;
+      const COL_W = 52, LBL_W = 104, TOT_W = 64, SUB_H = 26, EV_H = 40;
+      const gridW = LBL_W + shiftHours.length * (COL_W + 3) + 3 + TOT_W;
+
+      function intensity(v:number, mx:number) { return Math.round((v/Math.max(mx,1)*0.88+0.08)*100)/100; }
+      function tc(a:number) { return a > 0.5 ? '#fff' : '#1a1a2e'; }
+
+      const hdrCells = shiftHours.map(h =>
+        `<div style="width:${COL_W}px;text-align:center;font-size:9px;font-weight:700;color:#64748B;padding:3px 0;border-bottom:2px solid #E2E8F0;flex-shrink:0">${String(h).padStart(2,'0')}:00</div>`
+      ).join('') + `<div style="width:${TOT_W}px;text-align:right;font-size:9px;font-weight:800;color:#0F172A;padding:3px 4px;border-bottom:2px solid #E2E8F0;flex-shrink:0">TOTAL</div>`;
+
+      const rowHtml = hmRows.map(row => {
+        const rmax = Math.max(...row.hours.map(h=>h.ev), 1);
+        const smax = row.state.length ? Math.max(...row.state, 1) : 1;
+        const mttw = row.key==='down' ? lossStats.wait.mttwDown : row.key==='setup' ? lossStats.wait.mttwSetup : 0;
+        const mttw_str = mttw > 0 ? ` &nbsp;<span style="font-size:8px;color:rgb(${row.baseRgb});background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px">⏱ ${fmtMtx(mttw)}</span>` : '';
+        const evTot = row.key==='down'?lossStats.down.events:row.key==='setup'?lossStats.setup.events:lossStats.sbo.events;
+
+        const evCells = row.hours.map(b => {
+          const a = intensity(b.ev, rmax); const t = tc(a);
+          return `<div style="width:${COL_W}px;height:${EV_H}px;background:rgba(${row.baseRgb},${a});color:${t};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border-radius:4px;flex-shrink:0">${b.ev||''}</div>`;
+        }).join('') + `<div style="width:${TOT_W}px;text-align:right;padding-right:6px;font-size:11px;font-weight:800;color:rgb(${row.baseRgb});display:flex;align-items:center;justify-content:flex-end;flex-shrink:0">${evTot} ev</div>`;
+
+        const stCells = row.state.length ? row.state.map(cnt => {
+          const a = Math.round((cnt/smax*0.75+0.10)*100)/100; const t = tc(a);
+          return `<div style="width:${COL_W}px;height:${SUB_H}px;background:rgba(${row.baseRgb},${a});color:${t};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border-radius:3px;border:1px dashed rgba(0,0,0,.08);flex-shrink:0">${cnt||''}</div>`;
+        }).join('') + `<div style="width:${TOT_W}px;text-align:right;padding-right:6px;font-size:9px;font-weight:800;color:rgb(${row.baseRgb});display:flex;align-items:center;justify-content:flex-end;flex-shrink:0">peak ${Math.max(...row.state)}</div>` : '';
+
+        return `
+          <div style="display:flex;gap:3px;margin-bottom:2px;align-items:center">
+            <div style="width:${LBL_W}px;flex-shrink:0;display:flex;flex-direction:column;gap:1px;padding:2px 4px 2px 8px;border-left:3px solid rgb(${row.baseRgb})">
+              <span style="font-size:11px;font-weight:700;color:#0F172A">${row.label}</span>
+              <span style="font-size:8px;color:#94A3B8">events started${mttw_str}</span>
+            </div>
+            ${evCells}
+          </div>
+          ${row.state.length ? `<div style="display:flex;gap:3px;margin-bottom:4px;align-items:center">
+            <div style="width:${LBL_W}px;flex-shrink:0;display:flex;align-items:center;gap:4px;padding:2px 4px 2px 12px;border-left:2px dashed rgb(${row.baseRgb})">
+              <span style="font-size:8px;font-weight:700;color:#94A3B8">in state</span>
+            </div>
+            ${stCells}
+          </div>` : ''}`;
+      }).join('');
+
+      const nonRunCells = totalState.map(cnt => {
+        const pct = cnt/(machines.length||1)*100;
+        const a = Math.round((pct/100*0.8+0.08)*100)/100; const t = tc(a);
+        return `<div style="width:${COL_W}px;height:${SUB_H+2}px;background:rgba(15,23,42,${a});color:${t};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border-radius:4px;flex-shrink:0">${cnt||''}</div>`;
+      }).join('') + `<div style="width:${TOT_W}px;text-align:right;padding-right:6px;font-size:9px;font-weight:800;color:#0F172A;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;flex-shrink:0">peak <b style="color:#CC0000">${Math.max(...totalState)}</b><span style="font-size:8px">${Math.round(Math.max(...totalState)/machines.length*100)}%</span></div>`;
+
+      const sumCells = shiftHours.map((_,i) => {
+        const s = hmRows.reduce((acc,r)=>acc+r.hours[i].ev,0);
+        return `<div style="width:${COL_W}px;text-align:center;font-size:10px;font-weight:600;color:#64748B;padding:4px 0;border-top:2px solid #E2E8F0;flex-shrink:0">${s||'—'}</div>`;
+      }).join('') + `<div style="width:${TOT_W}px;text-align:right;padding-right:6px;font-size:11px;font-weight:800;color:#0F172A;border-top:2px solid #E2E8F0;padding-top:4px;flex-shrink:0">${hmRows.reduce((s,r)=>s+r.hours.reduce((a,b)=>a+b.ev,0),0)} ev</div>`;
+
+      return `<div style="background:#fff;border:1px solid #E2E8F0;border-radius:8px;padding:16px 20px;margin:0 24px 16px;overflow-x:auto">
+        <div style="font-size:13px;font-weight:700;color:#0F172A;margin-bottom:12px">Event Pattern — Hourly &nbsp;<span style="font-size:10px;font-weight:400;color:#94A3B8">events started / machines in state / non-running</span></div>
+        <div style="min-width:${gridW}px">
+          <div style="display:flex;gap:3px;margin-bottom:4px;padding-left:${LBL_W+3}px">${hdrCells}</div>
+          ${rowHtml}
+          <div style="display:flex;gap:3px;margin-top:2px;align-items:center">
+            <div style="width:${LBL_W}px;flex-shrink:0;display:flex;align-items:center;gap:4px;padding:2px 4px 2px 8px;border-left:3px solid #0F172A;margin-top:2px">
+              <span style="font-size:9px;font-weight:700;color:#0F172A">Non-running total</span>
+            </div>
+            ${nonRunCells}
+          </div>
+          <div style="display:flex;gap:3px;margin-top:4px;padding-left:${LBL_W+3}px">${sumCells}</div>
+        </div>
+      </div>`;
+    })();
+
     const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>DA Report — ${d_fmt} ${selShift}</title>
     <style>body{font-family:'Segoe UI',Calibri,Arial,sans-serif;margin:0;background:#f7f7f7}@media print{body{background:#fff}}</style></head>
     <body>
@@ -419,6 +493,7 @@
     ${fleetRow}
     ${lossRow}
     ${narrativeHtml}
+    ${hmHtml}
     <div style="padding:0 24px 28px;overflow-x:auto">
     <table style="width:100%;border-collapse:collapse;font-size:13px">
     <thead><tr style="background:#0E3689">
