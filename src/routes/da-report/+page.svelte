@@ -576,27 +576,48 @@
 
     const belowNote = `เครื่องที่ util ต่ำกว่า 80% มีถึง ${machines.filter(m=>m.util_pct<80).length} เครื่อง คิดเป็นสูญเสียกำลังการผลิตสุทธิ ${Math.round(totalLoss/shiftMin*100)}% ของ machine-hour ทั้งหมด`;
 
-    // Package impact: group total_loss_min by package, find worst package + its problem machines
-    const pkgLoss = new Map<string, { lossMin: number; machines: { id: string; lossMin: number; downMin: number; util: number }[] }>();
+    // Package impact: worst package + top failure reasons that caused the loss
+    const pkgLoss = new Map<string, { lossMin: number; mids: string[] }>();
     for (const m of machines) {
       const pkg = m.package || 'Unknown';
-      const prev = pkgLoss.get(pkg) ?? { lossMin: 0, machines: [] };
+      const prev = pkgLoss.get(pkg) ?? { lossMin: 0, mids: [] };
       prev.lossMin += m.total_loss_min;
-      prev.machines.push({ id: m.machine_id, lossMin: m.total_loss_min, downMin: m.down_min, util: m.util_pct });
+      if (m.total_loss_min > 0) prev.mids.push(m.machine_id);
       pkgLoss.set(pkg, prev);
     }
     const worstPkg = [...pkgLoss.entries()]
-      .filter(([pkg]) => pkg !== 'Unknown')
+      .filter(([p]) => p !== 'Unknown')
       .sort((a, b) => b[1].lossMin - a[1].lossMin)[0];
 
     let pkgNote = '';
     if (worstPkg) {
       const [pkgName, pkgData] = worstPkg;
-      const pkgMachines = pkgData.machines.filter(m => m.lossMin > 0).sort((a,b) => b.lossMin - a.lossMin);
-      const top3 = pkgMachines.slice(0, 3);
       const pkgTotalH = Math.round(pkgData.lossMin / 60 * 10) / 10;
-      const machineList = top3.map(m => `${m.id} (util ${m.util.toFixed(0)}%)`).join(', ');
-      pkgNote = ` Package ที่ได้รับผลกระทบสูงสุดคือ "${pkgName}" สูญเสีย ${pkgTotalH}h รวมทั้งกะ — เครื่องที่มีปัญหาหลักคือ ${machineList}`;
+      // Collect top failure reasons (DOWN + SETUP + Idle) from all machines in this package
+      const reasonMap = new Map<string, number>();
+      const DOWN_PKG  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
+      const SETUP_PKG = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+      for (const m of machines) {
+        if ((m.package || 'Unknown') !== pkgName) continue;
+        for (const e of m.events) {
+          const jt = (e.job_type || '').toUpperCase();
+          const isDown  = DOWN_PKG.has(jt);
+          const isSetup = SETUP_PKG.has(jt);
+          const isIdle  = jt === 'SETUP BY OPERATOR' && isIdleEvent(e.des_job);
+          if (!isDown && !isSetup && !isIdle) continue;
+          const cat  = isDown ? 'DOWN' : isSetup ? 'SETUP' : 'IDLE';
+          const desc = (e.des_job||'').split(',')[0].trim();
+          const key  = desc ? `${cat}: ${desc}` : cat;
+          reasonMap.set(key, (reasonMap.get(key) ?? 0) + e.dur_min);
+        }
+      }
+      const topReasons = [...reasonMap.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([r, min]) => `"${r}" (${min >= 60 ? Math.floor(min/60)+'h '+(min%60)+'m' : min+'m'})`);
+      const machineCount = pkgData.mids.length;
+      const reasonStr = topReasons.length ? topReasons.join(', ') : '—';
+      pkgNote = ` Package ที่ได้รับผลกระทบสูงสุดคือ "${pkgName}" (${machineCount} เครื่อง, สูญเสียรวม ${pkgTotalH}h) — สาเหตุหลักที่ทำให้ utilization ตก: ${reasonStr}`;
     }
 
     return `Fleet DA กะนี้มี utilization เฉลี่ย ${kpi.avg_util}%${trendTxt}. ${belowNote}. ${failureSummary}${colletNote}${waitNote}${setupNote}${pkgNote}`.trim();

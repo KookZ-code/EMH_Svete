@@ -541,21 +541,41 @@
     const colletNote = topFailures[0]?.[0]?.toUpperCase().includes('COLLET')
       ? `พบ MAX COLLET COUNT ถึง ${topFailures[0][1]} ครั้ง — ควรวางแผน batch replacement ก่อน shift ถัดไป ` : '';
 
-    // Worst package + its problem machines
-    const pkgLoss = new Map<string, { lossMin: number; machines: { id:string; lossMin:number; util:number }[] }>();
+    // Worst package + top failure reasons that caused the loss
+    const pkgLoss = new Map<string, { lossMin: number; mids: string[] }>();
     for (const m of machines) {
       const pkg = m.package || 'Unknown';
-      const prev = pkgLoss.get(pkg) ?? { lossMin: 0, machines: [] };
+      const prev = pkgLoss.get(pkg) ?? { lossMin: 0, mids: [] };
       prev.lossMin += m.total_loss_min;
-      prev.machines.push({ id: m.machine_id, lossMin: m.total_loss_min, util: m.util_pct });
+      if (m.total_loss_min > 0) prev.mids.push(m.machine_id);
       pkgLoss.set(pkg, prev);
     }
     const worstPkg = [...pkgLoss.entries()].filter(([p])=>p!=='Unknown').sort((a,b)=>b[1].lossMin-a[1].lossMin)[0];
     let pkgNote = '';
     if (worstPkg) {
       const [pkgName, pkgData] = worstPkg;
-      const top3 = pkgData.machines.filter(m=>m.lossMin>0).sort((a,b)=>b.lossMin-a.lossMin).slice(0,3);
-      pkgNote = ` Package ที่ได้รับผลกระทบสูงสุดคือ "${pkgName}" สูญเสีย ${Math.round(pkgData.lossMin/60*10)/10}h — เครื่องที่มีปัญหาหลักคือ ${top3.map(m=>`${m.id} (util ${m.util.toFixed(0)}%)`).join(', ')}`;
+      const pkgTotalH = Math.round(pkgData.lossMin / 60 * 10) / 10;
+      const reasonMap = new Map<string, number>();
+      const DOWN_PKG  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
+      const SETUP_PKG = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+      for (const m of machines) {
+        if ((m.package || 'Unknown') !== pkgName) continue;
+        for (const e of m.events) {
+          const jt = (e.job_type || '').toUpperCase();
+          const isDown  = DOWN_PKG.has(jt);
+          const isSetup = SETUP_PKG.has(jt);
+          const isIdle  = jt === 'SETUP BY OPERATOR' && isIdleEvent(e.des_job);
+          if (!isDown && !isSetup && !isIdle) continue;
+          const cat  = isDown ? 'DOWN' : isSetup ? 'SETUP' : 'IDLE';
+          const desc = (e.des_job||'').split(',')[0].trim();
+          const key  = desc ? `${cat}: ${desc}` : cat;
+          reasonMap.set(key, (reasonMap.get(key) ?? 0) + e.dur_min);
+        }
+      }
+      const topReasons = [...reasonMap.entries()]
+        .sort((a, b) => b[1] - a[1]).slice(0, 3)
+        .map(([r, min]) => `"${r}" (${min >= 60 ? Math.floor(min/60)+'h '+(min%60)+'m' : min+'m'})`);
+      pkgNote = ` Package ที่ได้รับผลกระทบสูงสุดคือ "${pkgName}" (${pkgData.mids.length} เครื่อง, สูญเสียรวม ${pkgTotalH}h) — สาเหตุหลักที่ทำให้ utilization ตก: ${topReasons.join(', ') || '—'}`;
     }
 
     return `Fleet WB กะนี้มี utilization เฉลี่ย ${kpi.avg_util}%${trendTxt}. ${belowNote}. ${failureSummary}${colletNote}${waitNote}${setupNote}${pkgNote}`.trim();
@@ -678,12 +698,6 @@
       <div class="fleet-stat" style="--c:#702076">
         <span class="fs-val">{kpi.n_tech}</span>
         <div class="fs-row"><span class="fs-lbl">Techs</span></div>
-      </div>
-      <div class="fleet-stat" style="--c:#5EBF33">
-        <span class="fs-val">{kpi.n_full}</span>
-        <div class="fs-row"><span class="fs-lbl">100% Util</span>
-          {#if kd?.n_full}<span class="fs-delta" class:up={kd.n_full.good} class:dn={!kd.n_full.good}>{kd.n_full.txt}</span>{/if}
-        </div>
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_low}</span>
