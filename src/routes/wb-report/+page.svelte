@@ -43,12 +43,14 @@
 
   let machines     = $state<MachineRow[]>([]);
   let kpi          = $state<WbKpi|null>(null);
+  let kpi7d        = $state<Partial<WbKpi> & { days: number; down_events?: number; setup_events?: number } | null>(null);
   let pkgLabel     = $state('');
   let timeRange    = $state('');
   let loading      = $state(false);
   let error        = $state<string|null>(null);
   let chip         = $state('ALL');
   let pkgSearch    = $state('');
+  let hmMode       = $state<'ev'|'min'>('ev');
 
   const filteredPkgOpts = $derived(
     pkgSearch.trim()
@@ -95,21 +97,54 @@
     pkgLoading = false;
   }
 
-  // ── Load shift report ─────────────────────────────────────────────────────
+  // ── Load shift report + 7-day historical average ──────────────────────────
   async function loadReport() {
     if (!selDate || selPackages.length === 0) return;
-    loading = true; error = null;
+    loading = true; error = null; kpi7d = null;
     try {
-      const pkgsParam = selPackages.join(',');
-      const res = await fetch(`${base}/api/wb/report?date=${selDate}&shift=${selShift}&packages=${encodeURIComponent(pkgsParam)}`);
-      const json = await res.json();
-      if (json.error) { error = json.error.message; loading = false; return; }
-      const d = json.data;
+      const pkgsEnc = encodeURIComponent(selPackages.join(','));
+      const main = await fetch(`${base}/api/wb/report?date=${selDate}&shift=${selShift}&packages=${pkgsEnc}`).then(r => r.json());
+      if (main.error) { error = main.error.message; loading = false; return; }
+      const d = main.data;
       machines  = d.machines   ?? [];
       kpi       = d.kpi        ?? null;
       pkgLabel  = d.pkg_label  ?? '';
       timeRange = d.time_range ?? '';
       chip      = 'ALL';
+
+      // Detect actual shift from timeRange — same bug-fix as DA report
+      const startHour = timeRange.match(/^(\d{1,2}):/)?.[1];
+      const actualShift = startHour && parseInt(startHour) >= 12 ? 'Night' : selShift;
+
+      const base7 = Array.from({ length: 7 }, (_, i) => {
+        const dt = new Date(selDate); dt.setDate(dt.getDate() - (i + 1));
+        return dt.toISOString().slice(0, 10);
+      });
+      const hist = await Promise.all(
+        base7.map(dt => fetch(`${base}/api/wb/report?date=${dt}&shift=${actualShift}&packages=${pkgsEnc}`)
+          .then(r => r.json()).catch(() => null))
+      );
+
+      const DOWN_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
+      const SETUP_T = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+      const valid = hist.filter(h => h?.data?.kpi?.total > 0);
+      if (valid.length > 0) {
+        const kpis = valid.map(h => h.data.kpi as WbKpi);
+        const avg = <T extends keyof WbKpi>(k: T) =>
+          Math.round(kpis.reduce((s, v) => s + (v[k] as number), 0) / kpis.length * 10) / 10;
+        const downEvts  = valid.map(h => (h.data.machines as MachineRow[]).reduce((s, m) =>
+          s + m.events.filter(e => DOWN_T.has((e.job_type||'').toUpperCase())).length, 0));
+        const setupEvts = valid.map(h => (h.data.machines as MachineRow[]).reduce((s, m) =>
+          s + m.events.filter(e => SETUP_T.has((e.job_type||'').toUpperCase())).length, 0));
+        const avgArr = (arr: number[]) => Math.round(arr.reduce((s, v) => s + v, 0) / arr.length);
+        kpi7d = {
+          days: valid.length,
+          avg_util: avg('avg_util'), down_pct: avg('down_pct'), wait_pct: avg('wait_pct'),
+          setup_conv_pct: avg('setup_conv_pct'), sbo_pct: avg('sbo_pct'),
+          n_down: avg('n_down'), n_tech: avg('n_tech'), n_low: avg('n_low'), n_full: avg('n_full'),
+          down_events: avgArr(downEvts), setup_events: avgArr(setupEvts),
+        };
+      }
     } catch (e) { error = e instanceof Error ? e.message : 'Error'; }
     loading = false;
   }
@@ -350,6 +385,182 @@
     return `${Math.floor(min/60)}h ${min%60}m`;
   }
 
+  // ── 7d delta helpers ──────────────────────────────────────────────────────
+  function delta(cur: number, avg: number | undefined, higherIsBetter = true) {
+    if (avg == null) return null;
+    const d = Math.round((cur - avg) * 10) / 10;
+    if (d === 0) return { txt: '→ same', good: true };
+    const sign = d > 0 ? '+' : '';
+    return { txt: `${sign}${d}`, good: higherIsBetter ? d > 0 : d < 0 };
+  }
+  function deltaN(cur: number, avg: number | undefined, higherIsBetter = false) {
+    return delta(cur, avg, higherIsBetter);
+  }
+
+  const kd = $derived.by(() => {
+    if (!kpi || !kpi7d) return null;
+    return {
+      n_down:      delta(kpi.n_down,         kpi7d.n_down,         false),
+      avg_util:    delta(kpi.avg_util,        kpi7d.avg_util,       true),
+      n_tech:      delta(kpi.n_tech,          kpi7d.n_tech,         false),
+      n_low:       delta(kpi.n_low,           kpi7d.n_low,          false),
+      n_full:      delta(kpi.n_full,          kpi7d.n_full,         true),
+      down_pct:    delta(kpi.down_pct,        kpi7d.down_pct,       false),
+      wait_pct:    delta(kpi.wait_pct,        kpi7d.wait_pct,       false),
+      setup:       delta(kpi.setup_conv_pct,  kpi7d.setup_conv_pct, false),
+      down_events: deltaN(lossStats.down.events,  kpi7d.down_events,  false),
+      setup_events:deltaN(lossStats.setup.events, kpi7d.setup_events, false),
+    };
+  });
+
+  // ── Heatmap — hourly event buckets (same logic as DA, bugs fixed) ─────────
+  interface HmBucket { ev: number; min: number; }
+  interface HmRow    { key: string; label: string; baseRgb: string; hours: HmBucket[]; state: number[]; }
+
+  const heatmap = $derived.by((): { shiftHours: number[]; rows: HmRow[]; totalState: number[] } | null => {
+    if (!machines.length) return null;
+    // Use timeRange to determine actual shift hours (bug fix: don't trust selShift label)
+    const startHourMatch = timeRange.match(/^(\d{1,2}):/);
+    const startHour = startHourMatch ? parseInt(startHourMatch[1]) : (selShift === 'Night' ? 19 : 7);
+    const isNight   = startHour >= 12;
+    const shiftHours = isNight ? [19,20,21,22,23,0,1,2,3,4,5,6] : [7,8,9,10,11,12,13,14,15,16,17,18];
+
+    const DOWN_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
+    const SETUP_T = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+
+    type Cat = 'down' | 'setup' | 'sbo';
+    const buckets: Record<number, Record<Cat, HmBucket>> = {};
+    for (const h of shiftHours) buckets[h] = { down:{ev:0,min:0}, setup:{ev:0,min:0}, sbo:{ev:0,min:0} };
+
+    const toShiftMin = (t: string): number | null => {
+      if (!t) return null;
+      const [hh, mm] = t.split(':').map(Number);
+      if (isNaN(hh) || isNaN(mm)) return null;
+      const abs = hh * 60 + mm;
+      return abs >= startHour * 60 ? abs - startHour * 60 : abs + (24 - startHour) * 60;
+    };
+
+    const stateDown  = new Array(shiftHours.length).fill(0);
+    const stateSetup = new Array(shiftHours.length).fill(0);
+
+    for (const m of machines) {
+      const machineDownAt  = new Set<number>();
+      const machineSetupAt = new Set<number>();
+      for (const e of m.events) {
+        if (!e.t_start) continue;
+        const jt  = (e.job_type || '').toUpperCase();
+        const dur = e.dur_min || 0;
+        const hr  = parseInt(e.t_start.split(':')[0]);
+        const isDown  = DOWN_T.has(jt);
+        const isSetup = SETUP_T.has(jt);
+        if (hr in buckets) {
+          if (isDown)                        { buckets[hr].down.ev++;  buckets[hr].down.min  += dur; }
+          else if (isSetup)                  { buckets[hr].setup.ev++; buckets[hr].setup.min += dur; }
+          else if (jt === 'SETUP BY OPERATOR') { buckets[hr].sbo.ev++; buckets[hr].sbo.min += dur; }
+        }
+        if (!isDown && !isSetup) continue;
+        const eStart = toShiftMin(e.t_start);
+        if (eStart === null) continue;
+        const rawEnd = !e.t_end ? null : toShiftMin(e.t_end);
+        const eEnd   = rawEnd == null ? 9999 : rawEnd < eStart ? rawEnd + shiftHours.length * 60 : rawEnd;
+        shiftHours.forEach((h, idx) => {
+          const hMin = toShiftMin(`${String(h).padStart(2,'0')}:00`) ?? idx * 60;
+          if (eStart < hMin + 60 && eEnd > hMin) {
+            if (isDown)  machineDownAt.add(idx);
+            if (isSetup) machineSetupAt.add(idx);
+          }
+        });
+      }
+      machineDownAt.forEach(idx  => stateDown[idx]++);
+      machineSetupAt.forEach(idx => stateSetup[idx]++);
+    }
+
+    const rowDefs: { key: Cat; label: string; baseRgb: string }[] = [
+      { key:'down',  label:'M/C DOWN',   baseRgb:'204,0,0'    },
+      { key:'setup', label:'SETUP+CONV', baseRgb:'29,156,228' },
+      { key:'sbo',   label:'SBO',        baseRgb:'23,162,184' },
+    ];
+    const rows: HmRow[] = rowDefs.map(({ key, label, baseRgb }) => ({
+      key, label, baseRgb,
+      hours: shiftHours.map(h => ({ ...buckets[h][key as Cat] })),
+      state: key === 'down' ? stateDown : key === 'setup' ? stateSetup : [],
+    }));
+    const totalState = shiftHours.map((_, i) => stateDown[i] + stateSetup[i]);
+    return { shiftHours, rows, totalState };
+  });
+
+  function hmIntensity(val: number, rowMax: number) { return Math.round((val / rowMax * 90 + 8) / 100 * 100) / 100; }
+  function hmCellBg(val: number, rowMax: number, rgb: string) { return `rgba(${rgb},${hmIntensity(val, Math.max(rowMax,1))})`; }
+  function hmTextColor(val: number, rowMax: number)           { return hmIntensity(val, Math.max(rowMax,1)) > 0.5 ? '#fff' : '#1a1a2e'; }
+  function hmFmt(b: HmBucket) {
+    return hmMode === 'ev' ? String(b.ev) : b.min >= 60 ? `${Math.floor(b.min/60)}h${b.min%60?b.min%60+'m':''}` : `${b.min}m`;
+  }
+  function hmRowMax(row: HmRow) { return Math.max(...row.hours.map(h => hmMode==='ev' ? h.ev : h.min), 1); }
+  function hmHour(h: number)    { return `${String(h).padStart(2,'0')}:00`; }
+
+  // TOTAL column — authoritative from lossStats (matches KPI cards); marks overlap with *
+  function hmTotal(row: HmRow): string {
+    if (hmMode === 'ev') {
+      const auth = row.key==='down' ? lossStats.down.events : row.key==='setup' ? lossStats.setup.events : lossStats.sbo.events;
+      const inW  = row.hours.reduce((s,h)=>s+h.ev,0);
+      return (auth - inW) > 0 ? `${auth} ev*` : `${auth} ev`;
+    }
+    const min = row.key==='down' ? lossStats.down.totalMin : row.key==='setup' ? lossStats.setup.totalMin : lossStats.sbo.totalMin;
+    return min >= 60 ? `${Math.floor(min/60)}h ${min%60}m` : `${min}m`;
+  }
+
+  // ── Narrative Insight ─────────────────────────────────────────────────────
+  const narrative = $derived.by(() => {
+    if (!kpi || machines.length === 0) return null;
+    const shiftMin = machines.length * 720;
+    const totalLoss = machines.reduce((s,m)=>s+m.total_loss_min, 0);
+    const topFailures = (() => {
+      const map = new Map<string, number>();
+      for (const m of machines)
+        for (const e of m.events)
+          if (['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN'].includes((e.job_type||'').toUpperCase())) {
+            const k = (e.des_job||'').split(',')[0].trim() || e.job_type;
+            map.set(k, (map.get(k) ?? 0) + 1);
+          }
+      return [...map.entries()].sort((a,b)=>b[1]-a[1]).slice(0,3);
+    })();
+
+    const avgVs7d = kpi7d ? (kpi.avg_util - (kpi7d.avg_util ?? kpi.avg_util)) : null;
+    const trendTxt = avgVs7d == null ? '' :
+      avgVs7d > 1  ? ` สูงกว่าค่าเฉลี่ย ${kpi7d!.days} วันที่ผ่านมา (${kpi7d!.avg_util}%)` :
+      avgVs7d < -1 ? ` ต่ำกว่าค่าเฉลี่ย ${kpi7d!.days} วันที่ผ่านมา (${kpi7d!.avg_util}%)` :
+      ` ใกล้เคียงค่าเฉลี่ย ${kpi7d!.days} วัน (${kpi7d!.avg_util}%)`;
+
+    const belowNote = `เครื่องที่ util ต่ำกว่า 85% มีถึง ${machines.filter(m=>m.util_pct<85).length} เครื่อง คิดเป็นสูญเสียกำลังการผลิตสุทธิ ${Math.round(totalLoss/shiftMin*100)}% ของ machine-hour ทั้งหมด`;
+    const failureSummary = topFailures.length
+      ? `สาเหตุ down ที่พบบ่อยที่สุดคือ "${topFailures[0][0]}" (${topFailures[0][1]} ครั้ง)` +
+        (topFailures[1] ? ` รองลงมาคือ "${topFailures[1][0]}" (${topFailures[1][1]} ครั้ง)` : '') + ' '
+      : '';
+    const waitNote  = kpi.wait_pct >= 7 ? `เวลารอช่าง ${kpi.wait_pct}% คิดเป็นกว่า 2 เท่าของเวลา down จริง — ควรพิจารณาเพิ่ม coverage ช่างในช่วง peak load ` : '';
+    const setupNote = kpi.setup_conv_pct >= 6 ? `Setup+Convert สูงถึง ${kpi.setup_conv_pct}%${kd?.setup ? (kd.setup.good ? ' (ลดลงจาก avg)' : ' (เพิ่มขึ้นจาก avg)') : ''} ` : '';
+    const colletNote = topFailures[0]?.[0]?.toUpperCase().includes('COLLET')
+      ? `พบ MAX COLLET COUNT ถึง ${topFailures[0][1]} ครั้ง — ควรวางแผน batch replacement ก่อน shift ถัดไป ` : '';
+
+    // Worst package + its problem machines
+    const pkgLoss = new Map<string, { lossMin: number; machines: { id:string; lossMin:number; util:number }[] }>();
+    for (const m of machines) {
+      const pkg = m.package || 'Unknown';
+      const prev = pkgLoss.get(pkg) ?? { lossMin: 0, machines: [] };
+      prev.lossMin += m.total_loss_min;
+      prev.machines.push({ id: m.machine_id, lossMin: m.total_loss_min, util: m.util_pct });
+      pkgLoss.set(pkg, prev);
+    }
+    const worstPkg = [...pkgLoss.entries()].filter(([p])=>p!=='Unknown').sort((a,b)=>b[1].lossMin-a[1].lossMin)[0];
+    let pkgNote = '';
+    if (worstPkg) {
+      const [pkgName, pkgData] = worstPkg;
+      const top3 = pkgData.machines.filter(m=>m.lossMin>0).sort((a,b)=>b.lossMin-a.lossMin).slice(0,3);
+      pkgNote = ` Package ที่ได้รับผลกระทบสูงสุดคือ "${pkgName}" สูญเสีย ${Math.round(pkgData.lossMin/60*10)/10}h — เครื่องที่มีปัญหาหลักคือ ${top3.map(m=>`${m.id} (util ${m.util.toFixed(0)}%)`).join(', ')}`;
+    }
+
+    return `Fleet WB กะนี้มี utilization เฉลี่ย ${kpi.avg_util}%${trendTxt}. ${belowNote}. ${failureSummary}${colletNote}${waitNote}${setupNote}${pkgNote}`.trim();
+  });
+
   onMount(() => { loadPackages(); });
 </script>
 
@@ -454,11 +665,15 @@
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_down}</span>
-        <div class="fs-row"><span class="fs-lbl">M/C Down</span></div>
+        <div class="fs-row"><span class="fs-lbl">M/C Down</span>
+          {#if kd?.n_down}<span class="fs-delta" class:up={kd.n_down.good} class:dn={!kd.n_down.good}>{kd.n_down.txt}</span>{/if}
+        </div>
       </div>
       <div class="fleet-stat" style="--c:{utilColor(kpi.avg_util)}">
         <span class="fs-val">{kpi.avg_util}%</span>
-        <div class="fs-row"><span class="fs-lbl">Avg Util</span></div>
+        <div class="fs-row"><span class="fs-lbl">Avg Util</span>
+          {#if kd?.avg_util}<span class="fs-delta" class:up={kd.avg_util.good} class:dn={!kd.avg_util.good}>{kd.avg_util.txt}%</span>{/if}
+        </div>
       </div>
       <div class="fleet-stat" style="--c:#702076">
         <span class="fs-val">{kpi.n_tech}</span>
@@ -466,12 +681,17 @@
       </div>
       <div class="fleet-stat" style="--c:#5EBF33">
         <span class="fs-val">{kpi.n_full}</span>
-        <div class="fs-row"><span class="fs-lbl">100% Util</span></div>
+        <div class="fs-row"><span class="fs-lbl">100% Util</span>
+          {#if kd?.n_full}<span class="fs-delta" class:up={kd.n_full.good} class:dn={!kd.n_full.good}>{kd.n_full.txt}</span>{/if}
+        </div>
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_low}</span>
-        <div class="fs-row"><span class="fs-lbl">Util &lt;85%</span></div>
+        <div class="fs-row"><span class="fs-lbl">Util &lt;85%</span>
+          {#if kd?.n_low}<span class="fs-delta" class:up={kd.n_low.good} class:dn={!kd.n_low.good}>{kd.n_low.txt}</span>{/if}
+        </div>
       </div>
+      {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
     </div>
 
     <!-- Row 2: Shift Loss % — full width -->
@@ -482,9 +702,11 @@
         <!-- DOWN TIME -->
         <div class="kc kc-hoverable" style="--c:#CC0000">
           <span class="kc-pct">{kpi.down_pct}%</span>
+          {#if kd?.down_pct}<span class="kc-vs" class:vs-good={kd.down_pct.good} class:vs-bad={!kd.down_pct.good}>{kd.down_pct.txt}% vs avg</span>{/if}
           <span class="kc-lbl">Down Time</span>
           <div class="kc-meta">
             <span class="kc-ev">{lossStats.down.events} ev</span>
+            {#if kd?.down_events}<span class="kc-ev-delta" class:ev-good={kd.down_events.good} class:ev-bad={!kd.down_events.good}>({kd.down_events.txt} ev)</span>{/if}
             <span class="kc-dot">·</span>
             <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.down.mttr)}</b></span>
           </div>
@@ -507,6 +729,7 @@
         <!-- WAIT -->
         <div class="kc kc-hoverable" style="--c:#FD7F20">
           <span class="kc-pct">{kpi.wait_pct}%</span>
+          {#if kd?.wait_pct}<span class="kc-vs" class:vs-good={kd.wait_pct.good} class:vs-bad={!kd.wait_pct.good}>{kd.wait_pct.txt}% vs avg</span>{/if}
           <span class="kc-lbl">Wait</span>
           <div class="kc-meta kc-meta-col">
             <div class="wait-row">
@@ -537,9 +760,11 @@
         <!-- SETUP+CONV -->
         <div class="kc kc-hoverable" style="--c:#1D9CE4">
           <span class="kc-pct">{kpi.setup_conv_pct}%</span>
+          {#if kd?.setup}<span class="kc-vs" class:vs-good={kd.setup.good} class:vs-bad={!kd.setup.good}>{kd.setup.txt}% vs avg</span>{/if}
           <span class="kc-lbl">Setup+Conv</span>
           <div class="kc-meta">
             <span class="kc-ev">{lossStats.setup.events} ev</span>
+            {#if kd?.setup_events}<span class="kc-ev-delta" class:ev-good={kd.setup_events.good} class:ev-bad={!kd.setup_events.good}>({kd.setup_events.txt} ev)</span>{/if}
             <span class="kc-dot">·</span>
             <span class="kc-rate">MTTR <b>{fmtMtx(lossStats.setup.mttr)}</b></span>
           </div>
@@ -607,6 +832,120 @@
       </div><!-- /kpi-row-cards -->
     </div><!-- /loss-row -->
   </div><!-- /kpi-section -->
+
+  <!-- ── Narrative Insight ────────────────────────────────────────────────── -->
+  {#if narrative}
+  <div class="narrative-card">
+    <div class="narrative-hdr">
+      <span class="narrative-icon">📋</span>
+      <span>Narrative Insight</span>
+      {#if kpi7d}<span class="narrative-badge">vs {kpi7d.days}-day avg</span>{/if}
+    </div>
+    <p class="narrative-body">{narrative}</p>
+  </div>
+  {/if}
+
+  <!-- ── Hourly Event Heatmap ─────────────────────────────────────────────── -->
+  {#if heatmap}
+  <div class="hm-card">
+    <div class="hm-card-hdr">
+      <div class="hm-card-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Event Pattern — Hourly
+        <span class="hm-card-sub">Hover cell for details</span>
+      </div>
+      <div class="hm-toggle-group">
+        <button class="hm-toggle-btn" class:hm-tog-active={hmMode==='ev'}  onclick={()=>hmMode='ev'}>Events</button>
+        <button class="hm-toggle-btn" class:hm-tog-active={hmMode==='min'} onclick={()=>hmMode='min'}>Minutes</button>
+      </div>
+    </div>
+
+    <div class="hm-grid" style="--hm-cols:{heatmap.shiftHours.length}">
+      <div class="hm-label-cell hm-axis-corner"></div>
+      {#each heatmap.shiftHours as h (h)}<div class="hm-col-hdr">{hmHour(h)}</div>{/each}
+      <div class="hm-col-hdr hm-total-hdr">TOTAL</div>
+
+      {#each heatmap.rows as row (row.key)}
+        {@const rmax     = hmRowMax(row)}
+        {@const stateMax = row.state.length ? Math.max(...row.state, 1) : 1}
+        {@const hasState = row.state.length > 0}
+        <div class="hm-row-label" style="--rc:rgb({row.baseRgb})">
+          <span><span class="hm-row-dot"></span> {row.label}</span>
+          <span class="hm-row-sublbl">events started</span>
+          {#if row.key === 'down'  && lossStats.wait.mttwDown  > 0}<span class="hm-mttw" title="Mean Time To Wait">⏱ {fmtMtx(lossStats.wait.mttwDown)}</span>{/if}
+          {#if row.key === 'setup' && lossStats.wait.mttwSetup > 0}<span class="hm-mttw" title="Mean Time To Wait">⏱ {fmtMtx(lossStats.wait.mttwSetup)}</span>{/if}
+        </div>
+        {#each row.hours as bucket, i (i)}
+          {@const val = hmMode==='ev' ? bucket.ev : bucket.min}
+          {@const bg  = hmCellBg(val, rmax, row.baseRgb)}
+          {@const tc  = hmTextColor(val, rmax)}
+          <div class="hm-cell" style:background={bg} style:color={tc}
+               title="{hmHour(heatmap.shiftHours[i])} · {row.label}&#10;Events: {bucket.ev} · {bucket.min>=60?Math.floor(bucket.min/60)+'h '+(bucket.min%60)+'m':bucket.min+'m'}">
+            <span class="hm-cell-val">{val > 0 ? (hmMode==='ev' ? val : hmFmt(bucket)) : ''}</span>
+            {#if val > 0}<div class="hm-cell-bar" style:width="{Math.round(val/rmax*100)}%" style:background="rgb({row.baseRgb})"></div>{/if}
+          </div>
+        {/each}
+        <div class="hm-total-cell" style="--rc:rgb({row.baseRgb})">{hmTotal(row)}</div>
+
+        {#if hasState}
+          <div class="hm-state-label" style="--rc:rgb({row.baseRgb})"><span class="hm-state-dot"></span><span>in state</span></div>
+          {#each row.state as cnt, i (i)}
+            {@const a  = Math.round((cnt/stateMax*0.75+0.1)*100)/100}
+            {@const tc2 = a>0.45?'#fff':'#1a1a2e'}
+            <div class="hm-state-cell" style:background="rgba({row.baseRgb},{a})" style:color={tc2}
+                 title="{hmHour(heatmap.shiftHours[i])} · {row.label}&#10;{cnt} machines in state">
+              {#if cnt > 0}<span class="hm-state-val">{cnt}</span>{/if}
+            </div>
+          {/each}
+          <div class="hm-state-total" style="--rc:rgb({row.baseRgb})">peak {Math.max(...row.state)}</div>
+        {/if}
+      {/each}
+
+      <!-- Total non-running -->
+      <div class="hm-state-label hm-nonrun-label" style="--rc:#0F172A"><span class="hm-state-dot" style="background:#0F172A"></span><span>non-running</span></div>
+      {#each heatmap.totalState as cnt, i (i)}
+        {@const pct = cnt/(machines.length||1)*100}
+        {@const a   = Math.round((pct/100*0.8+0.08)*100)/100}
+        {@const tc3 = a>0.45?'#fff':'#1a1a2e'}
+        <div class="hm-state-cell hm-nonrun-cell" style:background="rgba(15,23,42,{a})" style:color={tc3}
+             title="{hmHour(heatmap.shiftHours[i])}&#10;{cnt}/{machines.length} ({pct.toFixed(0)}%) not running">
+          {#if cnt > 0}<span class="hm-state-val">{cnt}</span>{/if}
+        </div>
+      {/each}
+      <div class="hm-state-total" style="--rc:#0F172A;font-size:10px">peak {Math.max(...heatmap.totalState)}<br><span style="font-size:9px;opacity:.7">{Math.round(Math.max(...heatmap.totalState)/machines.length*100)}%</span></div>
+
+      <!-- Event sum row -->
+      <div class="hm-label-cell hm-sum-label">All events</div>
+      {#each heatmap.shiftHours as h, i (h)}
+        {@const colSum = heatmap.rows.reduce((s,r)=>s+(hmMode==='ev'?r.hours[i].ev:r.hours[i].min),0)}
+        <div class="hm-sum-cell">{colSum > 0 ? (hmMode==='ev' ? colSum : colSum>=60?Math.floor(colSum/60)+'h '+(colSum%60)+'m':colSum+'m') : '—'}</div>
+      {/each}
+      <div class="hm-sum-cell hm-sum-grand">
+        {heatmap.rows.reduce((s,r)=>s+(hmMode==='ev'?r.hours.reduce((a,b)=>a+b.ev,0):r.hours.reduce((a,b)=>a+b.min,0)),0)}{hmMode==='ev'?' ev':'m'}
+      </div>
+    </div>
+
+    <div class="hm-peaks">
+      {#each heatmap.rows as row (row.key)}
+        {@const rmax = hmRowMax(row)}
+        {@const peakIdx = row.hours.findIndex(h=>(hmMode==='ev'?h.ev:h.min)===rmax)}
+        {#if rmax > 0 && peakIdx >= 0}
+          <div class="hm-peak-badge" style="--rc:rgb({row.baseRgb})">
+            <span class="hm-peak-dot"></span>
+            {row.label} peak: {hmHour(heatmap.shiftHours[peakIdx])} &nbsp;({hmMode==='ev' ? rmax+' ev' : hmFmt(row.hours[peakIdx])})
+          </div>
+        {/if}
+      {/each}
+      {#if hmMode === 'ev'}
+        {@const downOverlap  = lossStats.down.events  - heatmap.rows.find(r=>r.key==='down')!.hours.reduce((s,h)=>s+h.ev,0)}
+        {@const setupOverlap = lossStats.setup.events - heatmap.rows.find(r=>r.key==='setup')!.hours.reduce((s,h)=>s+h.ev,0)}
+        {#if downOverlap > 0 || setupOverlap > 0}
+          <span class="hm-overlap-note">* รวม {downOverlap + setupOverlap} event ที่เริ่มก่อน shift window (carry-over จากกะก่อนหน้า)</span>
+        {/if}
+      {/if}
+    </div>
+  </div>
+  {/if}
 
   <!-- ── Chip filter ────────────────────────────────────────────────────── -->
   <div class="chip-bar">
@@ -1074,4 +1413,62 @@
     animation: spin .7s linear infinite; flex-shrink: 0;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── 7d delta styles ─────────────────────────────────────────────────── */
+  .fs-delta { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+  .fs-delta.up { background: #E8F5E9; color: #2E7D32; }
+  .fs-delta.dn { background: #FFEBEE; color: #C62828; }
+  .kpi7d-note { font-size: 9px; font-weight: 600; color: var(--color-text-disabled); align-self: center; margin-left: auto; white-space: nowrap; }
+  .kc-vs { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; display: inline-block; margin-bottom: 2px; }
+  .kc-vs.vs-good { background: #E8F5E9; color: #2E7D32; }
+  .kc-vs.vs-bad  { background: #FFEBEE; color: #C62828; }
+  .kc-ev-delta { font-size: 10px; font-weight: 700; margin-left: 3px; }
+  .kc-ev-delta.ev-good { color: #2E7D32; }
+  .kc-ev-delta.ev-bad  { color: #C62828; }
+
+  /* ── Narrative ───────────────────────────────────────────────────────── */
+  .narrative-card { background:var(--color-surface);border:1px solid var(--color-border-strong);border-left:4px solid #4A90D9;border-radius:var(--r-sm);padding:14px 18px;margin-bottom:12px; }
+  .narrative-hdr  { display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--color-text-heading);margin-bottom:8px; }
+  .narrative-icon { font-size:16px; }
+  .narrative-badge { font-size:10px;font-weight:700;background:#E3F0FB;color:#1A3A6C;border-radius:10px;padding:2px 8px;margin-left:4px; }
+  .narrative-body { font-size:13px;line-height:1.7;color:var(--color-text-body,#334); }
+
+  /* ── Heatmap ─────────────────────────────────────────────────────────── */
+  .hm-card { background:var(--color-surface);border:1px solid var(--color-border-strong);border-radius:var(--r-sm);padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  .hm-card-hdr { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+  .hm-card-title { display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--color-text-heading); }
+  .hm-card-sub   { font-size:11px;font-weight:400;color:var(--color-text-muted);margin-left:4px; }
+  .hm-toggle-group { display:flex;border:1px solid var(--color-border-strong);border-radius:6px;overflow:hidden; }
+  .hm-toggle-btn { padding:4px 12px;font-size:11px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--color-text-muted);transition:all .15s; }
+  .hm-toggle-btn.hm-tog-active { background:var(--color-primary);color:#fff; }
+  .hm-grid { display:grid;grid-template-columns:100px repeat(var(--hm-cols),minmax(44px,72px)) 72px;gap:3px;align-items:stretch; }
+  .hm-axis-corner { }
+  .hm-col-hdr { font-size:9.5px;font-weight:700;color:var(--color-text-muted);text-align:center;padding:4px 2px;border-bottom:2px solid var(--color-border-strong);letter-spacing:.2px; }
+  .hm-total-hdr { color:var(--color-text-heading);font-weight:800; }
+  .hm-row-label { display:flex;flex-direction:column;align-items:flex-start;gap:2px;font-size:11px;font-weight:700;color:var(--color-text-heading);padding:4px 4px 4px 8px;border-left:3px solid var(--rc); }
+  .hm-row-label > :first-child { display:flex;align-items:center;gap:5px; }
+  .hm-row-dot    { width:8px;height:8px;border-radius:50%;background:var(--rc);flex-shrink:0; }
+  .hm-row-sublbl { font-size:9px;font-weight:500;color:var(--color-text-disabled); }
+  .hm-mttw { font-size:9px;font-weight:700;color:var(--rc);background:color-mix(in srgb,rgb(var(--rc-raw,128,128,128)) 10%,transparent);border:1px solid color-mix(in srgb,rgb(var(--rc-raw,128,128,128)) 20%,transparent);border-radius:3px;padding:1px 4px;white-space:nowrap;margin-top:2px; }
+  .hm-cell { position:relative;border-radius:5px;min-height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:transform .12s,box-shadow .12s;cursor:default;background:var(--color-surface-alt); }
+  .hm-cell:hover { transform:scale(1.08);z-index:30;box-shadow:0 3px 14px rgba(0,0,0,.22); }
+  .hm-cell-val { font-size:13px;font-weight:700;line-height:1;z-index:1; }
+  .hm-cell-bar { position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 5px 5px;opacity:.55; }
+  .hm-total-cell { font-size:11px;font-weight:800;color:var(--rc);display:flex;align-items:center;justify-content:flex-end;padding-right:4px;border-left:1px solid var(--color-border-strong); }
+  .hm-state-label { display:flex;align-items:center;gap:5px;padding:2px 4px 2px 12px;border-left:2px dashed var(--rc);font-size:9px;font-weight:700;color:var(--color-text-muted);opacity:.85; }
+  .hm-state-dot { width:6px;height:6px;border-radius:50%;background:var(--rc);flex-shrink:0; }
+  .hm-state-cell { border-radius:4px;min-height:32px;display:flex;align-items:center;justify-content:center;transition:transform .1s;cursor:default;border:1px dashed rgba(0,0,0,.08); }
+  .hm-state-cell:hover { transform:scale(1.1);z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  .hm-state-val  { font-size:11px;font-weight:700; }
+  .hm-state-total { font-size:10px;font-weight:800;color:var(--rc);display:flex;flex-direction:column;align-items:flex-end;justify-content:center;padding-right:4px;line-height:1.3;border-left:1px solid var(--color-border-strong); }
+  .hm-nonrun-label { margin-top:4px;border-left-color:#0F172A;border-left-style:solid;border-left-width:3px; }
+  .hm-nonrun-cell  { min-height:36px;border-style:solid;border-color:rgba(0,0,0,.06);border-radius:5px; }
+  .hm-label-cell { display:flex;align-items:center; }
+  .hm-sum-label  { font-size:10px;font-weight:700;color:var(--color-text-muted);padding:4px 6px;border-top:2px solid var(--color-border-strong); }
+  .hm-sum-cell   { font-size:11px;font-weight:600;color:var(--color-text-muted);text-align:center;padding:5px 2px;border-top:2px solid var(--color-border-strong); }
+  .hm-sum-grand  { font-weight:800;color:var(--color-text-heading); }
+  .hm-peaks { display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--color-border-strong); }
+  .hm-peak-badge { display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--color-text-body);background:var(--color-surface-alt);border:1px solid var(--color-border-strong);border-left:3px solid var(--rc);border-radius:5px;padding:4px 10px; }
+  .hm-peak-dot   { width:7px;height:7px;border-radius:50%;background:var(--rc); }
+  .hm-overlap-note { font-size:10px;color:var(--color-text-disabled);align-self:center;margin-left:auto; }
 </style>
