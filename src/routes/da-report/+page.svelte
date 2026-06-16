@@ -576,7 +576,30 @@
 
     const belowNote = `เครื่องที่ util ต่ำกว่า 80% มีถึง ${machines.filter(m=>m.util_pct<80).length} เครื่อง คิดเป็นสูญเสียกำลังการผลิตสุทธิ ${Math.round(totalLoss/shiftMin*100)}% ของ machine-hour ทั้งหมด`;
 
-    return `Fleet DA กะนี้มี utilization เฉลี่ย ${kpi.avg_util}%${trendTxt}. ${belowNote}. ${failureSummary}${colletNote}${waitNote}${setupNote}`.trim();
+    // Package impact: group total_loss_min by package, find worst package + its problem machines
+    const pkgLoss = new Map<string, { lossMin: number; machines: { id: string; lossMin: number; downMin: number; util: number }[] }>();
+    for (const m of machines) {
+      const pkg = m.package || 'Unknown';
+      const prev = pkgLoss.get(pkg) ?? { lossMin: 0, machines: [] };
+      prev.lossMin += m.total_loss_min;
+      prev.machines.push({ id: m.machine_id, lossMin: m.total_loss_min, downMin: m.down_min, util: m.util_pct });
+      pkgLoss.set(pkg, prev);
+    }
+    const worstPkg = [...pkgLoss.entries()]
+      .filter(([pkg]) => pkg !== 'Unknown')
+      .sort((a, b) => b[1].lossMin - a[1].lossMin)[0];
+
+    let pkgNote = '';
+    if (worstPkg) {
+      const [pkgName, pkgData] = worstPkg;
+      const pkgMachines = pkgData.machines.filter(m => m.lossMin > 0).sort((a,b) => b.lossMin - a.lossMin);
+      const top3 = pkgMachines.slice(0, 3);
+      const pkgTotalH = Math.round(pkgData.lossMin / 60 * 10) / 10;
+      const machineList = top3.map(m => `${m.id} (util ${m.util.toFixed(0)}%)`).join(', ');
+      pkgNote = ` Package ที่ได้รับผลกระทบสูงสุดคือ "${pkgName}" สูญเสีย ${pkgTotalH}h รวมทั้งกะ — เครื่องที่มีปัญหาหลักคือ ${machineList}`;
+    }
+
+    return `Fleet DA กะนี้มี utilization เฉลี่ย ${kpi.avg_util}%${trendTxt}. ${belowNote}. ${failureSummary}${colletNote}${waitNote}${setupNote}${pkgNote}`.trim();
   });
 
   // Pre-computed deltas (avoids {@const} placement restrictions in template)
