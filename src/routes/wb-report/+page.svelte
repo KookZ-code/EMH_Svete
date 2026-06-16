@@ -708,15 +708,15 @@
           {#if kd?.avg_util}<span class="fs-delta" class:up={kd.avg_util.good} class:dn={!kd.avg_util.good}>{kd.avg_util.txt}%</span>{/if}
         </div>
       </div>
-      <div class="fleet-stat" style="--c:#702076">
-        <span class="fs-val">{kpi.n_tech}</span>
-        <div class="fs-row"><span class="fs-lbl">Techs</span></div>
-      </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_low}</span>
         <div class="fs-row"><span class="fs-lbl">Util &lt;85%</span>
           {#if kd?.n_low}<span class="fs-delta" class:up={kd.n_low.good} class:dn={!kd.n_low.good}>{kd.n_low.txt}</span>{/if}
         </div>
+      </div>
+      <div class="fleet-stat" style="--c:#702076">
+        <span class="fs-val">{kpi.n_tech}</span>
+        <div class="fs-row"><span class="fs-lbl">Techs</span></div>
       </div>
       {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
       </div><!-- /fleet-cards -->
@@ -1205,11 +1205,10 @@
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* Both KPI rows share the same grid: [label 72px] [cards 1fr]
-     so dividers between cards always align vertically */
+  /* 88px label column = wide enough for "SHIFT LOSS %" — both rows align */
   .fleet-row, .loss-row {
-    display: grid; grid-template-columns: 72px 1fr;
-    align-items: stretch; gap: 0 10px;
+    display: grid; grid-template-columns: 88px 1fr;
+    align-items: stretch; gap: 0 12px;
     padding: 10px 20px;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
@@ -1222,8 +1221,7 @@
     display: flex; align-items: center;
   }
 
-  /* Fleet cards area — matches kpi-row-cards structure */
-  .fleet-cards { display: flex; gap: 6px; align-items: stretch; }
+  .fleet-cards { display: flex; gap: 8px; align-items: stretch; }
   .fleet-stat {
     display: flex; flex-direction: column; justify-content: center; gap: 3px;
     background: var(--color-surface-alt);

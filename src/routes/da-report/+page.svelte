@@ -775,16 +775,16 @@
           {#if kd?.avg_util}<span class="fs-delta" class:up={kd.avg_util.good} class:dn={!kd.avg_util.good}>{kd.avg_util.txt}%</span>{/if}
         </div>
       </div>
-      <div class="fleet-stat" style="--c:#702076">
-        <span class="fs-val">{kpi.n_tech}</span>
-        <div class="fs-row"><span class="fs-lbl">Techs on Shift</span></div>
-      </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{machines.filter(r=>r.util_pct<80).length}</span>
         <div class="fs-row">
           <span class="fs-lbl">Util &lt;80%</span>
           {#if kd?.n_low}<span class="fs-delta" class:up={kd.n_low.good} class:dn={!kd.n_low.good}>{kd.n_low.txt}</span>{/if}
         </div>
+      </div>
+      <div class="fleet-stat" style="--c:#702076">
+        <span class="fs-val">{kpi.n_tech}</span>
+        <div class="fs-row"><span class="fs-lbl">Techs on Shift</span></div>
       </div>
       {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
       </div><!-- /fleet-cards -->
@@ -1302,16 +1302,17 @@
   }
 
   /* Row 1: Fleet — horizontal stat strip */
-  /* Both KPI rows share a grid: [72px label] [cards] — dividers align vertically */
+  /* Both KPI rows share an explicit label-column width (88px fits "SHIFT LOSS %")
+     so card areas start at the same x-position → dividers align perfectly. */
   .fleet-row, .loss-row {
-    display: grid; grid-template-columns: 72px 1fr;
-    align-items: stretch; gap: 0 10px;
+    display: grid; grid-template-columns: 88px 1fr;
+    align-items: stretch; gap: 0 12px;
     padding: 10px 20px;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
   }
   .loss-row { background: var(--color-surface-alt); align-items: flex-start; }
-  .fleet-cards { display: flex; gap: 6px; align-items: stretch; }
+  .fleet-cards { display: flex; gap: 8px; align-items: stretch; }
   .fleet-stat {
     display: flex; flex-direction: column; justify-content: center; gap: 3px;
     background: var(--color-surface-alt);
@@ -1476,7 +1477,7 @@
     display: flex; align-items: center; white-space: nowrap;
   }
 
-  .kpi-row-cards { display: flex; gap: 8px; flex: 1; align-items: stretch; }
+  .kpi-row-cards { display: flex; gap: 8px; flex: 1; align-items: stretch; min-width: 0; }
 
   /* Fleet cards — compact number + label */
   .kc {
