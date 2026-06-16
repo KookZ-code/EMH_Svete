@@ -691,6 +691,7 @@
     <!-- Row 1: Fleet — compact stat strip -->
     <div class="fleet-row">
       <span class="kpi-block-label">FLEET</span>
+      <div class="fleet-cards">
       <div class="fleet-stat" style="--c:var(--color-primary)">
         <span class="fs-val">{kpi.total}</span>
         <div class="fs-row"><span class="fs-lbl">Machines</span></div>
@@ -718,6 +719,7 @@
         </div>
       </div>
       {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
+      </div><!-- /fleet-cards -->
     </div>
 
     <!-- Row 2: Shift Loss % — full width -->
@@ -1203,13 +1205,25 @@
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* Row 1: Fleet — horizontal stat strip */
-  .fleet-row {
-    display: flex; align-items: stretch; gap: 6px; flex-wrap: wrap;
+  /* Both KPI rows share the same grid: [label 72px] [cards 1fr]
+     so dividers between cards always align vertically */
+  .fleet-row, .loss-row {
+    display: grid; grid-template-columns: 72px 1fr;
+    align-items: stretch; gap: 0 10px;
     padding: 10px 20px;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
   }
+  .loss-row { background: var(--color-surface-alt); }
+
+  .kpi-block-label {
+    font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--color-text-disabled);
+    display: flex; align-items: center;
+  }
+
+  /* Fleet cards area — matches kpi-row-cards structure */
+  .fleet-cards { display: flex; gap: 6px; align-items: stretch; }
   .fleet-stat {
     display: flex; flex-direction: column; justify-content: center; gap: 3px;
     background: var(--color-surface-alt);
@@ -1224,18 +1238,6 @@
   .fs-delta { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
   .fs-delta.up { background: #E8F5E9; color: #2E7D32; }
   .fs-delta.dn { background: #FFEBEE; color: #C62828; }
-
-  /* Row 2: Shift Loss % — full width */
-  .loss-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 20px;
-    background: var(--color-surface-alt);
-  }
-
-  .kpi-block-label {
-    font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
-    text-transform: uppercase; color: var(--color-text-disabled); flex-shrink: 0;
-  }
 
   .kpi-row-cards { display: flex; gap: 6px; flex: 1; }
 

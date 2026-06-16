@@ -756,6 +756,7 @@
     <!-- Row 1: Fleet — compact stat strip -->
     <div class="fleet-row">
       <span class="kpi-block-label">FLEET</span>
+      <div class="fleet-cards">
       <div class="fleet-stat" style="--c:var(--color-primary)">
         <span class="fs-val">{kpi.total}</span>
         <div class="fs-row"><span class="fs-lbl">Machines</span></div>
@@ -786,6 +787,7 @@
         </div>
       </div>
       {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
+      </div><!-- /fleet-cards -->
     </div>
 
     <!-- Row 2: Shift Loss % — full width -->
@@ -1300,12 +1302,16 @@
   }
 
   /* Row 1: Fleet — horizontal stat strip */
-  .fleet-row {
-    display: flex; align-items: stretch; gap: 6px; flex-wrap: wrap;
+  /* Both KPI rows share a grid: [72px label] [cards] — dividers align vertically */
+  .fleet-row, .loss-row {
+    display: grid; grid-template-columns: 72px 1fr;
+    align-items: stretch; gap: 0 10px;
     padding: 10px 20px;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
   }
+  .loss-row { background: var(--color-surface-alt); align-items: flex-start; }
+  .fleet-cards { display: flex; gap: 6px; align-items: stretch; }
   .fleet-stat {
     display: flex; flex-direction: column; justify-content: center; gap: 3px;
     background: var(--color-surface-alt);
@@ -1464,16 +1470,10 @@
   .narrative-body { font-size: 13px; line-height: 1.7; color: var(--color-text-body, #334); }
 
   /* Row 2: Shift Loss % */
-  .loss-row {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 12px 20px;
-    background: var(--color-surface-alt);
-  }
   .kpi-block-label {
     font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
     text-transform: uppercase; color: var(--color-text-disabled);
-    flex-shrink: 0; padding-top: 6px;  /* align with card top */
-    writing-mode: horizontal-tb;
+    display: flex; align-items: center; white-space: nowrap;
   }
 
   .kpi-row-cards { display: flex; gap: 8px; flex: 1; align-items: stretch; }
