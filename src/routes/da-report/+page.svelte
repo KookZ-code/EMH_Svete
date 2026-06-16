@@ -50,7 +50,14 @@
   let error        = $state<string|null>(null);
   let chip         = $state('ALL');
   let pkgSearch    = $state('');
-  let hmMode       = $state<'ev'|'min'>('ev');   // heatmap toggle: event count vs minutes
+  let hmMode       = $state<'ev'|'min'>('ev');
+  let sortCol      = $state<string>('util_pct');
+  let sortDir      = $state<1|-1>(-1);   // -1 = desc (worst first by default)
+
+  function sortBy(col: string) {
+    if (sortCol === col) sortDir = sortDir === 1 ? -1 : 1;
+    else { sortCol = col; sortDir = col === 'machine_id' ? 1 : -1; }
+  }   // heatmap toggle: event count vs minutes
 
   // ── Heatmap data — hourly event buckets ───────────────────────────────────
   interface HmBucket { ev: number; min: number; }
@@ -193,6 +200,26 @@
     if (chip === 'FULL')  return machines.filter(r => r.total_loss_min === 0);
     if (chip === '<80%')  return machines.filter(r => r.util_pct < 80);
     return machines;
+  });
+
+  const sortedFiltered = $derived.by(() => {
+    const col = sortCol;
+    const dir = sortDir;
+    return [...filtered].sort((a, b) => {
+      let va: number|string, vb: number|string;
+      switch (col) {
+        case 'machine_id':    va = a.machine_id;    vb = b.machine_id;    break;
+        case 'util_pct':      va = a.util_pct;      vb = b.util_pct;      break;
+        case 'total_loss_min':va = a.total_loss_min; vb = b.total_loss_min; break;
+        case 'down_min':      va = a.down_min;       vb = b.down_min;      break;
+        case 'wait_down_min': va = a.wait_down_min;  vb = b.wait_down_min; break;
+        case 'setup_min':     va = a.setup_min;      vb = b.setup_min;     break;
+        case 'wait_setup_min':va = a.wait_setup_min; vb = b.wait_setup_min; break;
+        default:              va = a.util_pct;       vb = b.util_pct;
+      }
+      if (typeof va === 'string') return dir * va.localeCompare(vb as string);
+      return dir * ((va as number) - (vb as number));
+    });
   });
 
   const chipCounts = $derived({
@@ -1246,21 +1273,21 @@
             <th></th>
             <th></th>
           </tr>
-          <!-- Column header row -->
+          <!-- Column header row — click to sort -->
           <tr>
             <th class="th-c">#</th>
-            <th>MACHINE</th>
-            <th class="th-r" style="color:#ffb3b3" title="Wait for technician">WAIT</th>
-            <th class="th-r" style="color:#ff8080">REPAIR</th>
-            <th class="th-r" style="color:#ffd599" title="Wait for setup start">WAIT</th>
-            <th class="th-r" style="color:#ffbe6f">REPAIR</th>
-            <th class="th-r">LOSS</th>
-            <th>UTILIZATION</th>
+            <th class="th-sort" onclick={() => sortBy('machine_id')}>MACHINE{sortCol==='machine_id' ? (sortDir===1?' ↑':' ↓') : ''}</th>
+            <th class="th-r th-sort" style="color:#ffb3b3" title="Wait for technician" onclick={() => sortBy('wait_down_min')}>WAIT{sortCol==='wait_down_min' ? (sortDir===1?' ↑':' ↓') : ''}</th>
+            <th class="th-r th-sort" style="color:#ff8080" onclick={() => sortBy('down_min')}>REPAIR{sortCol==='down_min' ? (sortDir===1?' ↑':' ↓') : ''}</th>
+            <th class="th-r th-sort" style="color:#ffd599" title="Wait for setup start" onclick={() => sortBy('wait_setup_min')}>WAIT{sortCol==='wait_setup_min' ? (sortDir===1?' ↑':' ↓') : ''}</th>
+            <th class="th-r th-sort" style="color:#ffbe6f" onclick={() => sortBy('setup_min')}>REPAIR{sortCol==='setup_min' ? (sortDir===1?' ↑':' ↓') : ''}</th>
+            <th class="th-r th-sort" onclick={() => sortBy('total_loss_min')}>LOSS{sortCol==='total_loss_min' ? (sortDir===1?' ↑':' ↓') : ''}</th>
+            <th class="th-sort" onclick={() => sortBy('util_pct')}>UTILIZATION{sortCol==='util_pct' ? (sortDir===1?' ↑':' ↓') : ''}</th>
             <th>EVENTS IN SHIFT</th>
           </tr>
         </thead>
         <tbody>
-          {#each filtered as r, i (r.machine_id)}
+          {#each sortedFiltered as r, i (r.machine_id)}
             {@const uc  = utilColor(r.util_pct)}
             {@const low = r.util_pct < 85}
             {@const mid = r.util_pct < 90}
@@ -1733,6 +1760,8 @@
 
   /* Column header row */
   .machine-table thead tr:last-child { background: #0F172A; }
+  .th-sort { cursor: pointer; user-select: none; white-space: nowrap; }
+  .th-sort:hover { background: rgba(255,255,255,.08); }
   .machine-table th {
     padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 700;
     letter-spacing: .4px; white-space: nowrap; color: #fff; user-select: none;
