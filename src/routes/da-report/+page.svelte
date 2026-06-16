@@ -43,7 +43,7 @@
 
   let machines     = $state<MachineRow[]>([]);
   let kpi          = $state<DaKpi|null>(null);
-  let kpi7d        = $state<Partial<DaKpi> & { days: number; down_events?: number; setup_events?: number } | null>(null);
+  let kpi7d        = $state<Partial<DaKpi> & { days: number; down_events?: number; setup_events?: number; idle_pct?: number } | null>(null);
   let pkgLabel     = $state('');
   let timeRange    = $state('');
   let loading      = $state(false);
@@ -276,13 +276,24 @@
           (h.data.machines as MachineRow[]).reduce((s, m) =>
             s + m.events.filter(e => SETUP_T.has((e.job_type||'').toUpperCase())).length, 0));
         const avgArr = (arr: number[]) => Math.round(arr.reduce((s,v)=>s+v,0)/arr.length);
+        // idle_pct: SBO events with des_job starting "idle"/"wait " — same logic as lossStats
+        const idlePcts = valid.map(h => {
+          const ms = h.data.machines as MachineRow[];
+          const fleetMin = ms.length * 720 || 1;
+          const idleMin  = ms.reduce((s, m) =>
+            s + m.events.filter(e =>
+              (e.job_type||'').toUpperCase() === 'SETUP BY OPERATOR' &&
+              /^(idle|wait\s)/i.test(e.des_job||'')
+            ).reduce((sm, e) => sm + (e.dur_min||0), 0), 0);
+          return Math.round(idleMin / fleetMin * 100 * 10) / 10;
+        });
         kpi7d = {
           days: valid.length,
           avg_util: avg('avg_util'), down_pct: avg('down_pct'), wait_pct: avg('wait_pct'),
           setup_conv_pct: avg('setup_conv_pct'), sbo_pct: avg('sbo_pct'),
           n_down: avg('n_down'), n_tech: avg('n_tech'), n_low: avg('n_low'), n_full: avg('n_full'),
-          down_events: avgArr(downEvts),
-          setup_events: avgArr(setupEvts),
+          down_events: avgArr(downEvts), setup_events: avgArr(setupEvts),
+          idle_pct: Math.round(idlePcts.reduce((s,v)=>s+v,0)/idlePcts.length*10)/10,
         };
       }
     } catch (e) { error = e instanceof Error ? e.message : 'Error'; }
@@ -637,6 +648,7 @@
       setup:       delta(kpi.setup_conv_pct,kpi7d.setup_conv_pct,false),
       down_events: deltaN(lossStats.down.events,  kpi7d.down_events,  false),
       setup_events:deltaN(lossStats.setup.events, kpi7d.setup_events, false),
+      idle_pct:    delta(lossStats.idle.pct,       kpi7d.idle_pct,    false),
     };
   });
 
@@ -895,6 +907,7 @@
         {#if lossStats.idle.events > 0}
           <div class="kc" style="--c:#8B5CF6">
             <span class="kc-pct">{lossStats.idle.pct}%</span>
+            {#if kd?.idle_pct}<span class="kc-vs" class:vs-good={kd.idle_pct.good} class:vs-bad={!kd.idle_pct.good}>{kd.idle_pct.txt}% vs avg</span>{/if}
             <span class="kc-lbl">Idle</span>
             <div class="kc-meta kc-meta-col" style="gap:3px">
               {#each lossStats.idle.top3 as t}
