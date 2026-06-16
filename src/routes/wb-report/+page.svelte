@@ -279,7 +279,10 @@
       const lc = r.util_pct < 85 ? '#CC0000' : r.total_loss_min > 0 ? '#FD7F20' : '#aaa';
       return `<tr style="background:${bg}">
         <td style="padding:8px 12px;font-size:13px;border-bottom:1px solid #e0e0e0;color:#aaa;font-weight:600">${i+1}</td>
-        <td style="padding:8px 12px;font-size:13px;border-bottom:1px solid #e0e0e0"><strong style="color:#0E3689">${r.machine_id}</strong>${badge}</td>
+        <td style="padding:8px 12px;font-size:13px;border-bottom:1px solid #e0e0e0">
+          <strong style="color:#0E3689">${r.machine_id}</strong>${badge}
+          ${r.package ? `<div style="font-size:10px;color:#94A3B8;margin-top:2px">${r.package}</div>` : ''}
+        </td>
         <td style="padding:8px 12px;font-size:13px;border-bottom:1px solid #e0e0e0;text-align:right">${fv(r.wait_down_min,'#CC0000')}</td>
         <td style="padding:8px 12px;font-size:13px;border-bottom:1px solid #e0e0e0;text-align:right">${fv(r.down_min,'#CC0000')}</td>
         <td style="padding:8px 12px;font-size:13px;border-bottom:1px solid #e0e0e0;text-align:right">${fv(r.wait_setup_min,'#FD7F20')}</td>
