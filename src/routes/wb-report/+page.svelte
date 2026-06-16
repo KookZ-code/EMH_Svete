@@ -450,27 +450,27 @@
       <span class="kpi-block-label">FLEET</span>
       <div class="fleet-stat" style="--c:var(--color-primary)">
         <span class="fs-val">{kpi.total}</span>
-        <span class="fs-lbl">Machines</span>
+        <div class="fs-row"><span class="fs-lbl">Machines</span></div>
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_down}</span>
-        <span class="fs-lbl">M/C Down</span>
+        <div class="fs-row"><span class="fs-lbl">M/C Down</span></div>
       </div>
       <div class="fleet-stat" style="--c:{utilColor(kpi.avg_util)}">
         <span class="fs-val">{kpi.avg_util}%</span>
-        <span class="fs-lbl">Avg Util</span>
+        <div class="fs-row"><span class="fs-lbl">Avg Util</span></div>
       </div>
       <div class="fleet-stat" style="--c:#702076">
         <span class="fs-val">{kpi.n_tech}</span>
-        <span class="fs-lbl">Techs</span>
+        <div class="fs-row"><span class="fs-lbl">Techs</span></div>
       </div>
       <div class="fleet-stat" style="--c:#5EBF33">
         <span class="fs-val">{kpi.n_full}</span>
-        <span class="fs-lbl">100% Util</span>
+        <div class="fs-row"><span class="fs-lbl">100% Util</span></div>
       </div>
       <div class="fleet-stat" style="--c:#CC0000">
         <span class="fs-val">{kpi.n_low}</span>
-        <span class="fs-lbl">Util &lt;85%</span>
+        <div class="fs-row"><span class="fs-lbl">Util &lt;85%</span></div>
       </div>
     </div>
 
@@ -839,20 +839,25 @@
 
   /* Row 1: Fleet — horizontal stat strip */
   .fleet-row {
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    display: flex; align-items: stretch; gap: 6px; flex-wrap: wrap;
     padding: 10px 20px;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
   }
   .fleet-stat {
-    display: flex; align-items: baseline; gap: 6px;
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
     background: var(--color-surface-alt);
     border-left: 3px solid var(--c);
     border-radius: var(--r-sm);
-    padding: 6px 14px; flex-shrink: 0;
+    padding: 10px 16px;
+    flex: 1; min-width: 110px; min-height: 56px;
   }
-  .fs-val { font-size: 20px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; }
-  .fs-lbl { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; }
+  .fs-val  { font-size: 22px; font-weight: 800; color: var(--c); font-variant-numeric: tabular-nums; line-height: 1; }
+  .fs-row  { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-height: 18px; }
+  .fs-lbl  { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .3px; }
+  .fs-delta { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+  .fs-delta.up { background: #E8F5E9; color: #2E7D32; }
+  .fs-delta.dn { background: #FFEBEE; color: #C62828; }
 
   /* Row 2: Shift Loss % — full width */
   .loss-row {
