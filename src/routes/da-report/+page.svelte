@@ -786,8 +786,8 @@
         <span class="fs-val">{kpi.n_tech}</span>
         <div class="fs-row"><span class="fs-lbl">Techs on Shift</span></div>
       </div>
-      {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
       </div><!-- /fleet-cards -->
+      {#if kpi7d}<span class="kpi7d-note">vs {kpi7d.days}d avg</span>{/if}
     </div>
 
     <!-- Row 2: Shift Loss % — full width -->
@@ -1306,7 +1306,7 @@
      so card areas start at the same x-position → dividers align perfectly. */
   .fleet-row, .loss-row {
     display: grid; grid-template-columns: 88px 1fr;
-    align-items: stretch; gap: 0 12px;
+    align-items: stretch; gap: 0 12px; position: relative;
     padding: 10px 20px;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
@@ -1327,7 +1327,7 @@
   .fs-delta { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
   .fs-delta.up  { background: #E8F5E9; color: #2E7D32; }
   .fs-delta.dn  { background: #FFEBEE; color: #C62828; }
-  .kpi7d-note { font-size: 9px; font-weight: 600; color: var(--color-text-disabled); align-self: center; margin-left: auto; white-space: nowrap; }
+  .kpi7d-note { font-size: 9px; font-weight: 600; color: var(--color-text-disabled); white-space: nowrap; position: absolute; right: 20px; bottom: 8px; }
   /* vs avg badge on loss KPI cards */
   .kc-vs { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px; display: inline-block; margin-bottom: 2px; }
   .kc-vs.vs-good { background: #E8F5E9; color: #2E7D32; }
