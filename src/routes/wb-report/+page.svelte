@@ -252,7 +252,7 @@
         ${lc2(kpi?.down_pct+'%','Down Time','#CC0000',`${lossStats.down.events} ev · MTTR ${fmtMtx(lossStats.down.mttr)}`,`Total ${fmtMtx(lossStats.down.totalMin)}`,vsAvg(kpi?.down_pct??0,kpi7d?.down_pct,true))}
         ${lc2(kpi?.wait_pct+'%','Wait','#FD7F20',`Down MTTW ${fmtMtx(lossStats.wait.mttwDown)} · Setup MTTW ${fmtMtx(lossStats.wait.mttwSetup)}`,`Total ${fmtMtx(lossStats.wait.totalMin)}`,vsAvg(kpi?.wait_pct??0,kpi7d?.wait_pct,true))}
         ${lc2(kpi?.setup_conv_pct+'%','Setup+Conv','#1D9CE4',`${lossStats.setup.events} ev · MTTR ${fmtMtx(lossStats.setup.mttr)}`,`Total ${fmtMtx(lossStats.setup.totalMin)}`,vsAvg(kpi?.setup_conv_pct??0,kpi7d?.setup_conv_pct,true))}
-        ${lc2(kpi?.sbo_pct+'%','SBO','#00897B',`${lossStats.sbo.events} ev · MTTR ${fmtMtx(lossStats.sbo.mttr)}`,`Total ${fmtMtx(lossStats.sbo.totalMin)}`)}
+        ${lc2(Math.max(0,Math.round((kpi.sbo_pct-lossStats.idle.pct)*10)/10)+'%','SBO','#00897B',`${lossStats.sbo.events} ev · MTTR ${fmtMtx(lossStats.sbo.mttr)}`,`Total ${fmtMtx(lossStats.sbo.totalMin)}`)}
         ${lc2(idlePct+'%','Idle','#8B5CF6',lossStats.idle.top3.map(t=>`${t.criteria.slice(0,18)}: ${t.count}ev`).join(' / '),`Total ${fmtMtx(lossStats.idle.totalMin)}`,vsAvg(lossStats.idle.pct,kpi7d?.idle_pct,true))}
       </div>
     </div>`;
