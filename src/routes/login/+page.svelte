@@ -1,29 +1,7 @@
 <script lang="ts">
-  // Login page — no sidebar layout (handled in +layout.svelte)
-  let username = $state('');
-  let password = $state('');
-  let loading  = $state(false);
-  let error    = $state('');
+  import type { ActionData } from './$types'
 
-  async function handleLogin(e: Event) {
-    e.preventDefault();
-    if (!username || !password) { error = 'กรุณากรอก username และ password'; return; }
-    loading = true;
-    error = '';
-    try {
-      // Placeholder — replace with actual auth API call
-      await new Promise(r => setTimeout(r, 800));
-      if (username === 'admin' && password === 'admin') {
-        window.location.href = '/';
-      } else {
-        error = 'Invalid username or password';
-      }
-    } catch {
-      error = 'Login failed. Please try again.';
-    } finally {
-      loading = false;
-    }
-  }
+  let { form }: { form: ActionData } = $props()
 </script>
 
 <svelte:head><title>Login — EMH Dashboard</title></svelte:head>
@@ -36,33 +14,36 @@
       <p>Equipment Maintenance & Health</p>
     </div>
 
-    <form onsubmit={handleLogin} class="login-form">
-      {#if error}
-        <div class="login-error">{error}</div>
+    <form method="POST" class="login-form">
+
+      {#if form?.error}
+        <div class="login-error">{form.error}</div>
       {/if}
 
       <div class="form-group">
         <label class="label" for="username">Username</label>
         <input
-          id="username" type="text" class="input"
+          id="username" name="username" type="text" class="input"
           placeholder="Enter your username"
-          bind:value={username}
           autocomplete="username"
+          value="guest"
+          required
         />
       </div>
 
       <div class="form-group">
         <label class="label" for="password">Password</label>
         <input
-          id="password" type="password" class="input"
+          id="password" name="password" type="password" class="input"
           placeholder="••••••••"
-          bind:value={password}
           autocomplete="current-password"
+          value="123456"
+          required
         />
       </div>
 
-      <button type="submit" class="btn btn-solid login-btn" disabled={loading}>
-        {loading ? 'Logging in…' : 'Login'}
+      <button type="submit" class="btn btn-solid login-btn">
+        Login
       </button>
     </form>
 

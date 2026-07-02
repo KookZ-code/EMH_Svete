@@ -1,7 +1,6 @@
 // src/lib/utils/api.ts — EMH Dashboard API client
 // All HTTP calls go through apiFetch — never fetch directly in components.
 
-import { base } from '$app/paths';
 import type {
   ApiResponse,
   OverviewKpi, StatusMatrixRow, StatusDonut, OpenJob,
@@ -15,13 +14,17 @@ import type {
 // ─── Base fetch wrapper ────────────────────────────────────────────────────
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<ApiResponse<T>> {
-  const url = `${base}${path}`;
+  const url = path;  // API paths are always /api/v1/... — no base prefix needed
+  console.log('[api] fetch:', url)
   try {
     const res  = await fetch(url, {
       headers: { 'Content-Type': 'application/json', ...options?.headers },
       ...options,
     });
-    const json: ApiResponse<T> = await res.json();
+    console.log('[api] status:', res.status, 'content-type:', res.headers.get('content-type'), 'encoding:', res.headers.get('content-encoding'))
+    const text = await res.text()
+    console.log('[api] body length:', text.length, 'preview:', text.substring(0, 50))
+    const json: ApiResponse<T> = JSON.parse(text);
     if (!res.ok && !json.error) {
       return { data: null, error: { code: 'HTTP_ERROR', message: `HTTP ${res.status}` } };
     }

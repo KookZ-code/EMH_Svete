@@ -283,6 +283,17 @@ export interface DashboardFilters {
   jobTypes: JobType[];
 }
 
+// ─── Auth ─────────────────────────────────────────────────────────────────
+
+export type UserRole = 'admin' | 'supervisor' | 'viewer'
+
+export interface SessionUser {
+  id:          number
+  username:    string
+  displayName: string
+  role:        UserRole
+}
+
 // ─── Item (template — keep for compatibility) ──────────────────────────────
 
 export interface Item {
