@@ -1,0 +1,610 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e49]:
+        - heading "Machine Inventory" [level=1] [ref=e50]
+        - paragraph [ref=e51]: Equipment master list · 7-day downtime · Health status
+      - generic [ref=e52]:
+        - generic [ref=e53]: Area
+        - button "All" [ref=e54] [cursor=pointer]
+        - button "None" [ref=e55] [cursor=pointer]
+        - button "BG" [ref=e56] [cursor=pointer]
+        - button "SAW" [ref=e57] [cursor=pointer]
+        - button "DA" [active] [ref=e58] [cursor=pointer]
+        - button "WB" [ref=e59] [cursor=pointer]
+        - button "MOLD" [ref=e60] [cursor=pointer]
+        - button "PLATE" [ref=e61] [cursor=pointer]
+        - button "MARK" [ref=e62] [cursor=pointer]
+        - button "SAW_QFN" [ref=e63] [cursor=pointer]
+        - button "TF" [ref=e64] [cursor=pointer]
+        - button "ISO" [ref=e65] [cursor=pointer]
+        - button "FS" [ref=e66] [cursor=pointer]
+      - generic [ref=e67]:
+        - img [ref=e68]
+        - searchbox "Search machine ID, description, model, manufacturer…" [ref=e70]
+        - generic [ref=e71]: 121 / 1383 machines
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - generic [ref=e74]: 121 / 1383
+          - generic [ref=e75]: Total Machines
+        - generic [ref=e76]:
+          - generic [ref=e77]: "0"
+          - generic [ref=e78]: KEY Machines
+        - generic [ref=e79]:
+          - generic [ref=e80]: 1 / 11
+          - generic [ref=e81]: Areas
+        - generic [ref=e82]:
+          - generic [ref=e83]: 12 / 63
+          - generic [ref=e84]: Models
+      - generic [ref=e546]:
+        - generic [ref=e547]: Filters
+        - button "Areas 1/11 ×" [ref=e555] [cursor=pointer]
+        - button "Clear all" [ref=e549] [cursor=pointer]
+      - generic [ref=e85]:
+        - generic [ref=e87]:
+          - text: Machines by Area
+          - button "1/11 ×" [ref=e556] [cursor=pointer]
+        - generic [ref=e93]:
+          - text: Equipment Health Map
+          - generic [ref=e94]:
+            - text: Healthy
+            - text: Monitor
+            - text: Warning
+            - text: Critical
+      - generic [ref=e102]:
+        - generic [ref=e104]:
+          - text: Top 15 Models
+          - generic [ref=e105]: click to filter
+        - generic [ref=e110]:
+          - text: By Manufacturer
+          - generic [ref=e111]: click to filter
+      - generic [ref=e116]:
+        - text: Machine Age Distribution by Area (Lifecycle)
+        - generic [ref=e117]: click area to filter
+      - generic [ref=e121]:
+        - generic [ref=e178]:
+          - button "All 1383" [ref=e179] [cursor=pointer]:
+            - text: All
+            - generic [ref=e180]: "1383"
+          - button "Critical 37" [ref=e181] [cursor=pointer]:
+            - text: Critical
+            - generic [ref=e182]: "37"
+          - button "Warning 279" [ref=e183] [cursor=pointer]:
+            - text: Warning
+            - generic [ref=e184]: "279"
+          - button "Monitor 390" [ref=e185] [cursor=pointer]:
+            - text: Monitor
+            - generic [ref=e186]: "390"
+          - button "Healthy 677" [ref=e187] [cursor=pointer]:
+            - text: Healthy
+            - generic [ref=e188]: "677"
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - generic [ref=e124]: Model
+            - generic [ref=e126]: All models
+            - combobox [ref=e127]:
+              - option "+ Add model…" [selected]
+              - option "7500 PLUS"
+              - option "AB339"
+              - option "ABC-2006"
+              - option "AD2000T"
+              - option "AD3000T"
+              - option "AD3000T Plus"
+              - option "AD3000T-PLUS"
+              - option "AD828"
+              - option "AD830"
+              - option "AD8312"
+              - option "AD8312Plus"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD838"
+              - option "AD889"
+              - option "AD8912HS"
+              - option "AD898"
+              - option "AEI-4048A"
+              - option "ARE-250"
+              - option "Aero Twin"
+              - option "BLAZON-2200"
+              - option "DFC-2025"
+              - option "DFD6340"
+              - option "DFD6361"
+              - option "DFD6560"
+              - option "DFD6750"
+              - option "DFG 8540"
+              - option "DISCO DFL7161"
+              - option "DP80-8-M"
+              - option "DP80-8-MOUT"
+              - option "EAD6750"
+              - option "EDF+EPL2100S"
+              - option "EDF+EPL2400S"
+              - option "Eagle Aero GoCu"
+              - option "Eagle Xtreme"
+              - option "Eagle Xtreme GoCu"
+              - option "Eagle60"
+              - option "GP-ELF-D24084"
+              - option "GP-PRO SP80N"
+              - option "GP-PRO-8 SP80N"
+              - option "GP-PRO-8-SP80N"
+              - option "GP-PRO-80B-M1"
+              - option "GP-PRO4 SP170V"
+              - option "GP-PRO8 SP120V"
+              - option "GP-PRO8 SP170V"
+              - option "GP-PRO8-SP170N"
+              - option "GP-PRO8-SP80N"
+              - option "Harrier"
+              - option "Harrier Xtreme"
+              - option "MP209"
+              - option "MPHENIX"
+              - option "PANATORN-HP"
+              - option "SIAM-DF"
+              - option "SMART ELEMENT (F/S)"
+              - option "Singulation Mark"
+              - option "Smart Element (F/S)"
+              - option "Smart Element (ISO)"
+              - option "Smart Element (MARK)"
+              - option "Smart Element (T/F)"
+              - option "TS-PRO"
+              - option "Twin Eagle Xtreme GoCu"
+              - option "n/a"
+          - generic [ref=e128]:
+            - generic [ref=e129]: Mfr.
+            - generic [ref=e131]: All manufacturers
+            - combobox [ref=e132]:
+              - option "+ Add mfr…" [selected]
+              - option "ACCRETECH"
+              - option "ADT"
+              - option "AEI Technologies"
+              - option "ASM"
+              - option "ASM Assembly Automation"
+              - option "Accretech"
+              - option "DAI-ICHI"
+              - option "DISCO"
+              - option "DISCO COOPERATION"
+              - option "E & R"
+              - option "Excel tool"
+              - option "GPM"
+              - option "I-PEX"
+              - option "K&N"
+              - option "MECO"
+              - option "PANATORN"
+              - option "SAINT MASTER"
+              - option "SIAM INTER"
+              - option "THINKY COPPERATION"
+              - option "n/a"
+          - generic [ref=e133]:
+            - generic [ref=e134]: Flags
+            - button "KEY" [ref=e135] [cursor=pointer]
+            - button "Auto" [ref=e136] [cursor=pointer]
+            - button "Gold" [ref=e137] [cursor=pointer]
+          - button "↓ CSV" [ref=e139] [cursor=pointer]
+        - generic [ref=e141]:
+          - button "Machines (121)" [ref=e557] [cursor=pointer]
+          - button "Models (12)" [ref=e558] [cursor=pointer]
+        - generic [ref=e145]:
+          - generic [ref=e146]:
+            - searchbox "Search…" [ref=e147]
+            - generic [ref=e148]: 121 records
+          - table [ref=e150]:
+            - rowgroup [ref=e151]:
+              - row "Machine ↕ Description ↕ Area ↕ Model ↕ Mfr. ↕ Year ↕ Age Flags 7d Down ↕ Events ↕ MTTR ↕ Health ↕" [ref=e152]:
+                - columnheader "Machine ↕" [ref=e153] [cursor=pointer]
+                - columnheader "Description ↕" [ref=e154] [cursor=pointer]
+                - columnheader "Area ↕" [ref=e155] [cursor=pointer]
+                - columnheader "Model ↕" [ref=e156] [cursor=pointer]
+                - columnheader "Mfr. ↕" [ref=e157] [cursor=pointer]
+                - columnheader "Year ↕" [ref=e158] [cursor=pointer]
+                - columnheader "Age" [ref=e159]
+                - columnheader "Flags" [ref=e160]
+                - columnheader "7d Down ↕" [ref=e161] [cursor=pointer]
+                - columnheader "Events ↕" [ref=e162] [cursor=pointer]
+                - columnheader "MTTR ↕" [ref=e163] [cursor=pointer]
+                - columnheader "Health ↕" [ref=e164] [cursor=pointer]
+            - rowgroup [ref=e165]:
+              - 'row "D/B # 020 Fully Automatic Die bonder AD889 DA AD889 ASM Assembly Automation — — AUTO 8.5h 18 28m Critical" [ref=e559]':
+                - 'cell "D/B # 020" [ref=e560]'
+                - cell "Fully Automatic Die bonder AD889" [ref=e561]:
+                  - generic "Fully Automatic Die bonder AD889" [ref=e562]
+                - cell "DA" [ref=e563]
+                - cell "AD889" [ref=e564]
+                - cell "ASM Assembly Automation" [ref=e565]
+                - cell "—" [ref=e566]
+                - cell "—" [ref=e567]
+                - cell "AUTO" [ref=e568]
+                - cell "8.5h" [ref=e569]
+                - cell "18" [ref=e570]
+                - cell "28m" [ref=e571]
+                - cell "Critical" [ref=e572]
+              - 'row "D/B # 043 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 32.9h 28 70m Critical" [ref=e573]':
+                - 'cell "D/B # 043" [ref=e574]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e575]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e576]
+                - cell "DA" [ref=e577]
+                - cell "AD898" [ref=e578]
+                - cell "ASM Assembly Automation" [ref=e579]
+                - cell "—" [ref=e580]
+                - cell "—" [ref=e581]
+                - cell "AUTO" [ref=e582]
+                - cell "32.9h" [ref=e583]
+                - cell "28" [ref=e584]
+                - cell "70m" [ref=e585]
+                - cell "Critical" [ref=e586]
+              - 'row "D/B # 047 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 9.4h 28 20m Critical" [ref=e587]':
+                - 'cell "D/B # 047" [ref=e588]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e589]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e590]
+                - cell "DA" [ref=e591]
+                - cell "AD898" [ref=e592]
+                - cell "ASM Assembly Automation" [ref=e593]
+                - cell "—" [ref=e594]
+                - cell "—" [ref=e595]
+                - cell "AUTO" [ref=e596]
+                - cell "9.4h" [ref=e597]
+                - cell "28" [ref=e598]
+                - cell "20m" [ref=e599]
+                - cell "Critical" [ref=e600]
+              - 'row "D/B # 052 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 28.3h 32 53m Critical" [ref=e601]':
+                - 'cell "D/B # 052" [ref=e602]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e603]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e604]
+                - cell "DA" [ref=e605]
+                - cell "AD898" [ref=e606]
+                - cell "ASM Assembly Automation" [ref=e607]
+                - cell "—" [ref=e608]
+                - cell "—" [ref=e609]
+                - cell "AUTO" [ref=e610]
+                - cell "28.3h" [ref=e611]
+                - cell "32" [ref=e612]
+                - cell "53m" [ref=e613]
+                - cell "Critical" [ref=e614]
+              - 'row "D/B # 054 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 13.0h 26 30m Critical" [ref=e615]':
+                - 'cell "D/B # 054" [ref=e616]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e617]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e618]
+                - cell "DA" [ref=e619]
+                - cell "AD898" [ref=e620]
+                - cell "ASM Assembly Automation" [ref=e621]
+                - cell "—" [ref=e622]
+                - cell "—" [ref=e623]
+                - cell "AUTO" [ref=e624]
+                - cell "13.0h" [ref=e625]
+                - cell "26" [ref=e626]
+                - cell "30m" [ref=e627]
+                - cell "Critical" [ref=e628]
+              - 'row "D/B # 056 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 17.3h 24 43m Critical" [ref=e629]':
+                - 'cell "D/B # 056" [ref=e630]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e631]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e632]
+                - cell "DA" [ref=e633]
+                - cell "AD898" [ref=e634]
+                - cell "ASM Assembly Automation" [ref=e635]
+                - cell "—" [ref=e636]
+                - cell "—" [ref=e637]
+                - cell "AUTO" [ref=e638]
+                - cell "17.3h" [ref=e639]
+                - cell "24" [ref=e640]
+                - cell "43m" [ref=e641]
+                - cell "Critical" [ref=e642]
+              - 'row "D/B # 061 Fully Automatic Die bonder AD828 DA AD828 ASM Assembly Automation — — AUTO 8.4h 20 25m Critical" [ref=e643]':
+                - 'cell "D/B # 061" [ref=e644]'
+                - cell "Fully Automatic Die bonder AD828" [ref=e645]:
+                  - generic "Fully Automatic Die bonder AD828" [ref=e646]
+                - cell "DA" [ref=e647]
+                - cell "AD828" [ref=e648]
+                - cell "ASM Assembly Automation" [ref=e649]
+                - cell "—" [ref=e650]
+                - cell "—" [ref=e651]
+                - cell "AUTO" [ref=e652]
+                - cell "8.4h" [ref=e653]
+                - cell "20" [ref=e654]
+                - cell "25m" [ref=e655]
+                - cell "Critical" [ref=e656]
+              - 'row "D/B # 068 Fully Automatic Die bonder AD830 DA AD830 ASM Assembly Automation — — AUTO 11.1h 20 33m Critical" [ref=e657]':
+                - 'cell "D/B # 068" [ref=e658]'
+                - cell "Fully Automatic Die bonder AD830" [ref=e659]:
+                  - generic "Fully Automatic Die bonder AD830" [ref=e660]
+                - cell "DA" [ref=e661]
+                - cell "AD830" [ref=e662]
+                - cell "ASM Assembly Automation" [ref=e663]
+                - cell "—" [ref=e664]
+                - cell "—" [ref=e665]
+                - cell "AUTO" [ref=e666]
+                - cell "11.1h" [ref=e667]
+                - cell "20" [ref=e668]
+                - cell "33m" [ref=e669]
+                - cell "Critical" [ref=e670]
+              - 'row "D/B # 071 Fully Automatic Die bonder AD830 DA AD830 ASM Assembly Automation — — AUTO 10.6h 20 31m Critical" [ref=e671]':
+                - 'cell "D/B # 071" [ref=e672]'
+                - cell "Fully Automatic Die bonder AD830" [ref=e673]:
+                  - generic "Fully Automatic Die bonder AD830" [ref=e674]
+                - cell "DA" [ref=e675]
+                - cell "AD830" [ref=e676]
+                - cell "ASM Assembly Automation" [ref=e677]
+                - cell "—" [ref=e678]
+                - cell "—" [ref=e679]
+                - cell "AUTO" [ref=e680]
+                - cell "10.6h" [ref=e681]
+                - cell "20" [ref=e682]
+                - cell "31m" [ref=e683]
+                - cell "Critical" [ref=e684]
+              - 'row "D/B # 072 Fully Automatic Die bonder AD830 DA AD830 ASM Assembly Automation — — AUTO 8.1h 21 23m Critical" [ref=e685]':
+                - 'cell "D/B # 072" [ref=e686]'
+                - cell "Fully Automatic Die bonder AD830" [ref=e687]:
+                  - generic "Fully Automatic Die bonder AD830" [ref=e688]
+                - cell "DA" [ref=e689]
+                - cell "AD830" [ref=e690]
+                - cell "ASM Assembly Automation" [ref=e691]
+                - cell "—" [ref=e692]
+                - cell "—" [ref=e693]
+                - cell "AUTO" [ref=e694]
+                - cell "8.1h" [ref=e695]
+                - cell "21" [ref=e696]
+                - cell "23m" [ref=e697]
+                - cell "Critical" [ref=e698]
+              - 'row "D/B # 079 Fully Automatic Die bonder AD8912HS DA AD8912HS ASM Assembly Automation — — AUTO 10.1h 19 31m Critical" [ref=e699]':
+                - 'cell "D/B # 079" [ref=e700]'
+                - cell "Fully Automatic Die bonder AD8912HS" [ref=e701]:
+                  - generic "Fully Automatic Die bonder AD8912HS" [ref=e702]
+                - cell "DA" [ref=e703]
+                - cell "AD8912HS" [ref=e704]
+                - cell "ASM Assembly Automation" [ref=e705]
+                - cell "—" [ref=e706]
+                - cell "—" [ref=e707]
+                - cell "AUTO" [ref=e708]
+                - cell "10.1h" [ref=e709]
+                - cell "19" [ref=e710]
+                - cell "31m" [ref=e711]
+                - cell "Critical" [ref=e712]
+              - 'row "D/B # 080 Fully Automatic Die bonder AD830 DA AD830 ASM Assembly Automation — — AUTO 11.4h 24 28m Critical" [ref=e713]':
+                - 'cell "D/B # 080" [ref=e714]'
+                - cell "Fully Automatic Die bonder AD830" [ref=e715]:
+                  - generic "Fully Automatic Die bonder AD830" [ref=e716]
+                - cell "DA" [ref=e717]
+                - cell "AD830" [ref=e718]
+                - cell "ASM Assembly Automation" [ref=e719]
+                - cell "—" [ref=e720]
+                - cell "—" [ref=e721]
+                - cell "AUTO" [ref=e722]
+                - cell "11.4h" [ref=e723]
+                - cell "24" [ref=e724]
+                - cell "28m" [ref=e725]
+                - cell "Critical" [ref=e726]
+              - 'row "D/B # 081 Fully Automatic Die bonder AD830 DA AD830 ASM Assembly Automation — — AUTO 10.8h 19 33m Critical" [ref=e727]':
+                - 'cell "D/B # 081" [ref=e728]'
+                - cell "Fully Automatic Die bonder AD830" [ref=e729]:
+                  - generic "Fully Automatic Die bonder AD830" [ref=e730]
+                - cell "DA" [ref=e731]
+                - cell "AD830" [ref=e732]
+                - cell "ASM Assembly Automation" [ref=e733]
+                - cell "—" [ref=e734]
+                - cell "—" [ref=e735]
+                - cell "AUTO" [ref=e736]
+                - cell "10.8h" [ref=e737]
+                - cell "19" [ref=e738]
+                - cell "33m" [ref=e739]
+                - cell "Critical" [ref=e740]
+              - 'row "D/B # 088 Fully Automatic Die bonder AD8312 DA AD8312 ASM Assembly Automation — — AUTO 8.9h 23 23m Critical" [ref=e741]':
+                - 'cell "D/B # 088" [ref=e742]'
+                - cell "Fully Automatic Die bonder AD8312" [ref=e743]:
+                  - generic "Fully Automatic Die bonder AD8312" [ref=e744]
+                - cell "DA" [ref=e745]
+                - cell "AD8312" [ref=e746]
+                - cell "ASM Assembly Automation" [ref=e747]
+                - cell "—" [ref=e748]
+                - cell "—" [ref=e749]
+                - cell "AUTO" [ref=e750]
+                - cell "8.9h" [ref=e751]
+                - cell "23" [ref=e752]
+                - cell "23m" [ref=e753]
+                - cell "Critical" [ref=e754]
+              - 'row "D/B # 089 Fully Automatic Die bonder AD8312 DA AD8312 ASM Assembly Automation — — AUTO 12.4h 23 32m Critical" [ref=e755]':
+                - 'cell "D/B # 089" [ref=e756]'
+                - cell "Fully Automatic Die bonder AD8312" [ref=e757]:
+                  - generic "Fully Automatic Die bonder AD8312" [ref=e758]
+                - cell "DA" [ref=e759]
+                - cell "AD8312" [ref=e760]
+                - cell "ASM Assembly Automation" [ref=e761]
+                - cell "—" [ref=e762]
+                - cell "—" [ref=e763]
+                - cell "AUTO" [ref=e764]
+                - cell "12.4h" [ref=e765]
+                - cell "23" [ref=e766]
+                - cell "32m" [ref=e767]
+                - cell "Critical" [ref=e768]
+              - 'row "D/B # 096 Fully Automatic Die bonder AD838 DA AD838 ASM Assembly Automation — — AUTO 25.7h 25 61m Critical" [ref=e769]':
+                - 'cell "D/B # 096" [ref=e770]'
+                - cell "Fully Automatic Die bonder AD838" [ref=e771]:
+                  - generic "Fully Automatic Die bonder AD838" [ref=e772]
+                - cell "DA" [ref=e773]
+                - cell "AD838" [ref=e774]
+                - cell "ASM Assembly Automation" [ref=e775]
+                - cell "—" [ref=e776]
+                - cell "—" [ref=e777]
+                - cell "AUTO" [ref=e778]
+                - cell "25.7h" [ref=e779]
+                - cell "25" [ref=e780]
+                - cell "61m" [ref=e781]
+                - cell "Critical" [ref=e782]
+              - 'row "D/B # 098 Fully Automatic Die bonder AD8312 DA AD8312 ASM Assembly Automation — — AUTO 8.1h 18 27m Critical" [ref=e783]':
+                - 'cell "D/B # 098" [ref=e784]'
+                - cell "Fully Automatic Die bonder AD8312" [ref=e785]:
+                  - generic "Fully Automatic Die bonder AD8312" [ref=e786]
+                - cell "DA" [ref=e787]
+                - cell "AD8312" [ref=e788]
+                - cell "ASM Assembly Automation" [ref=e789]
+                - cell "—" [ref=e790]
+                - cell "—" [ref=e791]
+                - cell "AUTO" [ref=e792]
+                - cell "8.1h" [ref=e793]
+                - cell "18" [ref=e794]
+                - cell "27m" [ref=e795]
+                - cell "Critical" [ref=e796]
+              - 'row "D/B # 108 Fully Automatic Die bonder AD832i DA AD832i ASM Assembly Automation — — AUTO 14.2h 22 38m Critical" [ref=e797]':
+                - 'cell "D/B # 108" [ref=e798]'
+                - cell "Fully Automatic Die bonder AD832i" [ref=e799]:
+                  - generic "Fully Automatic Die bonder AD832i" [ref=e800]
+                - cell "DA" [ref=e801]
+                - cell "AD832i" [ref=e802]
+                - cell "ASM Assembly Automation" [ref=e803]
+                - cell "—" [ref=e804]
+                - cell "—" [ref=e805]
+                - cell "AUTO" [ref=e806]
+                - cell "14.2h" [ref=e807]
+                - cell "22" [ref=e808]
+                - cell "38m" [ref=e809]
+                - cell "Critical" [ref=e810]
+              - 'row "D/B # 112 Fully Automatic Die bonder AD832i DA AD832i ASM Assembly Automation — — AUTO 9.6h 19 30m Critical" [ref=e811]':
+                - 'cell "D/B # 112" [ref=e812]'
+                - cell "Fully Automatic Die bonder AD832i" [ref=e813]:
+                  - generic "Fully Automatic Die bonder AD832i" [ref=e814]
+                - cell "DA" [ref=e815]
+                - cell "AD832i" [ref=e816]
+                - cell "ASM Assembly Automation" [ref=e817]
+                - cell "—" [ref=e818]
+                - cell "—" [ref=e819]
+                - cell "AUTO" [ref=e820]
+                - cell "9.6h" [ref=e821]
+                - cell "19" [ref=e822]
+                - cell "30m" [ref=e823]
+                - cell "Critical" [ref=e824]
+              - 'row "D/B # 129 Fully Automatic Die bonder AD832i DA AD832i ASM Assembly Automation — — AUTO 12.4h 21 35m Critical" [ref=e825]':
+                - 'cell "D/B # 129" [ref=e826]'
+                - cell "Fully Automatic Die bonder AD832i" [ref=e827]:
+                  - generic "Fully Automatic Die bonder AD832i" [ref=e828]
+                - cell "DA" [ref=e829]
+                - cell "AD832i" [ref=e830]
+                - cell "ASM Assembly Automation" [ref=e831]
+                - cell "—" [ref=e832]
+                - cell "—" [ref=e833]
+                - cell "AUTO" [ref=e834]
+                - cell "12.4h" [ref=e835]
+                - cell "21" [ref=e836]
+                - cell "35m" [ref=e837]
+                - cell "Critical" [ref=e838]
+              - 'row "D/B # 002 Fully Automatic Die bonder AD889 DA AD889 ASM Assembly Automation — — AUTO 7.8h 19 24m Warning" [ref=e839]':
+                - 'cell "D/B # 002" [ref=e840]'
+                - cell "Fully Automatic Die bonder AD889" [ref=e841]:
+                  - generic "Fully Automatic Die bonder AD889" [ref=e842]
+                - cell "DA" [ref=e843]
+                - cell "AD889" [ref=e844]
+                - cell "ASM Assembly Automation" [ref=e845]
+                - cell "—" [ref=e846]
+                - cell "—" [ref=e847]
+                - cell "AUTO" [ref=e848]
+                - cell "7.8h" [ref=e849]
+                - cell "19" [ref=e850]
+                - cell "24m" [ref=e851]
+                - cell "Warning" [ref=e852]
+              - 'row "D/B # 004 Fully Automatic Die bonder AD889 DA AD889 ASM Assembly Automation — — AUTO 7.0h 11 38m Warning" [ref=e853]':
+                - 'cell "D/B # 004" [ref=e854]'
+                - cell "Fully Automatic Die bonder AD889" [ref=e855]:
+                  - generic "Fully Automatic Die bonder AD889" [ref=e856]
+                - cell "DA" [ref=e857]
+                - cell "AD889" [ref=e858]
+                - cell "ASM Assembly Automation" [ref=e859]
+                - cell "—" [ref=e860]
+                - cell "—" [ref=e861]
+                - cell "AUTO" [ref=e862]
+                - cell "7.0h" [ref=e863]
+                - cell "11" [ref=e864]
+                - cell "38m" [ref=e865]
+                - cell "Warning" [ref=e866]
+              - 'row "D/B # 034 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 3.7h 12 18m Warning" [ref=e867]':
+                - 'cell "D/B # 034" [ref=e868]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e869]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e870]
+                - cell "DA" [ref=e871]
+                - cell "AD898" [ref=e872]
+                - cell "ASM Assembly Automation" [ref=e873]
+                - cell "—" [ref=e874]
+                - cell "—" [ref=e875]
+                - cell "AUTO" [ref=e876]
+                - cell "3.7h" [ref=e877]
+                - cell "12" [ref=e878]
+                - cell "18m" [ref=e879]
+                - cell "Warning" [ref=e880]
+              - 'row "D/B # 035 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 3.0h 9 19m Warning" [ref=e881]':
+                - 'cell "D/B # 035" [ref=e882]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e883]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e884]
+                - cell "DA" [ref=e885]
+                - cell "AD898" [ref=e886]
+                - cell "ASM Assembly Automation" [ref=e887]
+                - cell "—" [ref=e888]
+                - cell "—" [ref=e889]
+                - cell "AUTO" [ref=e890]
+                - cell "3.0h" [ref=e891]
+                - cell "9" [ref=e892]
+                - cell "19m" [ref=e893]
+                - cell "Warning" [ref=e894]
+              - 'row "D/B # 036 Fully Automatic Die bonder AD898 DA AD898 ASM Assembly Automation — — AUTO 5.2h 7 44m Warning" [ref=e895]':
+                - 'cell "D/B # 036" [ref=e896]'
+                - cell "Fully Automatic Die bonder AD898" [ref=e897]:
+                  - generic "Fully Automatic Die bonder AD898" [ref=e898]
+                - cell "DA" [ref=e899]
+                - cell "AD898" [ref=e900]
+                - cell "ASM Assembly Automation" [ref=e901]
+                - cell "—" [ref=e902]
+                - cell "—" [ref=e903]
+                - cell "AUTO" [ref=e904]
+                - cell "5.2h" [ref=e905]
+                - cell "7" [ref=e906]
+                - cell "44m" [ref=e907]
+                - cell "Warning" [ref=e908]
+          - generic [ref=e909]:
+            - button "‹ Prev" [disabled] [ref=e910] [cursor=pointer]
+            - generic [ref=e911]: Page 1 / 5
+            - button "Next ›" [ref=e912] [cursor=pointer]

@@ -99,7 +99,11 @@
               style:width={col.width}
               style:text-align={col.align ?? 'left'}
               class:sortable={col.sortable}
+              tabindex={col.sortable ? 0 : undefined}
+              role={col.sortable ? 'button' : undefined}
+              aria-sort={col.sortable ? (sortKey === col.key ? (sortAsc ? 'ascending' : 'descending') : 'none') : undefined}
               onclick={() => col.sortable && toggleSort(col.key)}
+              onkeydown={(e) => { if (col.sortable && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggleSort(col.key); } }}
             >
               {col.label}
               {#if col.sortable}

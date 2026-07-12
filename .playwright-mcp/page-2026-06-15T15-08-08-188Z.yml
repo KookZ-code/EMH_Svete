@@ -1,0 +1,77 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: ./
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: ./live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: ./utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: ./downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: ./machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: ./timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: ./inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: ./wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: ./da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: ./store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: ./admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Die Attach — Utilization & Downtime Report" [level=2] [ref=e50]
+          - paragraph [ref=e51]: Night Shift · 15 Jun 2026 · — · No package selected · 0 machines
+        - button "↓ HTML Report" [disabled] [ref=e53]
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - generic [ref=e56]: DATE
+          - textbox "DATE" [ref=e57]: 2026-06-15
+        - generic [ref=e58]:
+          - generic [ref=e59]: SHIFT
+          - generic [ref=e60]:
+            - button "☀ Day" [ref=e61] [cursor=pointer]
+            - button "🌙 Night" [ref=e62] [cursor=pointer]
+        - generic [ref=e63]:
+          - generic [ref=e64]: PACKAGE
+          - generic [ref=e65]: Select a date first
+        - button "Load Report" [disabled] [ref=e68]
+      - generic [ref=e69]:
+        - text: Select a date, shift, and package — then click
+        - strong [ref=e70]: Load Report

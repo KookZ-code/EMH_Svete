@@ -1,0 +1,262 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e49]:
+        - heading "Machine Inventory" [level=1] [ref=e50]
+        - paragraph [ref=e51]: Equipment master list · 7-day downtime · Health status
+      - generic [ref=e52]:
+        - generic [ref=e53]: Area
+        - button "All" [ref=e54] [cursor=pointer]
+        - button "None" [ref=e55] [cursor=pointer]
+        - button "BG" [ref=e56] [cursor=pointer]
+        - button "SAW" [ref=e57] [cursor=pointer]
+        - button "DA" [ref=e58] [cursor=pointer]
+        - button "WB" [ref=e59] [cursor=pointer]
+        - button "MOLD" [ref=e60] [cursor=pointer]
+        - button "PLATE" [ref=e61] [cursor=pointer]
+        - button "MARK" [ref=e62] [cursor=pointer]
+        - button "SAW_QFN" [ref=e63] [cursor=pointer]
+        - button "TF" [ref=e64] [cursor=pointer]
+        - button "ISO" [ref=e65] [cursor=pointer]
+        - button "FS" [ref=e66] [cursor=pointer]
+        - button "KEY" [ref=e68] [cursor=pointer]
+        - button "Auto" [ref=e69] [cursor=pointer]
+        - button "Gold" [ref=e70] [cursor=pointer]
+      - generic [ref=e71]:
+        - img [ref=e72]
+        - searchbox "Search machine ID, description, model, manufacturer…" [ref=e74]
+        - generic [ref=e75]: 1383 machines
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - generic [ref=e78]: "1383"
+          - generic [ref=e79]: Total Machines
+        - generic [ref=e80]:
+          - generic [ref=e81]: "1289"
+          - generic [ref=e82]: KEY Machines
+        - generic [ref=e83]:
+          - generic [ref=e84]: "11"
+          - generic [ref=e85]: Areas
+        - generic [ref=e86]:
+          - generic [ref=e87]: "63"
+          - generic [ref=e88]: Models
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - text: Machines by Area
+          - generic [ref=e1049]: click to filter
+        - generic [ref=e97]:
+          - text: Downtime Scatter (Events vs Hours)
+          - generic [ref=e98]: click point → filter table
+      - generic [ref=e102]:
+        - generic [ref=e104]:
+          - text: Top 15 Models
+          - generic [ref=e105]: click to filter
+        - generic [ref=e110]:
+          - text: By Manufacturer
+          - generic [ref=e111]: click to filter
+      - generic [ref=e116]:
+        - text: Machine Age Distribution by Area (Lifecycle)
+        - generic [ref=e117]: click area to filter
+      - generic [ref=e121]:
+        - generic [ref=e174]:
+          - button "All 1383" [ref=e1050] [cursor=pointer]:
+            - text: All
+            - generic [ref=e176]: "1383"
+          - button "Critical 38" [ref=e1051] [cursor=pointer]:
+            - text: Critical
+            - generic [ref=e178]: "38"
+          - button "Warning 278" [ref=e1052] [cursor=pointer]:
+            - text: Warning
+            - generic [ref=e180]: "278"
+          - button "Monitor 392" [ref=e1053] [cursor=pointer]:
+            - text: Monitor
+            - generic [ref=e182]: "392"
+          - button "Healthy 675" [ref=e1054] [cursor=pointer]:
+            - text: Healthy
+            - generic [ref=e184]: "675"
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - generic [ref=e124]: Model
+            - generic [ref=e126]: All models
+            - combobox [ref=e127]:
+              - option "+ Add model…" [selected]
+              - option "7500 PLUS"
+              - option "AB339"
+              - option "ABC-2006"
+              - option "AD2000T"
+              - option "AD3000T"
+              - option "AD3000T Plus"
+              - option "AD3000T-PLUS"
+              - option "AD828"
+              - option "AD830"
+              - option "AD8312"
+              - option "AD8312Plus"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD838"
+              - option "AD889"
+              - option "AD8912HS"
+              - option "AD898"
+              - option "AEI-4048A"
+              - option "ARE-250"
+              - option "Aero Twin"
+              - option "BLAZON-2200"
+              - option "DFC-2025"
+              - option "DFD6340"
+              - option "DFD6361"
+              - option "DFD6560"
+              - option "DFD6750"
+              - option "DFG 8540"
+              - option "DISCO DFL7161"
+              - option "DP80-8-M"
+              - option "DP80-8-MOUT"
+              - option "EAD6750"
+              - option "EDF+EPL2100S"
+              - option "EDF+EPL2400S"
+              - option "Eagle Aero GoCu"
+              - option "Eagle Xtreme"
+              - option "Eagle Xtreme GoCu"
+              - option "Eagle60"
+              - option "GP-ELF-D24084"
+              - option "GP-PRO SP80N"
+              - option "GP-PRO-8 SP80N"
+              - option "GP-PRO-8-SP80N"
+              - option "GP-PRO-80B-M1"
+              - option "GP-PRO4 SP170V"
+              - option "GP-PRO8 SP120V"
+              - option "GP-PRO8 SP170V"
+              - option "GP-PRO8-SP170N"
+              - option "GP-PRO8-SP80N"
+              - option "Harrier"
+              - option "Harrier Xtreme"
+              - option "MP209"
+              - option "MPHENIX"
+              - option "PANATORN-HP"
+              - option "SIAM-DF"
+              - option "SMART ELEMENT (F/S)"
+              - option "Singulation Mark"
+              - option "Smart Element (F/S)"
+              - option "Smart Element (ISO)"
+              - option "Smart Element (MARK)"
+              - option "Smart Element (T/F)"
+              - option "TS-PRO"
+              - option "Twin Eagle Xtreme GoCu"
+              - option "n/a"
+          - generic [ref=e128]:
+            - generic [ref=e129]: Mfr.
+            - generic [ref=e131]: All manufacturers
+            - combobox [ref=e132]:
+              - option "+ Add mfr…" [selected]
+              - option "ACCRETECH"
+              - option "ADT"
+              - option "AEI Technologies"
+              - option "ASM"
+              - option "ASM Assembly Automation"
+              - option "Accretech"
+              - option "DAI-ICHI"
+              - option "DISCO"
+              - option "DISCO COOPERATION"
+              - option "E & R"
+              - option "Excel tool"
+              - option "GPM"
+              - option "I-PEX"
+              - option "K&N"
+              - option "MECO"
+              - option "PANATORN"
+              - option "SAINT MASTER"
+              - option "SIAM INTER"
+              - option "THINKY COPPERATION"
+              - option "n/a"
+          - button "↓ CSV" [ref=e134] [cursor=pointer]
+        - generic [ref=e136]:
+          - button "Machines (1383)" [ref=e1055] [cursor=pointer]
+          - button "Models (63)" [ref=e1056] [cursor=pointer]
+        - generic [ref=e140]:
+          - generic [ref=e141]:
+            - searchbox "Search…" [ref=e142]: "W/B # 388"
+            - generic [ref=e143]: 1 record
+          - table [ref=e145]:
+            - rowgroup [ref=e146]:
+              - row "Machine ↕ Description ↕ Area ↕ Model ↕ Mfr. ↕ Year ↕ Age Flags 7d Down ↕ Events ↕ MTTR ↕ Health ↕ Last Package ↕" [ref=e147]:
+                - columnheader "Machine ↕" [ref=e148] [cursor=pointer]
+                - columnheader "Description ↕" [ref=e149] [cursor=pointer]
+                - columnheader "Area ↕" [ref=e150] [cursor=pointer]
+                - columnheader "Model ↕" [ref=e151] [cursor=pointer]
+                - columnheader "Mfr. ↕" [ref=e152] [cursor=pointer]
+                - columnheader "Year ↕" [ref=e153] [cursor=pointer]
+                - columnheader "Age" [ref=e154]
+                - columnheader "Flags" [ref=e155]
+                - columnheader "7d Down ↕" [ref=e156] [cursor=pointer]
+                - columnheader "Events ↕" [ref=e157] [cursor=pointer]
+                - columnheader "MTTR ↕" [ref=e158] [cursor=pointer]
+                - columnheader "Health ↕" [ref=e159] [cursor=pointer]
+                - columnheader "Last Package ↕" [ref=e160] [cursor=pointer]
+            - rowgroup [ref=e161]:
+              - 'row "W/B # 388 ASM WIRE BOND Eagle Aero GoCu WB Eagle Aero GoCu ASM 2021 Mature 5–10y KEY AUTO 2.6h 6 26m Warning —" [ref=e1057]':
+                - 'cell "W/B # 388" [ref=e1058]'
+                - cell "ASM WIRE BOND Eagle Aero GoCu" [ref=e1059]:
+                  - generic "ASM WIRE BOND Eagle Aero GoCu" [ref=e1060]
+                - cell "WB" [ref=e1061]
+                - cell "Eagle Aero GoCu" [ref=e1062]
+                - cell "ASM" [ref=e1063]
+                - cell "2021" [ref=e1064]
+                - cell "Mature 5–10y" [ref=e1065]
+                - cell "KEY AUTO" [ref=e1066]
+                - cell "2.6h" [ref=e1067]
+                - cell "6" [ref=e1068]
+                - cell "26m" [ref=e1069]
+                - cell "Warning" [ref=e1070]
+                - cell "—" [ref=e1071]

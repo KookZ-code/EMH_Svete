@@ -1,0 +1,919 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e49]:
+        - heading "Machine Inventory" [level=1] [ref=e50]
+        - paragraph [ref=e51]: Equipment master list · 7-day downtime · Health status
+      - generic [ref=e52]:
+        - generic [ref=e53]: Area
+        - button "All" [ref=e54] [cursor=pointer]
+        - button "None" [ref=e55] [cursor=pointer]
+        - button "BG" [ref=e56] [cursor=pointer]
+        - button "SAW" [ref=e57] [cursor=pointer]
+        - button "DA" [ref=e58] [cursor=pointer]
+        - button "WB" [ref=e59] [cursor=pointer]
+        - button "MOLD" [ref=e60] [cursor=pointer]
+        - button "PLATE" [ref=e61] [cursor=pointer]
+        - button "MARK" [ref=e62] [cursor=pointer]
+        - button "SAW_QFN" [ref=e63] [cursor=pointer]
+        - button "TF" [ref=e64] [cursor=pointer]
+        - button "ISO" [ref=e65] [cursor=pointer]
+        - button "FS" [ref=e66] [cursor=pointer]
+        - button "KEY" [ref=e68] [cursor=pointer]
+        - button "Auto" [ref=e69] [cursor=pointer]
+        - button "Gold" [ref=e70] [cursor=pointer]
+      - generic [ref=e71]:
+        - img [ref=e72]
+        - searchbox "Search machine ID, description, model, manufacturer…" [ref=e74]
+        - generic [ref=e75]: 1383 machines
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - generic [ref=e78]: "1383"
+          - generic [ref=e79]: Total Machines
+        - generic [ref=e80]:
+          - generic [ref=e81]: "0"
+          - generic [ref=e82]: KEY Machines
+        - generic [ref=e83]:
+          - generic [ref=e84]: "11"
+          - generic [ref=e85]: Areas
+        - generic [ref=e86]:
+          - generic [ref=e87]: "63"
+          - generic [ref=e88]: Models
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - text: Machines by Area
+          - generic [ref=e92]: click to filter
+        - generic [ref=e97]:
+          - text: Equipment Health Map
+          - generic [ref=e98]:
+            - text: Healthy
+            - text: Monitor
+            - text: Warning
+            - text: Critical
+      - generic [ref=e106]:
+        - generic [ref=e108]:
+          - text: Top 15 Models
+          - generic [ref=e109]: click to filter
+        - generic [ref=e114]:
+          - text: By Manufacturer
+          - generic [ref=e115]: click to filter
+      - generic [ref=e120]:
+        - text: Machine Age Distribution by Area (Lifecycle)
+        - generic [ref=e121]: click area to filter
+      - generic [ref=e125]:
+        - generic [ref=e177]:
+          - button "All 1383" [ref=e178] [cursor=pointer]:
+            - text: All
+            - generic [ref=e179]: "1383"
+          - button "Critical 38" [ref=e180] [cursor=pointer]:
+            - text: Critical
+            - generic [ref=e181]: "38"
+          - button "Warning 280" [ref=e182] [cursor=pointer]:
+            - text: Warning
+            - generic [ref=e183]: "280"
+          - button "Monitor 390" [ref=e184] [cursor=pointer]:
+            - text: Monitor
+            - generic [ref=e185]: "390"
+          - button "Healthy 675" [ref=e186] [cursor=pointer]:
+            - text: Healthy
+            - generic [ref=e187]: "675"
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: Model
+            - generic [ref=e130]: All models
+            - combobox [ref=e131]:
+              - option "+ Add model…" [selected]
+              - option "7500 PLUS"
+              - option "AB339"
+              - option "ABC-2006"
+              - option "AD2000T"
+              - option "AD3000T"
+              - option "AD3000T Plus"
+              - option "AD3000T-PLUS"
+              - option "AD828"
+              - option "AD830"
+              - option "AD8312"
+              - option "AD8312Plus"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD838"
+              - option "AD889"
+              - option "AD8912HS"
+              - option "AD898"
+              - option "AEI-4048A"
+              - option "ARE-250"
+              - option "Aero Twin"
+              - option "BLAZON-2200"
+              - option "DFC-2025"
+              - option "DFD6340"
+              - option "DFD6361"
+              - option "DFD6560"
+              - option "DFD6750"
+              - option "DFG 8540"
+              - option "DISCO DFL7161"
+              - option "DP80-8-M"
+              - option "DP80-8-MOUT"
+              - option "EAD6750"
+              - option "EDF+EPL2100S"
+              - option "EDF+EPL2400S"
+              - option "Eagle Aero GoCu"
+              - option "Eagle Xtreme"
+              - option "Eagle Xtreme GoCu"
+              - option "Eagle60"
+              - option "GP-ELF-D24084"
+              - option "GP-PRO SP80N"
+              - option "GP-PRO-8 SP80N"
+              - option "GP-PRO-8-SP80N"
+              - option "GP-PRO-80B-M1"
+              - option "GP-PRO4 SP170V"
+              - option "GP-PRO8 SP120V"
+              - option "GP-PRO8 SP170V"
+              - option "GP-PRO8-SP170N"
+              - option "GP-PRO8-SP80N"
+              - option "Harrier"
+              - option "Harrier Xtreme"
+              - option "MP209"
+              - option "MPHENIX"
+              - option "PANATORN-HP"
+              - option "SIAM-DF"
+              - option "SMART ELEMENT (F/S)"
+              - option "Singulation Mark"
+              - option "Smart Element (F/S)"
+              - option "Smart Element (ISO)"
+              - option "Smart Element (MARK)"
+              - option "Smart Element (T/F)"
+              - option "TS-PRO"
+              - option "Twin Eagle Xtreme GoCu"
+              - option "n/a"
+          - generic [ref=e132]:
+            - generic [ref=e133]: Mfr.
+            - generic [ref=e135]: All manufacturers
+            - combobox [ref=e136]:
+              - option "+ Add mfr…" [selected]
+              - option "ACCRETECH"
+              - option "ADT"
+              - option "AEI Technologies"
+              - option "ASM"
+              - option "ASM Assembly Automation"
+              - option "Accretech"
+              - option "DAI-ICHI"
+              - option "DISCO"
+              - option "DISCO COOPERATION"
+              - option "E & R"
+              - option "Excel tool"
+              - option "GPM"
+              - option "I-PEX"
+              - option "K&N"
+              - option "MECO"
+              - option "PANATORN"
+              - option "SAINT MASTER"
+              - option "SIAM INTER"
+              - option "THINKY COPPERATION"
+              - option "n/a"
+          - button "↓ CSV" [ref=e138] [cursor=pointer]
+        - generic [ref=e139]:
+          - generic [ref=e140]:
+            - button "Machines (1383)" [ref=e188] [cursor=pointer]
+            - button "Models (63)" [active] [ref=e189] [cursor=pointer]
+          - generic [ref=e545]: Click a row to drill into all machines for that model
+        - table [ref=e547]:
+          - rowgroup [ref=e548]:
+            - row "Model Manufacturer Count Areas Critical Warning Avg Age Avg MTTR" [ref=e549]:
+              - columnheader "Model" [ref=e550]
+              - columnheader "Manufacturer" [ref=e551]
+              - columnheader "Count" [ref=e552]
+              - columnheader "Areas" [ref=e553]
+              - columnheader "Critical" [ref=e554]
+              - columnheader "Warning" [ref=e555]
+              - columnheader "Avg Age" [ref=e556]
+              - columnheader "Avg MTTR" [ref=e557]
+              - columnheader [ref=e558]
+          - rowgroup [ref=e559]:
+            - row "Twin Eagle Xtreme GoCu ASM 321 WB 3 83 — 28m →" [ref=e560] [cursor=pointer]:
+              - cell "Twin Eagle Xtreme GoCu" [ref=e561]
+              - cell "ASM" [ref=e562]
+              - cell "321" [ref=e563]
+              - cell "WB" [ref=e564]
+              - cell "3" [ref=e565]:
+                - generic [ref=e566]: "3"
+              - cell "83" [ref=e567]:
+                - generic [ref=e568]: "83"
+              - cell "—" [ref=e569]
+              - cell "28m" [ref=e570]
+              - cell "→" [ref=e571]
+            - row "Aero Twin ASM 303 WB 3 60 — 20m →" [ref=e572] [cursor=pointer]:
+              - cell "Aero Twin" [ref=e573]
+              - cell "ASM" [ref=e574]
+              - cell "303" [ref=e575]
+              - cell "WB" [ref=e576]
+              - cell "3" [ref=e577]:
+                - generic [ref=e578]: "3"
+              - cell "60" [ref=e579]:
+                - generic [ref=e580]: "60"
+              - cell "—" [ref=e581]
+              - cell "20m" [ref=e582]
+              - cell "→" [ref=e583]
+            - row "Harrier ASM 147 WB 1 19 — 22m →" [ref=e584] [cursor=pointer]:
+              - cell "Harrier" [ref=e585]
+              - cell "ASM" [ref=e586]
+              - cell "147" [ref=e587]
+              - cell "WB" [ref=e588]
+              - cell "1" [ref=e589]:
+                - generic [ref=e590]: "1"
+              - cell "19" [ref=e591]:
+                - generic [ref=e592]: "19"
+              - cell "—" [ref=e593]
+              - cell "22m" [ref=e594]
+              - cell "→" [ref=e595]
+            - row "AB339 ASM 74 WB — — — — →" [ref=e596] [cursor=pointer]:
+              - cell "AB339" [ref=e597]
+              - cell "ASM" [ref=e598]
+              - cell "74" [ref=e599]
+              - cell "WB" [ref=e600]
+              - cell "—" [ref=e601]
+              - cell "—" [ref=e602]
+              - cell "—" [ref=e603]
+              - cell "—" [ref=e604]
+              - cell "→" [ref=e605]
+            - row "Eagle60 ASM 47 WB 3 14 — 40m →" [ref=e606] [cursor=pointer]:
+              - cell "Eagle60" [ref=e607]
+              - cell "ASM" [ref=e608]
+              - cell "47" [ref=e609]
+              - cell "WB" [ref=e610]
+              - cell "3" [ref=e611]:
+                - generic [ref=e612]: "3"
+              - cell "14" [ref=e613]:
+                - generic [ref=e614]: "14"
+              - cell "—" [ref=e615]
+              - cell "40m" [ref=e616]
+              - cell "→" [ref=e617]
+            - row "AD3000T Accretech 42 SAW, SAW_QFN 2 8 — 54m →" [ref=e618] [cursor=pointer]:
+              - cell "AD3000T" [ref=e619]
+              - cell "Accretech" [ref=e620]
+              - cell "42" [ref=e621]
+              - cell "SAW, SAW_QFN" [ref=e622]
+              - cell "2" [ref=e623]:
+                - generic [ref=e624]: "2"
+              - cell "8" [ref=e625]:
+                - generic [ref=e626]: "8"
+              - cell "—" [ref=e627]
+              - cell "54m" [ref=e628]
+              - cell "→" [ref=e629]
+            - row "MP209 ASM 40 FS, ISO, TF — — — 25m →" [ref=e630] [cursor=pointer]:
+              - cell "MP209" [ref=e631]
+              - cell "ASM" [ref=e632]
+              - cell "40" [ref=e633]
+              - cell "FS, ISO, TF" [ref=e634]
+              - cell "—" [ref=e635]
+              - cell "—" [ref=e636]
+              - cell "—" [ref=e637]
+              - cell "25m" [ref=e638]
+              - cell "→" [ref=e639]
+            - row "Eagle Aero GoCu ASM 34 WB — 11 — 23m →" [ref=e640] [cursor=pointer]:
+              - cell "Eagle Aero GoCu" [ref=e641]
+              - cell "ASM" [ref=e642]
+              - cell "34" [ref=e643]
+              - cell "WB" [ref=e644]
+              - cell "—" [ref=e645]
+              - cell "11" [ref=e646]:
+                - generic [ref=e647]: "11"
+              - cell "—" [ref=e648]
+              - cell "23m" [ref=e649]
+              - cell "→" [ref=e650]
+            - row "AD889 ASM Assembly Automation 25 DA 1 2 — 25m →" [ref=e651] [cursor=pointer]:
+              - cell "AD889" [ref=e652]
+              - cell "ASM Assembly Automation" [ref=e653]
+              - cell "25" [ref=e654]
+              - cell "DA" [ref=e655]
+              - cell "1" [ref=e656]:
+                - generic [ref=e657]: "1"
+              - cell "2" [ref=e658]:
+                - generic [ref=e659]: "2"
+              - cell "—" [ref=e660]
+              - cell "25m" [ref=e661]
+              - cell "→" [ref=e662]
+            - row "AD898 ASM Assembly Automation 24 DA 5 16 — 28m →" [ref=e663] [cursor=pointer]:
+              - cell "AD898" [ref=e664]
+              - cell "ASM Assembly Automation" [ref=e665]
+              - cell "24" [ref=e666]
+              - cell "DA" [ref=e667]
+              - cell "5" [ref=e668]:
+                - generic [ref=e669]: "5"
+              - cell "16" [ref=e670]:
+                - generic [ref=e671]: "16"
+              - cell "—" [ref=e672]
+              - cell "28m" [ref=e673]
+              - cell "→" [ref=e674]
+            - row "DP80-8-M DAI-ICHI 21 MOLD — — — 14m →" [ref=e675] [cursor=pointer]:
+              - cell "DP80-8-M" [ref=e676]
+              - cell "DAI-ICHI" [ref=e677]
+              - cell "21" [ref=e678]
+              - cell "MOLD" [ref=e679]
+              - cell "—" [ref=e680]
+              - cell "—" [ref=e681]
+              - cell "—" [ref=e682]
+              - cell "14m" [ref=e683]
+              - cell "→" [ref=e684]
+            - row "MPHENIX ASM 17 FS, ISO — — — — →" [ref=e685] [cursor=pointer]:
+              - cell "MPHENIX" [ref=e686]
+              - cell "ASM" [ref=e687]
+              - cell "17" [ref=e688]
+              - cell "FS, ISO" [ref=e689]
+              - cell "—" [ref=e690]
+              - cell "—" [ref=e691]
+              - cell "—" [ref=e692]
+              - cell "—" [ref=e693]
+              - cell "→" [ref=e694]
+            - row "AD830 ASM Assembly Automation 16 DA 5 9 — 27m →" [ref=e695] [cursor=pointer]:
+              - cell "AD830" [ref=e696]
+              - cell "ASM Assembly Automation" [ref=e697]
+              - cell "16" [ref=e698]
+              - cell "DA" [ref=e699]
+              - cell "5" [ref=e700]:
+                - generic [ref=e701]: "5"
+              - cell "9" [ref=e702]:
+                - generic [ref=e703]: "9"
+              - cell "—" [ref=e704]
+              - cell "27m" [ref=e705]
+              - cell "→" [ref=e706]
+            - row "Smart Element (MARK) GPM 16 MARK 1 5 — 44m →" [ref=e707] [cursor=pointer]:
+              - cell "Smart Element (MARK)" [ref=e708]
+              - cell "GPM" [ref=e709]
+              - cell "16" [ref=e710]
+              - cell "MARK" [ref=e711]
+              - cell "1" [ref=e712]:
+                - generic [ref=e713]: "1"
+              - cell "5" [ref=e714]:
+                - generic [ref=e715]: "5"
+              - cell "—" [ref=e716]
+              - cell "44m" [ref=e717]
+              - cell "→" [ref=e718]
+            - row "7500 PLUS ADT 16 SAW — — — — →" [ref=e719] [cursor=pointer]:
+              - cell "7500 PLUS" [ref=e720]
+              - cell "ADT" [ref=e721]
+              - cell "16" [ref=e722]
+              - cell "SAW" [ref=e723]
+              - cell "—" [ref=e724]
+              - cell "—" [ref=e725]
+              - cell "—" [ref=e726]
+              - cell "—" [ref=e727]
+              - cell "→" [ref=e728]
+            - row "Eagle Xtreme GoCu ASM 14 WB 4 6 — 29m →" [ref=e729] [cursor=pointer]:
+              - cell "Eagle Xtreme GoCu" [ref=e730]
+              - cell "ASM" [ref=e731]
+              - cell "14" [ref=e732]
+              - cell "WB" [ref=e733]
+              - cell "4" [ref=e734]:
+                - generic [ref=e735]: "4"
+              - cell "6" [ref=e736]:
+                - generic [ref=e737]: "6"
+              - cell "—" [ref=e738]
+              - cell "29m" [ref=e739]
+              - cell "→" [ref=e740]
+            - row "AD838 ASM Assembly Automation 13 DA 2 9 — 24m →" [ref=e741] [cursor=pointer]:
+              - cell "AD838" [ref=e742]
+              - cell "ASM Assembly Automation" [ref=e743]
+              - cell "13" [ref=e744]
+              - cell "DA" [ref=e745]
+              - cell "2" [ref=e746]:
+                - generic [ref=e747]: "2"
+              - cell "9" [ref=e748]:
+                - generic [ref=e749]: "9"
+              - cell "—" [ref=e750]
+              - cell "24m" [ref=e751]
+              - cell "→" [ref=e752]
+            - row "GP-PRO-80B-M1 DAI-ICHI 12 MOLD — 2 — 58m →" [ref=e753] [cursor=pointer]:
+              - cell "GP-PRO-80B-M1" [ref=e754]
+              - cell "DAI-ICHI" [ref=e755]
+              - cell "12" [ref=e756]
+              - cell "MOLD" [ref=e757]
+              - cell "—" [ref=e758]
+              - cell "2" [ref=e759]:
+                - generic [ref=e760]: "2"
+              - cell "—" [ref=e761]
+              - cell "58m" [ref=e762]
+              - cell "→" [ref=e763]
+            - row "AD832i ASM Assembly Automation 11 DA 3 6 — 24m →" [ref=e764] [cursor=pointer]:
+              - cell "AD832i" [ref=e765]
+              - cell "ASM Assembly Automation" [ref=e766]
+              - cell "11" [ref=e767]
+              - cell "DA" [ref=e768]
+              - cell "3" [ref=e769]:
+                - generic [ref=e770]: "3"
+              - cell "6" [ref=e771]:
+                - generic [ref=e772]: "6"
+              - cell "—" [ref=e773]
+              - cell "24m" [ref=e774]
+              - cell "→" [ref=e775]
+            - row "AD8312 ASM Assembly Automation 10 DA 3 6 — 26m →" [ref=e776] [cursor=pointer]:
+              - cell "AD8312" [ref=e777]
+              - cell "ASM Assembly Automation" [ref=e778]
+              - cell "10" [ref=e779]
+              - cell "DA" [ref=e780]
+              - cell "3" [ref=e781]:
+                - generic [ref=e782]: "3"
+              - cell "6" [ref=e783]:
+                - generic [ref=e784]: "6"
+              - cell "—" [ref=e785]
+              - cell "26m" [ref=e786]
+              - cell "→" [ref=e787]
+            - row "DFD6340 DISCO 9 SAW — — — 31m →" [ref=e788] [cursor=pointer]:
+              - cell "DFD6340" [ref=e789]
+              - cell "DISCO" [ref=e790]
+              - cell "9" [ref=e791]
+              - cell "SAW" [ref=e792]
+              - cell "—" [ref=e793]
+              - cell "—" [ref=e794]
+              - cell "—" [ref=e795]
+              - cell "31m" [ref=e796]
+              - cell "→" [ref=e797]
+            - row "DFD6560 DISCO 9 SAW, SAW_QFN — 3 — 46m →" [ref=e798] [cursor=pointer]:
+              - cell "DFD6560" [ref=e799]
+              - cell "DISCO" [ref=e800]
+              - cell "9" [ref=e801]
+              - cell "SAW, SAW_QFN" [ref=e802]
+              - cell "—" [ref=e803]
+              - cell "3" [ref=e804]:
+                - generic [ref=e805]: "3"
+              - cell "—" [ref=e806]
+              - cell "46m" [ref=e807]
+              - cell "→" [ref=e808]
+            - row "AD8312Plus ASM Assembly Automation 8 DA — 7 — 25m →" [ref=e809] [cursor=pointer]:
+              - cell "AD8312Plus" [ref=e810]
+              - cell "ASM Assembly Automation" [ref=e811]
+              - cell "8" [ref=e812]
+              - cell "DA" [ref=e813]
+              - cell "—" [ref=e814]
+              - cell "7" [ref=e815]:
+                - generic [ref=e816]: "7"
+              - cell "—" [ref=e817]
+              - cell "25m" [ref=e818]
+              - cell "→" [ref=e819]
+            - row "AD2000T Accretech 7 SAW — 1 — 44m →" [ref=e820] [cursor=pointer]:
+              - cell "AD2000T" [ref=e821]
+              - cell "Accretech" [ref=e822]
+              - cell "7" [ref=e823]
+              - cell "SAW" [ref=e824]
+              - cell "—" [ref=e825]
+              - cell "1" [ref=e826]:
+                - generic [ref=e827]: "1"
+              - cell "—" [ref=e828]
+              - cell "44m" [ref=e829]
+              - cell "→" [ref=e830]
+            - row "AD828 ASM Assembly Automation 5 DA 1 3 — 24m →" [ref=e831] [cursor=pointer]:
+              - cell "AD828" [ref=e832]
+              - cell "ASM Assembly Automation" [ref=e833]
+              - cell "5" [ref=e834]
+              - cell "DA" [ref=e835]
+              - cell "1" [ref=e836]:
+                - generic [ref=e837]: "1"
+              - cell "3" [ref=e838]:
+                - generic [ref=e839]: "3"
+              - cell "—" [ref=e840]
+              - cell "24m" [ref=e841]
+              - cell "→" [ref=e842]
+            - row "Smart Element (ISO) GPM 5 ISO — — — — →" [ref=e843] [cursor=pointer]:
+              - cell "Smart Element (ISO)" [ref=e844]
+              - cell "GPM" [ref=e845]
+              - cell "5" [ref=e846]
+              - cell "ISO" [ref=e847]
+              - cell "—" [ref=e848]
+              - cell "—" [ref=e849]
+              - cell "—" [ref=e850]
+              - cell "—" [ref=e851]
+              - cell "→" [ref=e852]
+            - row "Smart Element (F/S) GPM 4 FS — — — — →" [ref=e853] [cursor=pointer]:
+              - cell "Smart Element (F/S)" [ref=e854]
+              - cell "GPM" [ref=e855]
+              - cell "4" [ref=e856]
+              - cell "FS" [ref=e857]
+              - cell "—" [ref=e858]
+              - cell "—" [ref=e859]
+              - cell "—" [ref=e860]
+              - cell "—" [ref=e861]
+              - cell "→" [ref=e862]
+            - row "n/a n/a 4 WB — — — — →" [ref=e863] [cursor=pointer]:
+              - cell "n/a" [ref=e864]
+              - cell "n/a" [ref=e865]
+              - cell "4" [ref=e866]
+              - cell "WB" [ref=e867]
+              - cell "—" [ref=e868]
+              - cell "—" [ref=e869]
+              - cell "—" [ref=e870]
+              - cell "—" [ref=e871]
+              - cell "→" [ref=e872]
+            - row "DP80-8-MOUT DAI-ICHI 3 MOLD — — — — →" [ref=e873] [cursor=pointer]:
+              - cell "DP80-8-MOUT" [ref=e874]
+              - cell "DAI-ICHI" [ref=e875]
+              - cell "3" [ref=e876]
+              - cell "MOLD" [ref=e877]
+              - cell "—" [ref=e878]
+              - cell "—" [ref=e879]
+              - cell "—" [ref=e880]
+              - cell "—" [ref=e881]
+              - cell "→" [ref=e882]
+            - row "GP-PRO8 SP170V DAI-ICHI 3 MOLD — 1 — 28m →" [ref=e883] [cursor=pointer]:
+              - cell "GP-PRO8 SP170V" [ref=e884]
+              - cell "DAI-ICHI" [ref=e885]
+              - cell "3" [ref=e886]
+              - cell "MOLD" [ref=e887]
+              - cell "—" [ref=e888]
+              - cell "1" [ref=e889]:
+                - generic [ref=e890]: "1"
+              - cell "—" [ref=e891]
+              - cell "28m" [ref=e892]
+              - cell "→" [ref=e893]
+            - row "Smart Element (T/F) GPM 3 TF — — — 24m →" [ref=e894] [cursor=pointer]:
+              - cell "Smart Element (T/F)" [ref=e895]
+              - cell "GPM" [ref=e896]
+              - cell "3" [ref=e897]
+              - cell "TF" [ref=e898]
+              - cell "—" [ref=e899]
+              - cell "—" [ref=e900]
+              - cell "—" [ref=e901]
+              - cell "24m" [ref=e902]
+              - cell "→" [ref=e903]
+            - row "Harrier Xtreme ASM 3 WB — 1 — 21m →" [ref=e904] [cursor=pointer]:
+              - cell "Harrier Xtreme" [ref=e905]
+              - cell "ASM" [ref=e906]
+              - cell "3" [ref=e907]
+              - cell "WB" [ref=e908]
+              - cell "—" [ref=e909]
+              - cell "1" [ref=e910]:
+                - generic [ref=e911]: "1"
+              - cell "—" [ref=e912]
+              - cell "21m" [ref=e913]
+              - cell "→" [ref=e914]
+            - row "DFG 8540 DISCO 2 BG — — — — →" [ref=e915] [cursor=pointer]:
+              - cell "DFG 8540" [ref=e916]
+              - cell "DISCO" [ref=e917]
+              - cell "2" [ref=e918]
+              - cell "BG" [ref=e919]
+              - cell "—" [ref=e920]
+              - cell "—" [ref=e921]
+              - cell "—" [ref=e922]
+              - cell "—" [ref=e923]
+              - cell "→" [ref=e924]
+            - row "DFC-2025 SAINT MASTER 2 MOLD, PLATE — — — — →" [ref=e925] [cursor=pointer]:
+              - cell "DFC-2025" [ref=e926]
+              - cell "SAINT MASTER" [ref=e927]
+              - cell "2" [ref=e928]
+              - cell "MOLD, PLATE" [ref=e929]
+              - cell "—" [ref=e930]
+              - cell "—" [ref=e931]
+              - cell "—" [ref=e932]
+              - cell "—" [ref=e933]
+              - cell "→" [ref=e934]
+            - row "GP-PRO4 SP170V DAI-ICHI 2 MOLD — — — 68m →" [ref=e935] [cursor=pointer]:
+              - cell "GP-PRO4 SP170V" [ref=e936]
+              - cell "DAI-ICHI" [ref=e937]
+              - cell "2" [ref=e938]
+              - cell "MOLD" [ref=e939]
+              - cell "—" [ref=e940]
+              - cell "—" [ref=e941]
+              - cell "—" [ref=e942]
+              - cell "68m" [ref=e943]
+              - cell "→" [ref=e944]
+            - row "EDF+EPL2400S MECO 2 PLATE — — — 27m →" [ref=e945] [cursor=pointer]:
+              - cell "EDF+EPL2400S" [ref=e946]
+              - cell "MECO" [ref=e947]
+              - cell "2" [ref=e948]
+              - cell "PLATE" [ref=e949]
+              - cell "—" [ref=e950]
+              - cell "—" [ref=e951]
+              - cell "—" [ref=e952]
+              - cell "27m" [ref=e953]
+              - cell "→" [ref=e954]
+            - row "EAD6750 DISCO 2 SAW_QFN — 1 — 42m →" [ref=e955] [cursor=pointer]:
+              - cell "EAD6750" [ref=e956]
+              - cell "DISCO" [ref=e957]
+              - cell "2" [ref=e958]
+              - cell "SAW_QFN" [ref=e959]
+              - cell "—" [ref=e960]
+              - cell "1" [ref=e961]:
+                - generic [ref=e962]: "1"
+              - cell "—" [ref=e963]
+              - cell "42m" [ref=e964]
+              - cell "→" [ref=e965]
+            - row "DFD6750 DISCO 2 SAW_QFN — — — 21m →" [ref=e966] [cursor=pointer]:
+              - cell "DFD6750" [ref=e967]
+              - cell "DISCO" [ref=e968]
+              - cell "2" [ref=e969]
+              - cell "SAW_QFN" [ref=e970]
+              - cell "—" [ref=e971]
+              - cell "—" [ref=e972]
+              - cell "—" [ref=e973]
+              - cell "21m" [ref=e974]
+              - cell "→" [ref=e975]
+            - row "AD8912HS ASM Assembly Automation 1 DA 1 — — 32m →" [ref=e976] [cursor=pointer]:
+              - cell "AD8912HS" [ref=e977]
+              - cell "ASM Assembly Automation" [ref=e978]
+              - cell "1" [ref=e979]
+              - cell "DA" [ref=e980]
+              - cell "1" [ref=e981]:
+                - generic [ref=e982]: "1"
+              - cell "—" [ref=e983]
+              - cell "—" [ref=e984]
+              - cell "32m" [ref=e985]
+              - cell "→" [ref=e986]
+            - row "AD832i ASM Assembly Automation 1 DA — 1 — 26m →" [ref=e987] [cursor=pointer]:
+              - cell "AD832i" [ref=e988]
+              - cell "ASM Assembly Automation" [ref=e989]
+              - cell "1" [ref=e990]
+              - cell "DA" [ref=e991]
+              - cell "—" [ref=e992]
+              - cell "1" [ref=e993]:
+                - generic [ref=e994]: "1"
+              - cell "—" [ref=e995]
+              - cell "26m" [ref=e996]
+              - cell "→" [ref=e997]
+            - row "AD832i ASM Assembly Automation 1 DA — 1 — 38m →" [ref=e998] [cursor=pointer]:
+              - cell "AD832i" [ref=e999]
+              - cell "ASM Assembly Automation" [ref=e1000]
+              - cell "1" [ref=e1001]
+              - cell "DA" [ref=e1002]
+              - cell "—" [ref=e1003]
+              - cell "1" [ref=e1004]:
+                - generic [ref=e1005]: "1"
+              - cell "—" [ref=e1006]
+              - cell "38m" [ref=e1007]
+              - cell "→" [ref=e1008]
+            - row "ARE-250 THINKY COPPERATION 1 DA — — — — →" [ref=e1009] [cursor=pointer]:
+              - cell "ARE-250" [ref=e1010]
+              - cell "THINKY COPPERATION" [ref=e1011]
+              - cell "1" [ref=e1012]
+              - cell "DA" [ref=e1013]
+              - cell "—" [ref=e1014]
+              - cell "—" [ref=e1015]
+              - cell "—" [ref=e1016]
+              - cell "—" [ref=e1017]
+              - cell "→" [ref=e1018]
+            - row "SMART ELEMENT (F/S) GPM 1 FS — — — — →" [ref=e1019] [cursor=pointer]:
+              - cell "SMART ELEMENT (F/S)" [ref=e1020]
+              - cell "GPM" [ref=e1021]
+              - cell "1" [ref=e1022]
+              - cell "FS" [ref=e1023]
+              - cell "—" [ref=e1024]
+              - cell "—" [ref=e1025]
+              - cell "—" [ref=e1026]
+              - cell "—" [ref=e1027]
+              - cell "→" [ref=e1028]
+            - row "BLAZON-2200 E & R 1 MARK — — — 7m →" [ref=e1029] [cursor=pointer]:
+              - cell "BLAZON-2200" [ref=e1030]
+              - cell "E & R" [ref=e1031]
+              - cell "1" [ref=e1032]
+              - cell "MARK" [ref=e1033]
+              - cell "—" [ref=e1034]
+              - cell "—" [ref=e1035]
+              - cell "—" [ref=e1036]
+              - cell "7m" [ref=e1037]
+              - cell "→" [ref=e1038]
+            - row "Singulation Mark K&N 1 MARK — — — — →" [ref=e1039] [cursor=pointer]:
+              - cell "Singulation Mark" [ref=e1040]
+              - cell "K&N" [ref=e1041]
+              - cell "1" [ref=e1042]
+              - cell "MARK" [ref=e1043]
+              - cell "—" [ref=e1044]
+              - cell "—" [ref=e1045]
+              - cell "—" [ref=e1046]
+              - cell "—" [ref=e1047]
+              - cell "→" [ref=e1048]
+            - row "AEI-4048A AEI Technologies 1 MOLD — — — — →" [ref=e1049] [cursor=pointer]:
+              - cell "AEI-4048A" [ref=e1050]
+              - cell "AEI Technologies" [ref=e1051]
+              - cell "1" [ref=e1052]
+              - cell "MOLD" [ref=e1053]
+              - cell "—" [ref=e1054]
+              - cell "—" [ref=e1055]
+              - cell "—" [ref=e1056]
+              - cell "—" [ref=e1057]
+              - cell "→" [ref=e1058]
+            - row "GP-ELF-D24084 DAI-ICHI 1 MOLD — 1 — 207m →" [ref=e1059] [cursor=pointer]:
+              - cell "GP-ELF-D24084" [ref=e1060]
+              - cell "DAI-ICHI" [ref=e1061]
+              - cell "1" [ref=e1062]
+              - cell "MOLD" [ref=e1063]
+              - cell "—" [ref=e1064]
+              - cell "1" [ref=e1065]:
+                - generic [ref=e1066]: "1"
+              - cell "—" [ref=e1067]
+              - cell "207m" [ref=e1068]
+              - cell "→" [ref=e1069]
+            - row "GP-PRO-8 SP80N DAI-ICHI 1 MOLD — — — — →" [ref=e1070] [cursor=pointer]:
+              - cell "GP-PRO-8 SP80N" [ref=e1071]
+              - cell "DAI-ICHI" [ref=e1072]
+              - cell "1" [ref=e1073]
+              - cell "MOLD" [ref=e1074]
+              - cell "—" [ref=e1075]
+              - cell "—" [ref=e1076]
+              - cell "—" [ref=e1077]
+              - cell "—" [ref=e1078]
+              - cell "→" [ref=e1079]
+            - row "GP-PRO-8-SP80N DAI-ICHI 1 MOLD — — — 37m →" [ref=e1080] [cursor=pointer]:
+              - cell "GP-PRO-8-SP80N" [ref=e1081]
+              - cell "DAI-ICHI" [ref=e1082]
+              - cell "1" [ref=e1083]
+              - cell "MOLD" [ref=e1084]
+              - cell "—" [ref=e1085]
+              - cell "—" [ref=e1086]
+              - cell "—" [ref=e1087]
+              - cell "37m" [ref=e1088]
+              - cell "→" [ref=e1089]
+            - row "GP-PRO SP80N DAI-ICHI 1 MOLD — 1 — 90m →" [ref=e1090] [cursor=pointer]:
+              - cell "GP-PRO SP80N" [ref=e1091]
+              - cell "DAI-ICHI" [ref=e1092]
+              - cell "1" [ref=e1093]
+              - cell "MOLD" [ref=e1094]
+              - cell "—" [ref=e1095]
+              - cell "1" [ref=e1096]:
+                - generic [ref=e1097]: "1"
+              - cell "—" [ref=e1098]
+              - cell "90m" [ref=e1099]
+              - cell "→" [ref=e1100]
+            - row "GP-PRO8-SP80N DAI-ICHI 1 MOLD — — — — →" [ref=e1101] [cursor=pointer]:
+              - cell "GP-PRO8-SP80N" [ref=e1102]
+              - cell "DAI-ICHI" [ref=e1103]
+              - cell "1" [ref=e1104]
+              - cell "MOLD" [ref=e1105]
+              - cell "—" [ref=e1106]
+              - cell "—" [ref=e1107]
+              - cell "—" [ref=e1108]
+              - cell "—" [ref=e1109]
+              - cell "→" [ref=e1110]
+            - row "GP-PRO8-SP170N DAI-ICHI 1 MOLD — 1 — 166m →" [ref=e1111] [cursor=pointer]:
+              - cell "GP-PRO8-SP170N" [ref=e1112]
+              - cell "DAI-ICHI" [ref=e1113]
+              - cell "1" [ref=e1114]
+              - cell "MOLD" [ref=e1115]
+              - cell "—" [ref=e1116]
+              - cell "1" [ref=e1117]:
+                - generic [ref=e1118]: "1"
+              - cell "—" [ref=e1119]
+              - cell "166m" [ref=e1120]
+              - cell "→" [ref=e1121]
+            - row "GP-PRO8 SP120V DAI-ICHI 1 MOLD — — — — →" [ref=e1122] [cursor=pointer]:
+              - cell "GP-PRO8 SP120V" [ref=e1123]
+              - cell "DAI-ICHI" [ref=e1124]
+              - cell "1" [ref=e1125]
+              - cell "MOLD" [ref=e1126]
+              - cell "—" [ref=e1127]
+              - cell "—" [ref=e1128]
+              - cell "—" [ref=e1129]
+              - cell "—" [ref=e1130]
+              - cell "→" [ref=e1131]
+            - row "TS-PRO I-PEX 1 MOLD — — — — →" [ref=e1132] [cursor=pointer]:
+              - cell "TS-PRO" [ref=e1133]
+              - cell "I-PEX" [ref=e1134]
+              - cell "1" [ref=e1135]
+              - cell "MOLD" [ref=e1136]
+              - cell "—" [ref=e1137]
+              - cell "—" [ref=e1138]
+              - cell "—" [ref=e1139]
+              - cell "—" [ref=e1140]
+              - cell "→" [ref=e1141]
+            - row "ABC-2006 Excel tool 1 PLATE — — — — →" [ref=e1142] [cursor=pointer]:
+              - cell "ABC-2006" [ref=e1143]
+              - cell "Excel tool" [ref=e1144]
+              - cell "1" [ref=e1145]
+              - cell "PLATE" [ref=e1146]
+              - cell "—" [ref=e1147]
+              - cell "—" [ref=e1148]
+              - cell "—" [ref=e1149]
+              - cell "—" [ref=e1150]
+              - cell "→" [ref=e1151]
+            - row "SIAM-DF SIAM INTER 1 PLATE — — — — →" [ref=e1152] [cursor=pointer]:
+              - cell "SIAM-DF" [ref=e1153]
+              - cell "SIAM INTER" [ref=e1154]
+              - cell "1" [ref=e1155]
+              - cell "PLATE" [ref=e1156]
+              - cell "—" [ref=e1157]
+              - cell "—" [ref=e1158]
+              - cell "—" [ref=e1159]
+              - cell "—" [ref=e1160]
+              - cell "→" [ref=e1161]
+            - row "EDF+EPL2100S MECO 1 PLATE — — — 19m →" [ref=e1162] [cursor=pointer]:
+              - cell "EDF+EPL2100S" [ref=e1163]
+              - cell "MECO" [ref=e1164]
+              - cell "1" [ref=e1165]
+              - cell "PLATE" [ref=e1166]
+              - cell "—" [ref=e1167]
+              - cell "—" [ref=e1168]
+              - cell "—" [ref=e1169]
+              - cell "19m" [ref=e1170]
+              - cell "→" [ref=e1171]
+            - row "PANATORN-HP PANATORN 1 PLATE — — — — →" [ref=e1172] [cursor=pointer]:
+              - cell "PANATORN-HP" [ref=e1173]
+              - cell "PANATORN" [ref=e1174]
+              - cell "1" [ref=e1175]
+              - cell "PLATE" [ref=e1176]
+              - cell "—" [ref=e1177]
+              - cell "—" [ref=e1178]
+              - cell "—" [ref=e1179]
+              - cell "—" [ref=e1180]
+              - cell "→" [ref=e1181]
+            - row "DISCO DFL7161 DISCO COOPERATION 1 SAW — — — 1m →" [ref=e1182] [cursor=pointer]:
+              - cell "DISCO DFL7161" [ref=e1183]
+              - cell "DISCO COOPERATION" [ref=e1184]
+              - cell "1" [ref=e1185]
+              - cell "SAW" [ref=e1186]
+              - cell "—" [ref=e1187]
+              - cell "—" [ref=e1188]
+              - cell "—" [ref=e1189]
+              - cell "1m" [ref=e1190]
+              - cell "→" [ref=e1191]
+            - row "DFD6361 DISCO 1 SAW — 1 — 121m →" [ref=e1192] [cursor=pointer]:
+              - cell "DFD6361" [ref=e1193]
+              - cell "DISCO" [ref=e1194]
+              - cell "1" [ref=e1195]
+              - cell "SAW" [ref=e1196]
+              - cell "—" [ref=e1197]
+              - cell "1" [ref=e1198]:
+                - generic [ref=e1199]: "1"
+              - cell "—" [ref=e1200]
+              - cell "121m" [ref=e1201]
+              - cell "→" [ref=e1202]
+            - row "AD3000T Plus Accretech 1 SAW — — — — →" [ref=e1203] [cursor=pointer]:
+              - cell "AD3000T Plus" [ref=e1204]
+              - cell "Accretech" [ref=e1205]
+              - cell "1" [ref=e1206]
+              - cell "SAW" [ref=e1207]
+              - cell "—" [ref=e1208]
+              - cell "—" [ref=e1209]
+              - cell "—" [ref=e1210]
+              - cell "—" [ref=e1211]
+              - cell "→" [ref=e1212]
+            - row "AD3000T-PLUS ACCRETECH 1 SAW_QFN — 1 — 31m →" [ref=e1213] [cursor=pointer]:
+              - cell "AD3000T-PLUS" [ref=e1214]
+              - cell "ACCRETECH" [ref=e1215]
+              - cell "1" [ref=e1216]
+              - cell "SAW_QFN" [ref=e1217]
+              - cell "—" [ref=e1218]
+              - cell "1" [ref=e1219]:
+                - generic [ref=e1220]: "1"
+              - cell "—" [ref=e1221]
+              - cell "31m" [ref=e1222]
+              - cell "→" [ref=e1223]
+            - row "Eagle Xtreme ASM 1 WB — — — 11m →" [ref=e1224] [cursor=pointer]:
+              - cell "Eagle Xtreme" [ref=e1225]
+              - cell "ASM" [ref=e1226]
+              - cell "1" [ref=e1227]
+              - cell "WB" [ref=e1228]
+              - cell "—" [ref=e1229]
+              - cell "—" [ref=e1230]
+              - cell "—" [ref=e1231]
+              - cell "11m" [ref=e1232]
+              - cell "→" [ref=e1233]

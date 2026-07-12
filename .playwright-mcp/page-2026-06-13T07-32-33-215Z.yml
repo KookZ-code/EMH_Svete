@@ -1,0 +1,56 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - heading "Wire Bond Output Monitor" [level=1] [ref=e5]
+      - generic [ref=e6]: "Assembly : MTAI Plant"
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: Date
+        - textbox [ref=e10] [cursor=pointer]: 2026-06-13
+      - generic [ref=e12]:
+        - generic [ref=e13]: Shift
+        - generic [ref=e14]:
+          - button "N" [ref=e15] [cursor=pointer]
+          - button "D" [ref=e16] [cursor=pointer]
+      - generic [ref=e18]:
+        - generic [ref=e19]: Package
+        - button "All Package ▾" [ref=e21] [cursor=pointer]
+      - link "Machine Monitor" [ref=e23] [cursor=pointer]:
+        - /url: /testSvelte/monitor?date=2026-06-13&shift=D
+      - generic [ref=e27]: Loading…
+  - generic [ref=e28]:
+    - article [ref=e29]:
+      - generic [ref=e31]: Total Output (This Shift)
+      - generic [ref=e32]: —
+      - generic [ref=e33]: bonded units
+    - article [ref=e34]:
+      - generic [ref=e36]: Achievement vs Target
+      - generic [ref=e37]: —
+      - generic [ref=e38]: target — units / shift
+    - article [ref=e39]:
+      - generic [ref=e41]: Active Machines
+      - generic [ref=e42]: —
+      - generic [ref=e43]: reporting this shift
+    - article [ref=e44]:
+      - generic [ref=e46]: Active Operators
+      - generic [ref=e47]: —
+      - generic [ref=e48]: reporting this shift
+    - article [ref=e49]:
+      - generic [ref=e51]: Total Output (Per Day)
+      - generic [ref=e52]: —
+      - generic [ref=e53]: D + N shift · —
+  - generic [ref=e55]:
+    - generic [ref=e56]: Cumulative Output vs Target
+    - generic [ref=e57]: Click a bar to drill down by package
+  - generic [ref=e60]:
+    - generic [ref=e61]:
+      - generic [ref=e62]: ↑
+      - generic [ref=e63]: Click a bar above to see package breakdown
+    - generic [ref=e64]:
+      - generic [ref=e65]: ←
+      - generic [ref=e66]: Click a package to see machine breakdown
+  - generic [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e69]: Raw Scan Records
+      - button "Close" [ref=e70] [cursor=pointer]: ✕
+    - generic [ref=e72]: คลิกเครื่องในตารางเพื่อดู scan records

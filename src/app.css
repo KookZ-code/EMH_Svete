@@ -48,6 +48,7 @@
   --status-other:    #8A8A8A;
   --status-eng-down: #990000;
   --status-facility: #FD7F20;
+  --status-down-bg:  #FFEBEB;
 
   /* Typography */
   --font:            'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

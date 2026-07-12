@@ -1,6 +1,7 @@
 // src/lib/utils/api.ts — EMH Dashboard API client
 // All HTTP calls go through apiFetch — never fetch directly in components.
 
+import { base } from '$app/paths';
 import type {
   ApiResponse,
   OverviewKpi, StatusMatrixRow, StatusDonut, OpenJob,
@@ -15,15 +16,12 @@ import type {
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<ApiResponse<T>> {
   const url = path;  // API paths are always /api/v1/... — no base prefix needed
-  console.log('[api] fetch:', url)
   try {
     const res  = await fetch(url, {
       headers: { 'Content-Type': 'application/json', ...options?.headers },
       ...options,
     });
-    console.log('[api] status:', res.status, 'content-type:', res.headers.get('content-type'), 'encoding:', res.headers.get('content-encoding'))
     const text = await res.text()
-    console.log('[api] body length:', text.length, 'preview:', text.substring(0, 50))
     const json: ApiResponse<T> = JSON.parse(text);
     if (!res.ok && !json.error) {
       return { data: null, error: { code: 'HTTP_ERROR', message: `HTTP ${res.status}` } };
@@ -89,8 +87,10 @@ export const liveApi = {
 // ─── Utilization ──────────────────────────────────────────────────────────
 
 export const utilizationApi = {
+  // Base-prefixed: this route has its own +server.ts that merges in machine_rows from a
+  // second backend call — it must reach SvelteKit's router, not the dev proxy's direct passthrough.
   detail: (p: FilterParams & { selected_month?: string }) =>
-    apiFetch<UtilizationDetailPayload>(`/api/utilization/detail${qs(p as Record<string, string | string[] | number | undefined>)}`),
+    apiFetch<UtilizationDetailPayload>(`${base}/api/utilization/detail${qs(p as Record<string, string | string[] | number | undefined>)}`),
 };
 
 export interface UtilizationDetailPayload {
@@ -99,7 +99,7 @@ export interface UtilizationDetailPayload {
     area_totals?: AreaTotalRow[];
     area_counts?: unknown[];
     machine_count?: number;
-    prev_kpi_totals?: unknown[];
+    prev_kpi_totals?: KpiTotalRow[];
     prev_machine_count?: number;
   };
   monthly_trend?: MonthlyTrendRaw[];

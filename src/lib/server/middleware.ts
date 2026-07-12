@@ -47,7 +47,7 @@ export async function mwGet<T>(path: string, params?: Record<string, string | st
   // Rust API returns { data: T, error: null } on success, { data: null, error: {...} } on failure
   const body = await res.json() as { data: T | null; error: { code: string; message: string } | null };
 
-  if (body.error !== null) {
+  if (body.error != null) {
     const e = body.error;
     throw new MiddlewareError(e?.code ?? 'API_ERROR', e?.message ?? 'Unknown API error');
   }

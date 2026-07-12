@@ -1,0 +1,412 @@
+- generic [ref=f13e3]:
+  - complementary [ref=f13e4]:
+    - generic [ref=f13e6]: EMH Dashboard
+    - navigation [ref=f13e7]:
+      - link "🏭 Overview" [ref=f13e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=f13e9]: 🏭
+        - generic [ref=f13e10]: Overview
+      - link "📺 Live Board" [ref=f13e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=f13e12]: 📺
+        - generic [ref=f13e13]: Live Board
+      - link "📊 Utilization" [ref=f13e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=f13e15]: 📊
+        - generic [ref=f13e16]: Utilization
+      - link "📉 Downtime" [ref=f13e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=f13e18]: 📉
+        - generic [ref=f13e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=f13e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=f13e21]: 🖥️
+        - generic [ref=f13e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=f13e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=f13e24]: 👷
+        - generic [ref=f13e25]: Tech Performance
+      - link "📦 Inventory" [ref=f13e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=f13e27]: 📦
+        - generic [ref=f13e28]: Inventory
+      - link "📋 WB Report" [ref=f13e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=f13e30]: 📋
+        - generic [ref=f13e31]: WB Report
+      - link "🔬 DA Report" [ref=f13e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=f13e33]: 🔬
+        - generic [ref=f13e34]: DA Report
+      - link "🏪 Store Items" [ref=f13e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=f13e36]: 🏪
+        - generic [ref=f13e37]: Store Items
+      - link "⚙️ Admin" [ref=f13e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=f13e39]: ⚙️
+        - generic [ref=f13e40]: Admin
+    - button "«" [ref=f13e41] [cursor=pointer]
+  - generic [ref=f13e42]:
+    - banner [ref=f13e43]:
+      - generic [ref=f13e44]:
+        - generic [ref=f13e45]:
+          - generic [ref=f13e46]: Administrator
+          - generic [ref=f13e47]: Admin
+        - button "🌙" [ref=f13e48] [cursor=pointer]
+        - link "⚙️" [ref=f13e49] [cursor=pointer]:
+          - /url: /testSvelte/admin
+        - button "🚪" [ref=f13e51] [cursor=pointer]
+    - main [ref=f13e52]:
+      - generic [ref=f13e53]:
+        - generic [ref=f13e54]:
+          - heading "Utilization Analysis" [level=1] [ref=f13e55]
+          - paragraph [ref=f13e56]: Equipment effectiveness · Downtime · Lost Time breakdown
+        - generic [ref=f13e185]: Updated 00:18
+      - generic [ref=f13e57]:
+        - generic [ref=f13e58]:
+          - generic [ref=f13e59]: Start
+          - textbox "Start" [ref=f13e60]: 2025-07-08
+        - generic [ref=f13e61]:
+          - generic [ref=f13e62]: End
+          - textbox "End" [ref=f13e63]: 2026-07-08
+        - generic [ref=f13e64]:
+          - generic [ref=f13e65]:
+            - generic [ref=f13e66]: Area
+            - button "All" [ref=f13e67] [cursor=pointer]
+            - button "None" [ref=f13e68] [cursor=pointer]
+          - generic [ref=f13e69]:
+            - button "BG" [ref=f13e70] [cursor=pointer]
+            - button "SAW" [ref=f13e71] [cursor=pointer]
+            - button "DA" [ref=f13e72] [cursor=pointer]
+            - button "WB" [ref=f13e73] [cursor=pointer]
+            - button "MOLD" [ref=f13e74] [cursor=pointer]
+            - button "PLATE" [ref=f13e75] [cursor=pointer]
+            - button "MARK" [ref=f13e76] [cursor=pointer]
+            - button "SAW_QFN" [ref=f13e77] [cursor=pointer]
+            - button "TF" [ref=f13e78] [cursor=pointer]
+            - button "ISO" [ref=f13e79] [cursor=pointer]
+            - button "FS" [ref=f13e80] [cursor=pointer]
+        - generic [ref=f13e81]:
+          - generic [ref=f13e82]: Shift
+          - combobox "Shift" [ref=f13e83]:
+            - option "All Shifts" [selected]
+            - option "☀️ Day"
+            - option "🌙 Night"
+        - button "Apply" [ref=f13e85] [cursor=pointer]
+      - generic [ref=f13e87]:
+        - generic [ref=f13e88]:
+          - generic [ref=f13e89]:
+            - generic [ref=f13e90]: ⚙
+            - generic [ref=f13e91]: Percent Utilization
+          - generic [ref=f13e92]: 92.5%
+          - generic [ref=f13e93]: 100% − Down − PM − Lost
+        - generic [ref=f13e94]:
+          - generic [ref=f13e95]:
+            - generic [ref=f13e96]: ⛔
+            - generic [ref=f13e97]: Percent Downtime
+          - generic [ref=f13e98]: 1.1%
+          - generic [ref=f13e99]: M/C DOWN only
+        - generic [ref=f13e100]:
+          - generic [ref=f13e101]:
+            - generic [ref=f13e102]: 🔧
+            - generic [ref=f13e103]: Percent Downtime PM
+          - generic [ref=f13e104]: 0.3%
+          - generic [ref=f13e105]: Planned maintenance
+        - generic [ref=f13e106]:
+          - generic [ref=f13e107]:
+            - generic [ref=f13e108]: ⏱
+            - generic [ref=f13e109]: Percent Lost Time
+          - generic [ref=f13e110]: 6.1%
+          - generic [ref=f13e111]: Setup · Wait · Convert
+      - generic [ref=f13e112]:
+        - generic [ref=f13e114]:
+          - text: Time Composition by Month
+          - generic [ref=f13e115]: Click bar to filter
+        - generic [ref=f13e119]:
+          - text: Utilization by Area
+          - generic [ref=f13e120]: Current Period
+      - generic [ref=f13e123]:
+        - generic [ref=f13e125]:
+          - text: Top 5 Downtime Symptoms
+          - generic [ref=f13e126]: M/C DOWN
+        - generic [ref=f13e130]:
+          - text: Top 5 Lost Time Causes
+          - generic [ref=f13e131]: Setup · Wait
+      - generic [ref=f13e134]:
+        - generic [ref=f13e135]:
+          - generic [ref=f13e136]:
+            - text: Top 10 Machines Needing Attention
+            - generic [ref=f13e137]: Action List
+          - generic [ref=f13e138]:
+            - generic [ref=f13e139]:
+              - searchbox "Search…" [ref=f13e140]
+              - generic [ref=f13e141]: 10 records
+            - table [ref=f13e143]:
+              - rowgroup [ref=f13e144]:
+                - row "Rank Machine ↕ Area ↕ Down Hrs ↕ Events ↕ Avg MTTR ↕ Score ↕" [ref=f13e145]:
+                  - columnheader "Rank" [ref=f13e146]
+                  - button "Machine ↕" [ref=f13e147] [cursor=pointer]
+                  - button "Area ↕" [ref=f13e148] [cursor=pointer]
+                  - button "Down Hrs ↕" [ref=f13e149] [cursor=pointer]
+                  - button "Events ↕" [ref=f13e150] [cursor=pointer]
+                  - button "Avg MTTR ↕" [ref=f13e151] [cursor=pointer]
+                  - button "Score ↕" [ref=f13e152] [cursor=pointer]
+              - rowgroup [ref=f13e153]:
+                - 'row "#1 EP # 02 PLATE 27.8 48 35 m 188168" [ref=f13e194]':
+                  - cell "#1" [ref=f13e195]:
+                    - generic [ref=f13e196]: "#1"
+                  - 'cell "EP # 02" [ref=f13e197]'
+                  - cell "PLATE" [ref=f13e198]
+                  - cell "27.8" [ref=f13e199]
+                  - cell "48" [ref=f13e200]
+                  - cell "35 m" [ref=f13e201]
+                  - cell "188168" [ref=f13e202]
+                - 'row "#2 LG # 001 SAW 343.2 112 184 m 122467" [ref=f13e203]':
+                  - cell "#2" [ref=f13e204]:
+                    - generic [ref=f13e205]: "#2"
+                  - 'cell "LG # 001" [ref=f13e206]'
+                  - cell "SAW" [ref=f13e207]
+                  - cell "343.2" [ref=f13e208]
+                  - cell "112" [ref=f13e209]
+                  - cell "184 m" [ref=f13e210]
+                  - cell "122467" [ref=f13e211]
+                - 'row "#3 W/B # 443R WB 273.9 336 49 m 115933" [ref=f13e212]':
+                  - cell "#3" [ref=f13e213]:
+                    - generic [ref=f13e214]: "#3"
+                  - 'cell "W/B # 443R" [ref=f13e215]'
+                  - cell "WB" [ref=f13e216]
+                  - cell "273.9" [ref=f13e217]
+                  - cell "336" [ref=f13e218]
+                  - cell "49 m" [ref=f13e219]
+                  - cell "115933" [ref=f13e220]
+                - 'row "#4 BG # 01 BG 26.6 21 76 m 115447" [ref=f13e221]':
+                  - cell "#4" [ref=f13e222]:
+                    - generic [ref=f13e223]: "#4"
+                  - 'cell "BG # 01" [ref=f13e224]'
+                  - cell "BG" [ref=f13e225]
+                  - cell "26.6" [ref=f13e226]
+                  - cell "21" [ref=f13e227]
+                  - cell "76 m" [ref=f13e228]
+                  - cell "115447" [ref=f13e229]
+                - 'row "#5 BG # 02 BG 2.4 11 13 m 105297" [ref=f13e230]':
+                  - cell "#5" [ref=f13e231]:
+                    - generic [ref=f13e232]: "#5"
+                  - 'cell "BG # 02" [ref=f13e233]'
+                  - cell "BG" [ref=f13e234]
+                  - cell "2.4" [ref=f13e235]
+                  - cell "11" [ref=f13e236]
+                  - cell "13 m" [ref=f13e237]
+                  - cell "105297" [ref=f13e238]
+                - 'row "#6 SAW # 036 SAW 19.7 12 99 m 105243" [ref=f13e239]':
+                  - cell "#6" [ref=f13e240]:
+                    - generic [ref=f13e241]: "#6"
+                  - 'cell "SAW # 036" [ref=f13e242]'
+                  - cell "SAW" [ref=f13e243]
+                  - cell "19.7" [ref=f13e244]
+                  - cell "12" [ref=f13e245]
+                  - cell "99 m" [ref=f13e246]
+                  - cell "105243" [ref=f13e247]
+                - 'row "#7 SAW # 035 SAW 2.8 5 34 m 101864" [ref=f13e248]':
+                  - cell "#7" [ref=f13e249]:
+                    - generic [ref=f13e250]: "#7"
+                  - 'cell "SAW # 035" [ref=f13e251]'
+                  - cell "SAW" [ref=f13e252]
+                  - cell "2.8" [ref=f13e253]
+                  - cell "5" [ref=f13e254]
+                  - cell "34 m" [ref=f13e255]
+                  - cell "101864" [ref=f13e256]
+                - 'row "#8 SAW # 034 SAW 6.0 16 23 m 97438" [ref=f13e257]':
+                  - cell "#8" [ref=f13e258]:
+                    - generic [ref=f13e259]: "#8"
+                  - 'cell "SAW # 034" [ref=f13e260]'
+                  - cell "SAW" [ref=f13e261]
+                  - cell "6.0" [ref=f13e262]
+                  - cell "16" [ref=f13e263]
+                  - cell "23 m" [ref=f13e264]
+                  - cell "97438" [ref=f13e265]
+                - 'row "#9 D/B # 066 DA 433.2 821 32 m 95130" [ref=f13e266]':
+                  - cell "#9" [ref=f13e267]:
+                    - generic [ref=f13e268]: "#9"
+                  - 'cell "D/B # 066" [ref=f13e269]'
+                  - cell "DA" [ref=f13e270]
+                  - cell "433.2" [ref=f13e271]
+                  - cell "821" [ref=f13e272]
+                  - cell "32 m" [ref=f13e273]
+                  - cell "95130" [ref=f13e274]
+                - 'row "#10 SAW # 033 SAW 20.0 40 30 m 94708" [ref=f13e275]':
+                  - cell "#10" [ref=f13e276]:
+                    - generic [ref=f13e277]: "#10"
+                  - 'cell "SAW # 033" [ref=f13e278]'
+                  - cell "SAW" [ref=f13e279]
+                  - cell "20.0" [ref=f13e280]
+                  - cell "40" [ref=f13e281]
+                  - cell "30 m" [ref=f13e282]
+                  - cell "94708" [ref=f13e283]
+        - generic [ref=f13e157]:
+          - text: "Downtime: Frequency vs Duration"
+          - generic [ref=f13e158]: Per Machine
+      - generic [ref=f13e161]:
+        - generic [ref=f13e162]:
+          - generic [ref=f13e163]: Machine Breakdown — Sorted by Utilization (Lowest First)
+          - generic [ref=f13e164]:
+            - generic [ref=f13e165]: Top 100
+            - button "↓ CSV" [ref=f13e166] [cursor=pointer]
+        - generic [ref=f13e167]:
+          - generic [ref=f13e168]:
+            - searchbox "Search…" [ref=f13e169]
+            - generic [ref=f13e170]: 869 records
+          - table [ref=f13e172]:
+            - rowgroup [ref=f13e173]:
+              - row "Machine ↕ Area ↕ Util % ↕ Downtime % ↕ PM % ↕ Lost Time % ↕" [ref=f13e174]:
+                - button "Machine ↕" [ref=f13e175] [cursor=pointer]
+                - button "Area ↕" [ref=f13e176] [cursor=pointer]
+                - button "Util % ↕" [ref=f13e177] [cursor=pointer]
+                - button "Downtime % ↕" [ref=f13e178] [cursor=pointer]
+                - button "PM % ↕" [ref=f13e179] [cursor=pointer]
+                - button "Lost Time % ↕" [ref=f13e180] [cursor=pointer]
+            - rowgroup [ref=f13e181]:
+              - 'row "EP # 02 PLATE 61.5% 0.3% 3.0% 35.2%" [ref=f13e286]':
+                - 'cell "EP # 02" [ref=f13e287]'
+                - cell "PLATE" [ref=f13e288]
+                - cell "61.5%" [ref=f13e289]
+                - cell "0.3%" [ref=f13e290]
+                - cell "3.0%" [ref=f13e291]
+                - cell "35.2%" [ref=f13e292]
+              - 'row "D/B # 056 DA 72.5% 6.0% 0.7% 20.8%" [ref=f13e293]':
+                - 'cell "D/B # 056" [ref=f13e294]'
+                - cell "DA" [ref=f13e295]
+                - cell "72.5%" [ref=f13e296]
+                - cell "6.0%" [ref=f13e297]
+                - cell "0.7%" [ref=f13e298]
+                - cell "20.8%" [ref=f13e299]
+              - 'row "D/B # 047 DA 73.6% 8.2% 0.8% 17.5%" [ref=f13e300]':
+                - 'cell "D/B # 047" [ref=f13e301]'
+                - cell "DA" [ref=f13e302]
+                - cell "73.6%" [ref=f13e303]
+                - cell "8.2%" [ref=f13e304]
+                - cell "0.8%" [ref=f13e305]
+                - cell "17.5%" [ref=f13e306]
+              - 'row "D/B # 066 DA 74.1% 9.5% 0.7% 15.7%" [ref=f13e307]':
+                - 'cell "D/B # 066" [ref=f13e308]'
+                - cell "DA" [ref=f13e309]
+                - cell "74.1%" [ref=f13e310]
+                - cell "9.5%" [ref=f13e311]
+                - cell "0.7%" [ref=f13e312]
+                - cell "15.7%" [ref=f13e313]
+              - 'row "D/B # 067 DA 74.3% 7.5% 0.8% 17.4%" [ref=f13e314]':
+                - 'cell "D/B # 067" [ref=f13e315]'
+                - cell "DA" [ref=f13e316]
+                - cell "74.3%" [ref=f13e317]
+                - cell "7.5%" [ref=f13e318]
+                - cell "0.8%" [ref=f13e319]
+                - cell "17.4%" [ref=f13e320]
+              - 'row "D/B # 080 DA 74.3% 10.7% 0.8% 14.2%" [ref=f13e321]':
+                - 'cell "D/B # 080" [ref=f13e322]'
+                - cell "DA" [ref=f13e323]
+                - cell "74.3%" [ref=f13e324]
+                - cell "10.7%" [ref=f13e325]
+                - cell "0.8%" [ref=f13e326]
+                - cell "14.2%" [ref=f13e327]
+              - 'row "D/B # 079 DA 74.5% 6.5% 0.8% 18.2%" [ref=f13e328]':
+                - 'cell "D/B # 079" [ref=f13e329]'
+                - cell "DA" [ref=f13e330]
+                - cell "74.5%" [ref=f13e331]
+                - cell "6.5%" [ref=f13e332]
+                - cell "0.8%" [ref=f13e333]
+                - cell "18.2%" [ref=f13e334]
+              - 'row "D/B # 081 DA 75.0% 8.5% 0.7% 15.8%" [ref=f13e335]':
+                - 'cell "D/B # 081" [ref=f13e336]'
+                - cell "DA" [ref=f13e337]
+                - cell "75.0%" [ref=f13e338]
+                - cell "8.5%" [ref=f13e339]
+                - cell "0.7%" [ref=f13e340]
+                - cell "15.8%" [ref=f13e341]
+              - 'row "D/B # 108 DA 75.3% 8.6% 0.7% 15.4%" [ref=f13e342]':
+                - 'cell "D/B # 108" [ref=f13e343]'
+                - cell "DA" [ref=f13e344]
+                - cell "75.3%" [ref=f13e345]
+                - cell "8.6%" [ref=f13e346]
+                - cell "0.7%" [ref=f13e347]
+                - cell "15.4%" [ref=f13e348]
+              - 'row "D/B # 042 DA 75.3% 6.0% 0.7% 18.0%" [ref=f13e349]':
+                - 'cell "D/B # 042" [ref=f13e350]'
+                - cell "DA" [ref=f13e351]
+                - cell "75.3%" [ref=f13e352]
+                - cell "6.0%" [ref=f13e353]
+                - cell "0.7%" [ref=f13e354]
+                - cell "18.0%" [ref=f13e355]
+              - 'row "D/B # 112 DA 75.5% 6.7% 0.7% 17.1%" [ref=f13e356]':
+                - 'cell "D/B # 112" [ref=f13e357]'
+                - cell "DA" [ref=f13e358]
+                - cell "75.5%" [ref=f13e359]
+                - cell "6.7%" [ref=f13e360]
+                - cell "0.7%" [ref=f13e361]
+                - cell "17.1%" [ref=f13e362]
+              - 'row "D/B # 063 DA 75.7% 8.5% 0.6% 15.3%" [ref=f13e363]':
+                - 'cell "D/B # 063" [ref=f13e364]'
+                - cell "DA" [ref=f13e365]
+                - cell "75.7%" [ref=f13e366]
+                - cell "8.5%" [ref=f13e367]
+                - cell "0.6%" [ref=f13e368]
+                - cell "15.3%" [ref=f13e369]
+              - 'row "D/B # 088 DA 75.7% 7.5% 0.8% 16.0%" [ref=f13e370]':
+                - 'cell "D/B # 088" [ref=f13e371]'
+                - cell "DA" [ref=f13e372]
+                - cell "75.7%" [ref=f13e373]
+                - cell "7.5%" [ref=f13e374]
+                - cell "0.8%" [ref=f13e375]
+                - cell "16.0%" [ref=f13e376]
+              - 'row "BG # 01 BG 75.8% 0.3% 2.1% 21.8%" [ref=f13e377]':
+                - 'cell "BG # 01" [ref=f13e378]'
+                - cell "BG" [ref=f13e379]
+                - cell "75.8%" [ref=f13e380]
+                - cell "0.3%" [ref=f13e381]
+                - cell "2.1%" [ref=f13e382]
+                - cell "21.8%" [ref=f13e383]
+              - 'row "D/B # 037 DA 76.2% 4.7% 0.8% 18.2%" [ref=f13e384]':
+                - 'cell "D/B # 037" [ref=f13e385]'
+                - cell "DA" [ref=f13e386]
+                - cell "76.2%" [ref=f13e387]
+                - cell "4.7%" [ref=f13e388]
+                - cell "0.8%" [ref=f13e389]
+                - cell "18.2%" [ref=f13e390]
+              - 'row "D/B # 074 DA 76.3% 7.2% 0.8% 15.7%" [ref=f13e391]':
+                - 'cell "D/B # 074" [ref=f13e392]'
+                - cell "DA" [ref=f13e393]
+                - cell "76.3%" [ref=f13e394]
+                - cell "7.2%" [ref=f13e395]
+                - cell "0.8%" [ref=f13e396]
+                - cell "15.7%" [ref=f13e397]
+              - 'row "D/B # 034 DA 76.5% 6.3% 0.7% 16.5%" [ref=f13e398]':
+                - 'cell "D/B # 034" [ref=f13e399]'
+                - cell "DA" [ref=f13e400]
+                - cell "76.5%" [ref=f13e401]
+                - cell "6.3%" [ref=f13e402]
+                - cell "0.7%" [ref=f13e403]
+                - cell "16.5%" [ref=f13e404]
+              - 'row "D/B # 043 DA 76.5% 6.5% 0.8% 16.3%" [ref=f13e405]':
+                - 'cell "D/B # 043" [ref=f13e406]'
+                - cell "DA" [ref=f13e407]
+                - cell "76.5%" [ref=f13e408]
+                - cell "6.5%" [ref=f13e409]
+                - cell "0.8%" [ref=f13e410]
+                - cell "16.3%" [ref=f13e411]
+              - 'row "D/B # 091 DA 76.6% 4.8% 0.8% 17.9%" [ref=f13e412]':
+                - 'cell "D/B # 091" [ref=f13e413]'
+                - cell "DA" [ref=f13e414]
+                - cell "76.6%" [ref=f13e415]
+                - cell "4.8%" [ref=f13e416]
+                - cell "0.8%" [ref=f13e417]
+                - cell "17.9%" [ref=f13e418]
+              - 'row "D/B # 089 DA 76.6% 7.4% 0.6% 15.3%" [ref=f13e419]':
+                - 'cell "D/B # 089" [ref=f13e420]'
+                - cell "DA" [ref=f13e421]
+                - cell "76.6%" [ref=f13e422]
+                - cell "7.4%" [ref=f13e423]
+                - cell "0.6%" [ref=f13e424]
+                - cell "15.3%" [ref=f13e425]
+          - generic [ref=f13e426]:
+            - button "‹ Prev" [disabled] [ref=f13e427] [cursor=pointer]
+            - generic [ref=f13e428]: Page 1 / 44
+            - button "Next ›" [ref=f13e429] [cursor=pointer]

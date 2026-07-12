@@ -1,0 +1,607 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e49]:
+        - heading "Machine Inventory" [level=1] [ref=e50]
+        - paragraph [ref=e51]: Equipment master list · 7-day downtime · Health status
+      - generic [ref=e52]:
+        - generic [ref=e53]: Area
+        - button "All" [ref=e54] [cursor=pointer]
+        - button "None" [ref=e55] [cursor=pointer]
+        - button "BG" [ref=e56] [cursor=pointer]
+        - button "SAW" [ref=e57] [cursor=pointer]
+        - button "DA" [ref=e58] [cursor=pointer]
+        - button "WB" [ref=e59] [cursor=pointer]
+        - button "MOLD" [ref=e60] [cursor=pointer]
+        - button "PLATE" [ref=e61] [cursor=pointer]
+        - button "MARK" [ref=e62] [cursor=pointer]
+        - button "SAW_QFN" [ref=e63] [cursor=pointer]
+        - button "TF" [ref=e64] [cursor=pointer]
+        - button "ISO" [ref=e65] [cursor=pointer]
+        - button "FS" [ref=e66] [cursor=pointer]
+        - button "KEY" [ref=e68] [cursor=pointer]
+        - button "Auto" [ref=e69] [cursor=pointer]
+        - button "Gold" [ref=e70] [cursor=pointer]
+      - generic [ref=e71]:
+        - img [ref=e72]
+        - searchbox "Search machine ID, description, model, manufacturer…" [ref=e74]
+        - generic [ref=e75]: 321 / 1383 machines
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - generic [ref=e78]: 321 / 1383
+          - generic [ref=e79]: Total Machines
+        - generic [ref=e80]:
+          - generic [ref=e81]: "0"
+          - generic [ref=e82]: KEY Machines
+        - generic [ref=e83]:
+          - generic [ref=e84]: 1 / 11
+          - generic [ref=e85]: Areas
+        - generic [ref=e86]:
+          - generic [ref=e87]: 1 / 63
+          - generic [ref=e88]: Models
+      - generic [ref=e1234]:
+        - generic [ref=e1235]: Filters
+        - 'button "Model: Twin Eagle Xtreme GoCu ×" [ref=e1236] [cursor=pointer]'
+        - button "Clear all" [ref=e1237] [cursor=pointer]
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - text: Machines by Area
+          - generic [ref=e92]: click to filter
+        - generic [ref=e97]:
+          - text: Equipment Health Map
+          - generic [ref=e98]:
+            - text: Healthy
+            - text: Monitor
+            - text: Warning
+            - text: Critical
+      - generic [ref=e106]:
+        - generic [ref=e108]:
+          - text: Top 15 Models
+          - button "1 selected ×" [ref=e1238] [cursor=pointer]
+        - generic [ref=e114]:
+          - text: By Manufacturer
+          - generic [ref=e115]: click to filter
+      - generic [ref=e120]:
+        - text: Machine Age Distribution by Area (Lifecycle)
+        - generic [ref=e121]: click area to filter
+      - generic [ref=e125]:
+        - generic [ref=e177]:
+          - button "All 1383" [ref=e178] [cursor=pointer]:
+            - text: All
+            - generic [ref=e179]: "1383"
+          - button "Critical 38" [ref=e180] [cursor=pointer]:
+            - text: Critical
+            - generic [ref=e181]: "38"
+          - button "Warning 280" [ref=e182] [cursor=pointer]:
+            - text: Warning
+            - generic [ref=e183]: "280"
+          - button "Monitor 390" [ref=e184] [cursor=pointer]:
+            - text: Monitor
+            - generic [ref=e185]: "390"
+          - button "Healthy 675" [ref=e186] [cursor=pointer]:
+            - text: Healthy
+            - generic [ref=e187]: "675"
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: Model
+            - button "Twin Eagle Xtreme GoCu ×" [ref=e1239] [cursor=pointer]
+            - combobox [ref=e131]:
+              - option "+ Add model…" [selected]
+              - option "7500 PLUS"
+              - option "AB339"
+              - option "ABC-2006"
+              - option "AD2000T"
+              - option "AD3000T"
+              - option "AD3000T Plus"
+              - option "AD3000T-PLUS"
+              - option "AD828"
+              - option "AD830"
+              - option "AD8312"
+              - option "AD8312Plus"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD838"
+              - option "AD889"
+              - option "AD8912HS"
+              - option "AD898"
+              - option "AEI-4048A"
+              - option "ARE-250"
+              - option "Aero Twin"
+              - option "BLAZON-2200"
+              - option "DFC-2025"
+              - option "DFD6340"
+              - option "DFD6361"
+              - option "DFD6560"
+              - option "DFD6750"
+              - option "DFG 8540"
+              - option "DISCO DFL7161"
+              - option "DP80-8-M"
+              - option "DP80-8-MOUT"
+              - option "EAD6750"
+              - option "EDF+EPL2100S"
+              - option "EDF+EPL2400S"
+              - option "Eagle Aero GoCu"
+              - option "Eagle Xtreme"
+              - option "Eagle Xtreme GoCu"
+              - option "Eagle60"
+              - option "GP-ELF-D24084"
+              - option "GP-PRO SP80N"
+              - option "GP-PRO-8 SP80N"
+              - option "GP-PRO-8-SP80N"
+              - option "GP-PRO-80B-M1"
+              - option "GP-PRO4 SP170V"
+              - option "GP-PRO8 SP120V"
+              - option "GP-PRO8 SP170V"
+              - option "GP-PRO8-SP170N"
+              - option "GP-PRO8-SP80N"
+              - option "Harrier"
+              - option "Harrier Xtreme"
+              - option "MP209"
+              - option "MPHENIX"
+              - option "PANATORN-HP"
+              - option "SIAM-DF"
+              - option "SMART ELEMENT (F/S)"
+              - option "Singulation Mark"
+              - option "Smart Element (F/S)"
+              - option "Smart Element (ISO)"
+              - option "Smart Element (MARK)"
+              - option "Smart Element (T/F)"
+              - option "TS-PRO"
+              - option "n/a"
+          - generic [ref=e132]:
+            - generic [ref=e133]: Mfr.
+            - generic [ref=e135]: All manufacturers
+            - combobox [ref=e136]:
+              - option "+ Add mfr…" [selected]
+              - option "ACCRETECH"
+              - option "ADT"
+              - option "AEI Technologies"
+              - option "ASM"
+              - option "ASM Assembly Automation"
+              - option "Accretech"
+              - option "DAI-ICHI"
+              - option "DISCO"
+              - option "DISCO COOPERATION"
+              - option "E & R"
+              - option "Excel tool"
+              - option "GPM"
+              - option "I-PEX"
+              - option "K&N"
+              - option "MECO"
+              - option "PANATORN"
+              - option "SAINT MASTER"
+              - option "SIAM INTER"
+              - option "THINKY COPPERATION"
+              - option "n/a"
+          - button "↓ CSV" [ref=e138] [cursor=pointer]
+        - generic [ref=e140]:
+          - button "Machines (321)" [ref=e1240] [cursor=pointer]
+          - button "Models (1)" [ref=e1241] [cursor=pointer]
+        - generic [ref=e1243]:
+          - generic [ref=e1244]:
+            - searchbox "Search…" [ref=e1245]
+            - generic [ref=e1246]: 321 records
+          - table [ref=e1248]:
+            - rowgroup [ref=e1249]:
+              - row "Machine ↕ Description ↕ Area ↕ Model ↕ Mfr. ↕ Year ↕ Age Flags 7d Down ↕ Events ↕ MTTR ↕ Health ↕" [ref=e1250]:
+                - columnheader "Machine ↕" [ref=e1251] [cursor=pointer]
+                - columnheader "Description ↕" [ref=e1252] [cursor=pointer]
+                - columnheader "Area ↕" [ref=e1253] [cursor=pointer]
+                - columnheader "Model ↕" [ref=e1254] [cursor=pointer]
+                - columnheader "Mfr. ↕" [ref=e1255] [cursor=pointer]
+                - columnheader "Year ↕" [ref=e1256] [cursor=pointer]
+                - columnheader "Age" [ref=e1257]
+                - columnheader "Flags" [ref=e1258]
+                - columnheader "7d Down ↕" [ref=e1259] [cursor=pointer]
+                - columnheader "Events ↕" [ref=e1260] [cursor=pointer]
+                - columnheader "MTTR ↕" [ref=e1261] [cursor=pointer]
+                - columnheader "Health ↕" [ref=e1262] [cursor=pointer]
+            - rowgroup [ref=e1263]:
+              - 'row "W/B # 348L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — AUTO 8.5h 18 28m Critical" [ref=e1264]':
+                - 'cell "W/B # 348L" [ref=e1265]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1266]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1267]
+                - cell "WB" [ref=e1268]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1269]
+                - cell "ASM" [ref=e1270]
+                - cell "—" [ref=e1271]
+                - cell "—" [ref=e1272]
+                - cell "AUTO" [ref=e1273]
+                - cell "8.5h" [ref=e1274]
+                - cell "18" [ref=e1275]
+                - cell "28m" [ref=e1276]
+                - cell "Critical" [ref=e1277]
+              - 'row "W/B # 364L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — AUTO 15.0h 7 128m Critical" [ref=e1278]':
+                - 'cell "W/B # 364L" [ref=e1279]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1280]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1281]
+                - cell "WB" [ref=e1282]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1283]
+                - cell "ASM" [ref=e1284]
+                - cell "—" [ref=e1285]
+                - cell "—" [ref=e1286]
+                - cell "AUTO" [ref=e1287]
+                - cell "15.0h" [ref=e1288]
+                - cell "7" [ref=e1289]
+                - cell "128m" [ref=e1290]
+                - cell "Critical" [ref=e1291]
+              - 'row "W/B # 364R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — AUTO 13.8h 7 118m Critical" [ref=e1292]':
+                - 'cell "W/B # 364R" [ref=e1293]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1294]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1295]
+                - cell "WB" [ref=e1296]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1297]
+                - cell "ASM" [ref=e1298]
+                - cell "—" [ref=e1299]
+                - cell "—" [ref=e1300]
+                - cell "AUTO" [ref=e1301]
+                - cell "13.8h" [ref=e1302]
+                - cell "7" [ref=e1303]
+                - cell "118m" [ref=e1304]
+                - cell "Critical" [ref=e1305]
+              - 'row "W/B # 276L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — AUTO 2.8h 5 33m Warning" [ref=e1306]':
+                - 'cell "W/B # 276L" [ref=e1307]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1308]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1309]
+                - cell "WB" [ref=e1310]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1311]
+                - cell "ASM" [ref=e1312]
+                - cell "—" [ref=e1313]
+                - cell "—" [ref=e1314]
+                - cell "AUTO" [ref=e1315]
+                - cell "2.8h" [ref=e1316]
+                - cell "5" [ref=e1317]
+                - cell "33m" [ref=e1318]
+                - cell "Warning" [ref=e1319]
+              - 'row "W/B # 281L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — AUTO 7.5h 1 450m Warning" [ref=e1320]':
+                - 'cell "W/B # 281L" [ref=e1321]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1322]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1323]
+                - cell "WB" [ref=e1324]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1325]
+                - cell "ASM" [ref=e1326]
+                - cell "—" [ref=e1327]
+                - cell "—" [ref=e1328]
+                - cell "AUTO" [ref=e1329]
+                - cell "7.5h" [ref=e1330]
+                - cell "1" [ref=e1331]
+                - cell "450m" [ref=e1332]
+                - cell "Warning" [ref=e1333]
+              - 'row "W/B # 281R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — AUTO 7.9h 3 158m Warning" [ref=e1334]':
+                - 'cell "W/B # 281R" [ref=e1335]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1336]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1337]
+                - cell "WB" [ref=e1338]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1339]
+                - cell "ASM" [ref=e1340]
+                - cell "—" [ref=e1341]
+                - cell "—" [ref=e1342]
+                - cell "AUTO" [ref=e1343]
+                - cell "7.9h" [ref=e1344]
+                - cell "3" [ref=e1345]
+                - cell "158m" [ref=e1346]
+                - cell "Warning" [ref=e1347]
+              - 'row "W/B # 282L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — AUTO 2.5h 5 30m Warning" [ref=e1348]':
+                - 'cell "W/B # 282L" [ref=e1349]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1350]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1351]
+                - cell "WB" [ref=e1352]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1353]
+                - cell "ASM" [ref=e1354]
+                - cell "—" [ref=e1355]
+                - cell "—" [ref=e1356]
+                - cell "AUTO" [ref=e1357]
+                - cell "2.5h" [ref=e1358]
+                - cell "5" [ref=e1359]
+                - cell "30m" [ref=e1360]
+                - cell "Warning" [ref=e1361]
+              - 'row "W/B # 287L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 2.1h 4 31m Warning" [ref=e1362]':
+                - 'cell "W/B # 287L" [ref=e1363]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1364]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1365]
+                - cell "WB" [ref=e1366]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1367]
+                - cell "ASM" [ref=e1368]
+                - cell "—" [ref=e1369]
+                - cell "—" [ref=e1370]
+                - cell "GOLD" [ref=e1371]
+                - cell "2.1h" [ref=e1372]
+                - cell "4" [ref=e1373]
+                - cell "31m" [ref=e1374]
+                - cell "Warning" [ref=e1375]
+              - 'row "W/B # 287R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 5.5h 13 25m Warning" [ref=e1376]':
+                - 'cell "W/B # 287R" [ref=e1377]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1378]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1379]
+                - cell "WB" [ref=e1380]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1381]
+                - cell "ASM" [ref=e1382]
+                - cell "—" [ref=e1383]
+                - cell "—" [ref=e1384]
+                - cell "GOLD" [ref=e1385]
+                - cell "5.5h" [ref=e1386]
+                - cell "13" [ref=e1387]
+                - cell "25m" [ref=e1388]
+                - cell "Warning" [ref=e1389]
+              - 'row "W/B # 288L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 7.1h 9 47m Warning" [ref=e1390]':
+                - 'cell "W/B # 288L" [ref=e1391]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1392]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1393]
+                - cell "WB" [ref=e1394]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1395]
+                - cell "ASM" [ref=e1396]
+                - cell "—" [ref=e1397]
+                - cell "—" [ref=e1398]
+                - cell "GOLD" [ref=e1399]
+                - cell "7.1h" [ref=e1400]
+                - cell "9" [ref=e1401]
+                - cell "47m" [ref=e1402]
+                - cell "Warning" [ref=e1403]
+              - 'row "W/B # 288R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 7.4h 12 37m Warning" [ref=e1404]':
+                - 'cell "W/B # 288R" [ref=e1405]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1406]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1407]
+                - cell "WB" [ref=e1408]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1409]
+                - cell "ASM" [ref=e1410]
+                - cell "—" [ref=e1411]
+                - cell "—" [ref=e1412]
+                - cell "GOLD" [ref=e1413]
+                - cell "7.4h" [ref=e1414]
+                - cell "12" [ref=e1415]
+                - cell "37m" [ref=e1416]
+                - cell "Warning" [ref=e1417]
+              - 'row "W/B # 289L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 2.4h 5 28m Warning" [ref=e1418]':
+                - 'cell "W/B # 289L" [ref=e1419]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1420]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1421]
+                - cell "WB" [ref=e1422]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1423]
+                - cell "ASM" [ref=e1424]
+                - cell "—" [ref=e1425]
+                - cell "—" [ref=e1426]
+                - cell "GOLD" [ref=e1427]
+                - cell "2.4h" [ref=e1428]
+                - cell "5" [ref=e1429]
+                - cell "28m" [ref=e1430]
+                - cell "Warning" [ref=e1431]
+              - 'row "W/B # 289R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 3.1h 6 30m Warning" [ref=e1432]':
+                - 'cell "W/B # 289R" [ref=e1433]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1434]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1435]
+                - cell "WB" [ref=e1436]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1437]
+                - cell "ASM" [ref=e1438]
+                - cell "—" [ref=e1439]
+                - cell "—" [ref=e1440]
+                - cell "GOLD" [ref=e1441]
+                - cell "3.1h" [ref=e1442]
+                - cell "6" [ref=e1443]
+                - cell "30m" [ref=e1444]
+                - cell "Warning" [ref=e1445]
+              - 'row "W/B # 290L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — 4.7h 18 15m Warning" [ref=e1446]':
+                - 'cell "W/B # 290L" [ref=e1447]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1448]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1449]
+                - cell "WB" [ref=e1450]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1451]
+                - cell "ASM" [ref=e1452]
+                - cell "—" [ref=e1453]
+                - cell "—" [ref=e1454]
+                - cell [ref=e1455]
+                - cell "4.7h" [ref=e1456]
+                - cell "18" [ref=e1457]
+                - cell "15m" [ref=e1458]
+                - cell "Warning" [ref=e1459]
+              - 'row "W/B # 291L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — 5.2h 11 28m Warning" [ref=e1460]':
+                - 'cell "W/B # 291L" [ref=e1461]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1462]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1463]
+                - cell "WB" [ref=e1464]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1465]
+                - cell "ASM" [ref=e1466]
+                - cell "—" [ref=e1467]
+                - cell "—" [ref=e1468]
+                - cell [ref=e1469]
+                - cell "5.2h" [ref=e1470]
+                - cell "11" [ref=e1471]
+                - cell "28m" [ref=e1472]
+                - cell "Warning" [ref=e1473]
+              - 'row "W/B # 293L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 2.0h 5 24m Warning" [ref=e1474]':
+                - 'cell "W/B # 293L" [ref=e1475]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1476]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1477]
+                - cell "WB" [ref=e1478]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1479]
+                - cell "ASM" [ref=e1480]
+                - cell "—" [ref=e1481]
+                - cell "—" [ref=e1482]
+                - cell "GOLD" [ref=e1483]
+                - cell "2.0h" [ref=e1484]
+                - cell "5" [ref=e1485]
+                - cell "24m" [ref=e1486]
+                - cell "Warning" [ref=e1487]
+              - 'row "W/B # 294L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 2.0h 4 29m Warning" [ref=e1488]':
+                - 'cell "W/B # 294L" [ref=e1489]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1490]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1491]
+                - cell "WB" [ref=e1492]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1493]
+                - cell "ASM" [ref=e1494]
+                - cell "—" [ref=e1495]
+                - cell "—" [ref=e1496]
+                - cell "GOLD" [ref=e1497]
+                - cell "2.0h" [ref=e1498]
+                - cell "4" [ref=e1499]
+                - cell "29m" [ref=e1500]
+                - cell "Warning" [ref=e1501]
+              - 'row "W/B # 295R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 2.0h 7 17m Warning" [ref=e1502]':
+                - 'cell "W/B # 295R" [ref=e1503]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1504]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1505]
+                - cell "WB" [ref=e1506]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1507]
+                - cell "ASM" [ref=e1508]
+                - cell "—" [ref=e1509]
+                - cell "—" [ref=e1510]
+                - cell "GOLD" [ref=e1511]
+                - cell "2.0h" [ref=e1512]
+                - cell "7" [ref=e1513]
+                - cell "17m" [ref=e1514]
+                - cell "Warning" [ref=e1515]
+              - 'row "W/B # 296L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 2.4h 3 47m Warning" [ref=e1516]':
+                - 'cell "W/B # 296L" [ref=e1517]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1518]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1519]
+                - cell "WB" [ref=e1520]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1521]
+                - cell "ASM" [ref=e1522]
+                - cell "—" [ref=e1523]
+                - cell "—" [ref=e1524]
+                - cell "GOLD" [ref=e1525]
+                - cell "2.4h" [ref=e1526]
+                - cell "3" [ref=e1527]
+                - cell "47m" [ref=e1528]
+                - cell "Warning" [ref=e1529]
+              - 'row "W/B # 296R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 4.7h 13 21m Warning" [ref=e1530]':
+                - 'cell "W/B # 296R" [ref=e1531]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1532]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1533]
+                - cell "WB" [ref=e1534]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1535]
+                - cell "ASM" [ref=e1536]
+                - cell "—" [ref=e1537]
+                - cell "—" [ref=e1538]
+                - cell "GOLD" [ref=e1539]
+                - cell "4.7h" [ref=e1540]
+                - cell "13" [ref=e1541]
+                - cell "21m" [ref=e1542]
+                - cell "Warning" [ref=e1543]
+              - 'row "W/B # 298R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 4.3h 10 25m Warning" [ref=e1544]':
+                - 'cell "W/B # 298R" [ref=e1545]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1546]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1547]
+                - cell "WB" [ref=e1548]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1549]
+                - cell "ASM" [ref=e1550]
+                - cell "—" [ref=e1551]
+                - cell "—" [ref=e1552]
+                - cell "GOLD" [ref=e1553]
+                - cell "4.3h" [ref=e1554]
+                - cell "10" [ref=e1555]
+                - cell "25m" [ref=e1556]
+                - cell "Warning" [ref=e1557]
+              - 'row "W/B # 299R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 7.2h 14 30m Warning" [ref=e1558]':
+                - 'cell "W/B # 299R" [ref=e1559]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1560]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1561]
+                - cell "WB" [ref=e1562]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1563]
+                - cell "ASM" [ref=e1564]
+                - cell "—" [ref=e1565]
+                - cell "—" [ref=e1566]
+                - cell "GOLD" [ref=e1567]
+                - cell "7.2h" [ref=e1568]
+                - cell "14" [ref=e1569]
+                - cell "30m" [ref=e1570]
+                - cell "Warning" [ref=e1571]
+              - 'row "W/B # 301L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 5.6h 14 24m Warning" [ref=e1572]':
+                - 'cell "W/B # 301L" [ref=e1573]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1574]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1575]
+                - cell "WB" [ref=e1576]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1577]
+                - cell "ASM" [ref=e1578]
+                - cell "—" [ref=e1579]
+                - cell "—" [ref=e1580]
+                - cell "GOLD" [ref=e1581]
+                - cell "5.6h" [ref=e1582]
+                - cell "14" [ref=e1583]
+                - cell "24m" [ref=e1584]
+                - cell "Warning" [ref=e1585]
+              - 'row "W/B # 302L ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 3.8h 7 32m Warning" [ref=e1586]':
+                - 'cell "W/B # 302L" [ref=e1587]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1588]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1589]
+                - cell "WB" [ref=e1590]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1591]
+                - cell "ASM" [ref=e1592]
+                - cell "—" [ref=e1593]
+                - cell "—" [ref=e1594]
+                - cell "GOLD" [ref=e1595]
+                - cell "3.8h" [ref=e1596]
+                - cell "7" [ref=e1597]
+                - cell "32m" [ref=e1598]
+                - cell "Warning" [ref=e1599]
+              - 'row "W/B # 302R ASM WIRE BOND Twin Eagle Xtreme GoCu WB Twin Eagle Xtreme GoCu ASM — — GOLD 2.0h 5 24m Warning" [ref=e1600]':
+                - 'cell "W/B # 302R" [ref=e1601]'
+                - cell "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1602]:
+                  - generic "ASM WIRE BOND Twin Eagle Xtreme GoCu" [ref=e1603]
+                - cell "WB" [ref=e1604]
+                - cell "Twin Eagle Xtreme GoCu" [ref=e1605]
+                - cell "ASM" [ref=e1606]
+                - cell "—" [ref=e1607]
+                - cell "—" [ref=e1608]
+                - cell "GOLD" [ref=e1609]
+                - cell "2.0h" [ref=e1610]
+                - cell "5" [ref=e1611]
+                - cell "24m" [ref=e1612]
+                - cell "Warning" [ref=e1613]
+          - generic [ref=e1614]:
+            - button "‹ Prev" [disabled] [ref=e1615] [cursor=pointer]
+            - generic [ref=e1616]: Page 1 / 13
+            - button "Next ›" [ref=e1617] [cursor=pointer]

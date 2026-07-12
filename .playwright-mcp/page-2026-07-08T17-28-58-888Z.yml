@@ -1,0 +1,181 @@
+- generic [ref=f15e3]:
+  - complementary [ref=f15e4]:
+    - generic [ref=f15e6]: EMH Dashboard
+    - navigation [ref=f15e7]:
+      - link "🏭 Overview" [ref=f15e8] [cursor=pointer]:
+        - /url: ./
+        - generic [ref=f15e9]: 🏭
+        - generic [ref=f15e10]: Overview
+      - link "📺 Live Board" [ref=f15e11] [cursor=pointer]:
+        - /url: ./live
+        - generic [ref=f15e12]: 📺
+        - generic [ref=f15e13]: Live Board
+      - link "📊 Utilization" [ref=f15e14] [cursor=pointer]:
+        - /url: ./utilization
+        - generic [ref=f15e15]: 📊
+        - generic [ref=f15e16]: Utilization
+      - link "📉 Downtime" [ref=f15e17] [cursor=pointer]:
+        - /url: ./downtime
+        - generic [ref=f15e18]: 📉
+        - generic [ref=f15e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=f15e20] [cursor=pointer]:
+        - /url: ./machine-detail
+        - generic [ref=f15e21]: 🖥️
+        - generic [ref=f15e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=f15e23] [cursor=pointer]:
+        - /url: ./timeline
+        - generic [ref=f15e24]: 👷
+        - generic [ref=f15e25]: Tech Performance
+      - link "📦 Inventory" [ref=f15e26] [cursor=pointer]:
+        - /url: ./inventory
+        - generic [ref=f15e27]: 📦
+        - generic [ref=f15e28]: Inventory
+      - link "📋 WB Report" [ref=f15e29] [cursor=pointer]:
+        - /url: ./wb-report
+        - generic [ref=f15e30]: 📋
+        - generic [ref=f15e31]: WB Report
+      - link "🔬 DA Report" [ref=f15e32] [cursor=pointer]:
+        - /url: ./da-report
+        - generic [ref=f15e33]: 🔬
+        - generic [ref=f15e34]: DA Report
+      - link "🏪 Store Items" [ref=f15e35] [cursor=pointer]:
+        - /url: ./store-items
+        - generic [ref=f15e36]: 🏪
+        - generic [ref=f15e37]: Store Items
+      - link "⚙️ Admin" [ref=f15e38] [cursor=pointer]:
+        - /url: ./admin
+        - generic [ref=f15e39]: ⚙️
+        - generic [ref=f15e40]: Admin
+    - button "«" [ref=f15e41] [cursor=pointer]
+  - generic [ref=f15e42]:
+    - banner [ref=f15e43]:
+      - generic [ref=f15e44]:
+        - generic [ref=f15e45]:
+          - generic [ref=f15e46]: Administrator
+          - generic [ref=f15e47]: Admin
+        - button "🌙" [ref=f15e48] [cursor=pointer]
+        - link "⚙️" [ref=f15e49] [cursor=pointer]:
+          - /url: ./admin
+        - button "🚪" [ref=f15e51] [cursor=pointer]
+    - main [ref=f15e52]:
+      - generic [ref=f15e54]:
+        - heading "Utilization Analysis" [level=1] [ref=f15e55]
+        - paragraph [ref=f15e56]: Equipment effectiveness · Downtime · Lost Time breakdown
+      - generic [ref=f15e57]:
+        - generic [ref=f15e58]:
+          - generic [ref=f15e59]: Start
+          - textbox "Start" [ref=f15e60]: 2025-07-08
+        - generic [ref=f15e61]:
+          - generic [ref=f15e62]: End
+          - textbox "End" [ref=f15e63]: 2026-07-08
+        - generic [ref=f15e64]:
+          - generic [ref=f15e65]:
+            - generic [ref=f15e66]: Area
+            - button "All" [ref=f15e67] [cursor=pointer]
+            - button "None" [ref=f15e68] [cursor=pointer]
+          - generic [ref=f15e69]:
+            - button "BG" [ref=f15e70] [cursor=pointer]
+            - button "SAW" [ref=f15e71] [cursor=pointer]
+            - button "DA" [ref=f15e72] [cursor=pointer]
+            - button "WB" [ref=f15e73] [cursor=pointer]
+            - button "MOLD" [ref=f15e74] [cursor=pointer]
+            - button "PLATE" [ref=f15e75] [cursor=pointer]
+            - button "MARK" [ref=f15e76] [cursor=pointer]
+            - button "SAW_QFN" [ref=f15e77] [cursor=pointer]
+            - button "TF" [ref=f15e78] [cursor=pointer]
+            - button "ISO" [ref=f15e79] [cursor=pointer]
+            - button "FS" [ref=f15e80] [cursor=pointer]
+        - generic [ref=f15e81]:
+          - generic [ref=f15e82]: Shift
+          - combobox "Shift" [ref=f15e83]:
+            - option "All Shifts" [selected]
+            - option "☀️ Day"
+            - option "🌙 Night"
+        - button "Apply" [ref=f15e85] [cursor=pointer]
+      - generic [ref=f15e86]: Loading…
+      - generic [ref=f15e87]:
+        - generic [ref=f15e88]:
+          - generic [ref=f15e89]:
+            - generic [ref=f15e90]: ⚙
+            - generic [ref=f15e91]: Percent Utilization
+          - generic [ref=f15e92]: 0.0%
+          - generic [ref=f15e93]: 100% − Down − PM − Lost
+        - generic [ref=f15e94]:
+          - generic [ref=f15e95]:
+            - generic [ref=f15e96]: ⛔
+            - generic [ref=f15e97]: Percent Downtime
+          - generic [ref=f15e98]: 0.0%
+          - generic [ref=f15e99]: M/C DOWN only
+        - generic [ref=f15e100]:
+          - generic [ref=f15e101]:
+            - generic [ref=f15e102]: 🔧
+            - generic [ref=f15e103]: Percent Downtime PM
+          - generic [ref=f15e104]: 0.0%
+          - generic [ref=f15e105]: Planned maintenance
+        - generic [ref=f15e106]:
+          - generic [ref=f15e107]:
+            - generic [ref=f15e108]: ⏱
+            - generic [ref=f15e109]: Percent Lost Time
+          - generic [ref=f15e110]: 0.0%
+          - generic [ref=f15e111]: Setup · Wait · Convert
+      - generic [ref=f15e112]:
+        - generic [ref=f15e114]:
+          - text: Time Composition by Month
+          - generic [ref=f15e115]: Click bar to filter
+        - generic [ref=f15e119]:
+          - text: Utilization by Area
+          - generic [ref=f15e120]: Current Period
+      - generic [ref=f15e123]:
+        - generic [ref=f15e125]:
+          - text: Top 5 Downtime Symptoms
+          - generic [ref=f15e126]: M/C DOWN
+        - generic [ref=f15e130]:
+          - text: Top 5 Lost Time Causes
+          - generic [ref=f15e131]: Setup · Wait
+      - generic [ref=f15e134]:
+        - generic [ref=f15e135]:
+          - generic [ref=f15e136]:
+            - text: Top 10 Machines Needing Attention
+            - generic [ref=f15e137]: Action List
+          - generic [ref=f15e138]:
+            - generic [ref=f15e139]:
+              - searchbox "Search…" [ref=f15e140]
+              - generic [ref=f15e141]: 0 records
+            - table [ref=f15e143]:
+              - rowgroup [ref=f15e144]:
+                - row "Rank Machine ↕ Area ↕ Down Hrs ↕ Events ↕ Avg MTTR ↕ Score ↕" [ref=f15e145]:
+                  - columnheader "Rank" [ref=f15e146]
+                  - button "Machine ↕" [ref=f15e147] [cursor=pointer]
+                  - button "Area ↕" [ref=f15e148] [cursor=pointer]
+                  - button "Down Hrs ↕" [ref=f15e149] [cursor=pointer]
+                  - button "Events ↕" [ref=f15e150] [cursor=pointer]
+                  - button "Avg MTTR ↕" [ref=f15e151] [cursor=pointer]
+                  - button "Score ↕" [ref=f15e152] [cursor=pointer]
+              - rowgroup [ref=f15e153]:
+                - row "No data" [ref=f15e154]:
+                  - cell "No data" [ref=f15e155]
+        - generic [ref=f15e157]:
+          - text: "Downtime: Frequency vs Duration"
+          - generic [ref=f15e158]: Per Machine
+      - generic [ref=f15e161]:
+        - generic [ref=f15e162]:
+          - generic [ref=f15e163]: Machine Breakdown — Sorted by Utilization (Lowest First)
+          - generic [ref=f15e164]:
+            - generic [ref=f15e165]: Top 0
+            - button "↓ CSV" [disabled] [ref=f15e166] [cursor=pointer]
+        - generic [ref=f15e167]:
+          - generic [ref=f15e168]:
+            - searchbox "Search…" [ref=f15e169]
+            - generic [ref=f15e170]: 0 records
+          - table [ref=f15e172]:
+            - rowgroup [ref=f15e173]:
+              - row "Machine ↕ Area ↕ Util % ↕ Downtime % ↕ PM % ↕ Lost Time % ↕" [ref=f15e174]:
+                - button "Machine ↕" [ref=f15e175] [cursor=pointer]
+                - button "Area ↕" [ref=f15e176] [cursor=pointer]
+                - button "Util % ↕" [ref=f15e177] [cursor=pointer]
+                - button "Downtime % ↕" [ref=f15e178] [cursor=pointer]
+                - button "PM % ↕" [ref=f15e179] [cursor=pointer]
+                - button "Lost Time % ↕" [ref=f15e180] [cursor=pointer]
+            - rowgroup [ref=f15e181]:
+              - row "No data" [ref=f15e182]:
+                - cell "No data" [ref=f15e183]

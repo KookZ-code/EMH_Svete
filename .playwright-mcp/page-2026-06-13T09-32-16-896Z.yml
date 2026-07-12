@@ -1,0 +1,1297 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e669]: ⚠️ ALERT — 22 machines DOWN · 0 waiting for tech
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - text: Live Board
+          - generic [ref=e670]: 16:32:16
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]: Status
+            - button "All" [ref=e54] [cursor=pointer]
+            - button "M/C DOWN" [ref=e55] [cursor=pointer]
+            - button "PM" [ref=e56] [cursor=pointer]
+            - button "SETUP" [ref=e57] [cursor=pointer]
+            - button "CONVERT" [ref=e58] [cursor=pointer]
+            - button "WAITING" [ref=e59] [cursor=pointer]
+            - button "LOST TIME" [ref=e60] [cursor=pointer]
+            - button "OTHER" [ref=e61] [cursor=pointer]
+          - generic [ref=e62]:
+            - generic [ref=e63]: Area
+            - button "BG" [ref=e64] [cursor=pointer]
+            - button "SAW" [ref=e65] [cursor=pointer]
+            - button "DA" [ref=e66] [cursor=pointer]
+            - button "WB" [ref=e67] [cursor=pointer]
+            - button "MOLD" [ref=e68] [cursor=pointer]
+            - button "PLATE" [ref=e69] [cursor=pointer]
+            - button "MARK" [ref=e70] [cursor=pointer]
+            - button "SAW_QFN" [ref=e71] [cursor=pointer]
+            - button "TF" [ref=e72] [cursor=pointer]
+            - button "ISO" [ref=e73] [cursor=pointer]
+            - button "FS" [ref=e74] [cursor=pointer]
+        - generic [ref=e75]:
+          - generic [ref=e76]: 28 machines shown
+          - generic [ref=e77]: "Refresh: 16:32"
+      - generic [ref=e671]:
+        - 'generic "D/B # 020 — M/C Down: Missing die,Urgent+Backlog" [ref=e672]':
+          - generic [ref=e673]: "D/B # 020"
+          - generic [ref=e674]: M/C DOWN
+          - generic [ref=e675]: 4m
+          - generic [ref=e676]: No Tech
+        - 'generic "D/B # 043 — M/C Down: Bond head error,Urgent+Backlog" [ref=e677]':
+          - generic [ref=e678]: "D/B # 043"
+          - generic [ref=e679]: M/C DOWN
+          - generic [ref=e680]: 2h 12m
+          - generic [ref=e681]: B01874
+        - 'generic "D/B # 044 — M/C Down: Snap jam Zone 7" [ref=e682]':
+          - generic [ref=e683]: "D/B # 044"
+          - generic [ref=e684]: M/C DOWN
+          - generic [ref=e685]: 9m
+          - generic [ref=e686]: B17405
+        - 'generic "D/B # 056 — M/C Down: Manual align bond pad error" [ref=e687]':
+          - generic [ref=e688]: "D/B # 056"
+          - generic [ref=e689]: M/C DOWN
+          - generic [ref=e690]: 2m
+          - generic [ref=e691]: B64976
+        - 'generic "D/B # 065 — M/C Down: Output index error,Urgent+Backlog" [ref=e1757]':
+          - generic [ref=e693]: "D/B # 065"
+          - generic [ref=e694]: M/C DOWN
+          - generic [ref=e695]: 0m
+          - generic [ref=e696]: No Tech
+        - 'generic "D/B # 086 — M/C Down: Epoxy writer error,Clean Nozzle" [ref=e697]':
+          - generic [ref=e698]: "D/B # 086"
+          - generic [ref=e699]: M/C DOWN
+          - generic [ref=e700]: 2m
+          - generic [ref=e701]: B18027
+        - 'generic "D/B # 098 — M/C Down: Pre bond error" [ref=e702]':
+          - generic [ref=e703]: "D/B # 098"
+          - generic [ref=e704]: M/C DOWN
+          - generic [ref=e705]: 2m
+          - generic [ref=e706]: No Tech
+        - 'generic "D/B # 106 — PM: Weekly PM" [ref=e707]':
+          - generic [ref=e708]: "D/B # 106"
+          - generic [ref=e709]: PM
+          - generic [ref=e710]: 0m
+          - generic [ref=e711]: B16716
+        - 'generic "EP # 03 — PM: Weekly PM" [ref=e712]':
+          - generic [ref=e713]: "EP # 03"
+          - generic [ref=e714]: PM
+          - generic [ref=e715]: 0m
+          - generic [ref=e716]: B19999
+        - 'generic "SAW # 022 — PM: Weekly PM" [ref=e717]':
+          - generic [ref=e718]: "SAW # 022"
+          - generic [ref=e719]: PM
+          - generic [ref=e720]: 1m
+          - generic [ref=e721]: B04936
+        - 'generic "SAW # 026 — PM: Weekly PM" [ref=e722]':
+          - generic [ref=e723]: "SAW # 026"
+          - generic [ref=e724]: PM
+          - generic [ref=e725]: 1m
+          - generic [ref=e726]: B04936
+        - 'generic "STS # 10 — M/C Down: M/C ERROR" [ref=e727]':
+          - generic [ref=e728]: "STS # 10"
+          - generic [ref=e729]: M/C DOWN
+          - generic [ref=e730]: 1h 19m
+          - generic [ref=e731]: B64973
+        - 'generic "T/F# 02 — M/C Down: TRANSPORT" [ref=e732]':
+          - generic [ref=e733]: T/F# 02
+          - generic [ref=e734]: M/C DOWN
+          - generic [ref=e735]: 34m
+          - generic [ref=e736]: B03936
+        - 'generic "W/B # 186 — M/C Down: NSOP Not Alarm" [ref=e737]':
+          - generic [ref=e738]: "W/B # 186"
+          - generic [ref=e739]: M/C DOWN
+          - generic [ref=e740]: 1h 59m
+          - generic [ref=e741]: B63580
+        - 'generic "W/B # 291L — M/C Down: Ejector Error" [ref=e742]':
+          - generic [ref=e743]: "W/B # 291L"
+          - generic [ref=e744]: M/C DOWN
+          - generic [ref=e745]: 3m
+          - generic [ref=e746]: No Tech
+        - 'generic "W/B # 302L — M/C Down: NSOP,Urgent+Backlog" [ref=e747]':
+          - generic [ref=e748]: "W/B # 302L"
+          - generic [ref=e749]: M/C DOWN
+          - generic [ref=e750]: 11m
+          - generic [ref=e751]: B65222
+        - 'generic "W/B # 311L — M/C Down: PRS Error" [ref=e752]':
+          - generic [ref=e753]: "W/B # 311L"
+          - generic [ref=e754]: M/C DOWN
+          - generic [ref=e755]: 18m
+          - generic [ref=e756]: B16715
+        - 'generic "W/B # 341L — PM: Monthly PM" [ref=e757]':
+          - generic [ref=e758]: "W/B # 341L"
+          - generic [ref=e759]: PM
+          - generic [ref=e760]: 0m
+          - generic [ref=e761]: B74331
+        - 'generic "W/B # 341R — PM: Monthly PM" [ref=e762]':
+          - generic [ref=e763]: "W/B # 341R"
+          - generic [ref=e764]: PM
+          - generic [ref=e765]: 0m
+          - generic [ref=e766]: B74331
+        - 'generic "W/B # 349L — M/C Down: Tail Too Short,Urgent+Backlog" [ref=e767]':
+          - generic [ref=e768]: "W/B # 349L"
+          - generic [ref=e769]: M/C DOWN
+          - generic [ref=e770]: 53m
+          - generic [ref=e771]: B04924
+        - 'generic "W/B # 355R — M/C Down: Crack pad" [ref=e772]':
+          - generic [ref=e773]: "W/B # 355R"
+          - generic [ref=e774]: M/C DOWN
+          - generic [ref=e775]: 34m
+          - generic [ref=e776]: No Tech
+        - 'generic "W/B # 374L — M/C Down: Tail Too Short" [ref=e777]':
+          - generic [ref=e778]: "W/B # 374L"
+          - generic [ref=e779]: M/C DOWN
+          - generic [ref=e780]: 1h 33m
+          - generic [ref=e1758]: B15259
+        - 'generic "W/B # 396 — M/C Down: NSOP Not Alarm" [ref=e782]':
+          - generic [ref=e783]: "W/B # 396"
+          - generic [ref=e784]: M/C DOWN
+          - generic [ref=e785]: 1h 49m
+          - generic [ref=e786]: B09017
+        - 'generic "W/B # 445L — M/C Down: NSOP" [ref=e787]':
+          - generic [ref=e788]: "W/B # 445L"
+          - generic [ref=e789]: M/C DOWN
+          - generic [ref=e790]: 22m
+          - generic [ref=e791]: No Tech
+        - 'generic "W/B # 448R — M/C Down: Missing Wire" [ref=e792]':
+          - generic [ref=e793]: "W/B # 448R"
+          - generic [ref=e794]: M/C DOWN
+          - generic [ref=e795]: 23m
+          - generic [ref=e796]: B16092
+        - 'generic "W/B # 471L — M/C Down: NSOL" [ref=e797]':
+          - generic [ref=e798]: "W/B # 471L"
+          - generic [ref=e799]: M/C DOWN
+          - generic [ref=e800]: 8m
+          - generic [ref=e801]: No Tech
+        - 'generic "W/B # 473L — M/C Down: NSOP" [ref=e802]':
+          - generic [ref=e803]: "W/B # 473L"
+          - generic [ref=e804]: M/C DOWN
+          - generic [ref=e805]: 30m
+          - generic [ref=e806]: No Tech
+        - 'generic "W/B # 505L — M/C Down: Index Out Tie Bar" [ref=e807]':
+          - generic [ref=e808]: "W/B # 505L"
+          - generic [ref=e809]: M/C DOWN
+          - generic [ref=e810]: 2m
+          - generic [ref=e811]: B04924
+      - generic [ref=e78]:
+        - heading "WB Floor Map" [level=2] [ref=e79]
+        - paragraph [ref=e80]: ผังพื้นจริงตาม "Lay out wire bond 1.xlsx" · คลิกเครื่องเพื่อ highlight ใน grid ด้านบน
+        - generic [ref=e81]:
+          - generic [ref=e82]: ZONE 1 (Supv. หยก , ย๊ะห์)
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - button "69" [ref=e812] [cursor=pointer]
+              - button "50" [ref=e813] [cursor=pointer]
+              - button "97" [ref=e814] [cursor=pointer]
+              - button "80" [ref=e815] [cursor=pointer]
+              - button "62" [ref=e816] [cursor=pointer]
+              - button "20" [ref=e817] [cursor=pointer]
+              - button "6" [ref=e818] [cursor=pointer]
+              - button "25" [ref=e819] [cursor=pointer]
+              - button "23" [ref=e820] [cursor=pointer]
+              - button "36" [ref=e821] [cursor=pointer]
+              - button "63" [ref=e822] [cursor=pointer]
+              - button "78" [ref=e823] [cursor=pointer]
+              - button "59" [ref=e824] [cursor=pointer]
+              - button "26" [ref=e825] [cursor=pointer]
+              - button "73" [ref=e826] [cursor=pointer]
+            - generic [ref=e101]: LINE28
+            - generic [ref=e102]:
+              - button "53" [ref=e827] [cursor=pointer]
+              - button "88" [ref=e828] [cursor=pointer]
+              - button "90" [ref=e829] [cursor=pointer]
+              - button "91" [ref=e830] [cursor=pointer]
+              - button "92" [ref=e831] [cursor=pointer]
+              - button "93" [ref=e832] [cursor=pointer]
+              - button "70" [ref=e833] [cursor=pointer]
+              - button "33" [ref=e834] [cursor=pointer]
+              - button "61" [ref=e835] [cursor=pointer]
+              - button "95" [ref=e836] [cursor=pointer]
+              - button "94" [ref=e837] [cursor=pointer]
+              - button "9" [ref=e838] [cursor=pointer]
+              - button "44" [ref=e839] [cursor=pointer]
+              - button "86" [ref=e840] [cursor=pointer]
+              - button "106" [ref=e841] [cursor=pointer]
+              - button "37" [ref=e842] [cursor=pointer]
+              - button "38" [ref=e843] [cursor=pointer]
+              - button "74" [ref=e844] [cursor=pointer]
+            - generic [ref=e122]: LINE14
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - button "27" [ref=e845] [cursor=pointer]
+              - button "28" [ref=e846] [cursor=pointer]
+              - button "29" [ref=e847] [cursor=pointer]
+              - button "30" [ref=e848] [cursor=pointer]
+              - button "31" [ref=e849] [cursor=pointer]
+              - button "105" [ref=e850] [cursor=pointer]
+              - button "52" [ref=e851] [cursor=pointer]
+              - button "12" [ref=e852] [cursor=pointer]
+              - button "54" [ref=e853] [cursor=pointer]
+              - button "98" [ref=e854] [cursor=pointer]
+              - button "100" [ref=e855] [cursor=pointer]
+              - button "102" [ref=e856] [cursor=pointer]
+              - button "39" [ref=e857] [cursor=pointer]
+              - button "72" [ref=e858] [cursor=pointer]
+              - button "42" [ref=e859] [cursor=pointer]
+              - button "41" [ref=e860] [cursor=pointer]
+              - button "43" [ref=e861] [cursor=pointer]
+              - button "46" [ref=e862] [cursor=pointer]
+            - generic [ref=e144]: LINE27
+            - generic [ref=e145]:
+              - button "202" [ref=e863] [cursor=pointer]
+              - button "150" [ref=e864] [cursor=pointer]
+              - button "162" [ref=e865] [cursor=pointer]
+              - button "151" [ref=e866] [cursor=pointer]
+              - button "167" [ref=e867] [cursor=pointer]
+              - button "186" [ref=e868] [cursor=pointer]
+              - button "185" [ref=e869] [cursor=pointer]
+              - button "177" [ref=e870] [cursor=pointer]
+              - button "152" [ref=e871] [cursor=pointer]
+              - button "173" [ref=e872] [cursor=pointer]
+              - button "154" [ref=e873] [cursor=pointer]
+              - button "155" [ref=e874] [cursor=pointer]
+              - button "188" [ref=e875] [cursor=pointer]
+              - button "190" [ref=e876] [cursor=pointer]
+              - button "191" [ref=e877] [cursor=pointer]
+              - button "193" [ref=e878] [cursor=pointer]
+              - button "194" [ref=e879] [cursor=pointer]
+              - button "199" [ref=e880] [cursor=pointer]
+            - generic [ref=e165]: LINE13
+          - generic [ref=e166]:
+            - generic [ref=e167]:
+              - button "89" [ref=e881] [cursor=pointer]
+              - button "35" [ref=e882] [cursor=pointer]
+              - button "211" [ref=e883] [cursor=pointer]
+              - button "260" [ref=e884] [cursor=pointer]
+              - button "261" [ref=e885] [cursor=pointer]
+              - button "262" [ref=e886] [cursor=pointer]
+              - button "263" [ref=e887] [cursor=pointer]
+              - button "264" [ref=e888] [cursor=pointer]
+              - button "265" [ref=e889] [cursor=pointer]
+              - button "266" [ref=e890] [cursor=pointer]
+              - button "267" [ref=e891] [cursor=pointer]
+              - button "268" [ref=e892] [cursor=pointer]
+              - button "269" [ref=e893] [cursor=pointer]
+              - button "270" [ref=e894] [cursor=pointer]
+              - button "271" [ref=e895] [cursor=pointer]
+              - button "272" [ref=e896] [cursor=pointer]
+              - button "273" [ref=e897] [cursor=pointer]
+            - generic [ref=e186]: LINE26
+            - generic [ref=e187]:
+              - button "175" [ref=e898] [cursor=pointer]
+              - button "174" [ref=e899] [cursor=pointer]
+              - button "172" [ref=e900] [cursor=pointer]
+              - button "158" [ref=e901] [cursor=pointer]
+              - button "156" [ref=e902] [cursor=pointer]
+              - button "149" [ref=e903] [cursor=pointer]
+              - button "138" [ref=e904] [cursor=pointer]
+              - button "14" [ref=e905] [cursor=pointer]
+              - button "164" [ref=e906] [cursor=pointer]
+              - button "192" [ref=e907] [cursor=pointer]
+              - button "178" [ref=e908] [cursor=pointer]
+              - button "147" [ref=e909] [cursor=pointer]
+              - button "140" [ref=e910] [cursor=pointer]
+              - button "139" [ref=e911] [cursor=pointer]
+              - button "136" [ref=e912] [cursor=pointer]
+              - button "135" [ref=e913] [cursor=pointer]
+              - button "133" [ref=e914] [cursor=pointer]
+              - button "132" [ref=e915] [cursor=pointer]
+            - generic [ref=e207]: LINE12
+          - generic [ref=e208]:
+            - generic [ref=e209]:
+              - button "363" [ref=e916] [cursor=pointer]
+              - button "363L" [ref=e917] [cursor=pointer]
+              - button "363R" [ref=e918] [cursor=pointer]
+              - button "352" [ref=e919] [cursor=pointer]
+              - button "352L" [ref=e920] [cursor=pointer]
+              - button "352R" [ref=e921] [cursor=pointer]
+              - button "351" [ref=e922] [cursor=pointer]
+              - button "351L" [ref=e923] [cursor=pointer]
+              - button "351R" [ref=e924] [cursor=pointer]
+              - button "350" [ref=e925] [cursor=pointer]
+              - button "350L" [ref=e926] [cursor=pointer]
+              - button "350R" [ref=e927] [cursor=pointer]
+              - button "349" [ref=e928] [cursor=pointer]
+              - button "349L" [ref=e929] [cursor=pointer]
+              - button "349R" [ref=e930] [cursor=pointer]
+              - button "342" [ref=e931] [cursor=pointer]
+              - button "342L" [ref=e932] [cursor=pointer]
+              - button "342R" [ref=e933] [cursor=pointer]
+              - button "343" [ref=e934] [cursor=pointer]
+              - button "343L" [ref=e935] [cursor=pointer]
+              - button "343R" [ref=e936] [cursor=pointer]
+              - button "344" [ref=e937] [cursor=pointer]
+              - button "344L" [ref=e938] [cursor=pointer]
+              - button "344R" [ref=e939] [cursor=pointer]
+              - button "345" [ref=e940] [cursor=pointer]
+              - button "345L" [ref=e941] [cursor=pointer]
+              - button "345R" [ref=e942] [cursor=pointer]
+              - button "346" [ref=e943] [cursor=pointer]
+              - button "346L" [ref=e944] [cursor=pointer]
+              - button "346R" [ref=e945] [cursor=pointer]
+              - button "347" [ref=e946] [cursor=pointer]
+              - button "347L" [ref=e947] [cursor=pointer]
+              - button "347R" [ref=e948] [cursor=pointer]
+              - button "348" [ref=e949] [cursor=pointer]
+              - button "348L" [ref=e950] [cursor=pointer]
+              - button "348R" [ref=e951] [cursor=pointer]
+            - generic [ref=e223]: LINE25
+            - generic [ref=e224]:
+              - button "129" [ref=e952] [cursor=pointer]
+              - button "130" [ref=e953] [cursor=pointer]
+              - button "131" [ref=e954] [cursor=pointer]
+              - button "203" [ref=e955] [cursor=pointer]
+              - button "204" [ref=e956] [cursor=pointer]
+              - button "134" [ref=e957] [cursor=pointer]
+              - button "187" [ref=e958] [cursor=pointer]
+              - button "201" [ref=e959] [cursor=pointer]
+              - button "205" [ref=e960] [cursor=pointer]
+              - button "128" [ref=e961] [cursor=pointer]
+              - button "153" [ref=e962] [cursor=pointer]
+              - button "148" [ref=e963] [cursor=pointer]
+              - button "64" [ref=e964] [cursor=pointer]
+              - button "109" [ref=e965] [cursor=pointer]
+              - button "108" [ref=e966] [cursor=pointer]
+              - button "107" [ref=e967] [cursor=pointer]
+              - button "103" [ref=e968] [cursor=pointer]
+              - button "111" [ref=e969] [cursor=pointer]
+            - generic [ref=e244]: LINE11
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - button "377" [ref=e970] [cursor=pointer]
+              - button "377L" [ref=e971] [cursor=pointer]
+              - button "377R" [ref=e972] [cursor=pointer]
+              - button "376" [ref=e973] [cursor=pointer]
+              - button "376L" [ref=e974] [cursor=pointer]
+              - button "376R" [ref=e975] [cursor=pointer]
+              - button "375" [ref=e976] [cursor=pointer]
+              - button "375L" [ref=e977] [cursor=pointer]
+              - button "375R" [ref=e978] [cursor=pointer]
+              - button "374" [ref=e979] [cursor=pointer]
+              - button "374L" [ref=e980] [cursor=pointer]
+              - button "374R" [ref=e981] [cursor=pointer]
+              - button "373" [ref=e982] [cursor=pointer]
+              - button "373L" [ref=e983] [cursor=pointer]
+              - button "373R" [ref=e984] [cursor=pointer]
+              - button "372" [ref=e985] [cursor=pointer]
+              - button "372L" [ref=e986] [cursor=pointer]
+              - button "372R" [ref=e987] [cursor=pointer]
+              - button "371" [ref=e988] [cursor=pointer]
+              - button "371L" [ref=e989] [cursor=pointer]
+              - button "371R" [ref=e990] [cursor=pointer]
+              - button "370" [ref=e991] [cursor=pointer]
+              - button "370L" [ref=e992] [cursor=pointer]
+              - button "370R" [ref=e993] [cursor=pointer]
+              - button "369" [ref=e994] [cursor=pointer]
+              - button "369L" [ref=e995] [cursor=pointer]
+              - button "369R" [ref=e996] [cursor=pointer]
+              - button "368" [ref=e997] [cursor=pointer]
+              - button "368L" [ref=e998] [cursor=pointer]
+              - button "368R" [ref=e999] [cursor=pointer]
+              - button "367" [ref=e1000] [cursor=pointer]
+              - button "367L" [ref=e1001] [cursor=pointer]
+              - button "367R" [ref=e1002] [cursor=pointer]
+              - button "366" [ref=e1003] [cursor=pointer]
+              - button "366L" [ref=e1004] [cursor=pointer]
+              - button "366R" [ref=e1005] [cursor=pointer]
+            - generic [ref=e260]: LINE24
+            - generic [ref=e261]:
+              - button "87" [ref=e1006] [cursor=pointer]
+              - button "7" [ref=e1007] [cursor=pointer]
+              - button "84" [ref=e1008] [cursor=pointer]
+              - button "101" [ref=e1009] [cursor=pointer]
+              - button "519" [ref=e1010] [cursor=pointer]
+              - button "518" [ref=e1011] [cursor=pointer]
+              - button "517" [ref=e1012] [cursor=pointer]
+              - button "516" [ref=e1013] [cursor=pointer]
+              - button "515" [ref=e1014] [cursor=pointer]
+              - button "514" [ref=e1015] [cursor=pointer]
+              - button "513" [ref=e1016] [cursor=pointer]
+              - button "512" [ref=e1017] [cursor=pointer]
+              - button "511" [ref=e1018] [cursor=pointer]
+              - button "510" [ref=e1019] [cursor=pointer]
+              - button "509" [ref=e1020] [cursor=pointer]
+              - button "508" [ref=e1021] [cursor=pointer]
+            - generic [ref=e279]: LINE10
+          - generic [ref=e280]:
+            - generic [ref=e281]:
+              - button "365" [ref=e1022] [cursor=pointer]
+              - button "365L" [ref=e1023] [cursor=pointer]
+              - button "365R" [ref=e1024] [cursor=pointer]
+              - button "364" [ref=e1025] [cursor=pointer]
+              - button "364L" [ref=e1026] [cursor=pointer]
+              - button "364R" [ref=e1027] [cursor=pointer]
+              - button "358" [ref=e1028] [cursor=pointer]
+              - button "358L" [ref=e1029] [cursor=pointer]
+              - button "358R" [ref=e1030] [cursor=pointer]
+              - button "357" [ref=e1031] [cursor=pointer]
+              - button "357L" [ref=e1032] [cursor=pointer]
+              - button "357R" [ref=e1033] [cursor=pointer]
+              - button "356" [ref=e1034] [cursor=pointer]
+              - button "356L" [ref=e1035] [cursor=pointer]
+              - button "356R" [ref=e1036] [cursor=pointer]
+              - button "355" [ref=e1037] [cursor=pointer]
+              - button "355L" [ref=e1038] [cursor=pointer]
+              - button "355R" [ref=e1039] [cursor=pointer]
+              - button "354" [ref=e1040] [cursor=pointer]
+              - button "354L" [ref=e1041] [cursor=pointer]
+              - button "354R" [ref=e1042] [cursor=pointer]
+              - button "353" [ref=e1043] [cursor=pointer]
+              - button "353L" [ref=e1044] [cursor=pointer]
+              - button "353R" [ref=e1045] [cursor=pointer]
+              - button "359" [ref=e1046] [cursor=pointer]
+              - button "359L" [ref=e1047] [cursor=pointer]
+              - button "359R" [ref=e1048] [cursor=pointer]
+              - button "360" [ref=e1049] [cursor=pointer]
+              - button "360L" [ref=e1050] [cursor=pointer]
+              - button "360R" [ref=e1051] [cursor=pointer]
+              - button "361" [ref=e1052] [cursor=pointer]
+              - button "361L" [ref=e1053] [cursor=pointer]
+              - button "361R" [ref=e1054] [cursor=pointer]
+              - button "362" [ref=e1055] [cursor=pointer]
+              - button "362L" [ref=e1056] [cursor=pointer]
+              - button "362R" [ref=e1057] [cursor=pointer]
+            - generic [ref=e295]: LINE23
+            - generic [ref=e296]:
+              - generic [ref=e297]: WIRE CARBINET
+              - button "406" [ref=e1058] [cursor=pointer]
+              - button "405" [ref=e1059] [cursor=pointer]
+              - button "404" [ref=e1060] [cursor=pointer]
+              - button "403" [ref=e1061] [cursor=pointer]
+              - button "402" [ref=e1062] [cursor=pointer]
+              - button "401" [ref=e1063] [cursor=pointer]
+              - button "394" [ref=e1064] [cursor=pointer]
+              - button "393" [ref=e1065] [cursor=pointer]
+              - button "392" [ref=e1066] [cursor=pointer]
+              - button "391" [ref=e1067] [cursor=pointer]
+              - button "390" [ref=e1068] [cursor=pointer]
+              - button "389" [ref=e1069] [cursor=pointer]
+            - generic [ref=e311]: LINE09
+          - generic [ref=e312]:
+            - generic [ref=e313]:
+              - button "329" [ref=e1070] [cursor=pointer]
+              - button "329L" [ref=e1071] [cursor=pointer]
+              - button "329R" [ref=e1072] [cursor=pointer]
+              - button "407" [ref=e1073] [cursor=pointer]
+              - button "407L" [ref=e1074] [cursor=pointer]
+              - button "407R" [ref=e1075] [cursor=pointer]
+              - button "49" [ref=e1076] [cursor=pointer]
+              - button "48" [ref=e1077] [cursor=pointer]
+              - button "47" [ref=e1078] [cursor=pointer]
+              - generic [ref=e319]: ISP23
+              - generic [ref=e320]: IS18
+              - generic [ref=e321]: ISP09
+              - generic [ref=e322]: QC CENTER
+            - generic [ref=e324]: LINE22
+            - generic [ref=e325]:
+              - generic [ref=e326]: SUP1
+              - generic [ref=e327]: ISP01
+              - button "398" [ref=e1079] [cursor=pointer]
+              - button "397" [ref=e1080] [cursor=pointer]
+              - button "396" [ref=e1081] [cursor=pointer]
+              - button "395" [ref=e1082] [cursor=pointer]
+              - button "388" [ref=e1083] [cursor=pointer]
+              - button "387" [ref=e1084] [cursor=pointer]
+              - button "386" [ref=e1085] [cursor=pointer]
+              - button "385" [ref=e1086] [cursor=pointer]
+              - button "400" [ref=e1087] [cursor=pointer]
+              - button "399" [ref=e1088] [cursor=pointer]
+            - generic [ref=e339]: LINE08
+          - generic [ref=e340]:
+            - generic [ref=e341]:
+              - generic [ref=e342]: PLASMA01
+              - generic [ref=e343]: PLASMA02
+              - generic [ref=e344]: PLASMA03
+              - generic [ref=e345]: QC CENTER
+            - generic [ref=e347]: LINE21
+            - generic [ref=e348]:
+              - generic [ref=e349]: SUP2
+              - button "110" [ref=e1089] [cursor=pointer]
+              - button "58" [ref=e1090] [cursor=pointer]
+              - button "99" [ref=e1091] [cursor=pointer]
+              - button "1" [ref=e1092] [cursor=pointer]
+              - button "77" [ref=e1093] [cursor=pointer]
+              - button "66" [ref=e1094] [cursor=pointer]
+              - button "76" [ref=e1095] [cursor=pointer]
+              - generic [ref=e357]: SUPQC
+            - generic [ref=e359]: LINE07
+        - generic [ref=e360]:
+          - generic [ref=e361]: ZONE 2 (TQFP) (Supv. โบว์ , รุ้ง)
+          - generic [ref=e362]:
+            - generic [ref=e363]:
+              - button "237" [ref=e1096] [cursor=pointer]
+              - button "237L" [ref=e1097] [cursor=pointer]
+              - button "237R" [ref=e1098] [cursor=pointer]
+              - button "236" [ref=e1099] [cursor=pointer]
+              - button "236L" [ref=e1100] [cursor=pointer]
+              - button "236R" [ref=e1101] [cursor=pointer]
+              - button "207" [ref=e1102] [cursor=pointer]
+              - button "207L" [ref=e1103] [cursor=pointer]
+              - button "207R" [ref=e1104] [cursor=pointer]
+              - button "208" [ref=e1105] [cursor=pointer]
+              - button "208L" [ref=e1106] [cursor=pointer]
+              - button "208R" [ref=e1107] [cursor=pointer]
+              - button "247" [ref=e1108] [cursor=pointer]
+              - button "247L" [ref=e1109] [cursor=pointer]
+              - button "247R" [ref=e1110] [cursor=pointer]
+              - button "253" [ref=e1111] [cursor=pointer]
+              - button "253L" [ref=e1112] [cursor=pointer]
+              - button "253R" [ref=e1113] [cursor=pointer]
+              - button "240" [ref=e1114] [cursor=pointer]
+              - button "240L" [ref=e1115] [cursor=pointer]
+              - button "240R" [ref=e1116] [cursor=pointer]
+              - button "249" [ref=e1117] [cursor=pointer]
+              - button "249L" [ref=e1118] [cursor=pointer]
+              - button "249R" [ref=e1119] [cursor=pointer]
+              - button "250" [ref=e1120] [cursor=pointer]
+              - button "250L" [ref=e1121] [cursor=pointer]
+              - button "250R" [ref=e1122] [cursor=pointer]
+              - button "251" [ref=e1123] [cursor=pointer]
+              - button "251L" [ref=e1124] [cursor=pointer]
+              - button "251R" [ref=e1125] [cursor=pointer]
+              - button "254" [ref=e1126] [cursor=pointer]
+              - button "254L" [ref=e1127] [cursor=pointer]
+              - button "254R" [ref=e1128] [cursor=pointer]
+              - button "239" [ref=e1129] [cursor=pointer]
+              - button "239L" [ref=e1130] [cursor=pointer]
+              - button "239R" [ref=e1131] [cursor=pointer]
+            - generic [ref=e377]: LINE20
+            - generic [ref=e378]:
+              - button "255" [ref=e1132] [cursor=pointer]
+              - button "255L" [ref=e1133] [cursor=pointer]
+              - button "255R" [ref=e1134] [cursor=pointer]
+              - button "209" [ref=e1135] [cursor=pointer]
+              - button "209L" [ref=e1136] [cursor=pointer]
+              - button "209R" [ref=e1137] [cursor=pointer]
+              - button "210" [ref=e1138] [cursor=pointer]
+              - button "210L" [ref=e1139] [cursor=pointer]
+              - button "210R" [ref=e1140] [cursor=pointer]
+              - button "212" [ref=e1141] [cursor=pointer]
+              - button "212L" [ref=e1142] [cursor=pointer]
+              - button "212R" [ref=e1143] [cursor=pointer]
+              - button "213" [ref=e1144] [cursor=pointer]
+              - button "213L" [ref=e1145] [cursor=pointer]
+              - button "213R" [ref=e1146] [cursor=pointer]
+              - button "248" [ref=e1147] [cursor=pointer]
+              - button "248L" [ref=e1148] [cursor=pointer]
+              - button "248R" [ref=e1149] [cursor=pointer]
+              - button "230" [ref=e1150] [cursor=pointer]
+              - button "230L" [ref=e1151] [cursor=pointer]
+              - button "230R" [ref=e1152] [cursor=pointer]
+              - button "231" [ref=e1153] [cursor=pointer]
+              - button "231L" [ref=e1154] [cursor=pointer]
+              - button "231R" [ref=e1155] [cursor=pointer]
+              - button "232" [ref=e1156] [cursor=pointer]
+              - button "232L" [ref=e1157] [cursor=pointer]
+              - button "232R" [ref=e1158] [cursor=pointer]
+              - button "233" [ref=e1159] [cursor=pointer]
+              - button "233L" [ref=e1160] [cursor=pointer]
+              - button "233R" [ref=e1161] [cursor=pointer]
+              - button "234" [ref=e1162] [cursor=pointer]
+              - button "234L" [ref=e1163] [cursor=pointer]
+              - button "234R" [ref=e1164] [cursor=pointer]
+              - button "235" [ref=e1165] [cursor=pointer]
+              - button "235L" [ref=e1166] [cursor=pointer]
+              - button "235R" [ref=e1167] [cursor=pointer]
+            - generic [ref=e392]: LINE06
+          - generic [ref=e393]:
+            - generic [ref=e394]:
+              - button "215" [ref=e1168] [cursor=pointer]
+              - button "215L" [ref=e1169] [cursor=pointer]
+              - button "215R" [ref=e1170] [cursor=pointer]
+              - button "216" [ref=e1171] [cursor=pointer]
+              - button "216L" [ref=e1172] [cursor=pointer]
+              - button "216R" [ref=e1173] [cursor=pointer]
+              - button "217" [ref=e1174] [cursor=pointer]
+              - button "217L" [ref=e1175] [cursor=pointer]
+              - button "217R" [ref=e1176] [cursor=pointer]
+              - button "223" [ref=e1177] [cursor=pointer]
+              - button "223L" [ref=e1178] [cursor=pointer]
+              - button "223R" [ref=e1179] [cursor=pointer]
+              - button "224" [ref=e1180] [cursor=pointer]
+              - button "224L" [ref=e1181] [cursor=pointer]
+              - button "224R" [ref=e1182] [cursor=pointer]
+              - button "225" [ref=e1183] [cursor=pointer]
+              - button "225L" [ref=e1184] [cursor=pointer]
+              - button "225R" [ref=e1185] [cursor=pointer]
+              - button "226" [ref=e1186] [cursor=pointer]
+              - button "226L" [ref=e1187] [cursor=pointer]
+              - button "226R" [ref=e1188] [cursor=pointer]
+              - button "227" [ref=e1189] [cursor=pointer]
+              - button "227L" [ref=e1190] [cursor=pointer]
+              - button "227R" [ref=e1191] [cursor=pointer]
+              - button "228" [ref=e1192] [cursor=pointer]
+              - button "228L" [ref=e1193] [cursor=pointer]
+              - button "228R" [ref=e1194] [cursor=pointer]
+              - button "229" [ref=e1195] [cursor=pointer]
+              - button "229L" [ref=e1196] [cursor=pointer]
+              - button "229R" [ref=e1197] [cursor=pointer]
+              - button "184" [ref=e1198] [cursor=pointer]
+              - button "184L" [ref=e1199] [cursor=pointer]
+              - button "184R" [ref=e1200] [cursor=pointer]
+              - button "241" [ref=e1201] [cursor=pointer]
+              - button "241L" [ref=e1202] [cursor=pointer]
+              - button "241R" [ref=e1203] [cursor=pointer]
+            - generic [ref=e408]: LINE19
+            - generic [ref=e409]:
+              - button "242" [ref=e1204] [cursor=pointer]
+              - button "242L" [ref=e1205] [cursor=pointer]
+              - button "242R" [ref=e1206] [cursor=pointer]
+              - button "218" [ref=e1207] [cursor=pointer]
+              - button "218L" [ref=e1208] [cursor=pointer]
+              - button "218R" [ref=e1209] [cursor=pointer]
+              - button "219" [ref=e1210] [cursor=pointer]
+              - button "219L" [ref=e1211] [cursor=pointer]
+              - button "219R" [ref=e1212] [cursor=pointer]
+              - button "220" [ref=e1213] [cursor=pointer]
+              - button "220L" [ref=e1214] [cursor=pointer]
+              - button "220R" [ref=e1215] [cursor=pointer]
+              - button "221" [ref=e1216] [cursor=pointer]
+              - button "221L" [ref=e1217] [cursor=pointer]
+              - button "221R" [ref=e1218] [cursor=pointer]
+              - button "222" [ref=e1219] [cursor=pointer]
+              - button "222L" [ref=e1220] [cursor=pointer]
+              - button "222R" [ref=e1221] [cursor=pointer]
+              - button "246" [ref=e1222] [cursor=pointer]
+              - button "246L" [ref=e1223] [cursor=pointer]
+              - button "246R" [ref=e1224] [cursor=pointer]
+              - button "258" [ref=e1225] [cursor=pointer]
+              - button "258L" [ref=e1226] [cursor=pointer]
+              - button "258R" [ref=e1227] [cursor=pointer]
+              - button "243" [ref=e1228] [cursor=pointer]
+              - button "243L" [ref=e1229] [cursor=pointer]
+              - button "243R" [ref=e1230] [cursor=pointer]
+              - button "244" [ref=e1231] [cursor=pointer]
+              - button "244L" [ref=e1232] [cursor=pointer]
+              - button "244R" [ref=e1233] [cursor=pointer]
+              - button "245" [ref=e1234] [cursor=pointer]
+              - button "245L" [ref=e1235] [cursor=pointer]
+              - button "245R" [ref=e1236] [cursor=pointer]
+              - button "252" [ref=e1237] [cursor=pointer]
+              - button "252L" [ref=e1238] [cursor=pointer]
+              - button "252R" [ref=e1239] [cursor=pointer]
+            - generic [ref=e423]: LINE05
+          - generic [ref=e424]:
+            - generic [ref=e425]:
+              - button "311" [ref=e1240] [cursor=pointer]
+              - button "311L" [ref=e1241] [cursor=pointer]
+              - button "311R" [ref=e1242] [cursor=pointer]
+              - button "312" [ref=e1243] [cursor=pointer]
+              - button "312L" [ref=e1244] [cursor=pointer]
+              - button "312R" [ref=e1245] [cursor=pointer]
+              - button "315" [ref=e1246] [cursor=pointer]
+              - button "315L" [ref=e1247] [cursor=pointer]
+              - button "315R" [ref=e1248] [cursor=pointer]
+              - button "316" [ref=e1249] [cursor=pointer]
+              - button "316L" [ref=e1250] [cursor=pointer]
+              - button "316R" [ref=e1251] [cursor=pointer]
+              - button "317" [ref=e1252] [cursor=pointer]
+              - button "317L" [ref=e1253] [cursor=pointer]
+              - button "317R" [ref=e1254] [cursor=pointer]
+              - button "318" [ref=e1255] [cursor=pointer]
+              - button "318L" [ref=e1256] [cursor=pointer]
+              - button "318R" [ref=e1257] [cursor=pointer]
+              - button "290" [ref=e1258] [cursor=pointer]
+              - button "290L" [ref=e1259] [cursor=pointer]
+              - button "290R" [ref=e1260] [cursor=pointer]
+              - button "291" [ref=e1261] [cursor=pointer]
+              - button "291L" [ref=e1262] [cursor=pointer]
+              - button "291R" [ref=e1263] [cursor=pointer]
+              - button "292" [ref=e1264] [cursor=pointer]
+              - button "292L" [ref=e1265] [cursor=pointer]
+              - button "292R" [ref=e1266] [cursor=pointer]
+              - button "259" [ref=e1267] [cursor=pointer]
+              - button "259L" [ref=e1268] [cursor=pointer]
+              - button "259R" [ref=e1269] [cursor=pointer]
+              - button "214" [ref=e1270] [cursor=pointer]
+              - button "214L" [ref=e1271] [cursor=pointer]
+              - button "214R" [ref=e1272] [cursor=pointer]
+              - button "320" [ref=e1273] [cursor=pointer]
+              - button "320L" [ref=e1274] [cursor=pointer]
+              - button "320R" [ref=e1275] [cursor=pointer]
+            - generic [ref=e439]: LINE18
+            - generic [ref=e440]:
+              - button "314" [ref=e1276] [cursor=pointer]
+              - button "314L" [ref=e1277] [cursor=pointer]
+              - button "314R" [ref=e1278] [cursor=pointer]
+              - button "313" [ref=e1279] [cursor=pointer]
+              - button "313L" [ref=e1280] [cursor=pointer]
+              - button "313R" [ref=e1281] [cursor=pointer]
+              - button "303" [ref=e1282] [cursor=pointer]
+              - button "303L" [ref=e1283] [cursor=pointer]
+              - button "303R" [ref=e1284] [cursor=pointer]
+              - button "321" [ref=e1285] [cursor=pointer]
+              - button "321L" [ref=e1286] [cursor=pointer]
+              - button "321R" [ref=e1287] [cursor=pointer]
+              - button "322" [ref=e1288] [cursor=pointer]
+              - button "322L" [ref=e1289] [cursor=pointer]
+              - button "322R" [ref=e1290] [cursor=pointer]
+              - button "323" [ref=e1291] [cursor=pointer]
+              - button "323L" [ref=e1292] [cursor=pointer]
+              - button "323R" [ref=e1293] [cursor=pointer]
+              - button "324" [ref=e1294] [cursor=pointer]
+              - button "324L" [ref=e1295] [cursor=pointer]
+              - button "324R" [ref=e1296] [cursor=pointer]
+              - button "325" [ref=e1297] [cursor=pointer]
+              - button "325L" [ref=e1298] [cursor=pointer]
+              - button "325R" [ref=e1299] [cursor=pointer]
+              - button "378" [ref=e1300] [cursor=pointer]
+              - button "378L" [ref=e1301] [cursor=pointer]
+              - button "378R" [ref=e1302] [cursor=pointer]
+              - button "282" [ref=e1303] [cursor=pointer]
+              - button "282L" [ref=e1304] [cursor=pointer]
+              - button "282R" [ref=e1305] [cursor=pointer]
+              - button "327" [ref=e1306] [cursor=pointer]
+              - button "327L" [ref=e1307] [cursor=pointer]
+              - button "327R" [ref=e1308] [cursor=pointer]
+              - button "328" [ref=e1309] [cursor=pointer]
+              - button "328L" [ref=e1310] [cursor=pointer]
+              - button "328R" [ref=e1311] [cursor=pointer]
+            - generic [ref=e454]: LINE04
+          - generic [ref=e455]:
+            - generic [ref=e456]:
+              - button "304" [ref=e1312] [cursor=pointer]
+              - button "304L" [ref=e1313] [cursor=pointer]
+              - button "304R" [ref=e1314] [cursor=pointer]
+              - button "307" [ref=e1315] [cursor=pointer]
+              - button "307L" [ref=e1316] [cursor=pointer]
+              - button "307R" [ref=e1317] [cursor=pointer]
+              - button "308" [ref=e1318] [cursor=pointer]
+              - button "308L" [ref=e1319] [cursor=pointer]
+              - button "308R" [ref=e1320] [cursor=pointer]
+              - button "309" [ref=e1321] [cursor=pointer]
+              - button "309L" [ref=e1322] [cursor=pointer]
+              - button "309R" [ref=e1323] [cursor=pointer]
+              - button "310" [ref=e1324] [cursor=pointer]
+              - button "310L" [ref=e1325] [cursor=pointer]
+              - button "310R" [ref=e1326] [cursor=pointer]
+              - button "275" [ref=e1327] [cursor=pointer]
+              - button "275L" [ref=e1328] [cursor=pointer]
+              - button "275R" [ref=e1329] [cursor=pointer]
+              - button "289" [ref=e1330] [cursor=pointer]
+              - button "289L" [ref=e1331] [cursor=pointer]
+              - button "289R" [ref=e1332] [cursor=pointer]
+              - button "288" [ref=e1333] [cursor=pointer]
+              - button "288L" [ref=e1334] [cursor=pointer]
+              - button "288R" [ref=e1335] [cursor=pointer]
+              - button "287" [ref=e1336] [cursor=pointer]
+              - button "287L" [ref=e1337] [cursor=pointer]
+              - button "287R" [ref=e1338] [cursor=pointer]
+              - button "330" [ref=e1339] [cursor=pointer]
+              - button "330L" [ref=e1340] [cursor=pointer]
+              - button "330R" [ref=e1341] [cursor=pointer]
+              - button "331" [ref=e1342] [cursor=pointer]
+              - button "331L" [ref=e1343] [cursor=pointer]
+              - button "331R" [ref=e1344] [cursor=pointer]
+              - button "332" [ref=e1345] [cursor=pointer]
+              - button "332L" [ref=e1346] [cursor=pointer]
+              - button "332R" [ref=e1347] [cursor=pointer]
+            - generic [ref=e470]: LINE17
+            - generic [ref=e471]:
+              - button "306" [ref=e1348] [cursor=pointer]
+              - button "306L" [ref=e1349] [cursor=pointer]
+              - button "306R" [ref=e1350] [cursor=pointer]
+              - button "379" [ref=e1351] [cursor=pointer]
+              - button "379L" [ref=e1352] [cursor=pointer]
+              - button "379R" [ref=e1353] [cursor=pointer]
+              - button "276" [ref=e1354] [cursor=pointer]
+              - button "276L" [ref=e1355] [cursor=pointer]
+              - button "276R" [ref=e1356] [cursor=pointer]
+              - button "277" [ref=e1357] [cursor=pointer]
+              - button "277L" [ref=e1358] [cursor=pointer]
+              - button "277R" [ref=e1359] [cursor=pointer]
+              - button "286" [ref=e1360] [cursor=pointer]
+              - button "286L" [ref=e1361] [cursor=pointer]
+              - button "286R" [ref=e1362] [cursor=pointer]
+              - button "285" [ref=e1363] [cursor=pointer]
+              - button "285L" [ref=e1364] [cursor=pointer]
+              - button "285R" [ref=e1365] [cursor=pointer]
+              - button "278" [ref=e1366] [cursor=pointer]
+              - button "278L" [ref=e1367] [cursor=pointer]
+              - button "278R" [ref=e1368] [cursor=pointer]
+              - button "279" [ref=e1369] [cursor=pointer]
+              - button "279L" [ref=e1370] [cursor=pointer]
+              - button "279R" [ref=e1371] [cursor=pointer]
+              - button "280" [ref=e1372] [cursor=pointer]
+              - button "280L" [ref=e1373] [cursor=pointer]
+              - button "280R" [ref=e1374] [cursor=pointer]
+              - button "281" [ref=e1375] [cursor=pointer]
+              - button "281L" [ref=e1376] [cursor=pointer]
+              - button "281R" [ref=e1377] [cursor=pointer]
+              - button "283" [ref=e1378] [cursor=pointer]
+              - button "283L" [ref=e1379] [cursor=pointer]
+              - button "283R" [ref=e1380] [cursor=pointer]
+              - button "284" [ref=e1381] [cursor=pointer]
+              - button "284L" [ref=e1382] [cursor=pointer]
+              - button "284R" [ref=e1383] [cursor=pointer]
+            - generic [ref=e485]: LINE03
+          - generic [ref=e486]:
+            - generic [ref=e487]:
+              - button "333" [ref=e1384] [cursor=pointer]
+              - button "333L" [ref=e1385] [cursor=pointer]
+              - button "333R" [ref=e1386] [cursor=pointer]
+              - button "334" [ref=e1387] [cursor=pointer]
+              - button "334L" [ref=e1388] [cursor=pointer]
+              - button "334R" [ref=e1389] [cursor=pointer]
+              - button "335" [ref=e1390] [cursor=pointer]
+              - button "335L" [ref=e1391] [cursor=pointer]
+              - button "335R" [ref=e1392] [cursor=pointer]
+              - button "336" [ref=e1393] [cursor=pointer]
+              - button "336L" [ref=e1394] [cursor=pointer]
+              - button "336R" [ref=e1395] [cursor=pointer]
+              - button "337" [ref=e1396] [cursor=pointer]
+              - button "337L" [ref=e1397] [cursor=pointer]
+              - button "337R" [ref=e1398] [cursor=pointer]
+              - button "338" [ref=e1399] [cursor=pointer]
+              - button "338L" [ref=e1400] [cursor=pointer]
+              - button "338R" [ref=e1401] [cursor=pointer]
+              - button "339" [ref=e1402] [cursor=pointer]
+              - button "339L" [ref=e1403] [cursor=pointer]
+              - button "339R" [ref=e1404] [cursor=pointer]
+              - button "340" [ref=e1405] [cursor=pointer]
+              - button "340L" [ref=e1406] [cursor=pointer]
+              - button "340R" [ref=e1407] [cursor=pointer]
+              - button "341" [ref=e1408] [cursor=pointer]
+              - button "341L" [ref=e1409] [cursor=pointer]
+              - button "341R" [ref=e1410] [cursor=pointer]
+              - button "382" [ref=e1411] [cursor=pointer]
+              - button "382L" [ref=e1412] [cursor=pointer]
+              - button "382R" [ref=e1413] [cursor=pointer]
+              - button "381" [ref=e1414] [cursor=pointer]
+              - button "381L" [ref=e1415] [cursor=pointer]
+              - button "381R" [ref=e1416] [cursor=pointer]
+              - button "380" [ref=e1417] [cursor=pointer]
+              - button "380L" [ref=e1418] [cursor=pointer]
+              - button "380R" [ref=e1419] [cursor=pointer]
+            - generic [ref=e501]: LINE16
+            - generic [ref=e502]:
+              - button "319" [ref=e1420] [cursor=pointer]
+              - button "319L" [ref=e1421] [cursor=pointer]
+              - button "319R" [ref=e1422] [cursor=pointer]
+              - button "293" [ref=e1423] [cursor=pointer]
+              - button "293L" [ref=e1424] [cursor=pointer]
+              - button "293R" [ref=e1425] [cursor=pointer]
+              - button "297" [ref=e1426] [cursor=pointer]
+              - button "297L" [ref=e1427] [cursor=pointer]
+              - button "297R" [ref=e1428] [cursor=pointer]
+              - button "298" [ref=e1429] [cursor=pointer]
+              - button "298L" [ref=e1430] [cursor=pointer]
+              - button "298R" [ref=e1431] [cursor=pointer]
+              - button "299" [ref=e1432] [cursor=pointer]
+              - button "299L" [ref=e1433] [cursor=pointer]
+              - button "299R" [ref=e1434] [cursor=pointer]
+              - button "300" [ref=e1435] [cursor=pointer]
+              - button "300L" [ref=e1436] [cursor=pointer]
+              - button "300R" [ref=e1437] [cursor=pointer]
+              - button "301" [ref=e1438] [cursor=pointer]
+              - button "301L" [ref=e1439] [cursor=pointer]
+              - button "301R" [ref=e1440] [cursor=pointer]
+              - button "302" [ref=e1441] [cursor=pointer]
+              - button "302L" [ref=e1442] [cursor=pointer]
+              - button "302R" [ref=e1443] [cursor=pointer]
+              - button "305" [ref=e1444] [cursor=pointer]
+              - button "305L" [ref=e1445] [cursor=pointer]
+              - button "305R" [ref=e1446] [cursor=pointer]
+              - button "295" [ref=e1447] [cursor=pointer]
+              - button "295L" [ref=e1448] [cursor=pointer]
+              - button "295R" [ref=e1449] [cursor=pointer]
+              - button "294" [ref=e1450] [cursor=pointer]
+              - button "294L" [ref=e1451] [cursor=pointer]
+              - button "294R" [ref=e1452] [cursor=pointer]
+              - button "296" [ref=e1453] [cursor=pointer]
+              - button "296L" [ref=e1454] [cursor=pointer]
+              - button "296R" [ref=e1455] [cursor=pointer]
+            - generic [ref=e516]: LINE02
+          - generic [ref=e517]:
+            - generic [ref=e518]:
+              - button "418" [ref=e1456] [cursor=pointer]
+              - button "418L" [ref=e1457] [cursor=pointer]
+              - button "418R" [ref=e1458] [cursor=pointer]
+              - button "419" [ref=e1459] [cursor=pointer]
+              - button "419L" [ref=e1460] [cursor=pointer]
+              - button "419R" [ref=e1461] [cursor=pointer]
+              - button "420" [ref=e1462] [cursor=pointer]
+              - button "420L" [ref=e1463] [cursor=pointer]
+              - button "420R" [ref=e1464] [cursor=pointer]
+              - button "421" [ref=e1465] [cursor=pointer]
+              - button "421L" [ref=e1466] [cursor=pointer]
+              - button "421R" [ref=e1467] [cursor=pointer]
+              - button "422" [ref=e1468] [cursor=pointer]
+              - button "422L" [ref=e1469] [cursor=pointer]
+              - button "422R" [ref=e1470] [cursor=pointer]
+              - button "423" [ref=e1471] [cursor=pointer]
+              - button "423L" [ref=e1472] [cursor=pointer]
+              - button "423R" [ref=e1473] [cursor=pointer]
+              - button "424" [ref=e1474] [cursor=pointer]
+              - button "424L" [ref=e1475] [cursor=pointer]
+              - button "424R" [ref=e1476] [cursor=pointer]
+              - button "425" [ref=e1477] [cursor=pointer]
+              - button "425L" [ref=e1478] [cursor=pointer]
+              - button "425R" [ref=e1479] [cursor=pointer]
+              - button "426" [ref=e1480] [cursor=pointer]
+              - button "426L" [ref=e1481] [cursor=pointer]
+              - button "426R" [ref=e1482] [cursor=pointer]
+              - button "427" [ref=e1483] [cursor=pointer]
+              - button "427L" [ref=e1484] [cursor=pointer]
+              - button "427R" [ref=e1485] [cursor=pointer]
+              - button "428" [ref=e1486] [cursor=pointer]
+              - button "428L" [ref=e1487] [cursor=pointer]
+              - button "428R" [ref=e1488] [cursor=pointer]
+            - generic [ref=e531]: LINE15
+            - generic [ref=e532]:
+              - button "433" [ref=e1489] [cursor=pointer]
+              - button "433L" [ref=e1490] [cursor=pointer]
+              - button "433R" [ref=e1491] [cursor=pointer]
+              - button "429" [ref=e1492] [cursor=pointer]
+              - button "429L" [ref=e1493] [cursor=pointer]
+              - button "429R" [ref=e1494] [cursor=pointer]
+              - button "430" [ref=e1495] [cursor=pointer]
+              - button "430L" [ref=e1496] [cursor=pointer]
+              - button "430R" [ref=e1497] [cursor=pointer]
+              - button "431" [ref=e1498] [cursor=pointer]
+              - button "431L" [ref=e1499] [cursor=pointer]
+              - button "431R" [ref=e1500] [cursor=pointer]
+              - button "432" [ref=e1501] [cursor=pointer]
+              - button "432L" [ref=e1502] [cursor=pointer]
+              - button "432R" [ref=e1503] [cursor=pointer]
+              - button "507" [ref=e1504] [cursor=pointer]
+              - button "507L" [ref=e1505] [cursor=pointer]
+              - button "507R" [ref=e1506] [cursor=pointer]
+              - button "506" [ref=e1507] [cursor=pointer]
+              - button "506L" [ref=e1508] [cursor=pointer]
+              - button "506R" [ref=e1509] [cursor=pointer]
+              - button "505" [ref=e1510] [cursor=pointer]
+              - button "505L" [ref=e1511] [cursor=pointer]
+              - button "505R" [ref=e1512] [cursor=pointer]
+              - button "504" [ref=e1513] [cursor=pointer]
+              - button "504L" [ref=e1514] [cursor=pointer]
+              - button "504R" [ref=e1515] [cursor=pointer]
+              - button "503" [ref=e1516] [cursor=pointer]
+              - button "503L" [ref=e1517] [cursor=pointer]
+              - button "503R" [ref=e1518] [cursor=pointer]
+              - button "502" [ref=e1519] [cursor=pointer]
+              - button "502L" [ref=e1520] [cursor=pointer]
+              - button "502R" [ref=e1521] [cursor=pointer]
+            - generic [ref=e545]: LINE01
+        - generic [ref=e546]:
+          - generic [ref=e547]: ZONE 3 (QFN Old Room) (Supv. สุ , น้อย)
+          - generic [ref=e548]:
+            - generic [ref=e549]:
+              - button "417" [ref=e1522] [cursor=pointer]
+              - button "417L" [ref=e1523] [cursor=pointer]
+              - button "417R" [ref=e1524] [cursor=pointer]
+              - button "416" [ref=e1525] [cursor=pointer]
+              - button "416L" [ref=e1526] [cursor=pointer]
+              - button "416R" [ref=e1527] [cursor=pointer]
+              - button "415" [ref=e1528] [cursor=pointer]
+              - button "415L" [ref=e1529] [cursor=pointer]
+              - button "415R" [ref=e1530] [cursor=pointer]
+              - button "414" [ref=e1531] [cursor=pointer]
+              - button "414L" [ref=e1532] [cursor=pointer]
+              - button "414R" [ref=e1533] [cursor=pointer]
+              - button "413" [ref=e1534] [cursor=pointer]
+              - button "413L" [ref=e1535] [cursor=pointer]
+              - button "413R" [ref=e1536] [cursor=pointer]
+              - button "412" [ref=e1537] [cursor=pointer]
+              - button "412L" [ref=e1538] [cursor=pointer]
+              - button "412R" [ref=e1539] [cursor=pointer]
+              - button "411" [ref=e1540] [cursor=pointer]
+              - button "411L" [ref=e1541] [cursor=pointer]
+              - button "411R" [ref=e1542] [cursor=pointer]
+              - button "410" [ref=e1543] [cursor=pointer]
+              - button "410L" [ref=e1544] [cursor=pointer]
+              - button "410R" [ref=e1545] [cursor=pointer]
+              - button "409" [ref=e1546] [cursor=pointer]
+              - button "409L" [ref=e1547] [cursor=pointer]
+              - button "409R" [ref=e1548] [cursor=pointer]
+              - button "408" [ref=e1549] [cursor=pointer]
+              - button "408L" [ref=e1550] [cursor=pointer]
+              - button "408R" [ref=e1551] [cursor=pointer]
+            - generic [ref=e561]: LINE9
+          - generic [ref=e562]:
+            - generic [ref=e564]: 3/O+QC Die Attacn
+            - generic [ref=e565]:
+              - button "501" [ref=e1552] [cursor=pointer]
+              - button "501L" [ref=e1553] [cursor=pointer]
+              - button "501R" [ref=e1554] [cursor=pointer]
+              - button "500" [ref=e1555] [cursor=pointer]
+              - button "500L" [ref=e1556] [cursor=pointer]
+              - button "500R" [ref=e1557] [cursor=pointer]
+              - button "499" [ref=e1558] [cursor=pointer]
+              - button "499L" [ref=e1559] [cursor=pointer]
+              - button "499R" [ref=e1560] [cursor=pointer]
+              - button "498" [ref=e1561] [cursor=pointer]
+              - button "498L" [ref=e1562] [cursor=pointer]
+              - button "498R" [ref=e1563] [cursor=pointer]
+            - generic [ref=e571]: LINE8
+          - generic [ref=e572]:
+            - generic [ref=e573]:
+              - generic [ref=e574]: SUPV 3
+              - generic [ref=e575]: QC Wire bond
+            - generic [ref=e576]:
+              - button "497" [ref=e1564] [cursor=pointer]
+              - button "497L" [ref=e1565] [cursor=pointer]
+              - button "497R" [ref=e1566] [cursor=pointer]
+              - button "496" [ref=e1567] [cursor=pointer]
+              - button "496L" [ref=e1568] [cursor=pointer]
+              - button "496R" [ref=e1569] [cursor=pointer]
+              - button "495" [ref=e1570] [cursor=pointer]
+              - button "495L" [ref=e1571] [cursor=pointer]
+              - button "495R" [ref=e1572] [cursor=pointer]
+              - button "494" [ref=e1573] [cursor=pointer]
+              - button "494L" [ref=e1574] [cursor=pointer]
+              - button "494R" [ref=e1575] [cursor=pointer]
+            - generic [ref=e582]: LINE7
+          - generic [ref=e583]:
+            - generic [ref=e584]:
+              - button "493" [ref=e1576] [cursor=pointer]
+              - button "493L" [ref=e1577] [cursor=pointer]
+              - button "493R" [ref=e1578] [cursor=pointer]
+              - button "492" [ref=e1579] [cursor=pointer]
+              - button "492L" [ref=e1580] [cursor=pointer]
+              - button "492R" [ref=e1581] [cursor=pointer]
+              - button "491" [ref=e1582] [cursor=pointer]
+              - button "491L" [ref=e1583] [cursor=pointer]
+              - button "491R" [ref=e1584] [cursor=pointer]
+              - button "490" [ref=e1585] [cursor=pointer]
+              - button "490L" [ref=e1586] [cursor=pointer]
+              - button "490R" [ref=e1587] [cursor=pointer]
+              - button "489" [ref=e1588] [cursor=pointer]
+              - button "489L" [ref=e1589] [cursor=pointer]
+              - button "489R" [ref=e1590] [cursor=pointer]
+              - button "488" [ref=e1591] [cursor=pointer]
+              - button "488L" [ref=e1592] [cursor=pointer]
+              - button "488R" [ref=e1593] [cursor=pointer]
+              - button "487" [ref=e1594] [cursor=pointer]
+              - button "487L" [ref=e1595] [cursor=pointer]
+              - button "487R" [ref=e1596] [cursor=pointer]
+              - button "486" [ref=e1597] [cursor=pointer]
+              - button "486L" [ref=e1598] [cursor=pointer]
+              - button "486R" [ref=e1599] [cursor=pointer]
+              - button "485" [ref=e1600] [cursor=pointer]
+              - button "485L" [ref=e1601] [cursor=pointer]
+              - button "485R" [ref=e1602] [cursor=pointer]
+              - button "484" [ref=e1603] [cursor=pointer]
+              - button "484L" [ref=e1604] [cursor=pointer]
+              - button "484R" [ref=e1605] [cursor=pointer]
+            - generic [ref=e596]: LINE6
+          - generic [ref=e597]:
+            - generic [ref=e599]: MOLD LINE
+            - generic [ref=e600]:
+              - button "483" [ref=e1606] [cursor=pointer]
+              - button "483L" [ref=e1607] [cursor=pointer]
+              - button "483R" [ref=e1608] [cursor=pointer]
+              - button "482" [ref=e1609] [cursor=pointer]
+              - button "482L" [ref=e1610] [cursor=pointer]
+              - button "482R" [ref=e1611] [cursor=pointer]
+              - button "481" [ref=e1612] [cursor=pointer]
+              - button "481L" [ref=e1613] [cursor=pointer]
+              - button "481R" [ref=e1614] [cursor=pointer]
+              - button "480" [ref=e1615] [cursor=pointer]
+              - button "480L" [ref=e1616] [cursor=pointer]
+              - button "480R" [ref=e1617] [cursor=pointer]
+              - button "479" [ref=e1618] [cursor=pointer]
+              - button "479L" [ref=e1619] [cursor=pointer]
+              - button "479R" [ref=e1620] [cursor=pointer]
+              - button "478" [ref=e1621] [cursor=pointer]
+              - button "478L" [ref=e1622] [cursor=pointer]
+              - button "478R" [ref=e1623] [cursor=pointer]
+              - button "477" [ref=e1624] [cursor=pointer]
+              - button "477L" [ref=e1625] [cursor=pointer]
+              - button "477R" [ref=e1626] [cursor=pointer]
+              - button "476" [ref=e1627] [cursor=pointer]
+              - button "476L" [ref=e1628] [cursor=pointer]
+              - button "476R" [ref=e1629] [cursor=pointer]
+              - button "475" [ref=e1630] [cursor=pointer]
+              - button "475L" [ref=e1631] [cursor=pointer]
+              - button "475R" [ref=e1632] [cursor=pointer]
+              - button "474" [ref=e1633] [cursor=pointer]
+              - button "474L" [ref=e1634] [cursor=pointer]
+              - button "474R" [ref=e1635] [cursor=pointer]
+            - generic [ref=e612]: LINE5
+          - generic [ref=e613]:
+            - generic [ref=e614]:
+              - button "473" [ref=e1636] [cursor=pointer]
+              - button "473L" [ref=e1637] [cursor=pointer]
+              - button "473R" [ref=e1638] [cursor=pointer]
+              - button "472" [ref=e1639] [cursor=pointer]
+              - button "472L" [ref=e1640] [cursor=pointer]
+              - button "472R" [ref=e1641] [cursor=pointer]
+              - button "471" [ref=e1642] [cursor=pointer]
+              - button "471L" [ref=e1643] [cursor=pointer]
+              - button "471R" [ref=e1644] [cursor=pointer]
+              - button "470" [ref=e1645] [cursor=pointer]
+              - button "470L" [ref=e1646] [cursor=pointer]
+              - button "470R" [ref=e1647] [cursor=pointer]
+              - button "469" [ref=e1648] [cursor=pointer]
+              - button "469L" [ref=e1649] [cursor=pointer]
+              - button "469R" [ref=e1650] [cursor=pointer]
+              - button "468" [ref=e1651] [cursor=pointer]
+              - button "468L" [ref=e1652] [cursor=pointer]
+              - button "468R" [ref=e1653] [cursor=pointer]
+              - button "467" [ref=e1654] [cursor=pointer]
+              - button "467L" [ref=e1655] [cursor=pointer]
+              - button "467R" [ref=e1656] [cursor=pointer]
+              - button "466" [ref=e1657] [cursor=pointer]
+              - button "466L" [ref=e1658] [cursor=pointer]
+              - button "466R" [ref=e1659] [cursor=pointer]
+              - button "465" [ref=e1660] [cursor=pointer]
+              - button "465L" [ref=e1661] [cursor=pointer]
+              - button "465R" [ref=e1662] [cursor=pointer]
+              - button "464" [ref=e1663] [cursor=pointer]
+              - button "464L" [ref=e1664] [cursor=pointer]
+              - button "464R" [ref=e1665] [cursor=pointer]
+            - generic [ref=e626]: LINE4
+          - generic [ref=e627]:
+            - generic [ref=e628]:
+              - button "463" [ref=e1666] [cursor=pointer]
+              - button "463L" [ref=e1667] [cursor=pointer]
+              - button "463R" [ref=e1668] [cursor=pointer]
+              - button "462" [ref=e1669] [cursor=pointer]
+              - button "462L" [ref=e1670] [cursor=pointer]
+              - button "462R" [ref=e1671] [cursor=pointer]
+              - button "461" [ref=e1672] [cursor=pointer]
+              - button "461L" [ref=e1673] [cursor=pointer]
+              - button "461R" [ref=e1674] [cursor=pointer]
+              - button "460" [ref=e1675] [cursor=pointer]
+              - button "460L" [ref=e1676] [cursor=pointer]
+              - button "460R" [ref=e1677] [cursor=pointer]
+              - button "459" [ref=e1678] [cursor=pointer]
+              - button "459L" [ref=e1679] [cursor=pointer]
+              - button "459R" [ref=e1680] [cursor=pointer]
+              - button "458" [ref=e1681] [cursor=pointer]
+              - button "458L" [ref=e1682] [cursor=pointer]
+              - button "458R" [ref=e1683] [cursor=pointer]
+              - button "457" [ref=e1684] [cursor=pointer]
+              - button "457L" [ref=e1685] [cursor=pointer]
+              - button "457R" [ref=e1686] [cursor=pointer]
+              - button "456" [ref=e1687] [cursor=pointer]
+              - button "456L" [ref=e1688] [cursor=pointer]
+              - button "456R" [ref=e1689] [cursor=pointer]
+              - button "455" [ref=e1690] [cursor=pointer]
+              - button "455L" [ref=e1691] [cursor=pointer]
+              - button "455R" [ref=e1692] [cursor=pointer]
+              - button "454" [ref=e1693] [cursor=pointer]
+              - button "454L" [ref=e1694] [cursor=pointer]
+              - button "454R" [ref=e1695] [cursor=pointer]
+            - generic [ref=e640]: LINE3
+          - generic [ref=e641]:
+            - generic [ref=e642]:
+              - button "453" [ref=e1696] [cursor=pointer]
+              - button "453L" [ref=e1697] [cursor=pointer]
+              - button "453R" [ref=e1698] [cursor=pointer]
+              - button "452" [ref=e1699] [cursor=pointer]
+              - button "452L" [ref=e1700] [cursor=pointer]
+              - button "452R" [ref=e1701] [cursor=pointer]
+              - button "451" [ref=e1702] [cursor=pointer]
+              - button "451L" [ref=e1703] [cursor=pointer]
+              - button "451R" [ref=e1704] [cursor=pointer]
+              - button "450" [ref=e1705] [cursor=pointer]
+              - button "450L" [ref=e1706] [cursor=pointer]
+              - button "450R" [ref=e1707] [cursor=pointer]
+              - button "449" [ref=e1708] [cursor=pointer]
+              - button "449L" [ref=e1709] [cursor=pointer]
+              - button "449R" [ref=e1710] [cursor=pointer]
+              - button "448" [ref=e1711] [cursor=pointer]
+              - button "448L" [ref=e1712] [cursor=pointer]
+              - button "448R" [ref=e1713] [cursor=pointer]
+              - button "447" [ref=e1714] [cursor=pointer]
+              - button "447L" [ref=e1715] [cursor=pointer]
+              - button "447R" [ref=e1716] [cursor=pointer]
+              - button "446" [ref=e1717] [cursor=pointer]
+              - button "446L" [ref=e1718] [cursor=pointer]
+              - button "446R" [ref=e1719] [cursor=pointer]
+              - button "445" [ref=e1720] [cursor=pointer]
+              - button "445L" [ref=e1721] [cursor=pointer]
+              - button "445R" [ref=e1722] [cursor=pointer]
+              - button "444" [ref=e1723] [cursor=pointer]
+              - button "444L" [ref=e1724] [cursor=pointer]
+              - button "444R" [ref=e1725] [cursor=pointer]
+            - generic [ref=e654]: LINE2
+          - generic [ref=e655]:
+            - generic [ref=e656]:
+              - button "443" [ref=e1726] [cursor=pointer]
+              - button "443L" [ref=e1727] [cursor=pointer]
+              - button "443R" [ref=e1728] [cursor=pointer]
+              - button "442" [ref=e1729] [cursor=pointer]
+              - button "442L" [ref=e1730] [cursor=pointer]
+              - button "442R" [ref=e1731] [cursor=pointer]
+              - button "441" [ref=e1732] [cursor=pointer]
+              - button "441L" [ref=e1733] [cursor=pointer]
+              - button "441R" [ref=e1734] [cursor=pointer]
+              - button "440" [ref=e1735] [cursor=pointer]
+              - button "440L" [ref=e1736] [cursor=pointer]
+              - button "440R" [ref=e1737] [cursor=pointer]
+              - button "439" [ref=e1738] [cursor=pointer]
+              - button "439L" [ref=e1739] [cursor=pointer]
+              - button "439R" [ref=e1740] [cursor=pointer]
+              - button "438" [ref=e1741] [cursor=pointer]
+              - button "438L" [ref=e1742] [cursor=pointer]
+              - button "438R" [ref=e1743] [cursor=pointer]
+              - button "437" [ref=e1744] [cursor=pointer]
+              - button "437L" [ref=e1745] [cursor=pointer]
+              - button "437R" [ref=e1746] [cursor=pointer]
+              - button "436" [ref=e1747] [cursor=pointer]
+              - button "436L" [ref=e1748] [cursor=pointer]
+              - button "436R" [ref=e1749] [cursor=pointer]
+              - button "435" [ref=e1750] [cursor=pointer]
+              - button "435L" [ref=e1751] [cursor=pointer]
+              - button "435R" [ref=e1752] [cursor=pointer]
+              - button "434" [ref=e1753] [cursor=pointer]
+              - button "434L" [ref=e1754] [cursor=pointer]
+              - button "434R" [ref=e1755] [cursor=pointer]
+            - generic [ref=e668]: LINE1

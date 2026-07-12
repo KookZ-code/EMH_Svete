@@ -1,0 +1,631 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e49]:
+        - heading "Machine Inventory" [level=1] [ref=e50]
+        - paragraph [ref=e51]: Equipment master list · 7-day downtime · Health status
+      - generic [ref=e52]:
+        - generic [ref=e53]: Area
+        - button "All" [ref=e54] [cursor=pointer]
+        - button "None" [ref=e55] [cursor=pointer]
+        - button "BG" [ref=e56] [cursor=pointer]
+        - button "SAW" [ref=e57] [cursor=pointer]
+        - button "DA" [ref=e58] [cursor=pointer]
+        - button "WB" [ref=e59] [cursor=pointer]
+        - button "MOLD" [ref=e60] [cursor=pointer]
+        - button "PLATE" [ref=e61] [cursor=pointer]
+        - button "MARK" [ref=e62] [cursor=pointer]
+        - button "SAW_QFN" [ref=e63] [cursor=pointer]
+        - button "TF" [ref=e64] [cursor=pointer]
+        - button "ISO" [ref=e65] [cursor=pointer]
+        - button "FS" [ref=e66] [cursor=pointer]
+        - button "KEY" [ref=e68] [cursor=pointer]
+        - button "Auto" [ref=e69] [cursor=pointer]
+        - button "Gold" [ref=e70] [cursor=pointer]
+      - generic [ref=e71]:
+        - img [ref=e72]
+        - searchbox "Search machine ID, description, model, manufacturer…" [ref=e74]
+        - generic [ref=e75]: 48 / 1383 machines
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - generic [ref=e78]: 48 / 1383
+          - generic [ref=e79]: Total Machines
+        - generic [ref=e80]:
+          - generic [ref=e81]: 48 / 1289
+          - generic [ref=e82]: KEY Machines
+        - generic [ref=e83]:
+          - generic [ref=e84]: 1 / 11
+          - generic [ref=e85]: Areas
+        - generic [ref=e86]:
+          - generic [ref=e87]: 12 / 63
+          - generic [ref=e88]: Models
+      - generic [ref=e567]:
+        - generic [ref=e568]: Filters
+        - button "Areas 1/11 ×" [ref=e569] [cursor=pointer]
+        - button "KEY ×" [ref=e570] [cursor=pointer]
+        - button "Clear all" [ref=e571] [cursor=pointer]
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - text: Machines by Area
+          - button "1/11 ×" [ref=e572] [cursor=pointer]
+        - generic [ref=e97]:
+          - text: Downtime Scatter (Events vs Hours)
+          - generic [ref=e98]: click point → filter table
+      - generic [ref=e102]:
+        - generic [ref=e104]:
+          - text: Top 15 Models
+          - generic [ref=e105]: click to filter
+        - generic [ref=e110]:
+          - text: By Manufacturer
+          - generic [ref=e111]: click to filter
+      - generic [ref=e116]:
+        - text: Machine Age Distribution by Area (Lifecycle)
+        - generic [ref=e117]: click area to filter
+      - generic [ref=e121]:
+        - generic [ref=e174]:
+          - button "All 48" [ref=e573] [cursor=pointer]:
+            - text: All
+            - generic [ref=e176]: "48"
+          - button "Critical 0" [ref=e574] [cursor=pointer]:
+            - text: Critical
+            - generic [ref=e178]: "0"
+          - button "Warning 6" [ref=e575] [cursor=pointer]:
+            - text: Warning
+            - generic [ref=e180]: "6"
+          - button "Monitor 5" [ref=e576] [cursor=pointer]:
+            - text: Monitor
+            - generic [ref=e182]: "5"
+          - button "Healthy 37" [ref=e577] [cursor=pointer]:
+            - text: Healthy
+            - generic [ref=e184]: "37"
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - generic [ref=e124]: Model
+            - generic [ref=e126]: All models
+            - combobox [ref=e127]:
+              - option "+ Add model…" [selected]
+              - option "7500 PLUS"
+              - option "AB339"
+              - option "ABC-2006"
+              - option "AD2000T"
+              - option "AD3000T"
+              - option "AD3000T Plus"
+              - option "AD3000T-PLUS"
+              - option "AD828"
+              - option "AD830"
+              - option "AD8312"
+              - option "AD8312Plus"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD832i"
+              - option "AD838"
+              - option "AD889"
+              - option "AD8912HS"
+              - option "AD898"
+              - option "AEI-4048A"
+              - option "ARE-250"
+              - option "Aero Twin"
+              - option "BLAZON-2200"
+              - option "DFC-2025"
+              - option "DFD6340"
+              - option "DFD6361"
+              - option "DFD6560"
+              - option "DFD6750"
+              - option "DFG 8540"
+              - option "DISCO DFL7161"
+              - option "DP80-8-M"
+              - option "DP80-8-MOUT"
+              - option "EAD6750"
+              - option "EDF+EPL2100S"
+              - option "EDF+EPL2400S"
+              - option "Eagle Aero GoCu"
+              - option "Eagle Xtreme"
+              - option "Eagle Xtreme GoCu"
+              - option "Eagle60"
+              - option "GP-ELF-D24084"
+              - option "GP-PRO SP80N"
+              - option "GP-PRO-8 SP80N"
+              - option "GP-PRO-8-SP80N"
+              - option "GP-PRO-80B-M1"
+              - option "GP-PRO4 SP170V"
+              - option "GP-PRO8 SP120V"
+              - option "GP-PRO8 SP170V"
+              - option "GP-PRO8-SP170N"
+              - option "GP-PRO8-SP80N"
+              - option "Harrier"
+              - option "Harrier Xtreme"
+              - option "MP209"
+              - option "MPHENIX"
+              - option "PANATORN-HP"
+              - option "SIAM-DF"
+              - option "SMART ELEMENT (F/S)"
+              - option "Singulation Mark"
+              - option "Smart Element (F/S)"
+              - option "Smart Element (ISO)"
+              - option "Smart Element (MARK)"
+              - option "Smart Element (T/F)"
+              - option "TS-PRO"
+              - option "Twin Eagle Xtreme GoCu"
+              - option "n/a"
+          - generic [ref=e128]:
+            - generic [ref=e129]: Mfr.
+            - generic [ref=e131]: All manufacturers
+            - combobox [ref=e132]:
+              - option "+ Add mfr…" [selected]
+              - option "ACCRETECH"
+              - option "ADT"
+              - option "AEI Technologies"
+              - option "ASM"
+              - option "ASM Assembly Automation"
+              - option "Accretech"
+              - option "DAI-ICHI"
+              - option "DISCO"
+              - option "DISCO COOPERATION"
+              - option "E & R"
+              - option "Excel tool"
+              - option "GPM"
+              - option "I-PEX"
+              - option "K&N"
+              - option "MECO"
+              - option "PANATORN"
+              - option "SAINT MASTER"
+              - option "SIAM INTER"
+              - option "THINKY COPPERATION"
+              - option "n/a"
+          - button "↓ CSV" [ref=e134] [cursor=pointer]
+        - generic [ref=e136]:
+          - button "Machines (48)" [ref=e578] [cursor=pointer]
+          - button "Models (12)" [ref=e579] [cursor=pointer]
+        - generic [ref=e140]:
+          - generic [ref=e141]:
+            - searchbox "Search…" [active] [ref=e142]
+            - generic [ref=e143]: 48 records
+          - table [ref=e145]:
+            - rowgroup [ref=e146]:
+              - row "Machine ↕ Description ↕ Area ↕ Model ↕ Mfr. ↕ Year ↕ Age Flags 7d Down ↕ Events ↕ MTTR ↕ Health ↕ Last Package ↕" [ref=e147]:
+                - columnheader "Machine ↕" [ref=e148] [cursor=pointer]
+                - columnheader "Description ↕" [ref=e149] [cursor=pointer]
+                - columnheader "Area ↕" [ref=e150] [cursor=pointer]
+                - columnheader "Model ↕" [ref=e151] [cursor=pointer]
+                - columnheader "Mfr. ↕" [ref=e152] [cursor=pointer]
+                - columnheader "Year ↕" [ref=e153] [cursor=pointer]
+                - columnheader "Age" [ref=e154]
+                - columnheader "Flags" [ref=e155]
+                - columnheader "7d Down ↕" [ref=e156] [cursor=pointer]
+                - columnheader "Events ↕" [ref=e157] [cursor=pointer]
+                - columnheader "MTTR ↕" [ref=e158] [cursor=pointer]
+                - columnheader "Health ↕" [ref=e159] [cursor=pointer]
+                - columnheader "Last Package ↕" [ref=e160] [cursor=pointer]
+            - rowgroup [ref=e161]:
+              - 'row "Mold # 02 DAI-ICHI MOLD GP-ELF-D24084 MOLD GP-ELF-D24084 DAI-ICHI 1999 Aging >10y KEY 3.5h 1 207m Warning —" [ref=e580]':
+                - 'cell "Mold # 02" [ref=e581]'
+                - cell "DAI-ICHI MOLD GP-ELF-D24084" [ref=e582]:
+                  - generic "DAI-ICHI MOLD GP-ELF-D24084" [ref=e583]
+                - cell "MOLD" [ref=e584]
+                - cell "GP-ELF-D24084" [ref=e585]
+                - cell "DAI-ICHI" [ref=e586]
+                - cell "1999" [ref=e587]
+                - cell "Aging >10y" [ref=e588]
+                - cell "KEY" [ref=e589]
+                - cell "3.5h" [ref=e590]
+                - cell "1" [ref=e591]
+                - cell "207m" [ref=e592]
+                - cell "Warning" [ref=e593]
+                - cell "—" [ref=e594]
+              - 'row "Mold # 12L DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY 3.1h 2 93m Warning —" [ref=e595]':
+                - 'cell "Mold # 12L" [ref=e596]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e597]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e598]
+                - cell "MOLD" [ref=e599]
+                - cell "GP-PRO-80B-M1" [ref=e600]
+                - cell "DAI-ICHI" [ref=e601]
+                - cell "—" [ref=e602]
+                - cell "—" [ref=e603]
+                - cell "KEY" [ref=e604]
+                - cell "3.1h" [ref=e605]
+                - cell "2" [ref=e606]
+                - cell "93m" [ref=e607]
+                - cell "Warning" [ref=e608]
+                - cell "—" [ref=e609]
+              - 'row "Mold # 12R DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY 3.3h 3 66m Warning —" [ref=e610]':
+                - 'cell "Mold # 12R" [ref=e611]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e612]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e613]
+                - cell "MOLD" [ref=e614]
+                - cell "GP-PRO-80B-M1" [ref=e615]
+                - cell "DAI-ICHI" [ref=e616]
+                - cell "—" [ref=e617]
+                - cell "—" [ref=e618]
+                - cell "KEY" [ref=e619]
+                - cell "3.3h" [ref=e620]
+                - cell "3" [ref=e621]
+                - cell "66m" [ref=e622]
+                - cell "Warning" [ref=e623]
+                - cell "—" [ref=e624]
+              - 'row "Mold # 24 DAI-ICHI MOLD GP-PRO SP80N MOLD GP-PRO SP80N DAI-ICHI 2010 Aging >10y KEY 3.0h 2 90m Warning —" [ref=e625]':
+                - 'cell "Mold # 24" [ref=e626]'
+                - cell "DAI-ICHI MOLD GP-PRO SP80N" [ref=e627]:
+                  - generic "DAI-ICHI MOLD GP-PRO SP80N" [ref=e628]
+                - cell "MOLD" [ref=e629]
+                - cell "GP-PRO SP80N" [ref=e630]
+                - cell "DAI-ICHI" [ref=e631]
+                - cell "2010" [ref=e632]
+                - cell "Aging >10y" [ref=e633]
+                - cell "KEY" [ref=e634]
+                - cell "3.0h" [ref=e635]
+                - cell "2" [ref=e636]
+                - cell "90m" [ref=e637]
+                - cell "Warning" [ref=e638]
+                - cell "—" [ref=e639]
+              - 'row "Mold # 26 DAI-ICHI MOLD GP-PRO8-SP170N MOLD GP-PRO8-SP170N DAI-ICHI 2014 Aging >10y KEY 5.5h 2 166m Warning —" [ref=e640]':
+                - 'cell "Mold # 26" [ref=e641]'
+                - cell "DAI-ICHI MOLD GP-PRO8-SP170N" [ref=e642]:
+                  - generic "DAI-ICHI MOLD GP-PRO8-SP170N" [ref=e643]
+                - cell "MOLD" [ref=e644]
+                - cell "GP-PRO8-SP170N" [ref=e645]
+                - cell "DAI-ICHI" [ref=e646]
+                - cell "2014" [ref=e647]
+                - cell "Aging >10y" [ref=e648]
+                - cell "KEY" [ref=e649]
+                - cell "5.5h" [ref=e650]
+                - cell "2" [ref=e651]
+                - cell "166m" [ref=e652]
+                - cell "Warning" [ref=e653]
+                - cell "—" [ref=e654]
+              - 'row "Mold # 30 DAI-ICHI MOLD GP-PRO8 SP170V MOLD GP-PRO8 SP170V DAI-ICHI 2017 Mature 5–10y KEY 2.4h 5 28m Warning —" [ref=e655]':
+                - 'cell "Mold # 30" [ref=e656]'
+                - cell "DAI-ICHI MOLD GP-PRO8 SP170V" [ref=e657]:
+                  - generic "DAI-ICHI MOLD GP-PRO8 SP170V" [ref=e658]
+                - cell "MOLD" [ref=e659]
+                - cell "GP-PRO8 SP170V" [ref=e660]
+                - cell "DAI-ICHI" [ref=e661]
+                - cell "2017" [ref=e662]
+                - cell "Mature 5–10y" [ref=e663]
+                - cell "KEY" [ref=e664]
+                - cell "2.4h" [ref=e665]
+                - cell "5" [ref=e666]
+                - cell "28m" [ref=e667]
+                - cell "Warning" [ref=e668]
+                - cell "—" [ref=e669]
+              - 'row "Mold # 10L DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY 0.3h 1 16m Monitor —" [ref=e670]':
+                - 'cell "Mold # 10L" [ref=e671]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e672]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e673]
+                - cell "MOLD" [ref=e674]
+                - cell "GP-PRO-80B-M1" [ref=e675]
+                - cell "DAI-ICHI" [ref=e676]
+                - cell "—" [ref=e677]
+                - cell "—" [ref=e678]
+                - cell "KEY" [ref=e679]
+                - cell "0.3h" [ref=e680]
+                - cell "1" [ref=e681]
+                - cell "16m" [ref=e682]
+                - cell "Monitor" [ref=e683]
+                - cell "—" [ref=e684]
+              - 'row "Mold # 16R DAI-ICHI MOLD DP80-8-M MOLD DP80-8-M DAI-ICHI — — KEY — 1 2m Monitor —" [ref=e685]':
+                - 'cell "Mold # 16R" [ref=e686]'
+                - cell "DAI-ICHI MOLD DP80-8-M" [ref=e687]:
+                  - generic "DAI-ICHI MOLD DP80-8-M" [ref=e688]
+                - cell "MOLD" [ref=e689]
+                - cell "DP80-8-M" [ref=e690]
+                - cell "DAI-ICHI" [ref=e691]
+                - cell "—" [ref=e692]
+                - cell "—" [ref=e693]
+                - cell "KEY" [ref=e694]
+                - cell "—" [ref=e695]
+                - cell "1" [ref=e696]
+                - cell "2m" [ref=e697]
+                - cell "Monitor" [ref=e698]
+                - cell "—" [ref=e699]
+              - 'row "Mold # 20L DAI-ICHI MOLD DP80-8-M MOLD DP80-8-M DAI-ICHI — — KEY 0.8h 2 25m Monitor —" [ref=e700]':
+                - 'cell "Mold # 20L" [ref=e701]'
+                - cell "DAI-ICHI MOLD DP80-8-M" [ref=e702]:
+                  - generic "DAI-ICHI MOLD DP80-8-M" [ref=e703]
+                - cell "MOLD" [ref=e704]
+                - cell "DP80-8-M" [ref=e705]
+                - cell "DAI-ICHI" [ref=e706]
+                - cell "—" [ref=e707]
+                - cell "—" [ref=e708]
+                - cell "KEY" [ref=e709]
+                - cell "0.8h" [ref=e710]
+                - cell "2" [ref=e711]
+                - cell "25m" [ref=e712]
+                - cell "Monitor" [ref=e713]
+                - cell "—" [ref=e714]
+              - 'row "Mold # 23 DAI-ICHI MOLD GP-PRO-8 SP80N MOLD GP-PRO-8-SP80N DAI-ICHI 2010 Aging >10y KEY 0.6h 1 37m Monitor —" [ref=e715]':
+                - 'cell "Mold # 23" [ref=e716]'
+                - cell "DAI-ICHI MOLD GP-PRO-8 SP80N" [ref=e717]:
+                  - generic "DAI-ICHI MOLD GP-PRO-8 SP80N" [ref=e718]
+                - cell "MOLD" [ref=e719]
+                - cell "GP-PRO-8-SP80N" [ref=e720]
+                - cell "DAI-ICHI" [ref=e721]
+                - cell "2010" [ref=e722]
+                - cell "Aging >10y" [ref=e723]
+                - cell "KEY" [ref=e724]
+                - cell "0.6h" [ref=e725]
+                - cell "1" [ref=e726]
+                - cell "37m" [ref=e727]
+                - cell "Monitor" [ref=e728]
+                - cell "—" [ref=e729]
+              - 'row "Mold # 28 DAI-ICHI MOLD GP-PRO4 SP170V MOLD GP-PRO4 SP170V DAI-ICHI 2017 Mature 5–10y KEY 1.1h 1 68m Monitor —" [ref=e730]':
+                - 'cell "Mold # 28" [ref=e731]'
+                - cell "DAI-ICHI MOLD GP-PRO4 SP170V" [ref=e732]:
+                  - generic "DAI-ICHI MOLD GP-PRO4 SP170V" [ref=e733]
+                - cell "MOLD" [ref=e734]
+                - cell "GP-PRO4 SP170V" [ref=e735]
+                - cell "DAI-ICHI" [ref=e736]
+                - cell "2017" [ref=e737]
+                - cell "Mature 5–10y" [ref=e738]
+                - cell "KEY" [ref=e739]
+                - cell "1.1h" [ref=e740]
+                - cell "1" [ref=e741]
+                - cell "68m" [ref=e742]
+                - cell "Monitor" [ref=e743]
+                - cell "—" [ref=e744]
+              - 'row "Mold # 08 DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI 1999 Aging >10y KEY — 0 — Healthy —" [ref=e745]':
+                - 'cell "Mold # 08" [ref=e746]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e747]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e748]
+                - cell "MOLD" [ref=e749]
+                - cell "GP-PRO-80B-M1" [ref=e750]
+                - cell "DAI-ICHI" [ref=e751]
+                - cell "1999" [ref=e752]
+                - cell "Aging >10y" [ref=e753]
+                - cell "KEY" [ref=e754]
+                - cell "—" [ref=e755]
+                - cell "0" [ref=e756]
+                - cell "—" [ref=e757]
+                - cell "Healthy" [ref=e758]
+                - cell "—" [ref=e759]
+              - 'row "Mold # 08L DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY — 0 — Healthy —" [ref=e760]':
+                - 'cell "Mold # 08L" [ref=e761]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e762]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e763]
+                - cell "MOLD" [ref=e764]
+                - cell "GP-PRO-80B-M1" [ref=e765]
+                - cell "DAI-ICHI" [ref=e766]
+                - cell "—" [ref=e767]
+                - cell "—" [ref=e768]
+                - cell "KEY" [ref=e769]
+                - cell "—" [ref=e770]
+                - cell "0" [ref=e771]
+                - cell "—" [ref=e772]
+                - cell "Healthy" [ref=e773]
+                - cell "—" [ref=e774]
+              - 'row "Mold # 08R DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY — 0 — Healthy —" [ref=e775]':
+                - 'cell "Mold # 08R" [ref=e776]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e777]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e778]
+                - cell "MOLD" [ref=e779]
+                - cell "GP-PRO-80B-M1" [ref=e780]
+                - cell "DAI-ICHI" [ref=e781]
+                - cell "—" [ref=e782]
+                - cell "—" [ref=e783]
+                - cell "KEY" [ref=e784]
+                - cell "—" [ref=e785]
+                - cell "0" [ref=e786]
+                - cell "—" [ref=e787]
+                - cell "Healthy" [ref=e788]
+                - cell "—" [ref=e789]
+              - 'row "Mold # 09 DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI 1999 Aging >10y KEY — 0 — Healthy —" [ref=e790]':
+                - 'cell "Mold # 09" [ref=e791]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e792]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e793]
+                - cell "MOLD" [ref=e794]
+                - cell "GP-PRO-80B-M1" [ref=e795]
+                - cell "DAI-ICHI" [ref=e796]
+                - cell "1999" [ref=e797]
+                - cell "Aging >10y" [ref=e798]
+                - cell "KEY" [ref=e799]
+                - cell "—" [ref=e800]
+                - cell "0" [ref=e801]
+                - cell "—" [ref=e802]
+                - cell "Healthy" [ref=e803]
+                - cell "—" [ref=e804]
+              - 'row "Mold # 09L DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY — 0 — Healthy —" [ref=e805]':
+                - 'cell "Mold # 09L" [ref=e806]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e807]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e808]
+                - cell "MOLD" [ref=e809]
+                - cell "GP-PRO-80B-M1" [ref=e810]
+                - cell "DAI-ICHI" [ref=e811]
+                - cell "—" [ref=e812]
+                - cell "—" [ref=e813]
+                - cell "KEY" [ref=e814]
+                - cell "—" [ref=e815]
+                - cell "0" [ref=e816]
+                - cell "—" [ref=e817]
+                - cell "Healthy" [ref=e818]
+                - cell "—" [ref=e819]
+              - 'row "Mold # 09R DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY — 0 — Healthy —" [ref=e820]':
+                - 'cell "Mold # 09R" [ref=e821]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e822]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e823]
+                - cell "MOLD" [ref=e824]
+                - cell "GP-PRO-80B-M1" [ref=e825]
+                - cell "DAI-ICHI" [ref=e826]
+                - cell "—" [ref=e827]
+                - cell "—" [ref=e828]
+                - cell "KEY" [ref=e829]
+                - cell "—" [ref=e830]
+                - cell "0" [ref=e831]
+                - cell "—" [ref=e832]
+                - cell "Healthy" [ref=e833]
+                - cell "—" [ref=e834]
+              - 'row "Mold # 10 DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI 2000 Aging >10y KEY — 0 — Healthy —" [ref=e835]':
+                - 'cell "Mold # 10" [ref=e836]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e837]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e838]
+                - cell "MOLD" [ref=e839]
+                - cell "GP-PRO-80B-M1" [ref=e840]
+                - cell "DAI-ICHI" [ref=e841]
+                - cell "2000" [ref=e842]
+                - cell "Aging >10y" [ref=e843]
+                - cell "KEY" [ref=e844]
+                - cell "—" [ref=e845]
+                - cell "0" [ref=e846]
+                - cell "—" [ref=e847]
+                - cell "Healthy" [ref=e848]
+                - cell "—" [ref=e849]
+              - 'row "Mold # 10R DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI — — KEY — 0 — Healthy —" [ref=e850]':
+                - 'cell "Mold # 10R" [ref=e851]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e852]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e853]
+                - cell "MOLD" [ref=e854]
+                - cell "GP-PRO-80B-M1" [ref=e855]
+                - cell "DAI-ICHI" [ref=e856]
+                - cell "—" [ref=e857]
+                - cell "—" [ref=e858]
+                - cell "KEY" [ref=e859]
+                - cell "—" [ref=e860]
+                - cell "0" [ref=e861]
+                - cell "—" [ref=e862]
+                - cell "Healthy" [ref=e863]
+                - cell "—" [ref=e864]
+              - 'row "Mold # 12 DAI-ICHI MOLD GP-PRO-80B-M1 MOLD GP-PRO-80B-M1 DAI-ICHI 2000 Aging >10y KEY — 0 — Healthy —" [ref=e865]':
+                - 'cell "Mold # 12" [ref=e866]'
+                - cell "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e867]:
+                  - generic "DAI-ICHI MOLD GP-PRO-80B-M1" [ref=e868]
+                - cell "MOLD" [ref=e869]
+                - cell "GP-PRO-80B-M1" [ref=e870]
+                - cell "DAI-ICHI" [ref=e871]
+                - cell "2000" [ref=e872]
+                - cell "Aging >10y" [ref=e873]
+                - cell "KEY" [ref=e874]
+                - cell "—" [ref=e875]
+                - cell "0" [ref=e876]
+                - cell "—" [ref=e877]
+                - cell "Healthy" [ref=e878]
+                - cell "—" [ref=e879]
+              - 'row "Mold # 14 DAI-ICHI MOLD DP80-8-M MOLD DP80-8-M DAI-ICHI 2002 Aging >10y KEY — 0 — Healthy —" [ref=e880]':
+                - 'cell "Mold # 14" [ref=e881]'
+                - cell "DAI-ICHI MOLD DP80-8-M" [ref=e882]:
+                  - generic "DAI-ICHI MOLD DP80-8-M" [ref=e883]
+                - cell "MOLD" [ref=e884]
+                - cell "DP80-8-M" [ref=e885]
+                - cell "DAI-ICHI" [ref=e886]
+                - cell "2002" [ref=e887]
+                - cell "Aging >10y" [ref=e888]
+                - cell "KEY" [ref=e889]
+                - cell "—" [ref=e890]
+                - cell "0" [ref=e891]
+                - cell "—" [ref=e892]
+                - cell "Healthy" [ref=e893]
+                - cell "—" [ref=e894]
+              - 'row "Mold # 14L DAI-ICHI MOLD DP80-8-M MOLD DP80-8-M DAI-ICHI — — KEY — 0 — Healthy —" [ref=e895]':
+                - 'cell "Mold # 14L" [ref=e896]'
+                - cell "DAI-ICHI MOLD DP80-8-M" [ref=e897]:
+                  - generic "DAI-ICHI MOLD DP80-8-M" [ref=e898]
+                - cell "MOLD" [ref=e899]
+                - cell "DP80-8-M" [ref=e900]
+                - cell "DAI-ICHI" [ref=e901]
+                - cell "—" [ref=e902]
+                - cell "—" [ref=e903]
+                - cell "KEY" [ref=e904]
+                - cell "—" [ref=e905]
+                - cell "0" [ref=e906]
+                - cell "—" [ref=e907]
+                - cell "Healthy" [ref=e908]
+                - cell "—" [ref=e909]
+              - 'row "Mold # 14R DAI-ICHI MOLD DP80-8-M MOLD DP80-8-M DAI-ICHI — — KEY — 0 — Healthy —" [ref=e910]':
+                - 'cell "Mold # 14R" [ref=e911]'
+                - cell "DAI-ICHI MOLD DP80-8-M" [ref=e912]:
+                  - generic "DAI-ICHI MOLD DP80-8-M" [ref=e913]
+                - cell "MOLD" [ref=e914]
+                - cell "DP80-8-M" [ref=e915]
+                - cell "DAI-ICHI" [ref=e916]
+                - cell "—" [ref=e917]
+                - cell "—" [ref=e918]
+                - cell "KEY" [ref=e919]
+                - cell "—" [ref=e920]
+                - cell "0" [ref=e921]
+                - cell "—" [ref=e922]
+                - cell "Healthy" [ref=e923]
+                - cell "—" [ref=e924]
+              - 'row "Mold # 15 DAI-ICHI MOLD DP80-8-M MOLD DP80-8-M DAI-ICHI 2003 Aging >10y KEY — 0 — Healthy —" [ref=e925]':
+                - 'cell "Mold # 15" [ref=e926]'
+                - cell "DAI-ICHI MOLD DP80-8-M" [ref=e927]:
+                  - generic "DAI-ICHI MOLD DP80-8-M" [ref=e928]
+                - cell "MOLD" [ref=e929]
+                - cell "DP80-8-M" [ref=e930]
+                - cell "DAI-ICHI" [ref=e931]
+                - cell "2003" [ref=e932]
+                - cell "Aging >10y" [ref=e933]
+                - cell "KEY" [ref=e934]
+                - cell "—" [ref=e935]
+                - cell "0" [ref=e936]
+                - cell "—" [ref=e937]
+                - cell "Healthy" [ref=e938]
+                - cell "—" [ref=e939]
+              - 'row "Mold # 15L DAI-ICHI MOLD DP80-8-M MOLD DP80-8-M DAI-ICHI — — KEY — 0 — Healthy —" [ref=e940]':
+                - 'cell "Mold # 15L" [ref=e941]'
+                - cell "DAI-ICHI MOLD DP80-8-M" [ref=e942]:
+                  - generic "DAI-ICHI MOLD DP80-8-M" [ref=e943]
+                - cell "MOLD" [ref=e944]
+                - cell "DP80-8-M" [ref=e945]
+                - cell "DAI-ICHI" [ref=e946]
+                - cell "—" [ref=e947]
+                - cell "—" [ref=e948]
+                - cell "KEY" [ref=e949]
+                - cell "—" [ref=e950]
+                - cell "0" [ref=e951]
+                - cell "—" [ref=e952]
+                - cell "Healthy" [ref=e953]
+                - cell "—" [ref=e954]
+          - generic [ref=e955]:
+            - button "‹ Prev" [disabled] [ref=e956] [cursor=pointer]
+            - generic [ref=e957]: Page 1 / 2
+            - button "Next ›" [ref=e958] [cursor=pointer]

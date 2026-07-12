@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>DA Zone 1+2 Alignment Test</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Open Sans',sans-serif;background:#E8EDF2;padding:12px;font-size:11px}
+.zone{background:#fff;border:1px solid #CBD5E0;border-radius:8px;padding:10px;margin-bottom:8px}
+.zhdr{font-size:11px;font-weight:700;border-bottom:2px solid #4A90D9;padding-bottom:5px;margin-bottom:6px}
+.frow{display:flex;gap:3px;margin-bottom:3px;align-items:center;flex-wrap:wrap}
+.frow.grid-row{display:grid;grid-template-columns:56px repeat(11,30px);gap:3px;align-items:center}
+.frow.grid-row .sup{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:7.5px}
+.mc{height:18px;min-width:26px;border-radius:2px;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.12);background:#5EBF33;color:#fff;}
+.sup{height:18px;border-radius:2px;font-size:8px;font-weight:700;color:#333;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.15);padding:0 3px;white-space:nowrap;}
+.lline{min-width:56px;height:18px;background:#66E0E0;border:1px solid #3AA;border-radius:2px;font-size:9px;font-weight:700;color:#0A4A4A;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lline.blank{background:transparent;border-color:transparent;}
+</style></head><body>
+<b>Zone 1 — Row alignment (machines 20,55,37,54,44 should align with LINE13 machines)</b>
+<div class="zone" style="margin-top:6px">
+  <div class="frow"><div class="lline">LINE13</div><div class="mc">36</div><div class="mc">65</div><div class="mc">34</div><div class="mc">38</div><div class="mc">35</div><div class="sup" style="background:#FFCCFF">table Lead</div></div>
+  <div class="frow"><div class="lline blank"></div><div class="mc">20</div><div class="mc">55</div><div class="mc">37</div><div class="mc">54</div><div class="mc">44</div></div>
+  <div class="frow"><div class="lline">LINE14</div><div class="mc" style="background:#FFC000;color:#333">12</div><div class="mc" style="background:#FFC000;color:#333">13</div><div class="mc" style="background:#FFC000;color:#333">22</div><div class="mc" style="background:#FFC000;color:#333">15</div><div class="mc">4</div></div>
+</div>
+<b>Zone 2 — Magazine Cleaning clipped (no overflow)</b>
+<div class="zone" style="margin-top:6px">
+  <div class="frow grid-row">
+    <div class="sup" style="grid-column:1">B/G</div>
+    <div class="mc" style="grid-column:2">98</div><div class="mc" style="grid-column:3">95</div>
+    <div class="mc" style="grid-column:4">109</div><div class="mc" style="grid-column:5">113</div>
+    <div class="mc" style="grid-column:6">107</div><div class="mc" style="grid-column:7">52</div>
+    <div class="mc" style="grid-column:8">63</div><div class="mc" style="grid-column:9">51</div>
+  </div>
+  <div class="frow grid-row">
+    <div class="mc" style="grid-column:2">99</div><div class="mc" style="grid-column:3">96</div>
+    <div class="mc" style="grid-column:4">108</div><div class="mc" style="grid-column:5">112</div>
+    <div class="mc" style="grid-column:6">88</div><div class="mc" style="grid-column:7">75</div>
+    <div class="mc" style="grid-column:8">66</div><div class="mc" style="grid-column:9">45</div>
+    <div class="sup" style="grid-column:10;background:#E0E4E8" title="Magazine Cleaning">Magazine Cleaning</div>
+  </div>
+  <div class="frow grid-row">
+    <div class="sup" style="grid-column:1">Die Bank</div>
+    <div class="mc" style="grid-column:2">104</div><div class="mc" style="grid-column:3">97</div>
+    <div class="mc" style="grid-column:4">91</div><div class="mc" style="grid-column:5">105</div>
+    <div class="mc" style="grid-column:6">77</div><div class="mc" style="grid-column:7">67</div>
+    <div class="mc" style="grid-column:8">68</div><div class="mc" style="grid-column:9">61</div>
+  </div>
+</div>
+</body></html>

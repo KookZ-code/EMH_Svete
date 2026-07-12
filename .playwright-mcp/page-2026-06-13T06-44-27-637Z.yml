@@ -1,0 +1,1037 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: Wire Bond — Floor Layout
+  - generic [ref=e3]: Layout ตรงตาม Excel · L/R แยก block · สี + tooltip ตาม Live Board เดิม (status จริง) · 944 machines
+  - generic [ref=e4]:
+    - generic [ref=e5]: RUNNING (883)
+    - generic [ref=e7]: M/C DOWN (25)
+    - generic [ref=e9]: PM (8)
+    - generic [ref=e11]: SETUP (25)
+    - generic [ref=e13]: CONVERT (1)
+    - generic [ref=e15]: OTHER (2)
+  - generic [ref=e17]:
+    - generic [ref=e18]: ZONE 1 (Supv. หยก , ย๊ะห์)
+    - generic [ref=e19]:
+      - 'generic "W/B # 069 — RUNNING" [ref=e20] [cursor=pointer]': "69"
+      - 'generic "W/B # 050 — RUNNING" [ref=e21] [cursor=pointer]': "50"
+      - 'generic "W/B # 097 — RUNNING" [ref=e22] [cursor=pointer]': "97"
+      - 'generic "W/B # 080 — RUNNING" [ref=e23] [cursor=pointer]': "80"
+      - 'generic "W/B # 062 — RUNNING" [ref=e24] [cursor=pointer]': "62"
+      - 'generic "W/B # 020 — RUNNING" [ref=e25] [cursor=pointer]': "20"
+      - 'generic "W/B # 006 — RUNNING" [ref=e26] [cursor=pointer]': "6"
+      - 'generic "W/B # 025 — RUNNING" [ref=e27] [cursor=pointer]': "25"
+      - 'generic "W/B # 023 — RUNNING" [ref=e28] [cursor=pointer]': "23"
+      - 'generic "W/B # 036 — RUNNING" [ref=e29] [cursor=pointer]': "36"
+      - 'generic "W/B # 063 — RUNNING" [ref=e30] [cursor=pointer]': "63"
+      - 'generic "W/B # 078 — RUNNING" [ref=e31] [cursor=pointer]': "78"
+      - 'generic "W/B # 059 — RUNNING" [ref=e32] [cursor=pointer]': "59"
+      - 'generic "W/B # 026 — RUNNING" [ref=e33] [cursor=pointer]': "26"
+      - 'generic "W/B # 073 — RUNNING" [ref=e34] [cursor=pointer]': "73"
+      - generic [ref=e35]: LINE28
+      - 'generic "W/B # 053 — RUNNING" [ref=e36] [cursor=pointer]': "53"
+      - 'generic "W/B # 088 — RUNNING" [ref=e37] [cursor=pointer]': "88"
+      - 'generic "W/B # 090 — RUNNING" [ref=e38] [cursor=pointer]': "90"
+      - 'generic "W/B # 091 — RUNNING" [ref=e39] [cursor=pointer]': "91"
+      - 'generic "W/B # 092 — RUNNING" [ref=e40] [cursor=pointer]': "92"
+      - 'generic "W/B # 093 — RUNNING" [ref=e41] [cursor=pointer]': "93"
+      - 'generic "W/B # 070 — RUNNING" [ref=e42] [cursor=pointer]': "70"
+      - 'generic "W/B # 033 — RUNNING" [ref=e43] [cursor=pointer]': "33"
+      - 'generic "W/B # 061 — RUNNING" [ref=e44] [cursor=pointer]': "61"
+      - 'generic "W/B # 095 — RUNNING" [ref=e45] [cursor=pointer]': "95"
+      - 'generic "W/B # 094 — RUNNING" [ref=e46] [cursor=pointer]': "94"
+      - 'generic "W/B # 009 — RUNNING" [ref=e47] [cursor=pointer]': "9"
+      - 'generic "W/B # 044 — RUNNING" [ref=e48] [cursor=pointer]': "44"
+      - 'generic "W/B # 086 — RUNNING" [ref=e49] [cursor=pointer]': "86"
+      - 'generic "W/B # 106 — RUNNING" [ref=e50] [cursor=pointer]': "106"
+      - 'generic "W/B # 037 — RUNNING" [ref=e51] [cursor=pointer]': "37"
+      - 'generic "W/B # 038 — RUNNING" [ref=e52] [cursor=pointer]': "38"
+      - 'generic "W/B # 074 — RUNNING" [ref=e53] [cursor=pointer]': "74"
+      - generic [ref=e54]: LINE14
+    - generic [ref=e55]:
+      - 'generic "W/B # 027 — RUNNING" [ref=e56] [cursor=pointer]': "27"
+      - 'generic "W/B # 028 — RUNNING" [ref=e57] [cursor=pointer]': "28"
+      - 'generic "W/B # 029 — RUNNING" [ref=e58] [cursor=pointer]': "29"
+      - 'generic "W/B # 030 — RUNNING" [ref=e59] [cursor=pointer]': "30"
+      - 'generic "W/B # 031 — RUNNING" [ref=e60] [cursor=pointer]': "31"
+      - 'generic "W/B # 105 — RUNNING" [ref=e61] [cursor=pointer]': "105"
+      - 'generic "W/B # 052 — RUNNING" [ref=e62] [cursor=pointer]': "52"
+      - 'generic "W/B # 012 — RUNNING" [ref=e63] [cursor=pointer]': "12"
+      - 'generic "W/B # 054 — RUNNING" [ref=e64] [cursor=pointer]': "54"
+      - 'generic "W/B # 098 — RUNNING" [ref=e65] [cursor=pointer]': "98"
+      - 'generic "W/B # 100 — RUNNING" [ref=e66] [cursor=pointer]': "100"
+      - 'generic "W/B # 102 — RUNNING" [ref=e67] [cursor=pointer]': "102"
+      - 'generic "W/B # 039 — RUNNING" [ref=e68] [cursor=pointer]': "39"
+      - 'generic "W/B # 072 — RUNNING" [ref=e69] [cursor=pointer]': "72"
+      - 'generic "W/B # 042 — RUNNING" [ref=e70] [cursor=pointer]': "42"
+      - 'generic "W/B # 041 — RUNNING" [ref=e71] [cursor=pointer]': "41"
+      - 'generic "W/B # 043 — RUNNING" [ref=e72] [cursor=pointer]': "43"
+      - 'generic "W/B # 046 — RUNNING" [ref=e73] [cursor=pointer]': "46"
+      - generic [ref=e74]: LINE27
+      - 'generic "W/B # 202 — RUNNING" [ref=e75] [cursor=pointer]': "202"
+      - 'generic "W/B # 150 — RUNNING" [ref=e76] [cursor=pointer]': "150"
+      - 'generic "W/B # 162 — RUNNING" [ref=e77] [cursor=pointer]': "162"
+      - 'generic "W/B # 151 — RUNNING" [ref=e78] [cursor=pointer]': "151"
+      - 'generic "W/B # 167 — RUNNING" [ref=e79] [cursor=pointer]': "167"
+      - 'generic "W/B # 186 — RUNNING" [ref=e80] [cursor=pointer]': "186"
+      - 'generic "W/B # 185 — RUNNING" [ref=e81] [cursor=pointer]': "185"
+      - 'generic "W/B # 177 — RUNNING" [ref=e82] [cursor=pointer]': "177"
+      - 'generic "W/B # 152 — RUNNING" [ref=e83] [cursor=pointer]': "152"
+      - 'generic "W/B # 173 — RUNNING" [ref=e84] [cursor=pointer]': "173"
+      - 'generic "W/B # 154 — RUNNING" [ref=e85] [cursor=pointer]': "154"
+      - 'generic "W/B # 155 — RUNNING" [ref=e86] [cursor=pointer]': "155"
+      - 'generic "W/B # 188 — RUNNING" [ref=e87] [cursor=pointer]': "188"
+      - 'generic "W/B # 190 — RUNNING" [ref=e88] [cursor=pointer]': "190"
+      - 'generic "W/B # 191 — RUNNING" [ref=e89] [cursor=pointer]': "191"
+      - 'generic "W/B # 193 — RUNNING" [ref=e90] [cursor=pointer]': "193"
+      - 'generic "W/B # 194 — RUNNING" [ref=e91] [cursor=pointer]': "194"
+      - 'generic "W/B # 199 — RUNNING" [ref=e92] [cursor=pointer]': "199"
+      - generic [ref=e93]: LINE13
+    - generic [ref=e94]:
+      - 'generic "W/B # 089 — RUNNING" [ref=e95] [cursor=pointer]': "89"
+      - 'generic "W/B # 035 — RUNNING" [ref=e96] [cursor=pointer]': "35"
+      - 'generic "W/B # 211 — RUNNING" [ref=e97] [cursor=pointer]': "211"
+      - 'generic "W/B # 260 — RUNNING" [ref=e98] [cursor=pointer]': "260"
+      - 'generic "W/B # 261 — M/C DOWN: NSOP,Urgent+Backlog | -509m" [ref=e99] [cursor=pointer]': "261"
+      - 'generic "W/B # 262 — RUNNING" [ref=e100] [cursor=pointer]': "262"
+      - 'generic "W/B # 263 — RUNNING" [ref=e101] [cursor=pointer]': "263"
+      - 'generic "W/B # 264 — SETUP: Wait Cratering | -462m | B15997" [ref=e102] [cursor=pointer]': "264"
+      - 'generic "W/B # 265 — RUNNING" [ref=e103] [cursor=pointer]': "265"
+      - 'generic "W/B # 266 — RUNNING" [ref=e104] [cursor=pointer]': "266"
+      - 'generic "W/B # 267 — RUNNING" [ref=e105] [cursor=pointer]': "267"
+      - 'generic "W/B # 268 — RUNNING" [ref=e106] [cursor=pointer]': "268"
+      - 'generic "W/B # 269 — RUNNING" [ref=e107] [cursor=pointer]': "269"
+      - 'generic "W/B # 270 — RUNNING" [ref=e108] [cursor=pointer]': "270"
+      - 'generic "W/B # 271 — SETUP: Wait Cratering | -313m | B20270" [ref=e109] [cursor=pointer]': "271"
+      - 'generic "W/B # 272 — RUNNING" [ref=e110] [cursor=pointer]': "272"
+      - 'generic "W/B # 273 — RUNNING" [ref=e111] [cursor=pointer]': "273"
+      - generic [ref=e112]: LINE26
+      - 'generic "W/B # 175 — RUNNING" [ref=e113] [cursor=pointer]': "175"
+      - 'generic "W/B # 174 — RUNNING" [ref=e114] [cursor=pointer]': "174"
+      - 'generic "W/B # 172 — RUNNING" [ref=e115] [cursor=pointer]': "172"
+      - 'generic "W/B # 158 — RUNNING" [ref=e116] [cursor=pointer]': "158"
+      - 'generic "W/B # 156 — M/C DOWN: Bond Head error/ Jam X,Y,Z | 10h 2m | B11051" [ref=e117] [cursor=pointer]': "156"
+      - 'generic "W/B # 149 — RUNNING" [ref=e118] [cursor=pointer]': "149"
+      - 'generic "W/B # 138 — RUNNING" [ref=e119] [cursor=pointer]': "138"
+      - 'generic "W/B # 014 — RUNNING" [ref=e120] [cursor=pointer]': "14"
+      - 'generic "W/B # 164 — RUNNING" [ref=e121] [cursor=pointer]': "164"
+      - 'generic "W/B # 192 — RUNNING" [ref=e122] [cursor=pointer]': "192"
+      - 'generic "W/B # 178 — RUNNING" [ref=e123] [cursor=pointer]': "178"
+      - 'generic "W/B # 147 — RUNNING" [ref=e124] [cursor=pointer]': "147"
+      - 'generic "W/B # 140 — RUNNING" [ref=e125] [cursor=pointer]': "140"
+      - 'generic "W/B # 139 — RUNNING" [ref=e126] [cursor=pointer]': "139"
+      - 'generic "W/B # 136 — RUNNING" [ref=e127] [cursor=pointer]': "136"
+      - 'generic "W/B # 135 — RUNNING" [ref=e128] [cursor=pointer]': "135"
+      - 'generic "W/B # 133 — RUNNING" [ref=e129] [cursor=pointer]': "133"
+      - 'generic "W/B # 132 — RUNNING" [ref=e130] [cursor=pointer]': "132"
+      - generic [ref=e131]: LINE12
+    - generic [ref=e132]:
+      - 'generic "W/B # 363 — RUNNING" [ref=e133] [cursor=pointer]': "363"
+      - 'generic "W/B # 363L — RUNNING" [ref=e134] [cursor=pointer]': 363L
+      - 'generic "W/B # 363R — RUNNING" [ref=e135] [cursor=pointer]': 363R
+      - 'generic "W/B # 352 — RUNNING" [ref=e136] [cursor=pointer]': "352"
+      - 'generic "W/B # 352L — M/C DOWN: Loop Height | -423m | B09017" [ref=e137] [cursor=pointer]': 352L
+      - 'generic "W/B # 352R — M/C DOWN: Loop Height | -447m | B09017" [ref=e138] [cursor=pointer]': 352R
+      - 'generic "W/B # 351 — RUNNING" [ref=e139] [cursor=pointer]': "351"
+      - 'generic "W/B # 351L — RUNNING" [ref=e140] [cursor=pointer]': 351L
+      - 'generic "W/B # 351R — RUNNING" [ref=e141] [cursor=pointer]': 351R
+      - 'generic "W/B # 350 — RUNNING" [ref=e142] [cursor=pointer]': "350"
+      - 'generic "W/B # 350L — M/C DOWN: NSOP | -465m | B63580" [ref=e143] [cursor=pointer]': 350L
+      - 'generic "W/B # 350R — SETUP: Idle wait setup bonding | -251m | B80221" [ref=e144] [cursor=pointer]': 350R
+      - 'generic "W/B # 349 — RUNNING" [ref=e145] [cursor=pointer]': "349"
+      - 'generic "W/B # 349L — RUNNING" [ref=e146] [cursor=pointer]': 349L
+      - 'generic "W/B # 349R — RUNNING" [ref=e147] [cursor=pointer]': 349R
+      - 'generic "W/B # 342 — RUNNING" [ref=e148] [cursor=pointer]': "342"
+      - 'generic "W/B # 342L — RUNNING" [ref=e149] [cursor=pointer]': 342L
+      - 'generic "W/B # 342R — RUNNING" [ref=e150] [cursor=pointer]': 342R
+      - 'generic "W/B # 343 — RUNNING" [ref=e151] [cursor=pointer]': "343"
+      - 'generic "W/B # 343L — RUNNING" [ref=e152] [cursor=pointer]': 343L
+      - 'generic "W/B # 343R — SETUP: Wait Cratering | -511m | B79281" [ref=e153] [cursor=pointer]': 343R
+      - 'generic "W/B # 344 — RUNNING" [ref=e154] [cursor=pointer]': "344"
+      - 'generic "W/B # 344L — RUNNING" [ref=e155] [cursor=pointer]': 344L
+      - 'generic "W/B # 344R — RUNNING" [ref=e156] [cursor=pointer]': 344R
+      - 'generic "W/B # 345 — RUNNING" [ref=e157] [cursor=pointer]': "345"
+      - 'generic "W/B # 345L — RUNNING" [ref=e158] [cursor=pointer]': 345L
+      - 'generic "W/B # 345R — RUNNING" [ref=e159] [cursor=pointer]': 345R
+      - 'generic "W/B # 346 — RUNNING" [ref=e160] [cursor=pointer]': "346"
+      - 'generic "W/B # 346L — RUNNING" [ref=e161] [cursor=pointer]': 346L
+      - 'generic "W/B # 346R — RUNNING" [ref=e162] [cursor=pointer]': 346R
+      - 'generic "W/B # 347 — RUNNING" [ref=e163] [cursor=pointer]': "347"
+      - 'generic "W/B # 347L — RUNNING" [ref=e164] [cursor=pointer]': 347L
+      - 'generic "W/B # 347R — M/C DOWN: NSOP | -472m | B70610" [ref=e165] [cursor=pointer]': 347R
+      - 'generic "W/B # 348 — RUNNING" [ref=e166] [cursor=pointer]': "348"
+      - 'generic "W/B # 348L — RUNNING" [ref=e167] [cursor=pointer]': 348L
+      - 'generic "W/B # 348R — RUNNING" [ref=e168] [cursor=pointer]': 348R
+      - generic [ref=e169]: LINE25
+      - 'generic "W/B # 129 — RUNNING" [ref=e170] [cursor=pointer]': "129"
+      - 'generic "W/B # 130 — RUNNING" [ref=e171] [cursor=pointer]': "130"
+      - 'generic "W/B # 131 — RUNNING" [ref=e172] [cursor=pointer]': "131"
+      - 'generic "W/B # 203 — RUNNING" [ref=e173] [cursor=pointer]': "203"
+      - 'generic "W/B # 204 — RUNNING" [ref=e174] [cursor=pointer]': "204"
+      - 'generic "W/B # 134 — RUNNING" [ref=e175] [cursor=pointer]': "134"
+      - 'generic "W/B # 187 — RUNNING" [ref=e176] [cursor=pointer]': "187"
+      - 'generic "W/B # 201 — RUNNING" [ref=e177] [cursor=pointer]': "201"
+      - 'generic "W/B # 205 — RUNNING" [ref=e178] [cursor=pointer]': "205"
+      - 'generic "W/B # 128 — RUNNING" [ref=e179] [cursor=pointer]': "128"
+      - 'generic "W/B # 153 — RUNNING" [ref=e180] [cursor=pointer]': "153"
+      - 'generic "W/B # 148 — M/C DOWN: Temp / Heater Error | -498m" [ref=e181] [cursor=pointer]': "148"
+      - 'generic "W/B # 064 — RUNNING" [ref=e182] [cursor=pointer]': "64"
+      - 'generic "W/B # 109 — RUNNING" [ref=e183] [cursor=pointer]': "109"
+      - 'generic "W/B # 108 — RUNNING" [ref=e184] [cursor=pointer]': "108"
+      - 'generic "W/B # 107 — RUNNING" [ref=e185] [cursor=pointer]': "107"
+      - 'generic "W/B # 103 — RUNNING" [ref=e186] [cursor=pointer]': "103"
+      - 'generic "W/B # 111 — RUNNING" [ref=e187] [cursor=pointer]': "111"
+      - generic [ref=e188]: LINE11
+    - generic [ref=e189]:
+      - 'generic "W/B # 377 — RUNNING" [ref=e190] [cursor=pointer]': "377"
+      - 'generic "W/B # 377L — RUNNING" [ref=e191] [cursor=pointer]': 377L
+      - 'generic "W/B # 377R — RUNNING" [ref=e192] [cursor=pointer]': 377R
+      - 'generic "W/B # 376 — RUNNING" [ref=e193] [cursor=pointer]': "376"
+      - 'generic "W/B # 376L — RUNNING" [ref=e194] [cursor=pointer]': 376L
+      - 'generic "W/B # 376R — RUNNING" [ref=e195] [cursor=pointer]': 376R
+      - 'generic "W/B # 375 — RUNNING" [ref=e196] [cursor=pointer]': "375"
+      - 'generic "W/B # 375L — RUNNING" [ref=e197] [cursor=pointer]': 375L
+      - 'generic "W/B # 375R — RUNNING" [ref=e198] [cursor=pointer]': 375R
+      - 'generic "W/B # 374 — RUNNING" [ref=e199] [cursor=pointer]': "374"
+      - 'generic "W/B # 374L — RUNNING" [ref=e200] [cursor=pointer]': 374L
+      - 'generic "W/B # 374R — RUNNING" [ref=e201] [cursor=pointer]': 374R
+      - 'generic "W/B # 373 — RUNNING" [ref=e202] [cursor=pointer]': "373"
+      - 'generic "W/B # 373L — M/C DOWN: Low BST | -485m | B80199" [ref=e203] [cursor=pointer]': 373L
+      - 'generic "W/B # 373R — SETUP: Teach Program (None Automotive),Change Cap | -500m | B80199" [ref=e204] [cursor=pointer]': 373R
+      - 'generic "W/B # 372 — RUNNING" [ref=e205] [cursor=pointer]': "372"
+      - 'generic "W/B # 372L — RUNNING" [ref=e206] [cursor=pointer]': 372L
+      - 'generic "W/B # 372R — RUNNING" [ref=e207] [cursor=pointer]': 372R
+      - 'generic "W/B # 371 — RUNNING" [ref=e208] [cursor=pointer]': "371"
+      - 'generic "W/B # 371L — RUNNING" [ref=e209] [cursor=pointer]': 371L
+      - 'generic "W/B # 371R — RUNNING" [ref=e210] [cursor=pointer]': 371R
+      - 'generic "W/B # 370 — RUNNING" [ref=e211] [cursor=pointer]': "370"
+      - 'generic "W/B # 370L — RUNNING" [ref=e212] [cursor=pointer]': 370L
+      - 'generic "W/B # 370R — M/C DOWN: Tail Too Short | -504m | B74332" [ref=e213] [cursor=pointer]': 370R
+      - 'generic "W/B # 369 — RUNNING" [ref=e214] [cursor=pointer]': "369"
+      - 'generic "W/B # 369L — RUNNING" [ref=e215] [cursor=pointer]': 369L
+      - 'generic "W/B # 369R — RUNNING" [ref=e216] [cursor=pointer]': 369R
+      - 'generic "W/B # 368 — RUNNING" [ref=e217] [cursor=pointer]': "368"
+      - 'generic "W/B # 368L — RUNNING" [ref=e218] [cursor=pointer]': 368L
+      - 'generic "W/B # 368R — RUNNING" [ref=e219] [cursor=pointer]': 368R
+      - 'generic "W/B # 367 — RUNNING" [ref=e220] [cursor=pointer]': "367"
+      - 'generic "W/B # 367L — RUNNING" [ref=e221] [cursor=pointer]': 367L
+      - 'generic "W/B # 367R — RUNNING" [ref=e222] [cursor=pointer]': 367R
+      - 'generic "W/B # 366 — RUNNING" [ref=e223] [cursor=pointer]': "366"
+      - 'generic "W/B # 366L — SETUP: Idle wait setup bonding | -499m | B65962" [ref=e224] [cursor=pointer]': 366L
+      - 'generic "W/B # 366R — M/C DOWN: NSOP,Urgent+Backlog | -343m | B04924" [ref=e225] [cursor=pointer]': 366R
+      - generic [ref=e226]: LINE24
+      - 'generic "W/B # 087 — RUNNING" [ref=e227] [cursor=pointer]': "87"
+      - 'generic "W/B # 007 — RUNNING" [ref=e228] [cursor=pointer]': "7"
+      - 'generic "W/B # 084 — RUNNING" [ref=e229] [cursor=pointer]': "84"
+      - 'generic "W/B # 101 — RUNNING" [ref=e230] [cursor=pointer]': "101"
+      - 'generic "W/B # 519 — RUNNING" [ref=e231] [cursor=pointer]': "519"
+      - 'generic "W/B # 518 — RUNNING" [ref=e232] [cursor=pointer]': "518"
+      - 'generic "W/B # 517 — RUNNING" [ref=e233] [cursor=pointer]': "517"
+      - 'generic "W/B # 516 — SETUP: Idle | -341m | B72302" [ref=e234] [cursor=pointer]': "516"
+      - 'generic "W/B # 515 — SETUP: Idle | -488m | B65862" [ref=e235] [cursor=pointer]': "515"
+      - 'generic "W/B # 514 — RUNNING" [ref=e236] [cursor=pointer]': "514"
+      - 'generic "W/B # 513 — RUNNING" [ref=e237] [cursor=pointer]': "513"
+      - 'generic "W/B # 512 — RUNNING" [ref=e238] [cursor=pointer]': "512"
+      - 'generic "W/B # 511 — RUNNING" [ref=e239] [cursor=pointer]': "511"
+      - 'generic "W/B # 510 — RUNNING" [ref=e240] [cursor=pointer]': "510"
+      - 'generic "W/B # 509 — RUNNING" [ref=e241] [cursor=pointer]': "509"
+      - 'generic "W/B # 508 — RUNNING" [ref=e242] [cursor=pointer]': "508"
+      - generic [ref=e243]: LINE10
+    - generic [ref=e244]:
+      - 'generic "W/B # 365 — RUNNING" [ref=e245] [cursor=pointer]': "365"
+      - 'generic "W/B # 365L — RUNNING" [ref=e246] [cursor=pointer]': 365L
+      - 'generic "W/B # 365R — RUNNING" [ref=e247] [cursor=pointer]': 365R
+      - 'generic "W/B # 364 — RUNNING" [ref=e248] [cursor=pointer]': "364"
+      - 'generic "W/B # 364L — RUNNING" [ref=e249] [cursor=pointer]': 364L
+      - 'generic "W/B # 364R — RUNNING" [ref=e250] [cursor=pointer]': 364R
+      - 'generic "W/B # 358 — RUNNING" [ref=e251] [cursor=pointer]': "358"
+      - 'generic "W/B # 358L — RUNNING" [ref=e252] [cursor=pointer]': 358L
+      - 'generic "W/B # 358R — SETUP: Wait Cratering | -304m | B16441" [ref=e253] [cursor=pointer]': 358R
+      - 'generic "W/B # 357 — RUNNING" [ref=e254] [cursor=pointer]': "357"
+      - 'generic "W/B # 357L — RUNNING" [ref=e255] [cursor=pointer]': 357L
+      - 'generic "W/B # 357R — RUNNING" [ref=e256] [cursor=pointer]': 357R
+      - 'generic "W/B # 356 — RUNNING" [ref=e257] [cursor=pointer]': "356"
+      - 'generic "W/B # 356L — RUNNING" [ref=e258] [cursor=pointer]': 356L
+      - 'generic "W/B # 356R — RUNNING" [ref=e259] [cursor=pointer]': 356R
+      - 'generic "W/B # 355 — RUNNING" [ref=e260] [cursor=pointer]': "355"
+      - 'generic "W/B # 355L — RUNNING" [ref=e261] [cursor=pointer]': 355L
+      - 'generic "W/B # 355R — RUNNING" [ref=e262] [cursor=pointer]': 355R
+      - 'generic "W/B # 354 — RUNNING" [ref=e263] [cursor=pointer]': "354"
+      - 'generic "W/B # 354L — RUNNING" [ref=e264] [cursor=pointer]': 354L
+      - 'generic "W/B # 354R — RUNNING" [ref=e265] [cursor=pointer]': 354R
+      - 'generic "W/B # 353 — RUNNING" [ref=e266] [cursor=pointer]': "353"
+      - 'generic "W/B # 353L — RUNNING" [ref=e267] [cursor=pointer]': 353L
+      - 'generic "W/B # 353R — RUNNING" [ref=e268] [cursor=pointer]': 353R
+      - 'generic "W/B # 359 — RUNNING" [ref=e269] [cursor=pointer]': "359"
+      - 'generic "W/B # 359L — RUNNING" [ref=e270] [cursor=pointer]': 359L
+      - 'generic "W/B # 359R — RUNNING" [ref=e271] [cursor=pointer]': 359R
+      - 'generic "W/B # 360 — RUNNING" [ref=e272] [cursor=pointer]': "360"
+      - 'generic "W/B # 360L — RUNNING" [ref=e273] [cursor=pointer]': 360L
+      - 'generic "W/B # 360R — RUNNING" [ref=e274] [cursor=pointer]': 360R
+      - 'generic "W/B # 361 — RUNNING" [ref=e275] [cursor=pointer]': "361"
+      - 'generic "W/B # 361L — RUNNING" [ref=e276] [cursor=pointer]': 361L
+      - 'generic "W/B # 361R — RUNNING" [ref=e277] [cursor=pointer]': 361R
+      - 'generic "W/B # 362 — RUNNING" [ref=e278] [cursor=pointer]': "362"
+      - 'generic "W/B # 362L — SETUP: Wait Cratering | -435m | B01771" [ref=e279] [cursor=pointer]': 362L
+      - 'generic "W/B # 362R — RUNNING" [ref=e280] [cursor=pointer]': 362R
+      - generic [ref=e281]: LINE23
+      - generic [ref=e282]: WIRE CARBINET
+      - 'generic "W/B # 406 — RUNNING" [ref=e283] [cursor=pointer]': "406"
+      - 'generic "W/B # 405 — RUNNING" [ref=e284] [cursor=pointer]': "405"
+      - 'generic "W/B # 404 — RUNNING" [ref=e285] [cursor=pointer]': "404"
+      - 'generic "W/B # 403 — RUNNING" [ref=e286] [cursor=pointer]': "403"
+      - 'generic "W/B # 402 — RUNNING" [ref=e287] [cursor=pointer]': "402"
+      - 'generic "W/B # 401 — RUNNING" [ref=e288] [cursor=pointer]': "401"
+      - 'generic "W/B # 394 — RUNNING" [ref=e289] [cursor=pointer]': "394"
+      - 'generic "W/B # 393 — RUNNING" [ref=e290] [cursor=pointer]': "393"
+      - 'generic "W/B # 392 — RUNNING" [ref=e291] [cursor=pointer]': "392"
+      - 'generic "W/B # 391 — RUNNING" [ref=e292] [cursor=pointer]': "391"
+      - 'generic "W/B # 390 — RUNNING" [ref=e293] [cursor=pointer]': "390"
+      - 'generic "W/B # 389 — RUNNING" [ref=e294] [cursor=pointer]': "389"
+      - generic [ref=e295]: LINE09
+    - generic [ref=e296]:
+      - 'generic "W/B # 329 — RUNNING" [ref=e297] [cursor=pointer]': "329"
+      - 'generic "W/B # 329L — RUNNING" [ref=e298] [cursor=pointer]': 329L
+      - 'generic "W/B # 329R — RUNNING" [ref=e299] [cursor=pointer]': 329R
+      - 'generic "W/B # 407 — RUNNING" [ref=e300] [cursor=pointer]': "407"
+      - 'generic "W/B # 407L — RUNNING" [ref=e301] [cursor=pointer]': 407L
+      - 'generic "W/B # 407R — RUNNING" [ref=e302] [cursor=pointer]': 407R
+      - 'generic "W/B # 049 — RUNNING" [ref=e303] [cursor=pointer]': "49"
+      - 'generic "W/B # 048 — RUNNING" [ref=e304] [cursor=pointer]': "48"
+      - 'generic "W/B # 047 — RUNNING" [ref=e305] [cursor=pointer]': "47"
+      - generic [ref=e306]: ISP23
+      - generic [ref=e307]: IS18
+      - generic [ref=e308]: ISP09
+      - generic [ref=e309]: QC CENTER
+      - generic [ref=e310]: LINE22
+      - generic [ref=e311]: SUP1
+      - generic [ref=e312]: ISP01
+      - 'generic "W/B # 398 — SETUP: Idle | -411m | B18076" [ref=e313] [cursor=pointer]': "398"
+      - 'generic "W/B # 397 — RUNNING" [ref=e314] [cursor=pointer]': "397"
+      - 'generic "W/B # 396 — RUNNING" [ref=e315] [cursor=pointer]': "396"
+      - 'generic "W/B # 395 — RUNNING" [ref=e316] [cursor=pointer]': "395"
+      - 'generic "W/B # 388 — RUNNING" [ref=e317] [cursor=pointer]': "388"
+      - 'generic "W/B # 387 — M/C DOWN: Crack pad | -449m | B15259" [ref=e318] [cursor=pointer]': "387"
+      - 'generic "W/B # 386 — RUNNING" [ref=e319] [cursor=pointer]': "386"
+      - 'generic "W/B # 385 — RUNNING" [ref=e320] [cursor=pointer]': "385"
+      - 'generic "W/B # 400 — RUNNING" [ref=e321] [cursor=pointer]': "400"
+      - 'generic "W/B # 399 — RUNNING" [ref=e322] [cursor=pointer]': "399"
+      - generic [ref=e323]: LINE08
+    - generic [ref=e324]:
+      - generic [ref=e325]: PLASMA01
+      - generic [ref=e326]: PLASMA02
+      - generic [ref=e327]: PLASMA03
+      - generic [ref=e328]: QC CENTER
+      - generic [ref=e329]: LINE21
+      - generic [ref=e330]: SUP2
+      - 'generic "W/B # 110 — RUNNING" [ref=e331] [cursor=pointer]': "110"
+      - 'generic "W/B # 058 — RUNNING" [ref=e332] [cursor=pointer]': "58"
+      - 'generic "W/B # 099 — RUNNING" [ref=e333] [cursor=pointer]': "99"
+      - 'generic "W/B # 001 — RUNNING" [ref=e334] [cursor=pointer]': "1"
+      - 'generic "W/B # 077 — RUNNING" [ref=e335] [cursor=pointer]': "77"
+      - 'generic "W/B # 066 — RUNNING" [ref=e336] [cursor=pointer]': "66"
+      - 'generic "W/B # 076 — RUNNING" [ref=e337] [cursor=pointer]': "76"
+      - generic [ref=e338]: SUPQC
+      - generic [ref=e339]: LINE07
+  - generic [ref=e340]:
+    - generic [ref=e341]: ZONE 2 (TQFP · Supv. โบว์ , รุ้ง)
+    - generic [ref=e342]:
+      - 'generic "W/B # 237 — RUNNING" [ref=e343] [cursor=pointer]': "237"
+      - 'generic "W/B # 237L — RUNNING" [ref=e344] [cursor=pointer]': 237L
+      - 'generic "W/B # 237R — RUNNING" [ref=e345] [cursor=pointer]': 237R
+      - 'generic "W/B # 236 — RUNNING" [ref=e346] [cursor=pointer]': "236"
+      - 'generic "W/B # 236L — RUNNING" [ref=e347] [cursor=pointer]': 236L
+      - 'generic "W/B # 236R — RUNNING" [ref=e348] [cursor=pointer]': 236R
+      - 'generic "W/B # 207 — RUNNING" [ref=e349] [cursor=pointer]': "207"
+      - 'generic "W/B # 207L — RUNNING" [ref=e350] [cursor=pointer]': 207L
+      - 'generic "W/B # 207R — RUNNING" [ref=e351] [cursor=pointer]': 207R
+      - 'generic "W/B # 208 — RUNNING" [ref=e352] [cursor=pointer]': "208"
+      - 'generic "W/B # 208L — RUNNING" [ref=e353] [cursor=pointer]': 208L
+      - 'generic "W/B # 208R — RUNNING" [ref=e354] [cursor=pointer]': 208R
+      - 'generic "W/B # 247 — RUNNING" [ref=e355] [cursor=pointer]': "247"
+      - 'generic "W/B # 247L — RUNNING" [ref=e356] [cursor=pointer]': 247L
+      - 'generic "W/B # 247R — RUNNING" [ref=e357] [cursor=pointer]': 247R
+      - 'generic "W/B # 253 — RUNNING" [ref=e358] [cursor=pointer]': "253"
+      - 'generic "W/B # 253L — RUNNING" [ref=e359] [cursor=pointer]': 253L
+      - 'generic "W/B # 253R — RUNNING" [ref=e360] [cursor=pointer]': 253R
+      - 'generic "W/B # 240 — RUNNING" [ref=e361] [cursor=pointer]': "240"
+      - 'generic "W/B # 240L — RUNNING" [ref=e362] [cursor=pointer]': 240L
+      - 'generic "W/B # 240R — RUNNING" [ref=e363] [cursor=pointer]': 240R
+      - 'generic "W/B # 249 — RUNNING" [ref=e364] [cursor=pointer]': "249"
+      - 'generic "W/B # 249L — RUNNING" [ref=e365] [cursor=pointer]': 249L
+      - 'generic "W/B # 249R — RUNNING" [ref=e366] [cursor=pointer]': 249R
+      - 'generic "W/B # 250 — RUNNING" [ref=e367] [cursor=pointer]': "250"
+      - 'generic "W/B # 250L — RUNNING" [ref=e368] [cursor=pointer]': 250L
+      - 'generic "W/B # 250R — RUNNING" [ref=e369] [cursor=pointer]': 250R
+      - 'generic "W/B # 251 — RUNNING" [ref=e370] [cursor=pointer]': "251"
+      - 'generic "W/B # 251L — RUNNING" [ref=e371] [cursor=pointer]': 251L
+      - 'generic "W/B # 251R — RUNNING" [ref=e372] [cursor=pointer]': 251R
+      - 'generic "W/B # 254 — RUNNING" [ref=e373] [cursor=pointer]': "254"
+      - 'generic "W/B # 254L — RUNNING" [ref=e374] [cursor=pointer]': 254L
+      - 'generic "W/B # 254R — RUNNING" [ref=e375] [cursor=pointer]': 254R
+      - 'generic "W/B # 239 — RUNNING" [ref=e376] [cursor=pointer]': "239"
+      - 'generic "W/B # 239L — RUNNING" [ref=e377] [cursor=pointer]': 239L
+      - 'generic "W/B # 239R — RUNNING" [ref=e378] [cursor=pointer]': 239R
+      - generic [ref=e379]: LINE20
+      - 'generic "W/B # 255 — RUNNING" [ref=e380] [cursor=pointer]': "255"
+      - 'generic "W/B # 255L — RUNNING" [ref=e381] [cursor=pointer]': 255L
+      - 'generic "W/B # 255R — RUNNING" [ref=e382] [cursor=pointer]': 255R
+      - 'generic "W/B # 209 — RUNNING" [ref=e383] [cursor=pointer]': "209"
+      - 'generic "W/B # 209L — RUNNING" [ref=e384] [cursor=pointer]': 209L
+      - 'generic "W/B # 209R — RUNNING" [ref=e385] [cursor=pointer]': 209R
+      - 'generic "W/B # 210 — RUNNING" [ref=e386] [cursor=pointer]': "210"
+      - 'generic "W/B # 210L — RUNNING" [ref=e387] [cursor=pointer]': 210L
+      - 'generic "W/B # 210R — RUNNING" [ref=e388] [cursor=pointer]': 210R
+      - 'generic "W/B # 212 — RUNNING" [ref=e389] [cursor=pointer]': "212"
+      - 'generic "W/B # 212L — RUNNING" [ref=e390] [cursor=pointer]': 212L
+      - 'generic "W/B # 212R — RUNNING" [ref=e391] [cursor=pointer]': 212R
+      - 'generic "W/B # 213 — RUNNING" [ref=e392] [cursor=pointer]': "213"
+      - 'generic "W/B # 213L — RUNNING" [ref=e393] [cursor=pointer]': 213L
+      - 'generic "W/B # 213R — RUNNING" [ref=e394] [cursor=pointer]': 213R
+      - 'generic "W/B # 248 — RUNNING" [ref=e395] [cursor=pointer]': "248"
+      - 'generic "W/B # 248L — RUNNING" [ref=e396] [cursor=pointer]': 248L
+      - 'generic "W/B # 248R — RUNNING" [ref=e397] [cursor=pointer]': 248R
+      - 'generic "W/B # 230 — RUNNING" [ref=e398] [cursor=pointer]': "230"
+      - 'generic "W/B # 230L — RUNNING" [ref=e399] [cursor=pointer]': 230L
+      - 'generic "W/B # 230R — RUNNING" [ref=e400] [cursor=pointer]': 230R
+      - 'generic "W/B # 231 — RUNNING" [ref=e401] [cursor=pointer]': "231"
+      - 'generic "W/B # 231L — RUNNING" [ref=e402] [cursor=pointer]': 231L
+      - 'generic "W/B # 231R — RUNNING" [ref=e403] [cursor=pointer]': 231R
+      - 'generic "W/B # 232 — RUNNING" [ref=e404] [cursor=pointer]': "232"
+      - 'generic "W/B # 232L — RUNNING" [ref=e405] [cursor=pointer]': 232L
+      - 'generic "W/B # 232R — RUNNING" [ref=e406] [cursor=pointer]': 232R
+      - 'generic "W/B # 233 — RUNNING" [ref=e407] [cursor=pointer]': "233"
+      - 'generic "W/B # 233L — RUNNING" [ref=e408] [cursor=pointer]': 233L
+      - 'generic "W/B # 233R — RUNNING" [ref=e409] [cursor=pointer]': 233R
+      - 'generic "W/B # 234 — RUNNING" [ref=e410] [cursor=pointer]': "234"
+      - 'generic "W/B # 234L — M/C DOWN: NSOP | -506m" [ref=e411] [cursor=pointer]': 234L
+      - 'generic "W/B # 234R — RUNNING" [ref=e412] [cursor=pointer]': 234R
+      - 'generic "W/B # 235 — RUNNING" [ref=e413] [cursor=pointer]': "235"
+      - 'generic "W/B # 235L — RUNNING" [ref=e414] [cursor=pointer]': 235L
+      - 'generic "W/B # 235R — RUNNING" [ref=e415] [cursor=pointer]': 235R
+      - generic [ref=e416]: LINE06
+    - generic [ref=e417]:
+      - 'generic "W/B # 215 — RUNNING" [ref=e418] [cursor=pointer]': "215"
+      - 'generic "W/B # 215L — RUNNING" [ref=e419] [cursor=pointer]': 215L
+      - 'generic "W/B # 215R — RUNNING" [ref=e420] [cursor=pointer]': 215R
+      - 'generic "W/B # 216 — RUNNING" [ref=e421] [cursor=pointer]': "216"
+      - 'generic "W/B # 216L — SETUP: Idle | -207m | B15215" [ref=e422] [cursor=pointer]': 216L
+      - 'generic "W/B # 216R — SETUP: Idle | -508m | B15215" [ref=e423] [cursor=pointer]': 216R
+      - 'generic "W/B # 217 — RUNNING" [ref=e424] [cursor=pointer]': "217"
+      - 'generic "W/B # 217L — RUNNING" [ref=e425] [cursor=pointer]': 217L
+      - 'generic "W/B # 217R — RUNNING" [ref=e426] [cursor=pointer]': 217R
+      - 'generic "W/B # 223 — RUNNING" [ref=e427] [cursor=pointer]': "223"
+      - 'generic "W/B # 223L — RUNNING" [ref=e428] [cursor=pointer]': 223L
+      - 'generic "W/B # 223R — RUNNING" [ref=e429] [cursor=pointer]': 223R
+      - 'generic "W/B # 224 — RUNNING" [ref=e430] [cursor=pointer]': "224"
+      - 'generic "W/B # 224L — PM: Monthly PM | -474m | B18651" [ref=e431] [cursor=pointer]': 224L
+      - 'generic "W/B # 224R — PM: Monthly PM | -475m | B18651" [ref=e432] [cursor=pointer]': 224R
+      - 'generic "W/B # 225 — RUNNING" [ref=e433] [cursor=pointer]': "225"
+      - 'generic "W/B # 225L — SETUP: Change Cap (New Set up),Change Bonding,Monitoring + Visual inspection Ball-Weld shape on display | -493m | B15215" [ref=e434] [cursor=pointer]': 225L
+      - 'generic "W/B # 225R — RUNNING" [ref=e435] [cursor=pointer]': 225R
+      - 'generic "W/B # 226 — RUNNING" [ref=e436] [cursor=pointer]': "226"
+      - 'generic "W/B # 226L — RUNNING" [ref=e437] [cursor=pointer]': 226L
+      - 'generic "W/B # 226R — RUNNING" [ref=e438] [cursor=pointer]': 226R
+      - 'generic "W/B # 227 — RUNNING" [ref=e439] [cursor=pointer]': "227"
+      - 'generic "W/B # 227L — RUNNING" [ref=e440] [cursor=pointer]': 227L
+      - 'generic "W/B # 227R — RUNNING" [ref=e441] [cursor=pointer]': 227R
+      - 'generic "W/B # 228 — RUNNING" [ref=e442] [cursor=pointer]': "228"
+      - 'generic "W/B # 228L — RUNNING" [ref=e443] [cursor=pointer]': 228L
+      - 'generic "W/B # 228R — RUNNING" [ref=e444] [cursor=pointer]': 228R
+      - 'generic "W/B # 229 — RUNNING" [ref=e445] [cursor=pointer]': "229"
+      - 'generic "W/B # 229L — RUNNING" [ref=e446] [cursor=pointer]': 229L
+      - 'generic "W/B # 229R — RUNNING" [ref=e447] [cursor=pointer]': 229R
+      - 'generic "W/B # 184 — RUNNING" [ref=e448] [cursor=pointer]': "184"
+      - 'generic "W/B # 184L — RUNNING" [ref=e449] [cursor=pointer]': 184L
+      - 'generic "W/B # 184R — RUNNING" [ref=e450] [cursor=pointer]': 184R
+      - 'generic "W/B # 241 — RUNNING" [ref=e451] [cursor=pointer]': "241"
+      - 'generic "W/B # 241L — RUNNING" [ref=e452] [cursor=pointer]': 241L
+      - 'generic "W/B # 241R — RUNNING" [ref=e453] [cursor=pointer]': 241R
+      - generic [ref=e454]: LINE19
+      - 'generic "W/B # 242 — RUNNING" [ref=e455] [cursor=pointer]': "242"
+      - 'generic "W/B # 242L — RUNNING" [ref=e456] [cursor=pointer]': 242L
+      - 'generic "W/B # 242R — RUNNING" [ref=e457] [cursor=pointer]': 242R
+      - 'generic "W/B # 218 — RUNNING" [ref=e458] [cursor=pointer]': "218"
+      - 'generic "W/B # 218L — RUNNING" [ref=e459] [cursor=pointer]': 218L
+      - 'generic "W/B # 218R — RUNNING" [ref=e460] [cursor=pointer]': 218R
+      - 'generic "W/B # 219 — RUNNING" [ref=e461] [cursor=pointer]': "219"
+      - 'generic "W/B # 219L — RUNNING" [ref=e462] [cursor=pointer]': 219L
+      - 'generic "W/B # 219R — RUNNING" [ref=e463] [cursor=pointer]': 219R
+      - 'generic "W/B # 220 — RUNNING" [ref=e464] [cursor=pointer]': "220"
+      - 'generic "W/B # 220L — RUNNING" [ref=e465] [cursor=pointer]': 220L
+      - 'generic "W/B # 220R — RUNNING" [ref=e466] [cursor=pointer]': 220R
+      - 'generic "W/B # 221 — RUNNING" [ref=e467] [cursor=pointer]': "221"
+      - 'generic "W/B # 221L — RUNNING" [ref=e468] [cursor=pointer]': 221L
+      - 'generic "W/B # 221R — RUNNING" [ref=e469] [cursor=pointer]': 221R
+      - 'generic "W/B # 222 — RUNNING" [ref=e470] [cursor=pointer]': "222"
+      - 'generic "W/B # 222L — RUNNING" [ref=e471] [cursor=pointer]': 222L
+      - 'generic "W/B # 222R — RUNNING" [ref=e472] [cursor=pointer]': 222R
+      - 'generic "W/B # 246 — RUNNING" [ref=e473] [cursor=pointer]': "246"
+      - 'generic "W/B # 246L — RUNNING" [ref=e474] [cursor=pointer]': 246L
+      - 'generic "W/B # 246R — RUNNING" [ref=e475] [cursor=pointer]': 246R
+      - 'generic "W/B # 258 — RUNNING" [ref=e476] [cursor=pointer]': "258"
+      - 'generic "W/B # 258L — RUNNING" [ref=e477] [cursor=pointer]': 258L
+      - 'generic "W/B # 258R — RUNNING" [ref=e478] [cursor=pointer]': 258R
+      - 'generic "W/B # 243 — RUNNING" [ref=e479] [cursor=pointer]': "243"
+      - 'generic "W/B # 243L — RUNNING" [ref=e480] [cursor=pointer]': 243L
+      - 'generic "W/B # 243R — RUNNING" [ref=e481] [cursor=pointer]': 243R
+      - 'generic "W/B # 244 — RUNNING" [ref=e482] [cursor=pointer]': "244"
+      - 'generic "W/B # 244L — RUNNING" [ref=e483] [cursor=pointer]': 244L
+      - 'generic "W/B # 244R — RUNNING" [ref=e484] [cursor=pointer]': 244R
+      - 'generic "W/B # 245 — RUNNING" [ref=e485] [cursor=pointer]': "245"
+      - 'generic "W/B # 245L — RUNNING" [ref=e486] [cursor=pointer]': 245L
+      - 'generic "W/B # 245R — RUNNING" [ref=e487] [cursor=pointer]': 245R
+      - 'generic "W/B # 252 — RUNNING" [ref=e488] [cursor=pointer]': "252"
+      - 'generic "W/B # 252L — RUNNING" [ref=e489] [cursor=pointer]': 252L
+      - 'generic "W/B # 252R — RUNNING" [ref=e490] [cursor=pointer]': 252R
+      - generic [ref=e491]: LINE05
+    - generic [ref=e492]:
+      - 'generic "W/B # 311 — RUNNING" [ref=e493] [cursor=pointer]': "311"
+      - 'generic "W/B # 311L — RUNNING" [ref=e494] [cursor=pointer]': 311L
+      - 'generic "W/B # 311R — RUNNING" [ref=e495] [cursor=pointer]': 311R
+      - 'generic "W/B # 312 — RUNNING" [ref=e496] [cursor=pointer]': "312"
+      - 'generic "W/B # 312L — SETUP: Change Pad Size,Change Cap,Change Bonding (None Automotive),Urgent+Backlog | -488m | B16715" [ref=e497] [cursor=pointer]': 312L
+      - 'generic "W/B # 312R — RUNNING" [ref=e498] [cursor=pointer]': 312R
+      - 'generic "W/B # 315 — RUNNING" [ref=e499] [cursor=pointer]': "315"
+      - 'generic "W/B # 315L — RUNNING" [ref=e500] [cursor=pointer]': 315L
+      - 'generic "W/B # 315R — RUNNING" [ref=e501] [cursor=pointer]': 315R
+      - 'generic "W/B # 316 — RUNNING" [ref=e502] [cursor=pointer]': "316"
+      - 'generic "W/B # 316L — RUNNING" [ref=e503] [cursor=pointer]': 316L
+      - 'generic "W/B # 316R — RUNNING" [ref=e504] [cursor=pointer]': 316R
+      - 'generic "W/B # 317 — RUNNING" [ref=e505] [cursor=pointer]': "317"
+      - 'generic "W/B # 317L — RUNNING" [ref=e506] [cursor=pointer]': 317L
+      - 'generic "W/B # 317R — RUNNING" [ref=e507] [cursor=pointer]': 317R
+      - 'generic "W/B # 318 — RUNNING" [ref=e508] [cursor=pointer]': "318"
+      - 'generic "W/B # 318L — RUNNING" [ref=e509] [cursor=pointer]': 318L
+      - 'generic "W/B # 318R — RUNNING" [ref=e510] [cursor=pointer]': 318R
+      - 'generic "W/B # 290 — RUNNING" [ref=e511] [cursor=pointer]': "290"
+      - 'generic "W/B # 290L — RUNNING" [ref=e512] [cursor=pointer]': 290L
+      - 'generic "W/B # 290R — RUNNING" [ref=e513] [cursor=pointer]': 290R
+      - 'generic "W/B # 291 — RUNNING" [ref=e514] [cursor=pointer]': "291"
+      - 'generic "W/B # 291L — M/C DOWN: Ejector Error,Urgent+Backlog | -497m | B65222" [ref=e515] [cursor=pointer]': 291L
+      - 'generic "W/B # 291R — RUNNING" [ref=e516] [cursor=pointer]': 291R
+      - 'generic "W/B # 292 — RUNNING" [ref=e517] [cursor=pointer]': "292"
+      - 'generic "W/B # 292L — RUNNING" [ref=e518] [cursor=pointer]': 292L
+      - 'generic "W/B # 292R — RUNNING" [ref=e519] [cursor=pointer]': 292R
+      - 'generic "W/B # 259 — RUNNING" [ref=e520] [cursor=pointer]': "259"
+      - 'generic "W/B # 259L — RUNNING" [ref=e521] [cursor=pointer]': 259L
+      - 'generic "W/B # 259R — RUNNING" [ref=e522] [cursor=pointer]': 259R
+      - 'generic "W/B # 214 — RUNNING" [ref=e523] [cursor=pointer]': "214"
+      - 'generic "W/B # 214L — RUNNING" [ref=e524] [cursor=pointer]': 214L
+      - 'generic "W/B # 214R — RUNNING" [ref=e525] [cursor=pointer]': 214R
+      - 'generic "W/B # 320 — RUNNING" [ref=e526] [cursor=pointer]': "320"
+      - 'generic "W/B # 320L — M/C DOWN: NSOP | -501m | B05701" [ref=e527] [cursor=pointer]': 320L
+      - 'generic "W/B # 320R — RUNNING" [ref=e528] [cursor=pointer]': 320R
+      - generic [ref=e529]: LINE18
+      - 'generic "W/B # 314 — RUNNING" [ref=e530] [cursor=pointer]': "314"
+      - 'generic "W/B # 314L — RUNNING" [ref=e531] [cursor=pointer]': 314L
+      - 'generic "W/B # 314R — RUNNING" [ref=e532] [cursor=pointer]': 314R
+      - 'generic "W/B # 313 — RUNNING" [ref=e533] [cursor=pointer]': "313"
+      - 'generic "W/B # 313L — RUNNING" [ref=e534] [cursor=pointer]': 313L
+      - 'generic "W/B # 313R — RUNNING" [ref=e535] [cursor=pointer]': 313R
+      - 'generic "W/B # 303 — RUNNING" [ref=e536] [cursor=pointer]': "303"
+      - 'generic "W/B # 303L — RUNNING" [ref=e537] [cursor=pointer]': 303L
+      - 'generic "W/B # 303R — RUNNING" [ref=e538] [cursor=pointer]': 303R
+      - 'generic "W/B # 321 — RUNNING" [ref=e539] [cursor=pointer]': "321"
+      - 'generic "W/B # 321L — RUNNING" [ref=e540] [cursor=pointer]': 321L
+      - 'generic "W/B # 321R — RUNNING" [ref=e541] [cursor=pointer]': 321R
+      - 'generic "W/B # 322 — RUNNING" [ref=e542] [cursor=pointer]': "322"
+      - 'generic "W/B # 322L — RUNNING" [ref=e543] [cursor=pointer]': 322L
+      - 'generic "W/B # 322R — RUNNING" [ref=e544] [cursor=pointer]': 322R
+      - 'generic "W/B # 323 — RUNNING" [ref=e545] [cursor=pointer]': "323"
+      - 'generic "W/B # 323L — RUNNING" [ref=e546] [cursor=pointer]': 323L
+      - 'generic "W/B # 323R — RUNNING" [ref=e547] [cursor=pointer]': 323R
+      - 'generic "W/B # 324 — RUNNING" [ref=e548] [cursor=pointer]': "324"
+      - 'generic "W/B # 324L — RUNNING" [ref=e549] [cursor=pointer]': 324L
+      - 'generic "W/B # 324R — RUNNING" [ref=e550] [cursor=pointer]': 324R
+      - 'generic "W/B # 325 — RUNNING" [ref=e551] [cursor=pointer]': "325"
+      - 'generic "W/B # 325L — RUNNING" [ref=e552] [cursor=pointer]': 325L
+      - 'generic "W/B # 325R — RUNNING" [ref=e553] [cursor=pointer]': 325R
+      - 'generic "W/B # 378 — RUNNING" [ref=e554] [cursor=pointer]': "378"
+      - 'generic "W/B # 378L — RUNNING" [ref=e555] [cursor=pointer]': 378L
+      - 'generic "W/B # 378R — RUNNING" [ref=e556] [cursor=pointer]': 378R
+      - 'generic "W/B # 282 — RUNNING" [ref=e557] [cursor=pointer]': "282"
+      - 'generic "W/B # 282L — RUNNING" [ref=e558] [cursor=pointer]': 282L
+      - 'generic "W/B # 282R — RUNNING" [ref=e559] [cursor=pointer]': 282R
+      - 'generic "W/B # 327 — RUNNING" [ref=e560] [cursor=pointer]': "327"
+      - 'generic "W/B # 327L — RUNNING" [ref=e561] [cursor=pointer]': 327L
+      - 'generic "W/B # 327R — RUNNING" [ref=e562] [cursor=pointer]': 327R
+      - 'generic "W/B # 328 — RUNNING" [ref=e563] [cursor=pointer]': "328"
+      - 'generic "W/B # 328L — RUNNING" [ref=e564] [cursor=pointer]': 328L
+      - 'generic "W/B # 328R — RUNNING" [ref=e565] [cursor=pointer]': 328R
+      - generic [ref=e566]: LINE04
+    - generic [ref=e567]:
+      - 'generic "W/B # 304 — RUNNING" [ref=e568] [cursor=pointer]': "304"
+      - 'generic "W/B # 304L — RUNNING" [ref=e569] [cursor=pointer]': 304L
+      - 'generic "W/B # 304R — SETUP: Change Cap (Cap Limit) | -510m | B17589" [ref=e570] [cursor=pointer]': 304R
+      - 'generic "W/B # 307 — RUNNING" [ref=e571] [cursor=pointer]': "307"
+      - 'generic "W/B # 307L — RUNNING" [ref=e572] [cursor=pointer]': 307L
+      - 'generic "W/B # 307R — RUNNING" [ref=e573] [cursor=pointer]': 307R
+      - 'generic "W/B # 308 — RUNNING" [ref=e574] [cursor=pointer]': "308"
+      - 'generic "W/B # 308L — RUNNING" [ref=e575] [cursor=pointer]': 308L
+      - 'generic "W/B # 308R — RUNNING" [ref=e576] [cursor=pointer]': 308R
+      - 'generic "W/B # 309 — RUNNING" [ref=e577] [cursor=pointer]': "309"
+      - 'generic "W/B # 309L — RUNNING" [ref=e578] [cursor=pointer]': 309L
+      - 'generic "W/B # 309R — SETUP: Wait Cratering | -499m | B17589" [ref=e579] [cursor=pointer]': 309R
+      - 'generic "W/B # 310 — RUNNING" [ref=e580] [cursor=pointer]': "310"
+      - 'generic "W/B # 310L — SETUP: Wait Cratering | -508m | B17589" [ref=e581] [cursor=pointer]': 310L
+      - 'generic "W/B # 310R — RUNNING" [ref=e582] [cursor=pointer]': 310R
+      - 'generic "W/B # 275 — RUNNING" [ref=e583] [cursor=pointer]': "275"
+      - 'generic "W/B # 275L — RUNNING" [ref=e584] [cursor=pointer]': 275L
+      - 'generic "W/B # 275R — RUNNING" [ref=e585] [cursor=pointer]': 275R
+      - 'generic "W/B # 289 — RUNNING" [ref=e586] [cursor=pointer]': "289"
+      - 'generic "W/B # 289L — RUNNING" [ref=e587] [cursor=pointer]': 289L
+      - 'generic "W/B # 289R — RUNNING" [ref=e588] [cursor=pointer]': 289R
+      - 'generic "W/B # 288 — RUNNING" [ref=e589] [cursor=pointer]': "288"
+      - 'generic "W/B # 288L — RUNNING" [ref=e590] [cursor=pointer]': 288L
+      - 'generic "W/B # 288R — RUNNING" [ref=e591] [cursor=pointer]': 288R
+      - 'generic "W/B # 287 — RUNNING" [ref=e592] [cursor=pointer]': "287"
+      - 'generic "W/B # 287L — RUNNING" [ref=e593] [cursor=pointer]': 287L
+      - 'generic "W/B # 287R — RUNNING" [ref=e594] [cursor=pointer]': 287R
+      - 'generic "W/B # 330 — RUNNING" [ref=e595] [cursor=pointer]': "330"
+      - 'generic "W/B # 330L — RUNNING" [ref=e596] [cursor=pointer]': 330L
+      - 'generic "W/B # 330R — RUNNING" [ref=e597] [cursor=pointer]': 330R
+      - 'generic "W/B # 331 — RUNNING" [ref=e598] [cursor=pointer]': "331"
+      - 'generic "W/B # 331L — RUNNING" [ref=e599] [cursor=pointer]': 331L
+      - 'generic "W/B # 331R — RUNNING" [ref=e600] [cursor=pointer]': 331R
+      - 'generic "W/B # 332 — RUNNING" [ref=e601] [cursor=pointer]': "332"
+      - 'generic "W/B # 332L — RUNNING" [ref=e602] [cursor=pointer]': 332L
+      - 'generic "W/B # 332R — RUNNING" [ref=e603] [cursor=pointer]': 332R
+      - generic [ref=e604]: LINE17
+      - 'generic "W/B # 306 — RUNNING" [ref=e605] [cursor=pointer]': "306"
+      - 'generic "W/B # 306L — RUNNING" [ref=e606] [cursor=pointer]': 306L
+      - 'generic "W/B # 306R — RUNNING" [ref=e607] [cursor=pointer]': 306R
+      - 'generic "W/B # 379 — RUNNING" [ref=e608] [cursor=pointer]': "379"
+      - 'generic "W/B # 379L — RUNNING" [ref=e609] [cursor=pointer]': 379L
+      - 'generic "W/B # 379R — RUNNING" [ref=e610] [cursor=pointer]': 379R
+      - 'generic "W/B # 276 — RUNNING" [ref=e611] [cursor=pointer]': "276"
+      - 'generic "W/B # 276L — RUNNING" [ref=e612] [cursor=pointer]': 276L
+      - 'generic "W/B # 276R — RUNNING" [ref=e613] [cursor=pointer]': 276R
+      - 'generic "W/B # 277 — RUNNING" [ref=e614] [cursor=pointer]': "277"
+      - 'generic "W/B # 277L — RUNNING" [ref=e615] [cursor=pointer]': 277L
+      - 'generic "W/B # 277R — RUNNING" [ref=e616] [cursor=pointer]': 277R
+      - 'generic "W/B # 286 — RUNNING" [ref=e617] [cursor=pointer]': "286"
+      - 'generic "W/B # 286L — RUNNING" [ref=e618] [cursor=pointer]': 286L
+      - 'generic "W/B # 286R — RUNNING" [ref=e619] [cursor=pointer]': 286R
+      - 'generic "W/B # 285 — RUNNING" [ref=e620] [cursor=pointer]': "285"
+      - 'generic "W/B # 285L — RUNNING" [ref=e621] [cursor=pointer]': 285L
+      - 'generic "W/B # 285R — RUNNING" [ref=e622] [cursor=pointer]': 285R
+      - 'generic "W/B # 278 — RUNNING" [ref=e623] [cursor=pointer]': "278"
+      - 'generic "W/B # 278L — RUNNING" [ref=e624] [cursor=pointer]': 278L
+      - 'generic "W/B # 278R — RUNNING" [ref=e625] [cursor=pointer]': 278R
+      - 'generic "W/B # 279 — RUNNING" [ref=e626] [cursor=pointer]': "279"
+      - 'generic "W/B # 279L — RUNNING" [ref=e627] [cursor=pointer]': 279L
+      - 'generic "W/B # 279R — RUNNING" [ref=e628] [cursor=pointer]': 279R
+      - 'generic "W/B # 280 — RUNNING" [ref=e629] [cursor=pointer]': "280"
+      - 'generic "W/B # 280L — RUNNING" [ref=e630] [cursor=pointer]': 280L
+      - 'generic "W/B # 280R — SETUP: Idle | -180m | B79644" [ref=e631] [cursor=pointer]': 280R
+      - 'generic "W/B # 281 — RUNNING" [ref=e632] [cursor=pointer]': "281"
+      - 'generic "W/B # 281L — RUNNING" [ref=e633] [cursor=pointer]': 281L
+      - 'generic "W/B # 281R — RUNNING" [ref=e634] [cursor=pointer]': 281R
+      - 'generic "W/B # 283 — RUNNING" [ref=e635] [cursor=pointer]': "283"
+      - 'generic "W/B # 283L — RUNNING" [ref=e636] [cursor=pointer]': 283L
+      - 'generic "W/B # 283R — RUNNING" [ref=e637] [cursor=pointer]': 283R
+      - 'generic "W/B # 284 — RUNNING" [ref=e638] [cursor=pointer]': "284"
+      - 'generic "W/B # 284L — RUNNING" [ref=e639] [cursor=pointer]': 284L
+      - 'generic "W/B # 284R — RUNNING" [ref=e640] [cursor=pointer]': 284R
+      - generic [ref=e641]: LINE03
+    - generic [ref=e642]:
+      - 'generic "W/B # 333 — RUNNING" [ref=e643] [cursor=pointer]': "333"
+      - 'generic "W/B # 333L — RUNNING" [ref=e644] [cursor=pointer]': 333L
+      - 'generic "W/B # 333R — RUNNING" [ref=e645] [cursor=pointer]': 333R
+      - 'generic "W/B # 334 — RUNNING" [ref=e646] [cursor=pointer]': "334"
+      - 'generic "W/B # 334L — RUNNING" [ref=e647] [cursor=pointer]': 334L
+      - 'generic "W/B # 334R — RUNNING" [ref=e648] [cursor=pointer]': 334R
+      - 'generic "W/B # 335 — RUNNING" [ref=e649] [cursor=pointer]': "335"
+      - 'generic "W/B # 335L — RUNNING" [ref=e650] [cursor=pointer]': 335L
+      - 'generic "W/B # 335R — RUNNING" [ref=e651] [cursor=pointer]': 335R
+      - 'generic "W/B # 336 — RUNNING" [ref=e652] [cursor=pointer]': "336"
+      - 'generic "W/B # 336L — RUNNING" [ref=e653] [cursor=pointer]': 336L
+      - 'generic "W/B # 336R — RUNNING" [ref=e654] [cursor=pointer]': 336R
+      - 'generic "W/B # 337 — RUNNING" [ref=e655] [cursor=pointer]': "337"
+      - 'generic "W/B # 337L — RUNNING" [ref=e656] [cursor=pointer]': 337L
+      - 'generic "W/B # 337R — RUNNING" [ref=e657] [cursor=pointer]': 337R
+      - 'generic "W/B # 338 — RUNNING" [ref=e658] [cursor=pointer]': "338"
+      - 'generic "W/B # 338L — RUNNING" [ref=e659] [cursor=pointer]': 338L
+      - 'generic "W/B # 338R — RUNNING" [ref=e660] [cursor=pointer]': 338R
+      - 'generic "W/B # 339 — RUNNING" [ref=e661] [cursor=pointer]': "339"
+      - 'generic "W/B # 339L — RUNNING" [ref=e662] [cursor=pointer]': 339L
+      - 'generic "W/B # 339R — RUNNING" [ref=e663] [cursor=pointer]': 339R
+      - 'generic "W/B # 340 — RUNNING" [ref=e664] [cursor=pointer]': "340"
+      - 'generic "W/B # 340L — RUNNING" [ref=e665] [cursor=pointer]': 340L
+      - 'generic "W/B # 340R — RUNNING" [ref=e666] [cursor=pointer]': 340R
+      - 'generic "W/B # 341 — RUNNING" [ref=e667] [cursor=pointer]': "341"
+      - 'generic "W/B # 341L — RUNNING" [ref=e668] [cursor=pointer]': 341L
+      - 'generic "W/B # 341R — RUNNING" [ref=e669] [cursor=pointer]': 341R
+      - 'generic "W/B # 382 — RUNNING" [ref=e670] [cursor=pointer]': "382"
+      - 'generic "W/B # 382L — PM: Monthly PM | -460m | B74003" [ref=e671] [cursor=pointer]': 382L
+      - 'generic "W/B # 382R — PM: Monthly PM | -460m | B74003" [ref=e672] [cursor=pointer]': 382R
+      - 'generic "W/B # 381 — RUNNING" [ref=e673] [cursor=pointer]': "381"
+      - 'generic "W/B # 381L — RUNNING" [ref=e674] [cursor=pointer]': 381L
+      - 'generic "W/B # 381R — RUNNING" [ref=e675] [cursor=pointer]': 381R
+      - 'generic "W/B # 380 — RUNNING" [ref=e676] [cursor=pointer]': "380"
+      - 'generic "W/B # 380L — RUNNING" [ref=e677] [cursor=pointer]': 380L
+      - 'generic "W/B # 380R — RUNNING" [ref=e678] [cursor=pointer]': 380R
+      - generic [ref=e679]: LINE16
+      - 'generic "W/B # 319 — RUNNING" [ref=e680] [cursor=pointer]': "319"
+      - 'generic "W/B # 319L — RUNNING" [ref=e681] [cursor=pointer]': 319L
+      - 'generic "W/B # 319R — RUNNING" [ref=e682] [cursor=pointer]': 319R
+      - 'generic "W/B # 293 — RUNNING" [ref=e683] [cursor=pointer]': "293"
+      - 'generic "W/B # 293L — RUNNING" [ref=e684] [cursor=pointer]': 293L
+      - 'generic "W/B # 293R — RUNNING" [ref=e685] [cursor=pointer]': 293R
+      - 'generic "W/B # 297 — RUNNING" [ref=e686] [cursor=pointer]': "297"
+      - 'generic "W/B # 297L — RUNNING" [ref=e687] [cursor=pointer]': 297L
+      - 'generic "W/B # 297R — RUNNING" [ref=e688] [cursor=pointer]': 297R
+      - 'generic "W/B # 298 — RUNNING" [ref=e689] [cursor=pointer]': "298"
+      - 'generic "W/B # 298L — RUNNING" [ref=e690] [cursor=pointer]': 298L
+      - 'generic "W/B # 298R — RUNNING" [ref=e691] [cursor=pointer]': 298R
+      - 'generic "W/B # 299 — RUNNING" [ref=e692] [cursor=pointer]': "299"
+      - 'generic "W/B # 299L — RUNNING" [ref=e693] [cursor=pointer]': 299L
+      - 'generic "W/B # 299R — RUNNING" [ref=e694] [cursor=pointer]': 299R
+      - 'generic "W/B # 300 — RUNNING" [ref=e695] [cursor=pointer]': "300"
+      - 'generic "W/B # 300L — RUNNING" [ref=e696] [cursor=pointer]': 300L
+      - 'generic "W/B # 300R — RUNNING" [ref=e697] [cursor=pointer]': 300R
+      - 'generic "W/B # 301 — RUNNING" [ref=e698] [cursor=pointer]': "301"
+      - 'generic "W/B # 301L — RUNNING" [ref=e699] [cursor=pointer]': 301L
+      - 'generic "W/B # 301R — RUNNING" [ref=e700] [cursor=pointer]': 301R
+      - 'generic "W/B # 302 — RUNNING" [ref=e701] [cursor=pointer]': "302"
+      - 'generic "W/B # 302L — RUNNING" [ref=e702] [cursor=pointer]': 302L
+      - 'generic "W/B # 302R — RUNNING" [ref=e703] [cursor=pointer]': 302R
+      - 'generic "W/B # 305 — RUNNING" [ref=e704] [cursor=pointer]': "305"
+      - 'generic "W/B # 305L — RUNNING" [ref=e705] [cursor=pointer]': 305L
+      - 'generic "W/B # 305R — RUNNING" [ref=e706] [cursor=pointer]': 305R
+      - 'generic "W/B # 295 — RUNNING" [ref=e707] [cursor=pointer]': "295"
+      - 'generic "W/B # 295L — RUNNING" [ref=e708] [cursor=pointer]': 295L
+      - 'generic "W/B # 295R — SETUP: Change Cap (New Set up),Change Bonding,Monitoring + Visual inspection Ball-Weld shape on display | -496m | B64771" [ref=e709] [cursor=pointer]': 295R
+      - 'generic "W/B # 294 — RUNNING" [ref=e710] [cursor=pointer]': "294"
+      - 'generic "W/B # 294L — RUNNING" [ref=e711] [cursor=pointer]': 294L
+      - 'generic "W/B # 294R — RUNNING" [ref=e712] [cursor=pointer]': 294R
+      - 'generic "W/B # 296 — RUNNING" [ref=e713] [cursor=pointer]': "296"
+      - 'generic "W/B # 296L — RUNNING" [ref=e714] [cursor=pointer]': 296L
+      - 'generic "W/B # 296R — RUNNING" [ref=e715] [cursor=pointer]': 296R
+      - generic [ref=e716]: LINE02
+    - generic [ref=e717]:
+      - 'generic "W/B # 418 — RUNNING" [ref=e718] [cursor=pointer]': "418"
+      - 'generic "W/B # 418L — RUNNING" [ref=e719] [cursor=pointer]': 418L
+      - 'generic "W/B # 418R — RUNNING" [ref=e720] [cursor=pointer]': 418R
+      - 'generic "W/B # 419 — RUNNING" [ref=e721] [cursor=pointer]': "419"
+      - 'generic "W/B # 419L — RUNNING" [ref=e722] [cursor=pointer]': 419L
+      - 'generic "W/B # 419R — RUNNING" [ref=e723] [cursor=pointer]': 419R
+      - 'generic "W/B # 420 — RUNNING" [ref=e724] [cursor=pointer]': "420"
+      - 'generic "W/B # 420L — RUNNING" [ref=e725] [cursor=pointer]': 420L
+      - 'generic "W/B # 420R — RUNNING" [ref=e726] [cursor=pointer]': 420R
+      - 'generic "W/B # 421 — RUNNING" [ref=e727] [cursor=pointer]': "421"
+      - 'generic "W/B # 421L — RUNNING" [ref=e728] [cursor=pointer]': 421L
+      - 'generic "W/B # 421R — RUNNING" [ref=e729] [cursor=pointer]': 421R
+      - 'generic "W/B # 422 — RUNNING" [ref=e730] [cursor=pointer]': "422"
+      - 'generic "W/B # 422L — RUNNING" [ref=e731] [cursor=pointer]': 422L
+      - 'generic "W/B # 422R — RUNNING" [ref=e732] [cursor=pointer]': 422R
+      - 'generic "W/B # 423 — RUNNING" [ref=e733] [cursor=pointer]': "423"
+      - 'generic "W/B # 423L — RUNNING" [ref=e734] [cursor=pointer]': 423L
+      - 'generic "W/B # 423R — RUNNING" [ref=e735] [cursor=pointer]': 423R
+      - 'generic "W/B # 424 — RUNNING" [ref=e736] [cursor=pointer]': "424"
+      - 'generic "W/B # 424L — PM: Monthly PM | -473m | B66220" [ref=e737] [cursor=pointer]': 424L
+      - 'generic "W/B # 424R — PM: Monthly PM | -473m | B66220" [ref=e738] [cursor=pointer]': 424R
+      - 'generic "W/B # 425 — RUNNING" [ref=e739] [cursor=pointer]': "425"
+      - 'generic "W/B # 425L — RUNNING" [ref=e740] [cursor=pointer]': 425L
+      - 'generic "W/B # 425R — RUNNING" [ref=e741] [cursor=pointer]': 425R
+      - 'generic "W/B # 426 — RUNNING" [ref=e742] [cursor=pointer]': "426"
+      - 'generic "W/B # 426L — RUNNING" [ref=e743] [cursor=pointer]': 426L
+      - 'generic "W/B # 426R — RUNNING" [ref=e744] [cursor=pointer]': 426R
+      - 'generic "W/B # 427 — RUNNING" [ref=e745] [cursor=pointer]': "427"
+      - 'generic "W/B # 427L — RUNNING" [ref=e746] [cursor=pointer]': 427L
+      - 'generic "W/B # 427R — RUNNING" [ref=e747] [cursor=pointer]': 427R
+      - 'generic "W/B # 428 — RUNNING" [ref=e748] [cursor=pointer]': "428"
+      - 'generic "W/B # 428L — RUNNING" [ref=e749] [cursor=pointer]': 428L
+      - 'generic "W/B # 428R — M/C DOWN: NSOP | -496m" [ref=e750] [cursor=pointer]': 428R
+      - generic [ref=e751]: LINE15
+      - 'generic "W/B # 433 — RUNNING" [ref=e752] [cursor=pointer]': "433"
+      - 'generic "W/B # 433L — M/C DOWN: Low WPT | -498m | B68906" [ref=e753] [cursor=pointer]': 433L
+      - 'generic "W/B # 433R — RUNNING" [ref=e754] [cursor=pointer]': 433R
+      - 'generic "W/B # 429 — RUNNING" [ref=e755] [cursor=pointer]': "429"
+      - 'generic "W/B # 429L — RUNNING" [ref=e756] [cursor=pointer]': 429L
+      - 'generic "W/B # 429R — RUNNING" [ref=e757] [cursor=pointer]': 429R
+      - 'generic "W/B # 430 — RUNNING" [ref=e758] [cursor=pointer]': "430"
+      - 'generic "W/B # 430L — RUNNING" [ref=e759] [cursor=pointer]': 430L
+      - 'generic "W/B # 430R — RUNNING" [ref=e760] [cursor=pointer]': 430R
+      - 'generic "W/B # 431 — RUNNING" [ref=e761] [cursor=pointer]': "431"
+      - 'generic "W/B # 431L — RUNNING" [ref=e762] [cursor=pointer]': 431L
+      - 'generic "W/B # 431R — RUNNING" [ref=e763] [cursor=pointer]': 431R
+      - 'generic "W/B # 432 — RUNNING" [ref=e764] [cursor=pointer]': "432"
+      - 'generic "W/B # 432L — RUNNING" [ref=e765] [cursor=pointer]': 432L
+      - 'generic "W/B # 432R — RUNNING" [ref=e766] [cursor=pointer]': 432R
+      - 'generic "W/B # 507 — RUNNING" [ref=e767] [cursor=pointer]': "507"
+      - 'generic "W/B # 507L — RUNNING" [ref=e768] [cursor=pointer]': 507L
+      - 'generic "W/B # 507R — RUNNING" [ref=e769] [cursor=pointer]': 507R
+      - 'generic "W/B # 506 — RUNNING" [ref=e770] [cursor=pointer]': "506"
+      - 'generic "W/B # 506L — RUNNING" [ref=e771] [cursor=pointer]': 506L
+      - 'generic "W/B # 506R — M/C DOWN: Ball Size | -511m" [ref=e772] [cursor=pointer]': 506R
+      - 'generic "W/B # 505 — RUNNING" [ref=e773] [cursor=pointer]': "505"
+      - 'generic "W/B # 505L — RUNNING" [ref=e774] [cursor=pointer]': 505L
+      - 'generic "W/B # 505R — RUNNING" [ref=e775] [cursor=pointer]': 505R
+      - 'generic "W/B # 504 — RUNNING" [ref=e776] [cursor=pointer]': "504"
+      - 'generic "W/B # 504L — RUNNING" [ref=e777] [cursor=pointer]': 504L
+      - 'generic "W/B # 504R — RUNNING" [ref=e778] [cursor=pointer]': 504R
+      - 'generic "W/B # 503 — RUNNING" [ref=e779] [cursor=pointer]': "503"
+      - 'generic "W/B # 503L — RUNNING" [ref=e780] [cursor=pointer]': 503L
+      - 'generic "W/B # 503R — RUNNING" [ref=e781] [cursor=pointer]': 503R
+      - 'generic "W/B # 502 — RUNNING" [ref=e782] [cursor=pointer]': "502"
+      - 'generic "W/B # 502L — RUNNING" [ref=e783] [cursor=pointer]': 502L
+      - 'generic "W/B # 502R — RUNNING" [ref=e784] [cursor=pointer]': 502R
+      - generic [ref=e785]: LINE01
+  - generic [ref=e786]:
+    - generic [ref=e787]: ZONE 3 (QFN Old Room · Supv. สุ , น้อย)
+    - generic [ref=e788]:
+      - 'generic "W/B # 417 — RUNNING" [ref=e789] [cursor=pointer]': "417"
+      - 'generic "W/B # 417L — RUNNING" [ref=e790] [cursor=pointer]': 417L
+      - 'generic "W/B # 417R — RUNNING" [ref=e791] [cursor=pointer]': 417R
+      - 'generic "W/B # 416 — RUNNING" [ref=e792] [cursor=pointer]': "416"
+      - 'generic "W/B # 416L — RUNNING" [ref=e793] [cursor=pointer]': 416L
+      - 'generic "W/B # 416R — RUNNING" [ref=e794] [cursor=pointer]': 416R
+      - 'generic "W/B # 415 — RUNNING" [ref=e795] [cursor=pointer]': "415"
+      - 'generic "W/B # 415L — RUNNING" [ref=e796] [cursor=pointer]': 415L
+      - 'generic "W/B # 415R — RUNNING" [ref=e797] [cursor=pointer]': 415R
+      - 'generic "W/B # 414 — RUNNING" [ref=e798] [cursor=pointer]': "414"
+      - 'generic "W/B # 414L — RUNNING" [ref=e799] [cursor=pointer]': 414L
+      - 'generic "W/B # 414R — RUNNING" [ref=e800] [cursor=pointer]': 414R
+      - 'generic "W/B # 413 — RUNNING" [ref=e801] [cursor=pointer]': "413"
+      - 'generic "W/B # 413L — RUNNING" [ref=e802] [cursor=pointer]': 413L
+      - 'generic "W/B # 413R — RUNNING" [ref=e803] [cursor=pointer]': 413R
+      - 'generic "W/B # 412 — RUNNING" [ref=e804] [cursor=pointer]': "412"
+      - 'generic "W/B # 412L — RUNNING" [ref=e805] [cursor=pointer]': 412L
+      - 'generic "W/B # 412R — RUNNING" [ref=e806] [cursor=pointer]': 412R
+      - 'generic "W/B # 411 — RUNNING" [ref=e807] [cursor=pointer]': "411"
+      - 'generic "W/B # 411L — RUNNING" [ref=e808] [cursor=pointer]': 411L
+      - 'generic "W/B # 411R — RUNNING" [ref=e809] [cursor=pointer]': 411R
+      - 'generic "W/B # 410 — RUNNING" [ref=e810] [cursor=pointer]': "410"
+      - 'generic "W/B # 410L — RUNNING" [ref=e811] [cursor=pointer]': 410L
+      - 'generic "W/B # 410R — RUNNING" [ref=e812] [cursor=pointer]': 410R
+      - 'generic "W/B # 409 — RUNNING" [ref=e813] [cursor=pointer]': "409"
+      - 'generic "W/B # 409L — RUNNING" [ref=e814] [cursor=pointer]': 409L
+      - 'generic "W/B # 409R — RUNNING" [ref=e815] [cursor=pointer]': 409R
+      - 'generic "W/B # 408 — RUNNING" [ref=e816] [cursor=pointer]': "408"
+      - 'generic "W/B # 408L — RUNNING" [ref=e817] [cursor=pointer]': 408L
+      - 'generic "W/B # 408R — RUNNING" [ref=e818] [cursor=pointer]': 408R
+      - generic [ref=e819]: LINE9
+    - generic [ref=e820]:
+      - generic [ref=e821]: 3/O+QC Die Attacn
+      - 'generic "W/B # 501 — RUNNING" [ref=e822] [cursor=pointer]': "501"
+      - 'generic "W/B # 501L — RUNNING" [ref=e823] [cursor=pointer]': 501L
+      - 'generic "W/B # 501R — RUNNING" [ref=e824] [cursor=pointer]': 501R
+      - 'generic "W/B # 500 — RUNNING" [ref=e825] [cursor=pointer]': "500"
+      - 'generic "W/B # 500L — RUNNING" [ref=e826] [cursor=pointer]': 500L
+      - 'generic "W/B # 500R — RUNNING" [ref=e827] [cursor=pointer]': 500R
+      - 'generic "W/B # 499 — RUNNING" [ref=e828] [cursor=pointer]': "499"
+      - 'generic "W/B # 499L — RUNNING" [ref=e829] [cursor=pointer]': 499L
+      - 'generic "W/B # 499R — RUNNING" [ref=e830] [cursor=pointer]': 499R
+      - 'generic "W/B # 498 — RUNNING" [ref=e831] [cursor=pointer]': "498"
+      - 'generic "W/B # 498L — RUNNING" [ref=e832] [cursor=pointer]': 498L
+      - 'generic "W/B # 498R — RUNNING" [ref=e833] [cursor=pointer]': 498R
+      - generic [ref=e834]: LINE8
+    - generic [ref=e835]:
+      - generic [ref=e836]: SUPV 3
+      - generic [ref=e837]: QC Wire bond
+      - 'generic "W/B # 497 — RUNNING" [ref=e838] [cursor=pointer]': "497"
+      - 'generic "W/B # 497L — SETUP: Change Cap (Cap Limit) | -509m | B79551" [ref=e839] [cursor=pointer]': 497L
+      - 'generic "W/B # 497R — RUNNING" [ref=e840] [cursor=pointer]': 497R
+      - 'generic "W/B # 496 — RUNNING" [ref=e841] [cursor=pointer]': "496"
+      - 'generic "W/B # 496L — RUNNING" [ref=e842] [cursor=pointer]': 496L
+      - 'generic "W/B # 496R — RUNNING" [ref=e843] [cursor=pointer]': 496R
+      - 'generic "W/B # 495 — RUNNING" [ref=e844] [cursor=pointer]': "495"
+      - 'generic "W/B # 495L — RUNNING" [ref=e845] [cursor=pointer]': 495L
+      - 'generic "W/B # 495R — RUNNING" [ref=e846] [cursor=pointer]': 495R
+      - 'generic "W/B # 494 — RUNNING" [ref=e847] [cursor=pointer]': "494"
+      - 'generic "W/B # 494L — RUNNING" [ref=e848] [cursor=pointer]': 494L
+      - 'generic "W/B # 494R — SETUP: Teach Program (None Automotive),Change Cap,Change Bonding (None Automotive) | -464m | B80196" [ref=e849] [cursor=pointer]': 494R
+      - generic [ref=e850]: LINE7
+    - generic [ref=e851]:
+      - 'generic "W/B # 493 — RUNNING" [ref=e852] [cursor=pointer]': "493"
+      - 'generic "W/B # 493L — RUNNING" [ref=e853] [cursor=pointer]': 493L
+      - 'generic "W/B # 493R — RUNNING" [ref=e854] [cursor=pointer]': 493R
+      - 'generic "W/B # 492 — RUNNING" [ref=e855] [cursor=pointer]': "492"
+      - 'generic "W/B # 492L — M/C DOWN: Crack pad | -492m | B08253" [ref=e856] [cursor=pointer]': 492L
+      - 'generic "W/B # 492R — RUNNING" [ref=e857] [cursor=pointer]': 492R
+      - 'generic "W/B # 491 — RUNNING" [ref=e858] [cursor=pointer]': "491"
+      - 'generic "W/B # 491L — RUNNING" [ref=e859] [cursor=pointer]': 491L
+      - 'generic "W/B # 491R — RUNNING" [ref=e860] [cursor=pointer]': 491R
+      - 'generic "W/B # 490 — RUNNING" [ref=e861] [cursor=pointer]': "490"
+      - 'generic "W/B # 490L — SETUP: Monitoring + Visual inspection Ball-Weld shape on display | -512m | B76033" [ref=e862] [cursor=pointer]': 490L
+      - 'generic "W/B # 490R — RUNNING" [ref=e863] [cursor=pointer]': 490R
+      - 'generic "W/B # 489 — RUNNING" [ref=e864] [cursor=pointer]': "489"
+      - 'generic "W/B # 489L — RUNNING" [ref=e865] [cursor=pointer]': 489L
+      - 'generic "W/B # 489R — RUNNING" [ref=e866] [cursor=pointer]': 489R
+      - 'generic "W/B # 488 — RUNNING" [ref=e867] [cursor=pointer]': "488"
+      - 'generic "W/B # 488L — RUNNING" [ref=e868] [cursor=pointer]': 488L
+      - 'generic "W/B # 488R — RUNNING" [ref=e869] [cursor=pointer]': 488R
+      - 'generic "W/B # 487 — RUNNING" [ref=e870] [cursor=pointer]': "487"
+      - 'generic "W/B # 487L — RUNNING" [ref=e871] [cursor=pointer]': 487L
+      - 'generic "W/B # 487R — RUNNING" [ref=e872] [cursor=pointer]': 487R
+      - 'generic "W/B # 486 — RUNNING" [ref=e873] [cursor=pointer]': "486"
+      - 'generic "W/B # 486L — RUNNING" [ref=e874] [cursor=pointer]': 486L
+      - 'generic "W/B # 486R — RUNNING" [ref=e875] [cursor=pointer]': 486R
+      - 'generic "W/B # 485 — RUNNING" [ref=e876] [cursor=pointer]': "485"
+      - 'generic "W/B # 485L — RUNNING" [ref=e877] [cursor=pointer]': 485L
+      - 'generic "W/B # 485R — RUNNING" [ref=e878] [cursor=pointer]': 485R
+      - 'generic "W/B # 484 — RUNNING" [ref=e879] [cursor=pointer]': "484"
+      - 'generic "W/B # 484L — RUNNING" [ref=e880] [cursor=pointer]': 484L
+      - 'generic "W/B # 484R — RUNNING" [ref=e881] [cursor=pointer]': 484R
+      - generic [ref=e882]: LINE6
+    - generic [ref=e883]:
+      - generic [ref=e884]: MOLD LINE
+      - 'generic "W/B # 483 — RUNNING" [ref=e885] [cursor=pointer]': "483"
+      - 'generic "W/B # 483L — M/C DOWN: NSOL | -504m" [ref=e886] [cursor=pointer]': 483L
+      - 'generic "W/B # 483R — RUNNING" [ref=e887] [cursor=pointer]': 483R
+      - 'generic "W/B # 482 — RUNNING" [ref=e888] [cursor=pointer]': "482"
+      - 'generic "W/B # 482L — RUNNING" [ref=e889] [cursor=pointer]': 482L
+      - 'generic "W/B # 482R — RUNNING" [ref=e890] [cursor=pointer]': 482R
+      - 'generic "W/B # 481 — RUNNING" [ref=e891] [cursor=pointer]': "481"
+      - 'generic "W/B # 481L — RUNNING" [ref=e892] [cursor=pointer]': 481L
+      - 'generic "W/B # 481R — RUNNING" [ref=e893] [cursor=pointer]': 481R
+      - 'generic "W/B # 480 — RUNNING" [ref=e894] [cursor=pointer]': "480"
+      - 'generic "W/B # 480L — RUNNING" [ref=e895] [cursor=pointer]': 480L
+      - 'generic "W/B # 480R — RUNNING" [ref=e896] [cursor=pointer]': 480R
+      - 'generic "W/B # 479 — RUNNING" [ref=e897] [cursor=pointer]': "479"
+      - 'generic "W/B # 479L — RUNNING" [ref=e898] [cursor=pointer]': 479L
+      - 'generic "W/B # 479R — RUNNING" [ref=e899] [cursor=pointer]': 479R
+      - 'generic "W/B # 478 — RUNNING" [ref=e900] [cursor=pointer]': "478"
+      - 'generic "W/B # 478L — RUNNING" [ref=e901] [cursor=pointer]': 478L
+      - 'generic "W/B # 478R — RUNNING" [ref=e902] [cursor=pointer]': 478R
+      - 'generic "W/B # 477 — RUNNING" [ref=e903] [cursor=pointer]': "477"
+      - 'generic "W/B # 477L — RUNNING" [ref=e904] [cursor=pointer]': 477L
+      - 'generic "W/B # 477R — RUNNING" [ref=e905] [cursor=pointer]': 477R
+      - 'generic "W/B # 476 — RUNNING" [ref=e906] [cursor=pointer]': "476"
+      - 'generic "W/B # 476L — RUNNING" [ref=e907] [cursor=pointer]': 476L
+      - 'generic "W/B # 476R — RUNNING" [ref=e908] [cursor=pointer]': 476R
+      - 'generic "W/B # 475 — RUNNING" [ref=e909] [cursor=pointer]': "475"
+      - 'generic "W/B # 475L — RUNNING" [ref=e910] [cursor=pointer]': 475L
+      - 'generic "W/B # 475R — RUNNING" [ref=e911] [cursor=pointer]': 475R
+      - 'generic "W/B # 474 — RUNNING" [ref=e912] [cursor=pointer]': "474"
+      - 'generic "W/B # 474L — RUNNING" [ref=e913] [cursor=pointer]': 474L
+      - 'generic "W/B # 474R — RUNNING" [ref=e914] [cursor=pointer]': 474R
+      - generic [ref=e915]: LINE5
+    - generic [ref=e916]:
+      - 'generic "W/B # 473 — RUNNING" [ref=e917] [cursor=pointer]': "473"
+      - 'generic "W/B # 473L — CONVERT: Convert Package,Teach Program,Change Cap,Urgent+Backlog | -185m | B16092" [ref=e918] [cursor=pointer]': 473L
+      - 'generic "W/B # 473R — RUNNING" [ref=e919] [cursor=pointer]': 473R
+      - 'generic "W/B # 472 — RUNNING" [ref=e920] [cursor=pointer]': "472"
+      - 'generic "W/B # 472L — RUNNING" [ref=e921] [cursor=pointer]': 472L
+      - 'generic "W/B # 472R — RUNNING" [ref=e922] [cursor=pointer]': 472R
+      - 'generic "W/B # 471 — RUNNING" [ref=e923] [cursor=pointer]': "471"
+      - 'generic "W/B # 471L — SETUP: Change Bonding (Automotive),Change Cap | -508m" [ref=e924] [cursor=pointer]': 471L
+      - 'generic "W/B # 471R — RUNNING" [ref=e925] [cursor=pointer]': 471R
+      - 'generic "W/B # 470 — RUNNING" [ref=e926] [cursor=pointer]': "470"
+      - 'generic "W/B # 470L — RUNNING" [ref=e927] [cursor=pointer]': 470L
+      - 'generic "W/B # 470R — RUNNING" [ref=e928] [cursor=pointer]': 470R
+      - 'generic "W/B # 469 — RUNNING" [ref=e929] [cursor=pointer]': "469"
+      - 'generic "W/B # 469L — RUNNING" [ref=e930] [cursor=pointer]': 469L
+      - 'generic "W/B # 469R — RUNNING" [ref=e931] [cursor=pointer]': 469R
+      - 'generic "W/B # 468 — RUNNING" [ref=e932] [cursor=pointer]': "468"
+      - 'generic "W/B # 468L — RUNNING" [ref=e933] [cursor=pointer]': 468L
+      - 'generic "W/B # 468R — RUNNING" [ref=e934] [cursor=pointer]': 468R
+      - 'generic "W/B # 467 — RUNNING" [ref=e935] [cursor=pointer]': "467"
+      - 'generic "W/B # 467L — RUNNING" [ref=e936] [cursor=pointer]': 467L
+      - 'generic "W/B # 467R — RUNNING" [ref=e937] [cursor=pointer]': 467R
+      - 'generic "W/B # 466 — RUNNING" [ref=e938] [cursor=pointer]': "466"
+      - 'generic "W/B # 466L — RUNNING" [ref=e939] [cursor=pointer]': 466L
+      - 'generic "W/B # 466R — RUNNING" [ref=e940] [cursor=pointer]': 466R
+      - 'generic "W/B # 465 — RUNNING" [ref=e941] [cursor=pointer]': "465"
+      - 'generic "W/B # 465L — M/C DOWN: Tail Too Short | -475m | B03934" [ref=e942] [cursor=pointer]': 465L
+      - 'generic "W/B # 465R — RUNNING" [ref=e943] [cursor=pointer]': 465R
+      - 'generic "W/B # 464 — RUNNING" [ref=e944] [cursor=pointer]': "464"
+      - 'generic "W/B # 464L — RUNNING" [ref=e945] [cursor=pointer]': 464L
+      - 'generic "W/B # 464R — RUNNING" [ref=e946] [cursor=pointer]': 464R
+      - generic [ref=e947]: LINE4
+    - generic [ref=e948]:
+      - 'generic "W/B # 463 — RUNNING" [ref=e949] [cursor=pointer]': "463"
+      - 'generic "W/B # 463L — RUNNING" [ref=e950] [cursor=pointer]': 463L
+      - 'generic "W/B # 463R — RUNNING" [ref=e951] [cursor=pointer]': 463R
+      - 'generic "W/B # 462 — RUNNING" [ref=e952] [cursor=pointer]': "462"
+      - 'generic "W/B # 462L — RUNNING" [ref=e953] [cursor=pointer]': 462L
+      - 'generic "W/B # 462R — RUNNING" [ref=e954] [cursor=pointer]': 462R
+      - 'generic "W/B # 461 — RUNNING" [ref=e955] [cursor=pointer]': "461"
+      - 'generic "W/B # 461L — RUNNING" [ref=e956] [cursor=pointer]': 461L
+      - 'generic "W/B # 461R — RUNNING" [ref=e957] [cursor=pointer]': 461R
+      - 'generic "W/B # 460 — RUNNING" [ref=e958] [cursor=pointer]': "460"
+      - 'generic "W/B # 460L — RUNNING" [ref=e959] [cursor=pointer]': 460L
+      - 'generic "W/B # 460R — RUNNING" [ref=e960] [cursor=pointer]': 460R
+      - 'generic "W/B # 459 — RUNNING" [ref=e961] [cursor=pointer]': "459"
+      - 'generic "W/B # 459L — OTHER: Change Cap Automotive | -500m" [ref=e962] [cursor=pointer]': 459L
+      - 'generic "W/B # 459R — RUNNING" [ref=e963] [cursor=pointer]': 459R
+      - 'generic "W/B # 458 — RUNNING" [ref=e964] [cursor=pointer]': "458"
+      - 'generic "W/B # 458L — M/C DOWN: Index Pos. / Index PR Error | -458m | B19835" [ref=e965] [cursor=pointer]': 458L
+      - 'generic "W/B # 458R — M/C DOWN: 2nd Bond Non Stick | -426m | WB0101" [ref=e966] [cursor=pointer]': 458R
+      - 'generic "W/B # 457 — RUNNING" [ref=e967] [cursor=pointer]': "457"
+      - 'generic "W/B # 457L — RUNNING" [ref=e968] [cursor=pointer]': 457L
+      - 'generic "W/B # 457R — RUNNING" [ref=e969] [cursor=pointer]': 457R
+      - 'generic "W/B # 456 — RUNNING" [ref=e970] [cursor=pointer]': "456"
+      - 'generic "W/B # 456L — RUNNING" [ref=e971] [cursor=pointer]': 456L
+      - 'generic "W/B # 456R — RUNNING" [ref=e972] [cursor=pointer]': 456R
+      - 'generic "W/B # 455 — RUNNING" [ref=e973] [cursor=pointer]': "455"
+      - 'generic "W/B # 455L — RUNNING" [ref=e974] [cursor=pointer]': 455L
+      - 'generic "W/B # 455R — OTHER: Change Cap Automotive | -501m" [ref=e975] [cursor=pointer]': 455R
+      - 'generic "W/B # 454 — RUNNING" [ref=e976] [cursor=pointer]': "454"
+      - 'generic "W/B # 454L — RUNNING" [ref=e977] [cursor=pointer]': 454L
+      - 'generic "W/B # 454R — RUNNING" [ref=e978] [cursor=pointer]': 454R
+      - generic [ref=e979]: LINE3
+    - generic [ref=e980]:
+      - 'generic "W/B # 453 — RUNNING" [ref=e981] [cursor=pointer]': "453"
+      - 'generic "W/B # 453L — RUNNING" [ref=e982] [cursor=pointer]': 453L
+      - 'generic "W/B # 453R — RUNNING" [ref=e983] [cursor=pointer]': 453R
+      - 'generic "W/B # 452 — RUNNING" [ref=e984] [cursor=pointer]': "452"
+      - 'generic "W/B # 452L — RUNNING" [ref=e985] [cursor=pointer]': 452L
+      - 'generic "W/B # 452R — RUNNING" [ref=e986] [cursor=pointer]': 452R
+      - 'generic "W/B # 451 — RUNNING" [ref=e987] [cursor=pointer]': "451"
+      - 'generic "W/B # 451L — RUNNING" [ref=e988] [cursor=pointer]': 451L
+      - 'generic "W/B # 451R — M/C DOWN: NSOP | -414m | B72297" [ref=e989] [cursor=pointer]': 451R
+      - 'generic "W/B # 450 — RUNNING" [ref=e990] [cursor=pointer]': "450"
+      - 'generic "W/B # 450L — RUNNING" [ref=e991] [cursor=pointer]': 450L
+      - 'generic "W/B # 450R — RUNNING" [ref=e992] [cursor=pointer]': 450R
+      - 'generic "W/B # 449 — RUNNING" [ref=e993] [cursor=pointer]': "449"
+      - 'generic "W/B # 449L — RUNNING" [ref=e994] [cursor=pointer]': 449L
+      - 'generic "W/B # 449R — RUNNING" [ref=e995] [cursor=pointer]': 449R
+      - 'generic "W/B # 448 — RUNNING" [ref=e996] [cursor=pointer]': "448"
+      - 'generic "W/B # 448L — PM: Monthly PM | -472m | B74331" [ref=e997] [cursor=pointer]': 448L
+      - 'generic "W/B # 448R — PM: Monthly PM | -473m | B74331" [ref=e998] [cursor=pointer]': 448R
+      - 'generic "W/B # 447 — RUNNING" [ref=e999] [cursor=pointer]': "447"
+      - 'generic "W/B # 447L — M/C DOWN: Machine Error | 8h 9m | B14064" [ref=e1000] [cursor=pointer]': 447L
+      - 'generic "W/B # 447R — M/C DOWN: Machine Error | 8h 8m | B14064" [ref=e1001] [cursor=pointer]': 447R
+      - 'generic "W/B # 446 — RUNNING" [ref=e1002] [cursor=pointer]': "446"
+      - 'generic "W/B # 446L — RUNNING" [ref=e1003] [cursor=pointer]': 446L
+      - 'generic "W/B # 446R — RUNNING" [ref=e1004] [cursor=pointer]': 446R
+      - 'generic "W/B # 445 — RUNNING" [ref=e1005] [cursor=pointer]': "445"
+      - 'generic "W/B # 445L — RUNNING" [ref=e1006] [cursor=pointer]': 445L
+      - 'generic "W/B # 445R — SETUP: Change Bonding (Automotive),Change Cap | -477m | B80997" [ref=e1007] [cursor=pointer]': 445R
+      - 'generic "W/B # 444 — RUNNING" [ref=e1008] [cursor=pointer]': "444"
+      - 'generic "W/B # 444L — RUNNING" [ref=e1009] [cursor=pointer]': 444L
+      - 'generic "W/B # 444R — RUNNING" [ref=e1010] [cursor=pointer]': 444R
+      - generic [ref=e1011]: LINE2
+    - generic [ref=e1012]:
+      - 'generic "W/B # 443 — RUNNING" [ref=e1013] [cursor=pointer]': "443"
+      - 'generic "W/B # 443L — RUNNING" [ref=e1014] [cursor=pointer]': 443L
+      - 'generic "W/B # 443R — RUNNING" [ref=e1015] [cursor=pointer]': 443R
+      - 'generic "W/B # 442 — RUNNING" [ref=e1016] [cursor=pointer]': "442"
+      - 'generic "W/B # 442L — RUNNING" [ref=e1017] [cursor=pointer]': 442L
+      - 'generic "W/B # 442R — RUNNING" [ref=e1018] [cursor=pointer]': 442R
+      - 'generic "W/B # 441 — RUNNING" [ref=e1019] [cursor=pointer]': "441"
+      - 'generic "W/B # 441L — RUNNING" [ref=e1020] [cursor=pointer]': 441L
+      - 'generic "W/B # 441R — RUNNING" [ref=e1021] [cursor=pointer]': 441R
+      - 'generic "W/B # 440 — RUNNING" [ref=e1022] [cursor=pointer]': "440"
+      - 'generic "W/B # 440L — RUNNING" [ref=e1023] [cursor=pointer]': 440L
+      - 'generic "W/B # 440R — RUNNING" [ref=e1024] [cursor=pointer]': 440R
+      - 'generic "W/B # 439 — RUNNING" [ref=e1025] [cursor=pointer]': "439"
+      - 'generic "W/B # 439L — RUNNING" [ref=e1026] [cursor=pointer]': 439L
+      - 'generic "W/B # 439R — RUNNING" [ref=e1027] [cursor=pointer]': 439R
+      - 'generic "W/B # 438 — RUNNING" [ref=e1028] [cursor=pointer]': "438"
+      - 'generic "W/B # 438L — RUNNING" [ref=e1029] [cursor=pointer]': 438L
+      - 'generic "W/B # 438R — RUNNING" [ref=e1030] [cursor=pointer]': 438R
+      - 'generic "W/B # 437 — RUNNING" [ref=e1031] [cursor=pointer]': "437"
+      - 'generic "W/B # 437L — RUNNING" [ref=e1032] [cursor=pointer]': 437L
+      - 'generic "W/B # 437R — RUNNING" [ref=e1033] [cursor=pointer]': 437R
+      - 'generic "W/B # 436 — RUNNING" [ref=e1034] [cursor=pointer]': "436"
+      - 'generic "W/B # 436L — RUNNING" [ref=e1035] [cursor=pointer]': 436L
+      - 'generic "W/B # 436R — RUNNING" [ref=e1036] [cursor=pointer]': 436R
+      - 'generic "W/B # 435 — RUNNING" [ref=e1037] [cursor=pointer]': "435"
+      - 'generic "W/B # 435L — RUNNING" [ref=e1038] [cursor=pointer]': 435L
+      - 'generic "W/B # 435R — RUNNING" [ref=e1039] [cursor=pointer]': 435R
+      - 'generic "W/B # 434 — RUNNING" [ref=e1040] [cursor=pointer]': "434"
+      - 'generic "W/B # 434L — RUNNING" [ref=e1041] [cursor=pointer]': 434L
+      - 'generic "W/B # 434R — RUNNING" [ref=e1042] [cursor=pointer]': 434R
+      - generic [ref=e1043]: LINE1

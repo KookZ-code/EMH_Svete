@@ -18,6 +18,9 @@ export default defineConfig({
 			'/testSvelte/api': {
 				target: 'http://127.0.0.1:8002',
 				changeOrigin: true,
+				// Routes with their own +server.ts merge/aggregation logic must reach SvelteKit
+				// instead of being proxied straight to the backend, or that logic never runs in dev.
+				bypass: (req) => /^\/testSvelte\/api\/utilization\/detail(\?|$)/.test(req.url ?? '') ? req.url : undefined,
 				// Strip /testSvelte prefix; add /v1/ only if not already present
 				rewrite: (path) => {
 					const stripped = path.replace(/^\/testSvelte/, '');

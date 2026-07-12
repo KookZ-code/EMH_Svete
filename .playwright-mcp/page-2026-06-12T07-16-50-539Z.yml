@@ -1,0 +1,163 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]: EMH Dashboard
+    - navigation [ref=e7]:
+      - link "🏭 Overview" [ref=e8] [cursor=pointer]:
+        - /url: ./
+        - generic [ref=e9]: 🏭
+        - generic [ref=e10]: Overview
+      - link "📺 Live Board" [ref=e11] [cursor=pointer]:
+        - /url: ./live
+        - generic [ref=e12]: 📺
+        - generic [ref=e13]: Live Board
+      - link "📊 Utilization" [ref=e14] [cursor=pointer]:
+        - /url: ./utilization
+        - generic [ref=e15]: 📊
+        - generic [ref=e16]: Utilization
+      - link "📉 Downtime" [ref=e17] [cursor=pointer]:
+        - /url: ./downtime
+        - generic [ref=e18]: 📉
+        - generic [ref=e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=e20] [cursor=pointer]:
+        - /url: ./machine-detail
+        - generic [ref=e21]: 🖥️
+        - generic [ref=e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=e23] [cursor=pointer]:
+        - /url: ./timeline
+        - generic [ref=e24]: 👷
+        - generic [ref=e25]: Tech Performance
+      - link "📦 Inventory" [ref=e26] [cursor=pointer]:
+        - /url: ./inventory
+        - generic [ref=e27]: 📦
+        - generic [ref=e28]: Inventory
+      - link "📋 WB Report" [ref=e29] [cursor=pointer]:
+        - /url: ./wb-report
+        - generic [ref=e30]: 📋
+        - generic [ref=e31]: WB Report
+      - link "🔬 DA Report" [ref=e32] [cursor=pointer]:
+        - /url: ./da-report
+        - generic [ref=e33]: 🔬
+        - generic [ref=e34]: DA Report
+      - link "🏪 Store Items" [ref=e35] [cursor=pointer]:
+        - /url: ./store-items
+        - generic [ref=e36]: 🏪
+        - generic [ref=e37]: Store Items
+      - link "⚙️ Admin" [ref=e38] [cursor=pointer]:
+        - /url: ./admin
+        - generic [ref=e39]: ⚙️
+        - generic [ref=e40]: Admin
+    - button "«" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - banner [ref=e43]:
+      - generic [ref=e44]:
+        - button "🌙" [ref=e45] [cursor=pointer]
+        - link "⚙️" [ref=e46] [cursor=pointer]:
+          - /url: /admin
+    - main [ref=e47]:
+      - generic [ref=e49]:
+        - heading "Machine Inventory" [level=1] [ref=e50]
+        - paragraph [ref=e51]: Equipment master list · 7-day downtime · Health status
+      - generic [ref=e52]:
+        - generic [ref=e53]: Area
+        - button "All" [ref=e54] [cursor=pointer]
+        - button "None" [ref=e55] [cursor=pointer]
+        - button "BG" [ref=e56] [cursor=pointer]
+        - button "SAW" [ref=e57] [cursor=pointer]
+        - button "DA" [ref=e58] [cursor=pointer]
+        - button "WB" [ref=e59] [cursor=pointer]
+        - button "MOLD" [ref=e60] [cursor=pointer]
+        - button "PLATE" [ref=e61] [cursor=pointer]
+        - button "MARK" [ref=e62] [cursor=pointer]
+        - button "SAW_QFN" [ref=e63] [cursor=pointer]
+        - button "TF" [ref=e64] [cursor=pointer]
+        - button "ISO" [ref=e65] [cursor=pointer]
+        - button "FS" [ref=e66] [cursor=pointer]
+        - button "KEY" [ref=e68] [cursor=pointer]
+        - button "Auto" [ref=e69] [cursor=pointer]
+        - button "Gold" [ref=e70] [cursor=pointer]
+      - generic [ref=e71]:
+        - img [ref=e72]
+        - searchbox "Search machine ID, description, model, manufacturer…" [ref=e74]
+        - generic [ref=e75]: … machines
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - generic [ref=e78]: …
+          - generic [ref=e79]: Total Machines
+        - generic [ref=e80]:
+          - generic [ref=e81]: …
+          - generic [ref=e82]: KEY Machines
+        - generic [ref=e83]:
+          - generic [ref=e84]: …
+          - generic [ref=e85]: Areas
+        - generic [ref=e86]:
+          - generic [ref=e87]: …
+          - generic [ref=e88]: Models
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - text: Machines by Area
+            - generic [ref=e92]: click to filter
+          - generic [ref=e94]: Loading…
+        - generic [ref=e96]:
+          - generic [ref=e97]:
+            - text: Equipment Health Map
+            - generic [ref=e98]:
+              - text: Healthy
+              - text: Monitor
+              - text: Warning
+              - text: Critical
+          - generic [ref=e104]: Loading…
+      - generic [ref=e106]:
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - text: Top 15 Models
+            - generic [ref=e109]: click to filter
+          - generic [ref=e111]: Loading…
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - text: By Manufacturer
+            - generic [ref=e115]: click to filter
+          - generic [ref=e117]: Loading…
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - text: Machine Age Distribution by Area (Lifecycle)
+          - generic [ref=e121]: click area to filter
+        - generic [ref=e123]: Loading…
+      - generic [ref=e125]:
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: Model
+            - generic [ref=e130]: All models
+            - combobox [ref=e131]:
+              - option "+ Add model…" [selected]
+          - generic [ref=e132]:
+            - generic [ref=e133]: Mfr.
+            - generic [ref=e135]: All manufacturers
+            - combobox [ref=e136]:
+              - option "+ Add mfr…" [selected]
+          - button "↓ CSV" [disabled] [ref=e138] [cursor=pointer]
+        - generic [ref=e140]:
+          - button "Machines (0)" [ref=e141] [cursor=pointer]
+          - button "Models (0)" [ref=e142] [cursor=pointer]
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - searchbox "Search…" [ref=e146]
+            - generic [ref=e147]: 0 records
+          - table [ref=e149]:
+            - rowgroup [ref=e150]:
+              - row "Machine ↕ Description ↕ Area ↕ Model ↕ Mfr. ↕ Year ↕ Age Flags 7d Down ↕ Events ↕ MTTR ↕ Health ↕" [ref=e151]:
+                - columnheader "Machine ↕" [ref=e152] [cursor=pointer]
+                - columnheader "Description ↕" [ref=e153] [cursor=pointer]
+                - columnheader "Area ↕" [ref=e154] [cursor=pointer]
+                - columnheader "Model ↕" [ref=e155] [cursor=pointer]
+                - columnheader "Mfr. ↕" [ref=e156] [cursor=pointer]
+                - columnheader "Year ↕" [ref=e157] [cursor=pointer]
+                - columnheader "Age" [ref=e158]
+                - columnheader "Flags" [ref=e159]
+                - columnheader "7d Down ↕" [ref=e160] [cursor=pointer]
+                - columnheader "Events ↕" [ref=e161] [cursor=pointer]
+                - columnheader "MTTR ↕" [ref=e162] [cursor=pointer]
+                - columnheader "Health ↕" [ref=e163] [cursor=pointer]
+            - rowgroup [ref=e164]:
+              - row "No data" [ref=e165]:
+                - cell "No data" [ref=e166]

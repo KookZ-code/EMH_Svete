@@ -1,0 +1,18 @@
+- generic [ref=f2e4]:
+  - generic [ref=f2e5]:
+    - generic [ref=f2e6]: ⚡
+    - heading "EMH Dashboard" [level=1] [ref=f2e7]
+    - paragraph [ref=f2e8]: Equipment Maintenance & Health
+  - generic [ref=f2e9]:
+    - generic [ref=f2e10]:
+      - generic [ref=f2e11]: Username
+      - textbox "Username" [ref=f2e12]:
+        - /placeholder: Enter your username
+        - text: guest
+    - generic [ref=f2e13]:
+      - generic [ref=f2e14]: Password
+      - textbox "Password" [ref=f2e15]:
+        - /placeholder: ••••••••
+        - text: "123456"
+    - button "Login" [ref=f2e16] [cursor=pointer]
+  - paragraph [ref=f2e17]: EMH v2.0 · Microchip Technology

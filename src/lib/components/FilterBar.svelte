@@ -12,6 +12,7 @@
     showAreaFilter?: boolean;
     showShiftFilter?: boolean;
     showDateFilter?: boolean;
+    shiftVariant?: 'chips' | 'dropdown';
     onFilter?: (f: {
       start: string;
       end: string;
@@ -28,6 +29,7 @@
     showAreaFilter = true,
     showShiftFilter = true,
     showDateFilter = true,
+    shiftVariant = 'chips',
     onFilter,
   }: Props = $props();
 
@@ -88,14 +90,28 @@
 
   {#if showShiftFilter}
     <div class="fb-group">
-      <span class="label">Shift</span>
-      <div class="shift-chips">
-        {#each (['all','day','night'] as const) as s (s)}
-          <button class="chip" class:active={localShift === s} onclick={() => (localShift = s)}>
-            {s === 'all' ? 'All' : s === 'day' ? '☀️ Day' : '🌙 Night'}
-          </button>
-        {/each}
-      </div>
+      <label class="label" for="fb-shift">Shift</label>
+      {#if shiftVariant === 'dropdown'}
+        <select id="fb-shift" class="input fb-shift-select" bind:value={localShift}>
+          <option value="all">All Shifts</option>
+          <option value="day">☀️ Day</option>
+          <option value="night">🌙 Night</option>
+        </select>
+      {:else}
+        <div class="shift-chips">
+          {#each (['all','day','night'] as const) as s (s)}
+            <button class="chip" class:active={localShift === s} onclick={() => (localShift = s)}>
+              {#if s === 'all'}
+                All
+              {:else if s === 'day'}
+                <span role="img" aria-label="Day">☀️</span> Day
+              {:else}
+                <span role="img" aria-label="Night">🌙</span> Night
+              {/if}
+            </button>
+          {/each}
+        </div>
+      {/if}
     </div>
   {/if}
 
@@ -129,6 +145,7 @@
 
   .area-chips { display: flex; flex-wrap: wrap; gap: 4px; }
   .shift-chips { display: flex; gap: 4px; }
+  .fb-shift-select { width: 140px; }
 
   .fb-actions { display: flex; align-items: flex-end; }
 </style>

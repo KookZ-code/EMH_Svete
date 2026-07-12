@@ -1,0 +1,196 @@
+- generic [active] [ref=f8e1]:
+  - generic [ref=f8e3]:
+    - complementary [ref=f8e4]:
+      - generic [ref=f8e6]: EMH Dashboard
+      - navigation [ref=f8e7]:
+        - link "🏭 Overview" [ref=f8e8] [cursor=pointer]:
+          - /url: /testSvelte/
+          - generic [ref=f8e9]: 🏭
+          - generic [ref=f8e10]: Overview
+        - link "📺 Live Board" [ref=f8e11] [cursor=pointer]:
+          - /url: /testSvelte/live
+          - generic [ref=f8e12]: 📺
+          - generic [ref=f8e13]: Live Board
+        - link "📊 Utilization" [ref=f8e14] [cursor=pointer]:
+          - /url: /testSvelte/utilization
+          - generic [ref=f8e15]: 📊
+          - generic [ref=f8e16]: Utilization
+        - link "📉 Downtime" [ref=f8e17] [cursor=pointer]:
+          - /url: /testSvelte/downtime
+          - generic [ref=f8e18]: 📉
+          - generic [ref=f8e19]: Downtime
+        - link "🖥️ Machine Detail" [ref=f8e20] [cursor=pointer]:
+          - /url: /testSvelte/machine-detail
+          - generic [ref=f8e21]: 🖥️
+          - generic [ref=f8e22]: Machine Detail
+        - link "👷 Tech Performance" [ref=f8e23] [cursor=pointer]:
+          - /url: /testSvelte/timeline
+          - generic [ref=f8e24]: 👷
+          - generic [ref=f8e25]: Tech Performance
+        - link "📦 Inventory" [ref=f8e26] [cursor=pointer]:
+          - /url: /testSvelte/inventory
+          - generic [ref=f8e27]: 📦
+          - generic [ref=f8e28]: Inventory
+        - link "📋 WB Report" [ref=f8e29] [cursor=pointer]:
+          - /url: /testSvelte/wb-report
+          - generic [ref=f8e30]: 📋
+          - generic [ref=f8e31]: WB Report
+        - link "🔬 DA Report" [ref=f8e32] [cursor=pointer]:
+          - /url: /testSvelte/da-report
+          - generic [ref=f8e33]: 🔬
+          - generic [ref=f8e34]: DA Report
+        - link "🏪 Store Items" [ref=f8e35] [cursor=pointer]:
+          - /url: /testSvelte/store-items
+          - generic [ref=f8e36]: 🏪
+          - generic [ref=f8e37]: Store Items
+        - link "⚙️ Admin" [ref=f8e38] [cursor=pointer]:
+          - /url: /testSvelte/admin
+          - generic [ref=f8e39]: ⚙️
+          - generic [ref=f8e40]: Admin
+      - button "«" [ref=f8e41] [cursor=pointer]
+    - generic [ref=f8e42]:
+      - banner [ref=f8e43]:
+        - generic [ref=f8e44]:
+          - generic [ref=f8e45]:
+            - generic [ref=f8e46]: Administrator
+            - generic [ref=f8e47]: Admin
+          - button "🌙" [ref=f8e48] [cursor=pointer]
+          - link "⚙️" [ref=f8e49] [cursor=pointer]:
+            - /url: /testSvelte/admin
+          - button "🚪" [ref=f8e51] [cursor=pointer]
+      - main [ref=f8e52]:
+        - generic [ref=f8e53]:
+          - generic [ref=f8e54]:
+            - heading "Utilization Analysis" [level=1] [ref=f8e55]
+            - paragraph [ref=f8e56]: Equipment effectiveness · Downtime · Lost Time breakdown
+          - generic [ref=f8e185]: Updated 23:06
+        - generic [ref=f8e57]:
+          - generic [ref=f8e58]:
+            - generic [ref=f8e59]: Start
+            - textbox "Start" [ref=f8e60]: 2025-07-08
+          - generic [ref=f8e61]:
+            - generic [ref=f8e62]: End
+            - textbox "End" [ref=f8e63]: 2026-07-08
+          - generic [ref=f8e64]:
+            - generic [ref=f8e65]:
+              - generic [ref=f8e66]: Area
+              - button "All" [ref=f8e67] [cursor=pointer]
+              - button "None" [ref=f8e68] [cursor=pointer]
+            - generic [ref=f8e69]:
+              - button "BG" [ref=f8e70] [cursor=pointer]
+              - button "SAW" [ref=f8e71] [cursor=pointer]
+              - button "DA" [ref=f8e72] [cursor=pointer]
+              - button "WB" [ref=f8e73] [cursor=pointer]
+              - button "MOLD" [ref=f8e74] [cursor=pointer]
+              - button "PLATE" [ref=f8e75] [cursor=pointer]
+              - button "MARK" [ref=f8e76] [cursor=pointer]
+              - button "SAW_QFN" [ref=f8e77] [cursor=pointer]
+              - button "TF" [ref=f8e78] [cursor=pointer]
+              - button "ISO" [ref=f8e79] [cursor=pointer]
+              - button "FS" [ref=f8e80] [cursor=pointer]
+          - generic [ref=f8e81]:
+            - generic [ref=f8e82]: Shift
+            - combobox "Shift" [ref=f8e83]:
+              - option "All Shifts" [selected]
+              - option "☀️ Day"
+              - option "🌙 Night"
+          - button "Apply" [ref=f8e85] [cursor=pointer]
+        - generic [ref=f8e87]:
+          - generic [ref=f8e88]:
+            - generic [ref=f8e89]:
+              - generic [ref=f8e90]: ⚙
+              - generic [ref=f8e91]: Percent Utilization
+            - generic [ref=f8e92]: 92.5%
+            - generic [ref=f8e93]: 100% − Down − PM − Lost
+          - generic [ref=f8e94]:
+            - generic [ref=f8e95]:
+              - generic [ref=f8e96]: ⛔
+              - generic [ref=f8e97]: Percent Downtime
+            - generic [ref=f8e98]: 1.1%
+            - generic [ref=f8e99]: M/C DOWN only
+          - generic [ref=f8e100]:
+            - generic [ref=f8e101]:
+              - generic [ref=f8e102]: 🔧
+              - generic [ref=f8e103]: Percent Downtime PM
+            - generic [ref=f8e104]: 0.3%
+            - generic [ref=f8e105]: Planned maintenance
+          - generic [ref=f8e106]:
+            - generic [ref=f8e107]:
+              - generic [ref=f8e108]: ⏱
+              - generic [ref=f8e109]: Percent Lost Time
+            - generic [ref=f8e110]: 6.1%
+            - generic [ref=f8e111]: Setup · Wait · Convert
+        - generic [ref=f8e112]:
+          - generic [ref=f8e114]:
+            - text: Time Composition by Month
+            - generic [ref=f8e115]: Click bar to filter
+          - generic [ref=f8e119]:
+            - text: Utilization by Area
+            - generic [ref=f8e120]: Current Period
+        - generic [ref=f8e123]:
+          - generic [ref=f8e125]:
+            - text: Top 5 Downtime Symptoms
+            - generic [ref=f8e126]: M/C DOWN
+          - generic [ref=f8e130]:
+            - text: Top 5 Lost Time Causes
+            - generic [ref=f8e131]: Setup · Wait
+        - generic [ref=f8e134]:
+          - generic [ref=f8e135]:
+            - generic [ref=f8e136]:
+              - text: Top 10 Machines Needing Attention
+              - generic [ref=f8e137]: Action List
+            - generic [ref=f8e138]:
+              - generic [ref=f8e139]:
+                - searchbox "Search…" [ref=f8e140]
+                - generic [ref=f8e141]: 0 records
+              - table [ref=f8e143]:
+                - rowgroup [ref=f8e144]:
+                  - row "Rank Machine ↕ Area ↕ Down Hrs ↕ Events ↕ Avg MTTR ↕ Score ↕" [ref=f8e145]:
+                    - columnheader "Rank" [ref=f8e146]
+                    - button "Machine ↕" [ref=f8e147] [cursor=pointer]
+                    - button "Area ↕" [ref=f8e148] [cursor=pointer]
+                    - button "Down Hrs ↕" [ref=f8e149] [cursor=pointer]
+                    - button "Events ↕" [ref=f8e150] [cursor=pointer]
+                    - button "Avg MTTR ↕" [ref=f8e151] [cursor=pointer]
+                    - button "Score ↕" [ref=f8e152] [cursor=pointer]
+                - rowgroup [ref=f8e153]:
+                  - row "No data" [ref=f8e154]:
+                    - cell "No data" [ref=f8e155]
+          - generic [ref=f8e157]:
+            - text: "Downtime: Frequency vs Duration"
+            - generic [ref=f8e158]: Per Machine
+        - generic [ref=f8e161]:
+          - generic [ref=f8e162]:
+            - generic [ref=f8e163]: Machine Breakdown — Sorted by Utilization (Lowest First)
+            - generic [ref=f8e164]:
+              - generic [ref=f8e165]: Top 0
+              - button "↓ CSV" [disabled] [ref=f8e166] [cursor=pointer]
+          - generic [ref=f8e167]:
+            - generic [ref=f8e168]:
+              - searchbox "Search…" [ref=f8e169]
+              - generic [ref=f8e170]: 0 records
+            - table [ref=f8e172]:
+              - rowgroup [ref=f8e173]:
+                - row "Machine ↕ Area ↕ Util % ↕ Downtime % ↕ PM % ↕ Lost Time % ↕" [ref=f8e174]:
+                  - button "Machine ↕" [ref=f8e175] [cursor=pointer]
+                  - button "Area ↕" [ref=f8e176] [cursor=pointer]
+                  - button "Util % ↕" [ref=f8e177] [cursor=pointer]
+                  - button "Downtime % ↕" [ref=f8e178] [cursor=pointer]
+                  - button "PM % ↕" [ref=f8e179] [cursor=pointer]
+                  - button "Lost Time % ↕" [ref=f8e180] [cursor=pointer]
+              - rowgroup [ref=f8e181]:
+                - row "No data" [ref=f8e182]:
+                  - cell "No data" [ref=f8e183]
+  - generic [ref=f8e199]:
+    - generic [ref=f8e200]: D:/claude/svelte_EMH/frontend/src/routes/utilization/+page.svelte:182:8 Identifier 'scatterWithDur' has already been declared https://svelte.dev/e/js_parse_error
+    - generic [ref=f8e201]: D:/claude/svelte_EMH/frontend/src/routes/utilization/+page.svelte:182:8
+    - generic [ref=f8e202]: "180 | 181 | // Scatter: join scatterData with machine_rows to derive avg down duration per event 182 | const scatterWithDur = $derived( ^ 183 | scatterData.map(s => { 184 | const m = machines.find(r => r.code_machine === s.code_machine);"
+    - generic [ref=f8e203]:
+      - text: Click outside, press Esc key, or fix the code to dismiss.
+      - text: You can also disable this overlay by setting
+      - code [ref=f8e204]: server.hmr.overlay
+      - text: to
+      - code [ref=f8e205]: "false"
+      - text: in
+      - code [ref=f8e206]: vite.config.ts
+      - text: .

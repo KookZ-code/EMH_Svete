@@ -1,0 +1,790 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e5]:
+    - generic [ref=f7e6]:
+      - generic [ref=f7e7]:
+        - generic [ref=f7e8]: EMH
+        - generic [ref=f7e9]:
+          - generic [ref=f7e10]: EMH
+          - generic [ref=f7e11]: Equipment Maintenance Hub
+          - generic [ref=f7e12]: v1.3.0
+        - button "≡" [ref=f7e13] [cursor=pointer]
+      - generic [ref=f7e14]:
+        - link "⊞ Overview" [ref=f7e15] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f7e16]: ⊞
+          - generic [ref=f7e17]: Overview
+        - link "◈ Live Board" [ref=f7e18] [cursor=pointer]:
+          - /url: /live
+          - generic [ref=f7e19]: ◈
+          - generic [ref=f7e20]: Live Board
+        - link "◎ Utilization" [ref=f7e21] [cursor=pointer]:
+          - /url: /utilization
+          - generic [ref=f7e22]: ◎
+          - generic [ref=f7e23]: Utilization
+        - link "◑ WB Report" [ref=f7e24] [cursor=pointer]:
+          - /url: /wb-report
+          - generic [ref=f7e25]: ◑
+          - generic [ref=f7e26]: WB Report
+        - link "⚙ Downtime & Setup" [ref=f7e27] [cursor=pointer]:
+          - /url: /downtime
+          - generic [ref=f7e28]: ⚙
+          - generic [ref=f7e29]: Downtime & Setup
+        - link "▣ Machine Detail" [ref=f7e30] [cursor=pointer]:
+          - /url: /machine-detail
+          - generic [ref=f7e31]: ▣
+          - generic [ref=f7e32]: Machine Detail
+        - link "▦ Inventory" [ref=f7e33] [cursor=pointer]:
+          - /url: /inventory
+          - generic [ref=f7e34]: ▦
+          - generic [ref=f7e35]: Inventory
+      - generic [ref=f7e36]:
+        - generic [ref=f7e37]: Guest (viewer)
+        - button "🌙 Dark Mode" [ref=f7e38] [cursor=pointer]:
+          - generic [ref=f7e39]: 🌙
+          - generic [ref=f7e40]: Dark Mode
+        - link "🔑 Login" [ref=f7e41] [cursor=pointer]:
+          - /url: /login
+          - generic [ref=f7e42]: 🔑
+          - generic [ref=f7e43]: Login
+    - generic [ref=f7e44]:
+      - generic [ref=f7e47]:
+        - generic [ref=f7e48]:
+          - generic [ref=f7e50]: Machine Utilization Analysis
+          - generic [ref=f7e51]: "Last updated: 22:35:27"
+        - generic [ref=f7e52]:
+          - generic [ref=f7e53]:
+            - generic [ref=f7e54]:
+              - generic [ref=f7e55]: Date Range
+              - generic [ref=f7e59]:
+                - generic [ref=f7e60]:
+                  - textbox "Start Date" [ref=f7e61]: 2025-07-08
+                  - paragraph [ref=f7e62]: Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+                - img [ref=f7e64]
+                - generic [ref=f7e66]:
+                  - textbox "End Date" [ref=f7e67]: 2026-07-08
+                  - paragraph [ref=f7e68]: Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            - generic [ref=f7e69]:
+              - generic [ref=f7e70]: Shift
+              - generic [ref=f7e74]:
+                - generic [ref=f7e75]: All Shifts
+                - combobox [ref=f7e77]
+          - separator [ref=f7e80]
+          - generic [ref=f7e81]:
+            - generic [ref=f7e82]: AREA
+            - generic [ref=f7e83]:
+              - generic [ref=f7e85] [cursor=pointer]: BG
+              - generic [ref=f7e87] [cursor=pointer]: SAW
+              - generic [ref=f7e89] [cursor=pointer]: DA
+              - generic [ref=f7e91] [cursor=pointer]: WB
+              - generic [ref=f7e93] [cursor=pointer]: MOLD
+              - generic [ref=f7e95] [cursor=pointer]: PLATE
+              - generic [ref=f7e97] [cursor=pointer]: MARK
+              - generic [ref=f7e99] [cursor=pointer]: TF
+              - generic [ref=f7e101] [cursor=pointer]: ISO
+              - generic [ref=f7e103] [cursor=pointer]: FS
+              - generic [ref=f7e105] [cursor=pointer]: SAW_QFN
+        - generic [ref=f7e106]:
+          - generic [ref=f7e110]:
+            - generic [ref=f7e111]:
+              - generic [ref=f7e112]: ⚙
+              - generic [ref=f7e113]: Percent Utilization
+            - generic [ref=f7e114]: 92.42%
+            - generic [ref=f7e115]: 100% − Down − PM − Lost
+            - generic [ref=f7e116]: ▲ +0.2% vs prev period
+          - generic [ref=f7e120]:
+            - generic [ref=f7e121]:
+              - generic [ref=f7e122]: ⛔
+              - generic [ref=f7e123]: Percent Downtime
+            - generic [ref=f7e124]: 1.17%
+            - generic [ref=f7e125]: M/C DOWN only
+            - generic [ref=f7e126]: ▲ +0.3% vs prev period
+          - generic [ref=f7e130]:
+            - generic [ref=f7e131]:
+              - generic [ref=f7e132]: 🔧
+              - generic [ref=f7e133]: Percent Downtime PM
+            - generic [ref=f7e134]: 0.34%
+            - generic [ref=f7e135]: Planned maintenance
+            - generic [ref=f7e136]: ▲ +0.1% vs prev period
+          - generic [ref=f7e140]:
+            - generic [ref=f7e141]:
+              - generic [ref=f7e142]: ⏱
+              - generic [ref=f7e143]: Percent Lost Time
+            - generic [ref=f7e144]: 6.07%
+            - generic [ref=f7e145]: Setup · Wait · Convert
+            - generic [ref=f7e146]: ▼ -0.6% vs prev period
+        - generic [ref=f7e147]:
+          - generic [ref=f7e149]:
+            - generic [ref=f7e150]:
+              - generic [ref=f7e151]: Time Composition by Month
+              - generic [ref=f7e152]: Click bar to filter
+            - generic [ref=f7e156]:
+              - img:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: 95.41%
+                              - generic:
+                                - generic: 93.62%
+                              - generic:
+                                - generic: 92.79%
+                              - generic:
+                                - generic: 93.05%
+                              - generic:
+                                - generic: 91.82%
+                              - generic:
+                                - generic: 93.42%
+                              - generic:
+                                - generic: 93.01%
+                              - generic:
+                                - generic: 92.78%
+                              - generic:
+                                - generic: 92.46%
+                              - generic:
+                                - generic: 92.15%
+                              - generic:
+                                - generic: 90.67%
+                              - generic:
+                                - generic: 89.90%
+                              - generic:
+                                - generic: 97.66%
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: 5.00%
+                              - generic:
+                                - generic: 5.74%
+                              - generic:
+                                - generic: 5.54%
+                              - generic:
+                                - generic: 6.76%
+                              - generic:
+                                - generic: 5.38%
+                              - generic:
+                                - generic: 5.66%
+                              - generic:
+                                - generic: 5.74%
+                              - generic:
+                                - generic: 6.04%
+                              - generic:
+                                - generic: 6.34%
+                              - generic:
+                                - generic: 7.53%
+                              - generic:
+                                - generic: 8.01%
+                    - generic:
+                      - generic:
+                        - generic: Jul 2025
+                      - generic:
+                        - generic: Sep 2025
+                      - generic:
+                        - generic: Nov 2025
+                      - generic:
+                        - generic: Jan 2026
+                      - generic:
+                        - generic: Mar 2026
+                      - generic:
+                        - generic: May 2026
+                      - generic:
+                        - generic: Jul 2026
+                    - generic:
+                      - generic:
+                        - generic: "0"
+                      - generic:
+                        - generic: "20"
+                      - generic:
+                        - generic: "40"
+                      - generic:
+                        - generic: "60"
+                      - generic:
+                        - generic: "80"
+                      - generic:
+                        - generic: "100"
+              - img:
+                - generic:
+                  - generic [ref=f7e173]:
+                    - generic [ref=f7e175]: Lost Time
+                    - generic [ref=f7e182]: PM
+                    - generic [ref=f7e189]: Downtime
+                    - generic [ref=f7e196]: Utilization
+                  - generic:
+                    - generic: "%"
+              - img
+          - generic [ref=f7e203]:
+            - generic [ref=f7e204]:
+              - generic [ref=f7e205]: Utilization by Area
+              - generic [ref=f7e206]: Current Period
+            - generic [ref=f7e210]:
+              - img:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: 76.74%
+                              - generic:
+                                - generic: 77.19%
+                              - generic:
+                                - generic: 79.58%
+                              - generic:
+                                - generic: 93.04%
+                              - generic:
+                                - generic: 93.11%
+                              - generic:
+                                - generic: 93.99%
+                              - generic:
+                                - generic: 94.37%
+                              - generic:
+                                - generic: 94.77%
+                              - generic:
+                                - generic: 94.80%
+                              - generic:
+                                - generic: 95.65%
+                              - generic:
+                                - generic: 95.81%
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 80%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                              - generic:
+                                - generic: 85%
+                    - generic:
+                      - generic:
+                        - generic: 0%
+                      - generic:
+                        - generic: 20%
+                      - generic:
+                        - generic: 40%
+                      - generic:
+                        - generic: 60%
+                      - generic:
+                        - generic: 80%
+                      - generic:
+                        - generic: 100%
+                      - generic:
+                        - generic: 120%
+                    - generic:
+                      - generic:
+                        - generic: BG
+                      - generic:
+                        - generic: PLATE
+                      - generic:
+                        - generic: DA
+                      - generic:
+                        - generic: SAW
+                      - generic:
+                        - generic: MARK
+                      - generic:
+                        - generic: WB
+                      - generic:
+                        - generic: MOLD
+                      - generic:
+                        - generic: FS
+                      - generic:
+                        - generic: ISO
+                      - generic:
+                        - generic: SAW_QFN
+                      - generic:
+                        - generic: TF
+              - img:
+                - generic [ref=f7e227]:
+                  - generic [ref=f7e229]: Utilization
+                  - generic [ref=f7e236]: Target
+              - img
+        - generic [ref=f7e242]:
+          - generic [ref=f7e244]:
+            - generic [ref=f7e245]:
+              - generic [ref=f7e246]: Top 5 Downtime Symptoms
+              - generic [ref=f7e247]: M/C DOWN
+            - generic [ref=f7e251]:
+              - img:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: 11.27%
+                              - generic:
+                                - generic: 11.90%
+                              - generic:
+                                - generic: 14.99%
+                              - generic:
+                                - generic: 16.84%
+                              - generic:
+                                - generic: 45.01%
+                    - generic:
+                      - generic:
+                        - generic: 0%
+                      - generic:
+                        - generic: 10%
+                      - generic:
+                        - generic: 20%
+                      - generic:
+                        - generic: 30%
+                      - generic:
+                        - generic: 40%
+                      - generic:
+                        - generic: 50%
+                    - generic:
+                      - generic:
+                        - generic: Die placement
+                      - generic:
+                        - generic: NSOL
+                      - generic:
+                        - generic: Machine Error
+                      - generic:
+                        - generic: Tail Too Short
+                      - generic:
+                        - generic: NSOP
+              - img
+              - img
+          - generic [ref=f7e266]:
+            - generic [ref=f7e267]:
+              - generic [ref=f7e268]: Top 5 Lost Time Causes
+              - generic [ref=f7e269]: Setup · Wait
+            - generic [ref=f7e273]:
+              - img:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: 12.55%
+                              - generic:
+                                - generic: 13.72%
+                              - generic:
+                                - generic: 16.30%
+                              - generic:
+                                - generic: 26.25%
+                              - generic:
+                                - generic: 31.19%
+                    - generic:
+                      - generic:
+                        - generic: 0%
+                      - generic:
+                        - generic: 10%
+                      - generic:
+                        - generic: 20%
+                      - generic:
+                        - generic: 30%
+                    - generic:
+                      - generic:
+                        - generic: Set D/V
+                      - generic:
+                        - generic: Set Up
+                      - generic:
+                        - generic: Change lot
+                      - generic:
+                        - generic: Monitoring + Visual inspection Ball-Weld shape on display
+                      - generic:
+                        - generic: Idle
+              - img
+              - img
+        - generic [ref=f7e287]:
+          - generic [ref=f7e289]:
+            - generic [ref=f7e290]:
+              - generic [ref=f7e291]: Top 10 Machines Needing Attention
+              - generic [ref=f7e292]: Action List
+            - table [ref=f7e297]:
+              - rowgroup [ref=f7e298]:
+                - row "Rank Machine Area Down Hrs Events Avg MTTR Score" [ref=f7e299]:
+                  - columnheader "Rank" [ref=f7e300]
+                  - columnheader "Machine" [ref=f7e301]
+                  - columnheader "Area" [ref=f7e302]
+                  - columnheader "Down Hrs" [ref=f7e303]
+                  - columnheader "Events" [ref=f7e304]
+                  - columnheader "Avg MTTR" [ref=f7e305]
+                  - columnheader "Score" [ref=f7e306]
+              - rowgroup [ref=f7e307]:
+                - row "#1 SIN#027 FS 655.1 h 754 52 m 2069.4" [ref=f7e308]:
+                  - cell "#1" [ref=f7e309]
+                  - cell "SIN#027" [ref=f7e310]
+                  - cell "FS" [ref=f7e311]
+                  - cell "655.1 h" [ref=f7e312]
+                  - cell "754" [ref=f7e313]
+                  - cell "52 m" [ref=f7e314]
+                  - cell "2069.4" [ref=f7e315]
+                - 'row "#2 D/B # 080 DA 466.8 h 836 33 m 1772.8" [ref=f7e316]':
+                  - cell "#2" [ref=f7e317]
+                  - 'cell "D/B # 080" [ref=f7e318]'
+                  - cell "DA" [ref=f7e319]
+                  - cell "466.8 h" [ref=f7e320]
+                  - cell "836" [ref=f7e321]
+                  - cell "33 m" [ref=f7e322]
+                  - cell "1772.8" [ref=f7e323]
+                - 'row "#3 D/B # 066 DA 433.2 h 821 31 m 1690.5" [ref=f7e324]':
+                  - cell "#3" [ref=f7e325]
+                  - 'cell "D/B # 066" [ref=f7e326]'
+                  - cell "DA" [ref=f7e327]
+                  - cell "433.2 h" [ref=f7e328]
+                  - cell "821" [ref=f7e329]
+                  - cell "31 m" [ref=f7e330]
+                  - cell "1690.5" [ref=f7e331]
+                - row "#4 ISO#026 ISO 564.4 h 467 73 m 1603.1" [ref=f7e332]:
+                  - cell "#4" [ref=f7e333]
+                  - cell "ISO#026" [ref=f7e334]
+                  - cell "ISO" [ref=f7e335]
+                  - cell "564.4 h" [ref=f7e336]
+                  - cell "467" [ref=f7e337]
+                  - cell "73 m" [ref=f7e338]
+                  - cell "1603.1" [ref=f7e339]
+                - 'row "#5 D/B # 081 DA 379.2 h 807 28 m 1568.1" [ref=f7e340]':
+                  - cell "#5" [ref=f7e341]
+                  - 'cell "D/B # 081" [ref=f7e342]'
+                  - cell "DA" [ref=f7e343]
+                  - cell "379.2 h" [ref=f7e344]
+                  - cell "807" [ref=f7e345]
+                  - cell "28 m" [ref=f7e346]
+                  - cell "1568.1" [ref=f7e347]
+                - 'row "#6 D/B # 129 DA 386.5 h 684 33 m 1460.3" [ref=f7e348]':
+                  - cell "#6" [ref=f7e349]
+                  - 'cell "D/B # 129" [ref=f7e350]'
+                  - cell "DA" [ref=f7e351]
+                  - cell "386.5 h" [ref=f7e352]
+                  - cell "684" [ref=f7e353]
+                  - cell "33 m" [ref=f7e354]
+                  - cell "1460.3" [ref=f7e355]
+                - 'row "#7 D/B # 108 DA 388.8 h 678 34 m 1459.0" [ref=f7e356]':
+                  - cell "#7" [ref=f7e357]
+                  - 'cell "D/B # 108" [ref=f7e358]'
+                  - cell "DA" [ref=f7e359]
+                  - cell "388.8 h" [ref=f7e360]
+                  - cell "678" [ref=f7e361]
+                  - cell "34 m" [ref=f7e362]
+                  - cell "1459.0" [ref=f7e363]
+                - 'row "#8 D/B # 047 DA 359.3 h 710 30 m 1431.6" [ref=f7e364]':
+                  - cell "#8" [ref=f7e365]
+                  - 'cell "D/B # 047" [ref=f7e366]'
+                  - cell "DA" [ref=f7e367]
+                  - cell "359.3 h" [ref=f7e368]
+                  - cell "710" [ref=f7e369]
+                  - cell "30 m" [ref=f7e370]
+                  - cell "1431.6" [ref=f7e371]
+                - 'row "#9 D/B # 088 DA 337.6 h 740 27 m 1418.0" [ref=f7e372]':
+                  - cell "#9" [ref=f7e373]
+                  - 'cell "D/B # 088" [ref=f7e374]'
+                  - cell "DA" [ref=f7e375]
+                  - cell "337.6 h" [ref=f7e376]
+                  - cell "740" [ref=f7e377]
+                  - cell "27 m" [ref=f7e378]
+                  - cell "1418.0" [ref=f7e379]
+                - 'row "#10 D/B # 063 DA 377.0 h 648 34 m 1405.3" [ref=f7e380]':
+                  - cell "#10" [ref=f7e381]
+                  - 'cell "D/B # 063" [ref=f7e382]'
+                  - cell "DA" [ref=f7e383]
+                  - cell "377.0 h" [ref=f7e384]
+                  - cell "648" [ref=f7e385]
+                  - cell "34 m" [ref=f7e386]
+                  - cell "1405.3" [ref=f7e387]
+          - generic [ref=f7e389]:
+            - generic [ref=f7e390]:
+              - generic [ref=f7e391]: "Downtime: Frequency vs Duration"
+              - generic [ref=f7e392]: Per Machine
+            - generic [ref=f7e396]:
+              - img:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: "0"
+                      - generic:
+                        - generic: "200"
+                      - generic:
+                        - generic: "400"
+                      - generic:
+                        - generic: "600"
+                      - generic:
+                        - generic: "800"
+                    - generic:
+                      - generic:
+                        - generic: −200
+                      - generic:
+                        - generic: "0"
+                      - generic:
+                        - generic: "200"
+                      - generic:
+                        - generic: "400"
+                      - generic:
+                        - generic: "600"
+                      - generic:
+                        - generic: "800"
+                      - generic:
+                        - generic: "1000"
+              - img:
+                - generic:
+                  - generic [ref=f7e413]:
+                    - generic [ref=f7e415]: BG
+                    - generic [ref=f7e422]: DA
+                    - generic [ref=f7e429]: FS
+                    - generic [ref=f7e436]: ISO
+                    - generic [ref=f7e443]: MARK
+                    - generic [ref=f7e450]: MOLD
+                    - generic [ref=f7e457]: PLATE
+                    - generic [ref=f7e464]: SAW
+                    - generic [ref=f7e471]: SAW_QFN
+                    - generic [ref=f7e478]: TF
+                    - generic [ref=f7e485]: WB
+                  - generic:
+                    - generic: Number of M/C DOWN Events (Frequency)
+                  - generic:
+                    - generic: Avg Repair Duration (min)
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: Chronic
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: Severe
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: Nuisance
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: Healthy
+              - generic [ref=f7e491]:
+                - img [ref=f7e494] [cursor=pointer]
+                - generic [ref=f7e496]:
+                  - img [ref=f7e498] [cursor=pointer]
+                  - img [ref=f7e501] [cursor=pointer]
+                  - img [ref=f7e504] [cursor=pointer]
+                  - img [ref=f7e507] [cursor=pointer]
+                - generic [ref=f7e509]:
+                  - img [ref=f7e511] [cursor=pointer]
+                  - img [ref=f7e514] [cursor=pointer]
+                  - img [ref=f7e517] [cursor=pointer]
+                  - img [ref=f7e520] [cursor=pointer]
+                - link "plotly-logomark" [ref=f7e523] [cursor=pointer]:
+                  - /url: https://plotly.com/
+                  - img "plotly-logomark" [ref=f7e524]
+              - img
+        - generic [ref=f7e537]:
+          - generic [ref=f7e538]:
+            - generic [ref=f7e539]: Machine Breakdown — Sorted by Utilization (Lowest First)
+            - generic [ref=f7e540]:
+              - generic [ref=f7e541]: Top 100
+              - button "⬇Export CSV" [ref=f7e542] [cursor=pointer]
+          - generic [ref=f7e546]:
+            - generic [ref=f7e547]:
+              - generic [ref=f7e551]:
+                - table:
+                  - rowgroup:
+                    - row "Machine Area Utilization % Downtime % PM % Lost Time %":
+                      - columnheader "Machine" [ref=f7e552]:
+                        - generic [ref=f7e553]:
+                          - img [ref=f7e556] [cursor=pointer]
+                          - generic [ref=f7e558]: Machine
+                      - columnheader "Area" [ref=f7e559]:
+                        - generic [ref=f7e560]:
+                          - img [ref=f7e563] [cursor=pointer]
+                          - generic [ref=f7e565]: Area
+                      - columnheader "Utilization %" [ref=f7e566]:
+                        - generic [ref=f7e567]:
+                          - img [ref=f7e570] [cursor=pointer]
+                          - generic [ref=f7e572]: Utilization %
+                      - columnheader "Downtime %" [ref=f7e573]:
+                        - generic [ref=f7e574]:
+                          - img [ref=f7e577] [cursor=pointer]
+                          - generic [ref=f7e579]: Downtime %
+                      - columnheader "PM %" [ref=f7e580]:
+                        - generic [ref=f7e581]:
+                          - img [ref=f7e584] [cursor=pointer]
+                          - generic [ref=f7e586]: PM %
+                      - columnheader "Lost Time %" [ref=f7e587]:
+                        - generic [ref=f7e588]:
+                          - img [ref=f7e591] [cursor=pointer]
+                          - generic [ref=f7e593]: Lost Time %
+                    - 'row "EP # 02 PLATE 61.46 0.32 3.03 35.19"':
+                      - 'cell "EP # 02" [ref=f7e594]'
+                      - cell "PLATE" [ref=f7e595]
+                      - cell "61.46" [ref=f7e596]
+                      - cell "0.32" [ref=f7e597]
+                      - cell "3.03" [ref=f7e598]
+                      - cell "35.19" [ref=f7e599]
+                    - 'row "D/B # 056 DA 70.04 3.07 0.36 26.54"':
+                      - 'cell "D/B # 056" [ref=f7e600]'
+                      - cell "DA" [ref=f7e601]
+                      - cell "70.04" [ref=f7e602]
+                      - cell "3.07" [ref=f7e603]
+                      - cell "0.36" [ref=f7e604]
+                      - cell "26.54" [ref=f7e605]
+                    - 'row "D/B # 047 DA 71.68 4.09 0.38 23.85"':
+                      - 'cell "D/B # 047" [ref=f7e606]'
+                      - cell "DA" [ref=f7e607]
+                      - cell "71.68" [ref=f7e608]
+                      - cell "4.09" [ref=f7e609]
+                      - cell "0.38" [ref=f7e610]
+                      - cell "23.85" [ref=f7e611]
+                    - 'row "D/B # 079 DA 71.88 3.19 0.4 24.53"':
+                      - 'cell "D/B # 079" [ref=f7e612]'
+                      - cell "DA" [ref=f7e613]
+                      - cell "71.88" [ref=f7e614]
+                      - cell "3.19" [ref=f7e615]
+                      - cell "0.4" [ref=f7e616]
+                      - cell "24.53" [ref=f7e617]
+                    - 'row "D/B # 066 DA 72.36 4.93 0.36 22.35"':
+                      - 'cell "D/B # 066" [ref=f7e618]'
+                      - cell "DA" [ref=f7e619]
+                      - cell "72.36" [ref=f7e620]
+                      - cell "4.93" [ref=f7e621]
+                      - cell "0.36" [ref=f7e622]
+                      - cell "22.35" [ref=f7e623]
+                    - 'row "D/B # 080 DA 72.39 5.31 0.41 21.89"':
+                      - 'cell "D/B # 080" [ref=f7e624]'
+                      - cell "DA" [ref=f7e625]
+                      - cell "72.39" [ref=f7e626]
+                      - cell "5.31" [ref=f7e627]
+                      - cell "0.41" [ref=f7e628]
+                      - cell "21.89" [ref=f7e629]
+                    - 'row "D/B # 067 DA 72.64 3.81 0.4 23.15"':
+                      - 'cell "D/B # 067" [ref=f7e630]'
+                      - cell "DA" [ref=f7e631]
+                      - cell "72.64" [ref=f7e632]
+                      - cell "3.81" [ref=f7e633]
+                      - cell "0.4" [ref=f7e634]
+                      - cell "23.15" [ref=f7e635]
+                    - 'row "D/B # 108 DA 72.89 4.43 0.36 22.32"':
+                      - 'cell "D/B # 108" [ref=f7e636]'
+                      - cell "DA" [ref=f7e637]
+                      - cell "72.89" [ref=f7e638]
+                      - cell "4.43" [ref=f7e639]
+                      - cell "0.36" [ref=f7e640]
+                      - cell "22.32" [ref=f7e641]
+                    - 'row "D/B # 088 DA 73.01 3.84 0.44 22.71"':
+                      - 'cell "D/B # 088" [ref=f7e642]'
+                      - cell "DA" [ref=f7e643]
+                      - cell "73.01" [ref=f7e644]
+                      - cell "3.84" [ref=f7e645]
+                      - cell "0.44" [ref=f7e646]
+                      - cell "22.71" [ref=f7e647]
+                    - 'row "D/B # 081 DA 73.02 4.32 0.36 22.3"':
+                      - 'cell "D/B # 081" [ref=f7e648]'
+                      - cell "DA" [ref=f7e649]
+                      - cell "73.02" [ref=f7e650]
+                      - cell "4.32" [ref=f7e651]
+                      - cell "0.36" [ref=f7e652]
+                      - cell "22.3" [ref=f7e653]
+                    - 'row "D/B # 112 DA 73.14 3.57 0.4 22.89"':
+                      - 'cell "D/B # 112" [ref=f7e654]'
+                      - cell "DA" [ref=f7e655]
+                      - cell "73.14" [ref=f7e656]
+                      - cell "3.57" [ref=f7e657]
+                      - cell "0.4" [ref=f7e658]
+                      - cell "22.89" [ref=f7e659]
+                    - 'row "D/B # 042 DA 73.16 3.09 0.36 23.39"':
+                      - 'cell "D/B # 042" [ref=f7e660]'
+                      - cell "DA" [ref=f7e661]
+                      - cell "73.16" [ref=f7e662]
+                      - cell "3.09" [ref=f7e663]
+                      - cell "0.36" [ref=f7e664]
+                      - cell "23.39" [ref=f7e665]
+                    - 'row "D/B # 034 DA 73.34 3.46 0.38 22.82"':
+                      - 'cell "D/B # 034" [ref=f7e666]'
+                      - cell "DA" [ref=f7e667]
+                      - cell "73.34" [ref=f7e668]
+                      - cell "3.46" [ref=f7e669]
+                      - cell "0.38" [ref=f7e670]
+                      - cell "22.82" [ref=f7e671]
+                    - 'row "D/B # 037 DA 73.36 2.32 0.41 23.91"':
+                      - 'cell "D/B # 037" [ref=f7e672]'
+                      - cell "DA" [ref=f7e673]
+                      - cell "73.36" [ref=f7e674]
+                      - cell "2.32" [ref=f7e675]
+                      - cell "0.41" [ref=f7e676]
+                      - cell "23.91" [ref=f7e677]
+                    - 'row "D/B # 091 DA 73.5 2.47 0.39 23.64"':
+                      - 'cell "D/B # 091" [ref=f7e678]'
+                      - cell "DA" [ref=f7e679]
+                      - cell "73.5" [ref=f7e680]
+                      - cell "2.47" [ref=f7e681]
+                      - cell "0.39" [ref=f7e682]
+                      - cell "23.64" [ref=f7e683]
+                    - 'row "D/B # 063 DA 73.68 4.29 0.31 21.73"':
+                      - 'cell "D/B # 063" [ref=f7e684]'
+                      - cell "DA" [ref=f7e685]
+                      - cell "73.68" [ref=f7e686]
+                      - cell "4.29" [ref=f7e687]
+                      - cell "0.31" [ref=f7e688]
+                      - cell "21.73" [ref=f7e689]
+                    - 'row "D/B # 113 DA 74.04 3.78 0.36 21.82"':
+                      - 'cell "D/B # 113" [ref=f7e690]'
+                      - cell "DA" [ref=f7e691]
+                      - cell "74.04" [ref=f7e692]
+                      - cell "3.78" [ref=f7e693]
+                      - cell "0.36" [ref=f7e694]
+                      - cell "21.82" [ref=f7e695]
+                    - 'row "D/B # 043 DA 74.29 3.54 0.42 21.75"':
+                      - 'cell "D/B # 043" [ref=f7e696]'
+                      - cell "DA" [ref=f7e697]
+                      - cell "74.29" [ref=f7e698]
+                      - cell "3.54" [ref=f7e699]
+                      - cell "0.42" [ref=f7e700]
+                      - cell "21.75" [ref=f7e701]
+                    - 'row "D/B # 041 DA 74.51 2.11 0.37 23.01"':
+                      - 'cell "D/B # 041" [ref=f7e702]'
+                      - cell "DA" [ref=f7e703]
+                      - cell "74.51" [ref=f7e704]
+                      - cell "2.11" [ref=f7e705]
+                      - cell "0.37" [ref=f7e706]
+                      - cell "23.01" [ref=f7e707]
+                    - 'row "D/B # 083 DA 74.54 3.71 0.41 21.35"':
+                      - 'cell "D/B # 083" [ref=f7e708]'
+                      - cell "DA" [ref=f7e709]
+                      - cell "74.54" [ref=f7e710]
+                      - cell "3.71" [ref=f7e711]
+                      - cell "0.41" [ref=f7e712]
+                      - cell "21.35" [ref=f7e713]
+              - generic [ref=f7e714]:
+                - button [disabled] [ref=f7e715]:
+                  - img [ref=f7e716]
+                - button [disabled] [ref=f7e718]:
+                  - img [ref=f7e719]
+                - generic [ref=f7e721]:
+                  - generic [ref=f7e722]:
+                    - generic [ref=f7e723]: "1"
+                    - textbox "1" [ref=f7e724]
+                  - text: /
+                  - generic [ref=f7e725]: "5"
+                - button [ref=f7e726] [cursor=pointer]:
+                  - img [ref=f7e727]
+                - button [ref=f7e729] [cursor=pointer]:
+                  - img [ref=f7e730]
+            - generic [ref=f7e732]: 100 machines · sortable · 6 pages
+        - generic [ref=f7e733]: "Last updated: 2026-07-08 22:37:09"
+      - generic [ref=f7e734]: Auto-refresh every 60 min · Microchip Technology · Proprietary and Confidential
+  - contentinfo
+  - img [ref=f7e735]
