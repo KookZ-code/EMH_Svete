@@ -158,8 +158,9 @@ export interface MachineUtilRaw {
 // ─── Downtime ─────────────────────────────────────────────────────────────
 
 export const downtimeApi = {
+  // Base-prefixed: this route has its own +server.ts that calls the backend (must reach SvelteKit's router).
   detail: (p: FilterParams & { job_types?: JobType[]; limit?: number; drill_day?: string }) =>
-    apiFetch<DowntimeDetailPayload>(`/api/downtime/detail${qs(p as Record<string, string | string[] | number | undefined>)}`),
+    apiFetch<DowntimeDetailPayload>(`${base}/api/downtime/detail${qs(p as Record<string, string | string[] | number | undefined>)}`),
 };
 
 export interface DowntimeDetailPayload {

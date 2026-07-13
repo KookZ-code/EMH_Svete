@@ -16,11 +16,11 @@ export default defineConfig({
 		allowedHosts: 'all',
 		proxy: {
 			'/testSvelte/api': {
-				target: 'http://127.0.0.1:8002',
+				target: 'http://127.0.0.1:8090',
 				changeOrigin: true,
 				// Routes with their own +server.ts merge/aggregation logic must reach SvelteKit
 				// instead of being proxied straight to the backend, or that logic never runs in dev.
-				bypass: (req) => /^\/testSvelte\/api\/utilization\/detail(\?|$)/.test(req.url ?? '') ? req.url : undefined,
+				bypass: (req) => /^\/testSvelte\/api\/(utilization|downtime)\/detail(\?|$)/.test(req.url ?? '') ? req.url : undefined,
 				// Strip /testSvelte prefix; add /v1/ only if not already present
 				rewrite: (path) => {
 					const stripped = path.replace(/^\/testSvelte/, '');
@@ -29,8 +29,9 @@ export default defineConfig({
 				configure: noCompression,
 			},
 			'/api': {
-				target: 'http://127.0.0.1:8002',
+				target: 'http://127.0.0.1:8090',
 				changeOrigin: true,
+				bypass: (req) => /^\/api\/(utilization|downtime)\/detail(\?|$)/.test(req.url ?? '') ? req.url : undefined,
 				// Add /v1/ only if not already present
 				rewrite: (path) => path.startsWith('/api/v1') ? path : path.replace(/^\/api/, '/api/v1'),
 				configure: noCompression,
