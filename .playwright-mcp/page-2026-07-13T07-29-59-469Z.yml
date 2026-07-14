@@ -1,0 +1,73 @@
+- generic [ref=f1e3]:
+  - complementary [ref=f1e4]:
+    - generic [ref=f1e5]: EMH Dashboard
+    - navigation [ref=f1e7]:
+      - link "🏭 Overview" [ref=f1e8] [cursor=pointer]:
+        - /url: ./
+        - generic [ref=f1e9]: 🏭
+        - generic [ref=f1e10]: Overview
+      - link "📺 Live Board" [ref=f1e11] [cursor=pointer]:
+        - /url: ./live
+        - generic [ref=f1e12]: 📺
+        - generic [ref=f1e13]: Live Board
+      - link "📊 Utilization" [ref=f1e14] [cursor=pointer]:
+        - /url: ./utilization
+        - generic [ref=f1e15]: 📊
+        - generic [ref=f1e16]: Utilization
+      - link "📉 Downtime" [ref=f1e17] [cursor=pointer]:
+        - /url: ./downtime
+        - generic [ref=f1e18]: 📉
+        - generic [ref=f1e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=f1e20] [cursor=pointer]:
+        - /url: ./machine-detail
+        - generic [ref=f1e21]: 🖥️
+        - generic [ref=f1e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=f1e23] [cursor=pointer]:
+        - /url: ./timeline
+        - generic [ref=f1e24]: 👷
+        - generic [ref=f1e25]: Tech Performance
+      - link "📦 Inventory" [ref=f1e26] [cursor=pointer]:
+        - /url: ./inventory
+        - generic [ref=f1e27]: 📦
+        - generic [ref=f1e28]: Inventory
+      - link "📋 WB Report" [ref=f1e29] [cursor=pointer]:
+        - /url: ./wb-report
+        - generic [ref=f1e30]: 📋
+        - generic [ref=f1e31]: WB Report
+      - link "🔬 DA Report" [ref=f1e32] [cursor=pointer]:
+        - /url: ./da-report
+        - generic [ref=f1e33]: 🔬
+        - generic [ref=f1e34]: DA Report
+      - link "🏪 Store Items" [ref=f1e35] [cursor=pointer]:
+        - /url: ./store-items
+        - generic [ref=f1e36]: 🏪
+        - generic [ref=f1e37]: Store Items
+      - link "⚙️ Admin" [ref=f1e38] [cursor=pointer]:
+        - /url: ./admin
+        - generic [ref=f1e39]: ⚙️
+        - generic [ref=f1e40]: Admin
+    - button "«" [ref=f1e41] [cursor=pointer]
+  - generic [ref=f1e42]:
+    - banner [ref=f1e43]:
+      - generic [ref=f1e44]:
+        - button "🌙" [ref=f1e45] [cursor=pointer]
+        - button "🚪" [ref=f1e47] [cursor=pointer]
+    - main [ref=f1e48]:
+      - generic [ref=f1e50]:
+        - generic [ref=f1e51]:
+          - generic [ref=f1e52]: ⚡
+          - heading "EMH Dashboard" [level=1] [ref=f1e53]
+          - paragraph [ref=f1e54]: Equipment Maintenance & Health
+        - generic [ref=f1e55]:
+          - generic [ref=f1e56]:
+            - generic [ref=f1e57]: Username
+            - textbox "Username" [ref=f1e58]:
+              - /placeholder: Enter your username
+              - text: guest
+          - generic [ref=f1e59]:
+            - generic [ref=f1e60]: Password
+            - textbox "Password" [ref=f1e61]:
+              - /placeholder: ••••••••
+              - text: "123456"
+          - button "Login" [ref=f1e62] [cursor=pointer]
+        - paragraph [ref=f1e63]: EMH v2.0 · Microchip Technology

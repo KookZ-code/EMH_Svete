@@ -1,0 +1,192 @@
+- generic [ref=f2e3]:
+  - complementary [ref=f2e4]:
+    - generic [ref=f2e5]: EMH Dashboard
+    - navigation [ref=f2e7]:
+      - link "🏭 Overview" [ref=f2e8] [cursor=pointer]:
+        - /url: /testSvelte/
+        - generic [ref=f2e9]: 🏭
+        - generic [ref=f2e10]: Overview
+      - link "📺 Live Board" [ref=f2e11] [cursor=pointer]:
+        - /url: /testSvelte/live
+        - generic [ref=f2e12]: 📺
+        - generic [ref=f2e13]: Live Board
+      - link "📊 Utilization" [ref=f2e14] [cursor=pointer]:
+        - /url: /testSvelte/utilization
+        - generic [ref=f2e15]: 📊
+        - generic [ref=f2e16]: Utilization
+      - link "📉 Downtime" [ref=f2e17] [cursor=pointer]:
+        - /url: /testSvelte/downtime
+        - generic [ref=f2e18]: 📉
+        - generic [ref=f2e19]: Downtime
+      - link "🖥️ Machine Detail" [ref=f2e20] [cursor=pointer]:
+        - /url: /testSvelte/machine-detail
+        - generic [ref=f2e21]: 🖥️
+        - generic [ref=f2e22]: Machine Detail
+      - link "👷 Tech Performance" [ref=f2e23] [cursor=pointer]:
+        - /url: /testSvelte/timeline
+        - generic [ref=f2e24]: 👷
+        - generic [ref=f2e25]: Tech Performance
+      - link "📦 Inventory" [ref=f2e26] [cursor=pointer]:
+        - /url: /testSvelte/inventory
+        - generic [ref=f2e27]: 📦
+        - generic [ref=f2e28]: Inventory
+      - link "📋 WB Report" [ref=f2e29] [cursor=pointer]:
+        - /url: /testSvelte/wb-report
+        - generic [ref=f2e30]: 📋
+        - generic [ref=f2e31]: WB Report
+      - link "🔬 DA Report" [ref=f2e32] [cursor=pointer]:
+        - /url: /testSvelte/da-report
+        - generic [ref=f2e33]: 🔬
+        - generic [ref=f2e34]: DA Report
+      - link "🏪 Store Items" [ref=f2e35] [cursor=pointer]:
+        - /url: /testSvelte/store-items
+        - generic [ref=f2e36]: 🏪
+        - generic [ref=f2e37]: Store Items
+      - link "⚙️ Admin" [ref=f2e38] [cursor=pointer]:
+        - /url: /testSvelte/admin
+        - generic [ref=f2e39]: ⚙️
+        - generic [ref=f2e40]: Admin
+    - button "«" [ref=f2e41] [cursor=pointer]
+  - generic [ref=f2e42]:
+    - banner [ref=f2e43]:
+      - generic [ref=f2e44]:
+        - generic [ref=f2e45]:
+          - generic [ref=f2e46]: Administrator
+          - generic [ref=f2e47]: Admin
+        - button "🌙" [ref=f2e48] [cursor=pointer]
+        - link "⚙️" [ref=f2e49] [cursor=pointer]:
+          - /url: /testSvelte/admin
+        - button "🚪" [ref=f2e51] [cursor=pointer]
+    - main [ref=f2e52]:
+      - generic [ref=f2e53]:
+        - generic [ref=f2e54]:
+          - heading "Factory Pulse" [level=1] [ref=f2e55]
+          - paragraph [ref=f2e56]: Real-time equipment status overview
+        - generic [ref=f2e57]:
+          - generic [ref=f2e58]: Live
+          - generic [ref=f2e59]: Updated 14:30
+      - generic [ref=f2e60]:
+        - generic [ref=f2e61]: Process
+        - button "All" [ref=f2e62] [cursor=pointer]
+        - button "BG" [ref=f2e63] [cursor=pointer]
+        - button "SAW" [ref=f2e64] [cursor=pointer]
+        - button "DA" [ref=f2e65] [cursor=pointer]
+        - button "WB" [ref=f2e66] [cursor=pointer]
+        - button "MOLD" [ref=f2e67] [cursor=pointer]
+        - button "PLATE" [ref=f2e68] [cursor=pointer]
+        - button "MARK" [ref=f2e69] [cursor=pointer]
+        - button "SAW_QFN" [ref=f2e70] [cursor=pointer]
+        - button "TF" [ref=f2e71] [cursor=pointer]
+        - button "ISO" [ref=f2e72] [cursor=pointer]
+        - button "FS" [ref=f2e73] [cursor=pointer]
+      - generic [ref=f2e74]:
+        - generic [ref=f2e75]:
+          - generic [ref=f2e77]:
+            - generic [ref=f2e78]: 🏭
+            - generic [ref=f2e79]: "1031"
+          - generic [ref=f2e81]: KEY Machines
+        - generic [ref=f2e83]:
+          - generic [ref=f2e85]:
+            - generic [ref=f2e86]: ✅
+            - generic [ref=f2e87]: "813"
+          - generic [ref=f2e89]: Running
+        - generic [ref=f2e91]:
+          - generic [ref=f2e93]:
+            - generic [ref=f2e94]: 🔴
+            - generic [ref=f2e95]: "76"
+          - generic [ref=f2e97]: M/C Down
+        - generic [ref=f2e99]:
+          - generic [ref=f2e101]:
+            - generic [ref=f2e102]: ⏳
+            - generic [ref=f2e103]: "66"
+          - generic [ref=f2e105]: Waiting for Tech
+        - generic [ref=f2e107]:
+          - generic [ref=f2e109]:
+            - generic [ref=f2e110]: 🔧
+            - generic [ref=f2e111]: "76"
+          - generic [ref=f2e113]: On Process
+        - generic [ref=f2e115]:
+          - generic [ref=f2e117]:
+            - generic [ref=f2e118]: ✔️
+            - generic [ref=f2e119]: "1575"
+          - generic [ref=f2e121]: Closed This Shift
+      - generic [ref=f2e123]:
+        - generic [ref=f2e124]:
+          - generic [ref=f2e125]: Job Status Matrix
+          - table [ref=f2e126]:
+            - rowgroup [ref=f2e127]:
+              - row [ref=f2e128]:
+                - columnheader "Job Type" [ref=f2e129]
+                - columnheader "Waiting" [ref=f2e130]
+                - columnheader "On Process" [ref=f2e131]
+                - columnheader "Closed" [ref=f2e132]
+            - rowgroup [ref=f2e133]:
+              - row [ref=f2e134]:
+                - cell "SETUP BY OPERATOR" [ref=f2e135]
+                - cell "0" [ref=f2e137]
+                - cell "23" [ref=f2e138]
+                - cell "1144" [ref=f2e139]
+              - row [ref=f2e140]:
+                - cell "M/C DOWN" [ref=f2e141]
+                - cell "52" [ref=f2e143]
+                - cell "23" [ref=f2e144]
+                - cell "244" [ref=f2e145]
+              - row [ref=f2e146]:
+                - cell "SETUP" [ref=f2e147]
+                - cell "2" [ref=f2e149]
+                - cell "11" [ref=f2e150]
+                - cell "86" [ref=f2e151]
+              - row [ref=f2e152]:
+                - cell "CONVERT" [ref=f2e153]
+                - cell "5" [ref=f2e155]
+                - cell "6" [ref=f2e156]
+                - cell "37" [ref=f2e157]
+              - row [ref=f2e158]:
+                - cell "PM" [ref=f2e159]
+                - cell "0" [ref=f2e161]
+                - cell "10" [ref=f2e162]
+                - cell "33" [ref=f2e163]
+              - row [ref=f2e164]:
+                - cell "CHANGE CAP" [ref=f2e165]
+                - cell "6" [ref=f2e167]
+                - cell "1" [ref=f2e168]
+                - cell "18" [ref=f2e169]
+              - row [ref=f2e170]:
+                - cell "CLEAN MOLD" [ref=f2e171]
+                - cell "0" [ref=f2e173]
+                - cell "2" [ref=f2e174]
+                - cell "9" [ref=f2e175]
+              - row [ref=f2e176]:
+                - cell "ENGINEERING DOWN" [ref=f2e177]
+                - cell "0" [ref=f2e179]
+                - cell "0" [ref=f2e180]
+                - cell "4" [ref=f2e181]
+              - row [ref=f2e182]:
+                - cell "Total" [ref=f2e183]
+                - cell "65" [ref=f2e184]
+                - cell "76" [ref=f2e185]
+                - cell "1575" [ref=f2e186]
+        - generic [ref=f2e187]: Machine Status Distribution
+      - generic [ref=f2e193]:
+        - generic [ref=f2e194]:
+          - generic [ref=f2e195]: Open Jobs
+          - generic [ref=f2e196]: 0 open
+          - button "↓ CSV" [disabled] [ref=f2e197]
+        - generic [ref=f2e198]:
+          - generic [ref=f2e199]:
+            - searchbox "Search…" [ref=f2e200]
+            - generic [ref=f2e201]: 0 records
+          - table [ref=f2e203]:
+            - rowgroup [ref=f2e204]:
+              - row [ref=f2e205]:
+                - button "Machine ↕" [ref=f2e206] [cursor=pointer]
+                - button "Area ↕" [ref=f2e207] [cursor=pointer]
+                - columnheader "Type" [ref=f2e208]
+                - columnheader "Symptom" [ref=f2e209]
+                - button "Wait ↕" [ref=f2e210] [cursor=pointer]
+                - button "Repair ↕" [ref=f2e211] [cursor=pointer]
+                - button "Tech ↕" [ref=f2e212] [cursor=pointer]
+                - columnheader "Status" [ref=f2e213]
+            - rowgroup [ref=f2e214]:
+              - row [ref=f2e215]:
+                - cell "No data" [ref=f2e216]

@@ -13,14 +13,14 @@ export default defineConfig({
 	server: {
 		host: true,
 		port: 5173,
-		allowedHosts: 'all',
+		allowedHosts: ['.', 'localhost', 'mth-lt-b04469a'],
 		proxy: {
 			'/testSvelte/api': {
 				target: 'http://127.0.0.1:8090',
 				changeOrigin: true,
 				// Routes with their own +server.ts merge/aggregation logic must reach SvelteKit
 				// instead of being proxied straight to the backend, or that logic never runs in dev.
-				bypass: (req) => /^\/testSvelte\/api\/(utilization|downtime)\/detail(\?|$)/.test(req.url ?? '') ? req.url : undefined,
+				bypass: (req) => /^\/testSvelte\/api\/(overview(\/open-jobs)?|utilization\/detail|downtime\/(detail|events)|live\/machines|inventory|machines(\/detail)?|techs\/scores|da\/(packages|report)|wb\/(packages|report))/.test(req.url ?? '') ? req.url : undefined,
 				// Strip /testSvelte prefix; add /v1/ only if not already present
 				rewrite: (path) => {
 					const stripped = path.replace(/^\/testSvelte/, '');
@@ -31,7 +31,7 @@ export default defineConfig({
 			'/api': {
 				target: 'http://127.0.0.1:8090',
 				changeOrigin: true,
-				bypass: (req) => /^\/api\/(utilization|downtime)\/detail(\?|$)/.test(req.url ?? '') ? req.url : undefined,
+				bypass: (req) => /^\/api\/(overview(\/open-jobs)?|utilization\/detail|downtime\/(detail|events)|live\/machines|inventory|machines(\/detail)?|techs\/scores|da\/(packages|report)|wb\/(packages|report))/.test(req.url ?? '') ? req.url : undefined,
 				// Add /v1/ only if not already present
 				rewrite: (path) => path.startsWith('/api/v1') ? path : path.replace(/^\/api/, '/api/v1'),
 				configure: noCompression,

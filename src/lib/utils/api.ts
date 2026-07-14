@@ -70,18 +70,22 @@ export interface OverviewPayload {
 }
 
 export const overviewApi = {
+  // Base-prefixed: this route has its own +server.ts that transforms overview data
   all: (areas?: MachineArea[]) =>
-    apiFetch<OverviewPayload>(`/api/overview${qs({ areas })}`),
+    apiFetch<OverviewPayload>(`${base}/api/overview${qs({ areas })}`),
 
+  // Base-prefixed: this route has its own +server.ts that transforms job data
   openJobs: (areas?: MachineArea[], job_types?: JobType[]) =>
-    apiFetch<OpenJob[]>(`/api/overview/open-jobs${qs({ areas, job_types })}`),
+    apiFetch<OpenJob[]>(`${base}/api/overview/open-jobs${qs({ areas, job_types })}`),
 };
 
 // ─── Live Board ───────────────────────────────────────────────────────────
 
 export const liveApi = {
+  // Base-prefixed: this route has its own +server.ts that aggregates machine status,
+  // open jobs, and package data from multiple backend endpoints.
   machines: (areas?: MachineArea[]) =>
-    apiFetch<LiveMachine[]>(`/api/live/machines${qs({ areas })}`),
+    apiFetch<LiveMachine[]>(`${base}/api/live/machines${qs({ areas })}`),
 };
 
 // ─── Utilization ──────────────────────────────────────────────────────────
@@ -189,22 +193,25 @@ export interface DowntimeMachineRaw {
 // ─── Machines ─────────────────────────────────────────────────────────────
 
 export const machineDetailApi = {
+  // Base-prefixed: this route has its own +server.ts
   list: (areas?: MachineArea[]) =>
     apiFetch<{ machine_id: string; area: string; flag_key: number }[]>(
-      `/api/machines${qs({ areas })}`
+      `${base}/api/machines${qs({ areas })}`
     ),
 
+  // Base-prefixed: this route has its own +server.ts
   detail: (id: string, limit = 25) =>
     apiFetch<{ profile: MachineProfile; metrics: MachineMetrics; timeline: StatusTimelineEvent[] }>(
-      `/api/machines/detail?id=${encodeURIComponent(id)}&limit=${limit}`
+      `${base}/api/machines/detail?id=${encodeURIComponent(id)}&limit=${limit}`
     ),
 };
 
 // ─── Tech Scores ──────────────────────────────────────────────────────────
 
 export const timelineApi = {
+  // Base-prefixed: this route has its own +server.ts that calculates tech scores from raw metrics
   scores: (p: FilterParams) =>
-    apiFetch<TechScore[]>(`/api/techs/scores${qs(p as Record<string, string | string[] | number | undefined>)}`),
+    apiFetch<TechScore[]>(`${base}/api/techs/scores${qs(p as Record<string, string | string[] | number | undefined>)}`),
 };
 
 // ─── Inventory ────────────────────────────────────────────────────────────
@@ -215,6 +222,7 @@ export interface InventoryPayload {
 }
 
 export const inventoryApi = {
+  // Base-prefixed: this route has its own +server.ts that aggregates machine, downtime, and package data
   all: (p?: { areas?: MachineArea[]; search?: string; key_only?: string }) =>
-    apiFetch<InventoryPayload>(`/api/inventory${qs(p ?? {})}`),
+    apiFetch<InventoryPayload>(`${base}/api/inventory${qs(p ?? {})}`),
 };
