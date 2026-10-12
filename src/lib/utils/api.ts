@@ -10,6 +10,7 @@ import type {
   TechScore,
   MachineProfile, MachineMetrics, StatusTimelineEvent,
   MachineArea, JobType,
+  TopDowntimeMachineRow, MtbfPayload,
 } from '$types';
 
 // ─── Base fetch wrapper ────────────────────────────────────────────────────
@@ -18,6 +19,7 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<ApiResp
   const url = path;  // API paths are always /api/v1/... — no base prefix needed
   try {
     const res  = await fetch(url, {
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json', ...options?.headers },
       ...options,
     });
@@ -77,6 +79,10 @@ export const overviewApi = {
   // Base-prefixed: this route has its own +server.ts that transforms job data
   openJobs: (areas?: MachineArea[], job_types?: JobType[]) =>
     apiFetch<OpenJob[]>(`${base}/api/overview/open-jobs${qs({ areas, job_types })}`),
+
+  // Base-prefixed: proxies to the Rust backend's new MTBF endpoint
+  mtbf: (p: FilterParams) =>
+    apiFetch<MtbfPayload>(`${base}/api/overview/mtbf${qs(p as Record<string, string | string[] | number | undefined>)}`),
 };
 
 // ─── Live Board ───────────────────────────────────────────────────────────
@@ -165,6 +171,10 @@ export const downtimeApi = {
   // Base-prefixed: this route has its own +server.ts that calls the backend (must reach SvelteKit's router).
   detail: (p: FilterParams & { job_types?: JobType[]; limit?: number; drill_day?: string }) =>
     apiFetch<DowntimeDetailPayload>(`${base}/api/downtime/detail${qs(p as Record<string, string | string[] | number | undefined>)}`),
+
+  // Base-prefixed: proxies to the Rust backend's new top-machines endpoint
+  topMachines: (p: FilterParams & { limit?: number }) =>
+    apiFetch<{ rows: TopDowntimeMachineRow[] }>(`${base}/api/downtime/top-machines${qs(p as Record<string, string | string[] | number | undefined>)}`),
 };
 
 export interface DowntimeDetailPayload {

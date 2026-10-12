@@ -4,6 +4,7 @@
   import { sidebar } from '$lib/stores/ui.svelte';
 
   const navItems = [
+    { icon: '🎯', label: 'Command Center',   path: '/command-center' },
     { icon: '🏭', label: 'Overview',         path: '/' },
     { icon: '📺', label: 'Live Board',       path: '/live' },
     { icon: '📊', label: 'Utilization',      path: '/utilization' },
