@@ -231,9 +231,9 @@
   }
 
   function exportEvtCsv() {
-    const hdrs = ['Date/Time','Machine','Area','Job Type','Symptom','Cause','Tech','Wait (min)','Repair (min)'];
+    const hdrs = ['Date/Time','Machine','Area','Job Type','Symptom','Cause','Tech','Wait (min)','Repair (min)','Package','Lot No.','Die Mask'];
     const esc = (v:unknown) => { const s=String(v??''); return s.includes(',')? `"${s.replace(/"/g,'""')}"`:s; };
-    const rows = evtRows.map(r=>[r.event_time.replace('T',' ').slice(0,16),r.machine_id,r.area,r.job_type,r.symptom,r.cause,r.tech,r.wait_min,r.repair_min].map(esc).join(','));
+    const rows = evtRows.map(r=>[r.event_time.replace('T',' ').slice(0,16),r.machine_id,r.area,r.job_type,r.symptom,r.cause,r.tech,r.wait_min,r.repair_min,r.package_type??'',r.lot_no??'',r.die_mask??''].map(esc).join(','));
     const stamp = new Date().toISOString().slice(0,16).replace('T','_').replace(':','');
     const blob = new Blob(['﻿'+[hdrs.join(','),...rows].join('\r\n')],{type:'text/csv;charset=utf-8;'});
     const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`events_${stamp}.csv`; a.click(); URL.revokeObjectURL(url);

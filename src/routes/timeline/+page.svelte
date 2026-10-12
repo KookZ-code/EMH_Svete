@@ -10,7 +10,7 @@
 
   const gradeColors: Record<string,string> = { A:'#5EBF33', B:'#1D9CE4', C:'#FD7F20', D:'#CC0000' };
 
-  let techs        = $state<TechScore[]>([]);
+  let allTechs     = $state<TechScore[]>([]);
   let selectedTech = $state<TechScore | null>(null);
   let loading      = $state(true);
   let error        = $state<string | null>(null);
@@ -20,6 +20,12 @@
     end:   new Date().toISOString().slice(0,10),
     areas: [] as MachineArea[],
     shift: 'all' as 'all' | 'day' | 'night',
+    supervisors: [] as string[],
+  });
+
+  const techs = $derived.by(() => {
+    if (filters.supervisors.length === 0) return allTechs;
+    return allTechs.filter(t => t.supervisor && filters.supervisors.includes(t.supervisor));
   });
 
   async function loadData() {
@@ -31,16 +37,27 @@
       shift: filters.shift !== 'all' ? filters.shift : undefined,
       areas: filters.areas.length > 0 ? filters.areas : undefined,
     };
-    const res = await timelineApi.scores(p);
+    const res = await timelineApi.scores(p as any);
     if (res.error) { error = res.error.message; loading = false; return; }
-    techs = res.data ?? [];
-    if (techs.length > 0) selectedTech = techs[0];
+    allTechs = res.data ?? [];
+    if (allTechs.length > 0) selectedTech = allTechs[0];
     loading = false;
   }
 
   function handleFilter(f: { start: string; end: string; areas: MachineArea[]; shift: 'all'|'day'|'night' }) {
-    filters = f;
+    filters.start = f.start;
+    filters.end = f.end;
+    filters.areas = f.areas;
+    filters.shift = f.shift;
     loadData();
+  }
+
+  function toggleSupervisor(sv: string) {
+    if (filters.supervisors.includes(sv)) {
+      filters.supervisors = filters.supervisors.filter(x => x !== sv);
+    } else {
+      filters.supervisors = [...filters.supervisors, sv];
+    }
   }
 
   function selectTech(t: TechScore) { selectedTech = t; }
@@ -114,7 +131,21 @@
 
 <PageHeader title="Tech Performance" subtitle="Composite scoring: MTTR · Response · FTFR · Volume · Versatility" />
 
-<FilterBar onFilter={handleFilter} showAreaFilter={false} />
+<FilterBar onFilter={handleFilter} showAreaFilter={true} />
+
+<!-- Supervisor Filter -->
+<div class="supervisor-filter">
+  <span class="fb-label">Supervisor</span>
+  {#each [...new Set(allTechs.map(t => t.supervisor).filter(Boolean))] as sv (sv)}
+    <button
+      class="chip"
+      class:active={filters.supervisors.includes(sv)}
+      onclick={() => toggleSupervisor(sv)}
+    >
+      {sv}
+    </button>
+  {/each}
+</div>
 
 {#if error}
   <div class="state-banner error">⚠ {error}</div>
@@ -169,4 +200,41 @@
   .grade-pill { color: #fff; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: var(--r-sm); }
   .radar-hint { font-size: 11px; color: var(--color-text-muted); margin-top: 6px; text-align: center; }
   .dt-clickable :global(tbody tr) { cursor: pointer; }
+
+  .supervisor-filter {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    margin-bottom: var(--gutter);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .fb-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .supervisor-filter .chip {
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-dark);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .supervisor-filter .chip:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface-light);
+  }
+  .supervisor-filter .chip.active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+    font-weight: 600;
+  }
 </style>

@@ -879,6 +879,9 @@
         </div>
         <div class="pkg-footer">
           <button class="pkg-quick" onclick={() => selPackages=['__ALL__']}>All</button>
+          {#if pkgOptions.some(o => o.value === '__LEAD__')}
+            <button class="pkg-quick" onclick={() => selPackages=['__LEAD__']}>All Lead</button>
+          {/if}
           {#if pkgOptions.some(o => o.value === '__QFN__')}
             <button class="pkg-quick" onclick={() => selPackages=['__QFN__']}>QFN only</button>
           {/if}

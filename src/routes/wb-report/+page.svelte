@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
+  import SevenDayTrend from '$lib/components/SevenDayTrend.svelte';
+  import TechnicianPerformance from '$lib/components/TechnicianPerformance.svelte';
 
   // ── Types ─────────────────────────────────────────────────────────────────
   interface EventItem  { job_type:string; t_start:string; t_end:string; des_job:string; dur_min:number; tech:string; }
@@ -15,6 +17,16 @@
     avg_util:number; down_pct:number; wait_pct:number; setup_conv_pct:number; sbo_pct:number; n_tech:number;
   }
   interface PackageOpt { value:string; label:string; }
+  interface TechSummary {
+    closed_jobs:number; open_jobs:number; total_jobs:number; closed_pct:number; open_pct:number;
+    avg_jobs:number; down_avg:number; down_min:number; down_max:number;
+    setup_avg:number; setup_min:number; setup_max:number;
+  }
+  interface TechStats {
+    name:string; closed_jobs:number; open_jobs:number; total_jobs:number;
+    down_avg:number; down_min:number; down_max:number; down_events:number;
+    setup_avg:number; setup_min:number; setup_max:number; setup_events:number;
+  }
 
   // ── Job type config ────────────────────────────────────────────────────────
   const JOB_ABBR: Record<string,string> = {
@@ -44,6 +56,8 @@
   let machines     = $state<MachineRow[]>([]);
   let kpi          = $state<WbKpi|null>(null);
   let kpi7d        = $state<Partial<WbKpi> & { days: number; down_events?: number; setup_events?: number; idle_pct?: number } | null>(null);
+  let techSummary  = $state<TechSummary|null>(null);
+  let techList     = $state<TechStats[]>([]);
   let pkgLabel     = $state('');
   let timeRange    = $state('');
   let loading      = $state(false);
@@ -132,11 +146,57 @@
       const main = await fetch(`${base}/api/wb/report?date=${selDate}&shift=${selShift}&packages=${pkgsEnc}`).then(r => r.json());
       if (main.error) { error = main.error.message; loading = false; return; }
       const d = main.data;
-      machines  = d.machines   ?? [];
-      kpi       = d.kpi        ?? null;
-      pkgLabel  = d.pkg_label  ?? '';
-      timeRange = d.time_range ?? '';
-      chip      = 'ALL';
+      machines    = d.machines      ?? [];
+      kpi         = d.kpi           ?? null;
+
+      // Filter tech list to only include badge numbers starting with "B"
+      const filteredTechs = (d.tech_list ?? []).filter((t: TechStats) => t.name.startsWith('B'));
+      techList    = filteredTechs;
+
+      // Recalculate tech summary from filtered list
+      if (filteredTechs.length > 0) {
+        const closedTotal = filteredTechs.reduce((s, t) => s + t.closed_jobs, 0);
+        const openTotal = filteredTechs.reduce((s, t) => s + t.open_jobs, 0);
+        const jobsTotal = closedTotal + openTotal;
+        const closedPct = jobsTotal > 0 ? Math.round(closedTotal / jobsTotal * 100 * 10) / 10 : 0;
+        const openPct = jobsTotal > 0 ? Math.round(openTotal / jobsTotal * 100 * 10) / 10 : 0;
+        const avgJobs = Math.round(jobsTotal / filteredTechs.length * 10) / 10;
+        const downAvgs = filteredTechs.map(t => t.down_avg);
+        const downMins = filteredTechs.map(t => t.down_min).filter(v => v > 0);
+        const downMaxs = filteredTechs.map(t => t.down_max);
+        const setupAvgs = filteredTechs.map(t => t.setup_avg);
+        const setupMins = filteredTechs.map(t => t.setup_min).filter(v => v > 0);
+        const setupMaxs = filteredTechs.map(t => t.setup_max);
+        const downJobsTotal = filteredTechs.reduce((s, t) => s + (t.down_count ?? 0), 0);
+        const setupJobsTotal = filteredTechs.reduce((s, t) => s + (t.setup_count ?? 0), 0);
+
+        techSummary = {
+          tech_count: filteredTechs.length,
+          down_jobs: downJobsTotal,
+          setup_jobs: setupJobsTotal,
+          closed_jobs: closedTotal,
+          open_jobs: openTotal,
+          total_jobs: jobsTotal,
+          closed_pct: closedPct,
+          open_pct: openPct,
+          avg_jobs: avgJobs,
+          down_avg: Math.round(downAvgs.reduce((s, v) => s + v, 0) / downAvgs.length * 10) / 10,
+          down_min: downMins.length > 0 ? Math.round(Math.min(...downMins) * 10) / 10 : 0,
+          down_max: Math.round(Math.max(...downMaxs) * 10) / 10,
+          setup_avg: Math.round(setupAvgs.reduce((s, v) => s + v, 0) / setupAvgs.length * 10) / 10,
+          setup_min: setupMins.length > 0 ? Math.round(Math.min(...setupMins) * 10) / 10 : 0,
+          setup_max: Math.round(Math.max(...setupMaxs) * 10) / 10,
+        };
+      } else {
+        techSummary = null;
+      }
+
+      // Update n_tech in KPI to reflect filtered count
+      if (kpi) kpi.n_tech = filteredTechs.length;
+
+      pkgLabel    = d.pkg_label     ?? '';
+      timeRange   = d.time_range    ?? '';
+      chip        = 'ALL';
 
       // Detect actual shift from timeRange — same bug-fix as DA report
       const startHour = timeRange.match(/^(\d{1,2}):/)?.[1];
@@ -153,6 +213,7 @@
 
       const DOWN_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
       const SETUP_T = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
+      const WAIT_T  = new Set(['WAIT']);
       const valid = hist.filter(h => h?.data?.kpi?.total > 0);
       if (valid.length > 0) {
         const kpis = valid.map(h => h.data.kpi as WbKpi);
@@ -163,6 +224,13 @@
         const setupEvts = valid.map(h => (h.data.machines as MachineRow[]).reduce((s, m) =>
           s + m.events.filter(e => SETUP_T.has((e.job_type||'').toUpperCase())).length, 0));
         const avgArr = (arr: number[]) => Math.round(arr.reduce((s, v) => s + v, 0) / arr.length);
+        const totalReqJobs = valid.map(h => h.data.tech_summary?.open_jobs ?? 0);
+        const waitDurations = valid.map(h => {
+          const ms = h.data.machines as MachineRow[];
+          const waitEvts = ms.flatMap(m => m.events.filter(e => WAIT_T.has((e.job_type||'').toUpperCase())));
+          return { avg: waitEvts.length > 0 ? Math.round(waitEvts.reduce((s, e) => s + (e.dur_min||0), 0) / waitEvts.length * 10) / 10 : 0,
+                   max: waitEvts.length > 0 ? Math.round(Math.max(...waitEvts.map(e => e.dur_min||0)) * 10) / 10 : 0 };
+        });
         const idlePcts = valid.map(h => {
           const ms = h.data.machines as MachineRow[];
           const fleetMin = ms.length * 720 || 1;
@@ -179,6 +247,9 @@
           setup_conv_pct: avg('setup_conv_pct'), sbo_pct: avg('sbo_pct'),
           n_down: avg('n_down'), n_tech: avg('n_tech'), n_low: avg('n_low'), n_full: avg('n_full'),
           down_events: avgArr(downEvts), setup_events: avgArr(setupEvts),
+          total_request_jobs: avgArr(totalReqJobs),
+          avg_waiting_time: avgArr(waitDurations.map(w => w.avg)),
+          max_waiting_time: Math.max(...waitDurations.map(w => w.max)),
           idle_pct: Math.round(idlePcts.reduce((s,v)=>s+v,0)/idlePcts.length*10)/10,
         };
       }
@@ -781,6 +852,9 @@
         </div>
         <div class="pkg-footer">
           <button class="pkg-quick" onclick={() => selPackages=['__ALL__']}>All</button>
+          {#if pkgOptions.some(o => o.value === '__LEAD__')}
+            <button class="pkg-quick" onclick={() => selPackages=['__LEAD__']}>All Lead</button>
+          {/if}
           {#if pkgOptions.some(o => o.value === '__QFN__')}
             <button class="pkg-quick" onclick={() => selPackages=['__QFN__']}>QFN only</button>
           {/if}
@@ -963,7 +1037,7 @@
             {#if kd?.idle_pct}<span class="kc-vs" class:vs-good={kd.idle_pct.good} class:vs-bad={!kd.idle_pct.good}>{kd.idle_pct.txt}% vs avg</span>{/if}
             <span class="kc-lbl">Idle</span>
             <div class="kc-meta kc-meta-col" style="gap:3px">
-              {#each lossStats.idle.top3 as t}
+              {#each lossStats.idle.top3 as t, idx (t.criteria+idx)}
                 <div class="idle-row">
                   <span class="idle-crit">{t.criteria.length > 14 ? t.criteria.slice(0,14)+'…' : t.criteria}</span>
                   <span class="idle-stats">
@@ -1121,6 +1195,14 @@
     </div>
   </div>
 
+  <!-- ── 7-Day Trend ──────────────────────────────────────────────────────── -->
+  <SevenDayTrend date={selDate} packages={selPackages.join(',')} />
+
+  <!-- ── Technician Performance ─────────────────────────────────────────── -->
+  {#if kpi && techSummary && techList.length > 0}
+    <TechnicianPerformance summary={techSummary} techs={techList} />
+  {/if}
+
   <!-- ── Machine table ───────────────────────────────────────────────────── -->
   <div class="table-wrap">
     {#if filtered.length === 0}
@@ -1194,7 +1276,7 @@
               <!-- EVENTS — compact pills, description in tooltip -->
               <td class="td-events">
                 <div class="ev-wrap">
-                  {#each r.events as ev (ev.t_start+ev.job_type)}
+                  {#each r.events as ev, idx (ev.t_start+ev.job_type+idx)}
                     {@const jt = (ev.job_type||'').toUpperCase()}
                     {@const c  = JOB_COLOR[jt] ?? {bg:'#8A8A8A',tx:'#fff'}}
                     {@const ab = JOB_ABBR[jt]  ?? jt.slice(0,6)}
