@@ -289,9 +289,10 @@ export type UserRole = 'admin' | 'supervisor' | 'viewer'
 
 export interface SessionUser {
   id:          number
-  username:    string
-  displayName: string
+  username:    string      // badge code
+  displayName: string      // fullname from Microchip Account API
   role:        UserRole
+  imageUrl?:   string       // imglink from Microchip Account API
 }
 
 // ─── Item (template — keep for compatibility) ──────────────────────────────
@@ -302,4 +303,26 @@ export interface Item {
   description: string | null;
   created_at: string;
   updated_at: string;
+}
+
+// ─── EMH domain — Command Center ────────────────────────────────────────────
+
+export interface TopDowntimeMachineRow {
+  machine_id: string;
+  area: string;
+  down_hours: number;
+  event_count: number;
+  avg_mttr_min: number;
+}
+
+export interface MtbfMachineRow {
+  machine_id: string;
+  mtbf_hours: number;
+  down_events: number;
+}
+
+export interface MtbfPayload {
+  fleet_mtbf_hours: number;
+  fleet_down_events: number;
+  machines: MtbfMachineRow[];
 }

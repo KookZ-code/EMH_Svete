@@ -42,10 +42,15 @@
         <div class="tb-right">
           {#if data.user}
             <div class="user-info">
-              <span class="user-name">{data.user.displayName}</span>
-              <span class="role-badge" style="color:{roleColor[data.user.role] ?? 'inherit'}">
-                {roleLabel[data.user.role] ?? data.user.role}
-              </span>
+              {#if data.user.imageUrl}
+                <img class="avatar" src={data.user.imageUrl} alt={data.user.displayName} />
+              {/if}
+              <div class="user-text">
+                <span class="user-name">{data.user.displayName}</span>
+                <span class="role-badge" style="color:{roleColor[data.user.role] ?? 'inherit'}">
+                  {roleLabel[data.user.role] ?? data.user.role}
+                </span>
+              </div>
             </div>
           {/if}
           <button class="tb-btn" onclick={() => themeStore.toggle()} title="Toggle dark mode">
@@ -98,9 +103,23 @@
 
   .user-info {
     display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 8px;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .user-text {
+    display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-right: 8px;
     line-height: 1.2;
   }
 

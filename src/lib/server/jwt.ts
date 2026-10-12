@@ -4,10 +4,11 @@ import { env } from '$env/dynamic/private'
 import type { SessionUser } from '$lib/types'
 
 interface JwtPayload {
-  sub:          string
+  sub:          string          // badge code
   id:           number
-  display_name: string
+  display_name: string          // fullname from Microchip Account API
   role:         string
+  img?:         string | null   // imglink from Microchip Account API
   exp:          number
 }
 
@@ -54,6 +55,7 @@ export function verifyJwt(token: string): SessionUser | null {
       username:    payload.sub,
       displayName: payload.display_name,
       role:        payload.role as SessionUser['role'],
+      imageUrl:    payload.img ?? undefined,
     }
   } catch (e) {
     console.error('[verifyJwt] error:', e)

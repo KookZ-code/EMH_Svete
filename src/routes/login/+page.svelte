@@ -21,12 +21,11 @@
       {/if}
 
       <div class="form-group">
-        <label class="label" for="username">Username</label>
+        <label class="label" for="badgecode">รหัสพนักงาน (Badge Code)</label>
         <input
-          id="username" name="username" type="text" class="input"
-          placeholder="Enter your username"
+          id="badgecode" name="badgecode" type="text" class="input"
+          placeholder="B17460"
           autocomplete="username"
-          value="guest"
           required
         />
       </div>
@@ -37,7 +36,6 @@
           id="password" name="password" type="password" class="input"
           placeholder="••••••••"
           autocomplete="current-password"
-          value="123456"
           required
         />
       </div>

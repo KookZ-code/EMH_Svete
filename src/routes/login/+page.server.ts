@@ -6,11 +6,11 @@ import type { Actions } from './$types'
 export const actions: Actions = {
   default: async ({ request, cookies }) => {
     const data = await request.formData()
-    const username = String(data.get('username') ?? '').trim()
+    const badgecode = String(data.get('badgecode') ?? '').trim()
     const password = String(data.get('password') ?? '')
 
-    if (!username || !password) {
-      return fail(400, { error: 'กรุณากรอก username และ password' })
+    if (!badgecode || !password) {
+      return fail(400, { error: 'กรุณากรอกรหัสพนักงานและรหัสผ่าน' })
     }
 
     const apiBase = (env.API_BASE_URL ?? 'http://localhost:8090').replace(/\/$/, '')
@@ -19,7 +19,9 @@ export const actions: Actions = {
     console.log('[login] calling:', url)
 
     const ctrl = new AbortController()
-    const timer = setTimeout(() => ctrl.abort(), 8000)
+    // Microchip API's AD bind can take several seconds — give it (and our
+    // backend's own 15s timeout against it) enough room before aborting.
+    const timer = setTimeout(() => ctrl.abort(), 20000)
 
     let res: Response
     try {
@@ -30,7 +32,7 @@ export const actions: Actions = {
           'Content-Type': 'application/json',
           'X-API-Key': env.API_KEY ?? '',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ badgecode, password }),
         signal: ctrl.signal,
       })
     } catch (e: unknown) {
@@ -45,7 +47,7 @@ export const actions: Actions = {
     console.log('[login] response status:', res.status)
 
     if (!res.ok) {
-      return fail(401, { error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง' })
+      return fail(401, { error: 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง' })
     }
 
     const json = await res.json()

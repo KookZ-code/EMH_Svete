@@ -11,8 +11,17 @@ export const handle: Handle = async ({ event, resolve }) => {
   // strip base prefix to get relative path
   const rel = base ? pathname.slice(base.length) || '/' : pathname
 
-  // Login page — always allow
+  // Login and 403 pages — always allow. /403 must be exempt too, otherwise a
+  // non-admin user denied some path gets redirected to /403, which itself
+  // fails the same permission check (it's not in any role's allowed-path
+  // list) and redirects to /403 again — an infinite loop.
   if (rel === '/login' || rel.startsWith('/login/')) {
+    return resolve(event)
+  }
+  if (rel === '/403' || rel.startsWith('/403/')) {
+    const token = event.cookies.get('session')
+    const user = token ? verifyJwt(token) : null
+    if (user) event.locals.user = user
     return resolve(event)
   }
 
@@ -34,6 +43,12 @@ export const handle: Handle = async ({ event, resolve }) => {
   // Non-admin: block /admin
   if (rel.startsWith('/admin')) {
     redirect(302, `${base}/403`)
+  }
+
+  // API routes bypass permission check
+  if (rel.startsWith('/api/')) {
+    event.locals.user = user
+    return resolve(event)
   }
 
   // Check dynamic permissions from DB (cached 60s)

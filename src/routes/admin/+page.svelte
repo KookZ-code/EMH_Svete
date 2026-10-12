@@ -6,6 +6,8 @@
   let { data }: { data: PageData } = $props()
 
   // ─── Types ───────────────────────────────────────────────────────────────
+  // "username" holds a badge code (e.g. "B17460") — Microchip Account API
+  // verifies the password at login time, we only persist the role mapping.
   interface UserRow {
     id: number
     username: string
@@ -39,11 +41,8 @@
   let viewerPerms     = $state<Set<string>>(new Set<string>(data.permissions?.viewer ?? []))
 
   let showForm   = $state(false)
-  let showPwForm = $state(false)
   let editUser   = $state<UserRow | null>(null)
-  let pwUserId   = $state<number | null>(null)
-  let pwUsername = $state('')
-  let formUser   = $state({ username: '', display_name: '', role: 'viewer' as UserRow['role'], password: '' })
+  let formUser   = $state({ username: '', role: 'viewer' as UserRow['role'] })
   let formError  = $state('')
   let permsSaving = $state<string | null>(null)
   let permsMsg    = $state('')
@@ -54,39 +53,30 @@
     viewer: '#8A8A8A',
   }
 
-  // ─── User helpers ─────────────────────────────────────────────────────────
+  // ─── Badge → Role helpers ───────────────────────────────────────────────
   function openNew() {
     editUser = null
-    formUser = { username: '', display_name: '', role: 'viewer', password: '' }
+    formUser = { username: '', role: 'viewer' }
     formError = ''
     showForm = true
   }
 
   function openEdit(u: UserRow) {
     editUser = u
-    formUser = { username: u.username, display_name: u.display_name, role: u.role, password: '' }
+    formUser = { username: u.username, role: u.role }
     formError = ''
     showForm = true
   }
 
-  function openPw(u: UserRow) {
-    pwUserId = u.id
-    pwUsername = u.username
-    formUser = { ...formUser, password: '' }
-    formError = ''
-    showPwForm = true
-  }
-
   async function saveUser() {
     formError = ''
-    if (!formUser.username.trim()) { formError = 'Username required'; return }
-    if (!editUser && formUser.password.length < 6) { formError = 'Password min 6 characters'; return }
+    if (!formUser.username.trim()) { formError = 'Badge code required'; return }
 
     const method = editUser ? 'PUT' : 'POST'
     const url    = editUser ? `/api/v1/users/${editUser.id}` : '/api/v1/users'
     const body   = editUser
-      ? { display_name: formUser.display_name, role: formUser.role }
-      : { username: formUser.username, display_name: formUser.display_name, role: formUser.role, password: formUser.password }
+      ? { display_name: editUser.display_name, role: formUser.role }
+      : { username: formUser.username, display_name: formUser.username, role: formUser.role }
 
     const res = await fetch(url, {
       method,
@@ -96,27 +86,14 @@
     const json = await res.json()
     if (!res.ok || json.error) { formError = json.error?.message ?? 'Save failed'; return }
 
-    // Reload users
+    // Reload badge-role list
     const listRes = await fetch('/api/v1/users')
     if (listRes.ok) users = (await listRes.json()).data ?? users
     showForm = false
   }
 
-  async function savePassword() {
-    formError = ''
-    if (formUser.password.length < 6) { formError = 'Password min 6 characters'; return }
-    const res = await fetch(`/api/v1/users/${pwUserId}/password`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: formUser.password }),
-    })
-    const json = await res.json()
-    if (!res.ok || json.error) { formError = json.error?.message ?? 'Save failed'; return }
-    showPwForm = false
-  }
-
   async function deleteUser(u: UserRow) {
-    if (!confirm(`Delete user "${u.username}"?`)) return
+    if (!confirm(`Delete badge "${u.username}"?`)) return
     await fetch(`/api/v1/users/${u.id}`, { method: 'DELETE' })
     users = users.filter(x => x.id !== u.id)
   }
@@ -150,8 +127,8 @@
 
   // ─── Table columns ────────────────────────────────────────────────────────
   const cols = [
-    { key: 'username',     label: 'Username',     sortable: true },
-    { key: 'display_name', label: 'Display Name', sortable: true },
+    { key: 'username',     label: 'Badge Code',       sortable: true },
+    { key: 'display_name', label: 'Name (cached)',    sortable: true },
     {
       key: 'role', label: 'Role', width: '110px',
       renderHtml: (v: unknown) => {
@@ -178,13 +155,16 @@
   <button class="tab" class:active={activeTab === 'permissions'} onclick={() => (activeTab = 'permissions')}>🔐 Permissions</button>
 </div>
 
-<!-- ── Users Tab ── -->
+<!-- ── Badge → Role Tab ── -->
 {#if activeTab === 'users'}
   <div class="chart-card">
     <div class="adm-toolbar">
-      <div class="card-title">Users ({users.length})</div>
-      <button class="btn btn-solid btn-sm" onclick={openNew}>+ Add User</button>
+      <div class="card-title">Badge → Role ({users.length})</div>
+      <button class="btn btn-solid btn-sm" onclick={openNew}>+ Add Badge</button>
     </div>
+    <p class="tab-note">
+      ล็อกอินตรวจสอบรหัสผ่านผ่าน Microchip Account API แล้ว — ที่นี่กำหนดแค่สิทธิ์ (role) ของแต่ละรหัสพนักงานเท่านั้น ไม่มีการตั้งรหัสผ่าน
+    </p>
 
     <DataTable columns={cols} rows={users} rowKey={r => String(r.id)} compact />
 
@@ -194,8 +174,7 @@
         <div class="ua-row">
           <span class="ua-name">{u.username}</span>
           <div class="ua-btns">
-            <button class="btn-xs" onclick={() => openEdit(u)}>Edit</button>
-            <button class="btn-xs" onclick={() => openPw(u)}>Reset PW</button>
+            <button class="btn-xs" onclick={() => openEdit(u)}>Edit Role</button>
             {#if u.role !== 'admin'}
               <button class="btn-xs danger" onclick={() => deleteUser(u)}>Delete</button>
             {/if}
@@ -249,11 +228,11 @@
   {/if}
 {/if}
 
-<!-- ── User Form Modal ── -->
+<!-- ── Badge → Role Form Modal ── -->
 {#if showForm}
   <div class="modal-overlay" onclick={() => (showForm = false)} role="dialog" aria-modal="true" tabindex="-1" onkeydown={() => {}}>
     <div class="modal-card" onclick={(e) => e.stopPropagation()} onkeydown={() => {}} role="presentation">
-      <h3 class="modal-title">{editUser ? 'Edit User' : 'New User'}</h3>
+      <h3 class="modal-title">{editUser ? 'Edit Role' : 'New Badge'}</h3>
 
       {#if formError}
         <div class="form-error">{formError}</div>
@@ -261,12 +240,8 @@
 
       <div class="form-grid">
         <div class="fg">
-          <label class="label" for="fu-username">Username</label>
-          <input id="fu-username" class="input" type="text" bind:value={formUser.username} disabled={!!editUser} />
-        </div>
-        <div class="fg">
-          <label class="label" for="fu-display">Display Name</label>
-          <input id="fu-display" class="input" type="text" bind:value={formUser.display_name} />
+          <label class="label" for="fu-username">Badge Code</label>
+          <input id="fu-username" class="input" type="text" placeholder="B17460" bind:value={formUser.username} disabled={!!editUser} />
         </div>
         <div class="fg">
           <label class="label" for="fu-role">Role</label>
@@ -276,40 +251,11 @@
             <option value="admin">Admin</option>
           </select>
         </div>
-        {#if !editUser}
-          <div class="fg">
-            <label class="label" for="fu-pw">Password</label>
-            <input id="fu-pw" class="input" type="password" bind:value={formUser.password} placeholder="min 6 chars" />
-          </div>
-        {/if}
       </div>
 
       <div class="modal-actions">
         <button class="btn btn-outline" onclick={() => (showForm = false)}>Cancel</button>
         <button class="btn btn-solid" onclick={saveUser}>Save</button>
-      </div>
-    </div>
-  </div>
-{/if}
-
-<!-- ── Password Reset Modal ── -->
-{#if showPwForm}
-  <div class="modal-overlay" onclick={() => (showPwForm = false)} role="dialog" aria-modal="true" tabindex="-1" onkeydown={() => {}}>
-    <div class="modal-card" onclick={(e) => e.stopPropagation()} onkeydown={() => {}} role="presentation">
-      <h3 class="modal-title">Reset Password — {pwUsername}</h3>
-
-      {#if formError}
-        <div class="form-error">{formError}</div>
-      {/if}
-
-      <div class="fg" style="margin-bottom:16px">
-        <label class="label" for="pw-new">New Password</label>
-        <input id="pw-new" class="input" type="password" bind:value={formUser.password} placeholder="min 6 chars" />
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn btn-outline" onclick={() => (showPwForm = false)}>Cancel</button>
-        <button class="btn btn-solid" onclick={savePassword}>Save Password</button>
       </div>
     </div>
   </div>
@@ -336,6 +282,7 @@
 
   .adm-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .card-title  { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted); }
+  .tab-note    { font-size: 12px; color: var(--color-text-muted); margin: -4px 0 12px; }
 
   /* User row actions */
   .user-actions-list { margin-top: 8px; display: flex; flex-direction: column; gap: 2px; }
