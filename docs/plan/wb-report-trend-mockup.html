@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WB Report Trend Mockup</title>
+<script src="../../node_modules/echarts/dist/echarts.min.js"></script>
+<style>
+  :root {
+    --primary:#1C355E; --surface:#FFFFFF; --surface-alt:#F8F8F7; --surface-gray:#F1F2F2;
+    --border:#E3E3E3; --text-dark:#2C2C2B; --text-muted:#838E93; --text-disabled:#B6B7B9;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:16px; background:var(--surface-gray); font-family:'Open Sans',Arial,sans-serif; color:var(--text-dark); }
+  .wrap { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:16px; max-width:1500px; margin:auto; }
+  .hd { display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; margin-bottom:16px; border-bottom:1px solid var(--border); }
+  .hd h3 { margin:0; font-size:16px; font-weight:600; color:var(--primary); }
+  .hd span { font-size:12px; color:var(--text-muted); }
+
+  /* KPI strip */
+  .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--surface-alt); border:1px solid var(--border); border-radius:4px; padding:10px 12px; border-top:3px solid var(--c); }
+  .kpi .l { font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; }
+  .kpi .v { font-size:20px; font-weight:700; color:var(--c); margin-top:2px; }
+
+  .main { display:grid; grid-template-columns:220px 1fr; gap:16px; margin-bottom:16px; }
+  .panel { border:1px solid var(--border); border-radius:4px; background:var(--surface-alt); }
+  .panel-hd { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--border); background:var(--surface); border-radius:4px 4px 0 0; }
+  .panel-hd b { font-size:12px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--primary); }
+  .panel-hd i { font-style:normal; font-size:10px; color:var(--text-muted); letter-spacing:.5px; }
+  .axis-note { padding:6px 12px; font-size:11px; color:var(--text-muted); border-bottom:1px solid var(--border); }
+  .axis-note b { color:var(--text-dark); }
+
+  /* Series control */
+  .tog-list { padding:8px; display:flex; flex-direction:column; gap:4px; }
+  .tog { display:flex; align-items:center; gap:10px; padding:8px; border-radius:4px; cursor:pointer; user-select:none; }
+  .tog:hover { background:var(--surface-gray); }
+  .sw { width:30px; height:16px; border-radius:8px; background:var(--text-disabled); position:relative; transition:background .15s; flex:none; }
+  .sw::after { content:''; position:absolute; top:2px; left:2px; width:12px; height:12px; border-radius:50%; background:#fff; transition:left .15s; }
+  .tog.on .sw { background:var(--c); }
+  .tog.on .sw::after { left:16px; }
+  .dot { width:10px; height:10px; border-radius:50%; background:var(--c); flex:none; }
+  .tog-label { font-size:12px; font-weight:600; color:var(--text-muted); }
+  .tog.on .tog-label { color:var(--text-dark); }
+
+  #chart { width:100%; height:340px; background:var(--surface); }
+
+  /* table */
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { background:var(--surface-gray); color:var(--primary); text-align:left; padding:8px 10px; border-bottom:2px solid var(--border); white-space:nowrap; }
+  td { padding:8px 10px; border-bottom:1px solid var(--border); }
+  td.n { text-align:right; font-variant-numeric:tabular-nums; }
+  .tbl { border:1px solid var(--border); border-radius:4px; overflow-x:auto; }
+
+  @media (max-width:900px) { .main { grid-template-columns:1fr; } .kpis { grid-template-columns:repeat(2,1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd"><h3>📈 7-Day Performance Trend</h3><span>Last 7 days ending 2026-10-15</span></div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="main">
+    <div class="panel">
+      <div class="panel-hd"><b>Series Control</b></div>
+      <div class="tog-list" id="togs"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-hd"><b>Trend — Utilization / Loss (%)</b><i>HOVER FOR VALUES</i></div>
+      <div class="axis-note"><b>Y AXIS</b> — % of shift time · <b>X AXIS</b> — day + shift (N = Night, D = Day)</div>
+      <div id="chart"></div>
+    </div>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Date</th><th>Shift</th><th>Total Request Job</th><th>Total Close Job</th><th>Technician</th><th>Avg Job per Tech</th><th>M/C Down Job</th><th>Avg M/C Down time</th></tr></thead>
+      <tbody>
+        <tr><td>2026-10-09</td><td>Night</td><td class="n">340</td><td class="n">332</td><td class="n">24</td><td class="n">13.8</td><td class="n">242</td><td class="n">27.0</td></tr>
+        <tr><td>2026-10-09</td><td>Day</td><td class="n">362</td><td class="n">348</td><td class="n">34</td><td class="n">10.2</td><td class="n">254</td><td class="n">31.4</td></tr>
+        <tr><td>2026-10-10</td><td>Night</td><td class="n">310</td><td class="n">303</td><td class="n">23</td><td class="n">13.2</td><td class="n">202</td><td class="n">30.7</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Series colors = current ones (kept per decision #2)
+  const METRICS = [
+    { key:'util',  label:'AVG UTIL %',   color:'#2d8e4e', on:false, data:[92.1,92.8,93.0,92.5,null,null,92.9,91.7,null,null,91.4,91.6,92.2,93.0] },
+    { key:'down',  label:'M/C DOWN %',   color:'#cc0000', on:true,  data:[1.8,1.4,1.8,1.0,0,0.3,1.7,2.3,0,0.3,2.2,2.0,2.3,1.5] },
+    { key:'wait',  label:'WAIT %',       color:'#e67e22', on:true,  data:[6.6,6.4,4.1,2.1,0,0.4,5.4,6.1,0,0.4,7.1,10.2,6.1,4.2] },
+    { key:'setup', label:'SETUP+CONV %', color:'#1d9ce4', on:true,  data:[0.6,1.3,0.6,0.8,0,0.1,0.7,0.4,0,0.1,0.9,0.8,1.0,0.6] },
+    { key:'idle',  label:'IDLE %',       color:'#702076', on:true,  data:[2.7,1.7,2.5,2.6,0,0.2,2.0,2.1,0,0.2,2.4,1.9,2.0,0.9] },
+  ];
+  const X = ['09 N','09 D','10 N','10 D','11 N','11 D','12 N','12 D','13 N','13 D','14 N','14 D','15 N','15 D'];
+  const avg = a => { const v = a.filter(x => x != null); return v.reduce((s,x)=>s+x,0)/v.length; };
+
+  document.getElementById('kpis').innerHTML = METRICS.map(m =>
+    `<div class="kpi" style="--c:${m.color}"><div class="l">${m.label.startsWith('AVG')?'':'Avg '}${m.label.replace(' %','')}${m.key==='setup'?'':' %'}</div><div class="v">${avg(m.data).toFixed(1)}%</div></div>`).join('');
+
+  const togs = document.getElementById('togs');
+  togs.innerHTML = METRICS.map(m =>
+    `<div class="tog ${m.on?'on':''}" data-k="${m.key}" style="--c:${m.color}"><div class="sw"></div><span class="dot"></span><span class="tog-label">${m.label}</span></div>`).join('');
+
+  const chart = echarts.init(document.getElementById('chart'));
+  function render() {
+    const vis = METRICS.filter(m => m.on);
+    const max = Math.max(0, ...vis.flatMap(m => m.data.filter(x => x != null)));
+    const yMax = vis.some(m => m.key==='util') ? 100 : Math.ceil(Math.max(max*1.2, 20)/5)*5;
+    chart.setOption({
+      animation:false,
+      grid:{ top:24, left:16, right:24, bottom:16, containLabel:true },
+      tooltip:{
+        trigger:'axis', axisPointer:{ type:'line', lineStyle:{ color:'#B6B7B9' } },
+        backgroundColor:'#fff', borderColor:'#E3E3E3', borderWidth:1, padding:10,
+        textStyle:{ color:'#2C2C2B', fontSize:11 },
+        formatter:p => `<b style="color:#1C355E">${X[p[0].dataIndex]}</b><br/>` +
+          p.map(s => `<span style="color:${s.color}">●</span> ${s.seriesName}: <b>${s.value==null?'-':s.value.toFixed(1)+'%'}</b>`).join('<br/>'),
+      },
+      xAxis:{ type:'category', data:X, axisLine:{ lineStyle:{ color:'#B6B7B9' } }, axisTick:{ show:false },
+        axisLabel:{ fontSize:10, color:'#838E93' }, splitLine:{ show:false } },
+      yAxis:{ type:'value', min:0, max:yMax, name:'% OF SHIFT', nameTextStyle:{ fontSize:9, color:'#838E93', align:'left' },
+        axisLabel:{ fontSize:10, color:'#838E93', formatter:'{value}' },
+        splitLine:{ lineStyle:{ color:'#EEEEEE' } } },
+      series: vis.map(m => ({
+        name:m.label, type:'line', data:m.data, connectNulls:true,
+        lineStyle:{ width:2, color:m.color }, itemStyle:{ color:m.color },
+        symbol:'circle', symbolSize:6, emphasis:{ scale:1.6 },
+      })),
+    }, true);
+  }
+  togs.addEventListener('click', e => {
+    const el = e.target.closest('.tog'); if (!el) return;
+    const m = METRICS.find(x => x.key === el.dataset.k);
+    m.on = !m.on; el.classList.toggle('on', m.on); render();
+  });
+  window.addEventListener('resize', () => chart.resize());
+  render();
+</script>
+</body>
+</html>
