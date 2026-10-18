@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
   import SevenDayTrend from '$lib/components/SevenDayTrend.svelte';
+  import JobTrend from '$lib/components/JobTrend.svelte';
   import TechnicianPerformance from '$lib/components/TechnicianPerformance.svelte';
 
   // ── Types ─────────────────────────────────────────────────────────────────
@@ -1197,6 +1198,9 @@
 
   <!-- ── 7-Day Trend ──────────────────────────────────────────────────────── -->
   <SevenDayTrend date={selDate} packages={selPackages.join(',')} />
+
+  <!-- ── Job Request / Close by Type ──────────────────────────────────────── -->
+  <JobTrend date={selDate} packages={selPackages.join(',')} />
 
   <!-- ── Technician Performance ─────────────────────────────────────────── -->
   {#if kpi && techSummary && techList.length > 0}
