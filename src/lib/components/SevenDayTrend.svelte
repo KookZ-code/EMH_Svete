@@ -44,7 +44,7 @@
     { key: 'tech_count', label: 'TECHNICIANS', color: '#1c355e', axis: 1 },
   ];
 
-  let { date = '', packages = '' } = $props<Props>();
+  let { date = '', packages = '' }: Props = $props();
 
   let loading = $state(true);
   let error = $state<string | null>(null);
@@ -177,6 +177,10 @@
       yMax = Math.ceil(Math.max(dataMax * 1.2, 20) / 5) * 5;
     }
 
+    // Technician axis is kept at roughly double the largest count, so the bars fill the lower half.
+    const techMax = Math.max(0, ...seriesData('tech_count'));
+    const techAxisMax = Math.max(10, Math.ceil((techMax * 2) / 5) * 5);
+
     const option: EChartsOption = {
       tooltip: {
         trigger: 'axis',
@@ -218,20 +222,36 @@
           axisLabel: { fontSize: 10, color: '#838E93' },
           splitLine: { show: false },
           min: 0,
+          // Bars stay in the lower part of the chart so they are not read as % values.
+          max: techAxisMax,
           minInterval: 1,
         },
       ],
-      series: visible.map((m) => ({
-        name: m.label,
-        type: 'line',
-        yAxisIndex: m.axis,
-        data: seriesData(m.key),
-        lineStyle: { width: 2, color: m.color },
-        itemStyle: { color: m.color },
-        symbol: 'circle',
-        symbolSize: 6,
-        emphasis: { scale: 1.6 },
-      })),
+      series: visible.map((m) => (m.axis === 1
+        // Technicians are a count per shift, so they render as bars (light fill, value label on top)
+        // and sit behind the % lines.
+        ? {
+            name: m.label,
+            type: 'bar',
+            yAxisIndex: 1,
+            data: seriesData(m.key),
+            z: 1,
+            barMaxWidth: 28,
+            itemStyle: { color: 'rgba(28,53,94,0.14)', borderColor: 'rgba(28,53,94,0.35)', borderWidth: 1 },
+            label: { show: true, position: 'top', fontSize: 10, color: '#1c355e', fontWeight: 600, formatter: (p: any) => (p.value > 0 ? `${p.value}` : '') },
+          }
+        : {
+            name: m.label,
+            type: 'line',
+            yAxisIndex: m.axis,
+            data: seriesData(m.key),
+            z: 3,
+            lineStyle: { width: 2, color: m.color },
+            itemStyle: { color: m.color },
+            symbol: 'circle',
+            symbolSize: 6,
+            emphasis: { scale: 1.6 },
+          })),
     };
 
     chartOption = option;

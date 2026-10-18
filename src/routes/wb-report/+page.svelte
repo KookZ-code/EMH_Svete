@@ -19,14 +19,19 @@
   }
   interface PackageOpt { value:string; label:string; }
   interface TechSummary {
+    tech_count:number; down_jobs:number; setup_jobs:number;
     closed_jobs:number; open_jobs:number; total_jobs:number; closed_pct:number; open_pct:number;
     avg_jobs:number; down_avg:number; down_min:number; down_max:number;
     setup_avg:number; setup_min:number; setup_max:number;
   }
+  interface ShiftReport {
+    machines:MachineRow[]; kpi:WbKpi|null; tech_summary:TechSummary|null; tech_list:TechStats[];
+    pkg_label:string; time_range:string;
+  }
   interface TechStats {
     name:string; closed_jobs:number; open_jobs:number; total_jobs:number;
-    down_avg:number; down_min:number; down_max:number; down_events:number;
-    setup_avg:number; setup_min:number; setup_max:number; setup_events:number;
+    down_avg:number; down_min:number; down_max:number; down_events:number; down_count:number;
+    setup_avg:number; setup_min:number; setup_max:number; setup_events:number; setup_count:number;
   }
 
   // ── Job type config ────────────────────────────────────────────────────────
@@ -56,7 +61,7 @@
 
   let machines     = $state<MachineRow[]>([]);
   let kpi          = $state<WbKpi|null>(null);
-  let kpi7d        = $state<Partial<WbKpi> & { days: number; down_events?: number; setup_events?: number; idle_pct?: number } | null>(null);
+  let kpi7d        = $state<Partial<WbKpi> & { days: number; down_events?: number; setup_events?: number; idle_pct?: number; total_request_jobs?: number; avg_waiting_time?: number; max_waiting_time?: number } | null>(null);
   let techSummary  = $state<TechSummary|null>(null);
   let techList     = $state<TechStats[]>([]);
   let pkgLabel     = $state('');
@@ -144,7 +149,7 @@
     loading = true; error = null; kpi7d = null;
     try {
       const pkgsEnc = encodeURIComponent(selPackages.join(','));
-      const main = await fetch(`${base}/api/wb/report?date=${selDate}&shift=${selShift}&packages=${pkgsEnc}`).then(r => r.json());
+      const main: { data: ShiftReport; error?: { message: string } } = await fetch(`${base}/api/wb/report?date=${selDate}&shift=${selShift}&packages=${pkgsEnc}`).then(r => r.json());
       if (main.error) { error = main.error.message; loading = false; return; }
       const d = main.data;
       machines    = d.machines      ?? [];
