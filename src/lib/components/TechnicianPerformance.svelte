@@ -3,7 +3,9 @@
 
   interface TechStats {
     name: string;
-    job_count: number;
+    closed_jobs: number;
+    open_jobs: number;
+    total_jobs: number;
     down_avg: number;
     down_min: number;
     down_max: number;
@@ -36,7 +38,7 @@
     techs: TechStats[];
   }
 
-  let { summary, techs } = $props<Props>();
+  let { summary, techs }: Props = $props();
 
   let sortCol = $state<keyof TechStats>('down_avg');
   let sortDir = $state<1 | -1>(-1);

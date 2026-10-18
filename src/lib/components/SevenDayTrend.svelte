@@ -18,17 +18,14 @@
     max_waiting_time: number;
   }
 
+  type PercentKey = 'avg_util' | 'down_pct' | 'wait_pct' | 'setup_conv_pct' | 'idle_pct';
+  type MetricKey = PercentKey | 'tech_count';
+
   interface TrendData {
     dates: string[];
     shifts: string[];
     shift_details: ShiftDetail[];
-    metrics: {
-      avg_util: number[];
-      down_pct: number[];
-      wait_pct: number[];
-      setup_conv_pct: number[];
-      idle_pct: number[];
-    };
+    metrics: Record<PercentKey, number[]>;
   }
 
   interface Props {
@@ -36,19 +33,31 @@
     packages?: string;
   }
 
-  let { date = '', packages = '' } = $props<Props>();
+  // Single source for the series toggles, KPI tiles and chart lines.
+  // axis 0 = left % axis, axis 1 = right count axis (technicians). Only metrics with kpiLabel get a KPI tile.
+  const METRICS: { key: MetricKey; label: string; kpiLabel?: string; color: string; axis: 0 | 1 }[] = [
+    { key: 'avg_util', label: 'AVG UTIL %', kpiLabel: 'Avg Utilization', color: '#2d8e4e', axis: 0 },
+    { key: 'down_pct', label: 'M/C DOWN %', kpiLabel: 'Avg M/C DOWN %', color: '#cc0000', axis: 0 },
+    { key: 'wait_pct', label: 'WAIT %', kpiLabel: 'Avg WAIT %', color: '#e67e22', axis: 0 },
+    { key: 'setup_conv_pct', label: 'SETUP+CONV %', kpiLabel: 'Avg SETUP+CONV', color: '#1d9ce4', axis: 0 },
+    { key: 'idle_pct', label: 'IDLE %', kpiLabel: 'Avg IDLE %', color: '#702076', axis: 0 },
+    { key: 'tech_count', label: 'TECHNICIANS', color: '#1c355e', axis: 1 },
+  ];
+
+  let { date = '', packages = '' }: Props = $props();
 
   let loading = $state(true);
   let error = $state<string | null>(null);
   let trendData = $state<TrendData | null>(null);
   let chartOption = $state<EChartsOption | null>(null);
 
-  let showMetrics = $state({
+  let showMetrics = $state<Record<MetricKey, boolean>>({
     avg_util: false,
     down_pct: true,
     wait_pct: true,
     setup_conv_pct: true,
     idle_pct: true,
+    tech_count: true,
   });
 
   let sortColumn = $state<string>('date');
@@ -79,6 +88,11 @@
       return sortDir * ((aVal || 0) - (bVal || 0));
     });
     return sorted;
+  }
+
+  function toggleMetric(key: MetricKey) {
+    showMetrics[key] = !showMetrics[key];
+    buildChart();
   }
 
   async function loadTrendData() {
@@ -124,12 +138,27 @@
     }
   }
 
+  // Series values: % metrics come from `metrics`. Technician count is not in `metrics`,
+  // so it is looked up per (date, shift) from `shift_details` to avoid relying on row order.
+  function seriesData(key: MetricKey): number[] {
+    if (!trendData) return [];
+    if (key !== 'tech_count') return trendData.metrics[key];
+    const byKey = new Map(trendData.shift_details.map((d) => [`${d.date}|${d.shift}`, d.tech_count]));
+    return trendData.dates.map((d, i) => byKey.get(`${d}|${trendData!.shifts[i]}`) ?? 0);
+  }
+
+  /*
+   * Builds the ECharts option from the fetched trend data and the current toggles.
+   * Only enabled metrics become series (ECharts has no per-series `show` flag, so
+   * hidden metrics must be left out of `series` entirely). Y-axis max is 100 when
+   * AVG UTIL is shown, otherwise scales to the largest visible value (min 20, step 5).
+   */
   function buildChart() {
     if (!trendData) return;
 
     const { dates, shifts, metrics } = trendData;
 
-    // X-axis labels: "Date Shift"
+    // X-axis labels: "Day Shift" (e.g. "15 N")
     const xLabels = dates.map((d, i) => {
       const parts = d.split('-');
       const day = parts[2];
@@ -137,109 +166,92 @@
       return `${day} ${shift.slice(0, 1)}`;
     });
 
-    // Calculate dynamic Y-axis max based on visible metrics
-    let visibleMetrics: number[] = [];
-    if (showMetrics.avg_util) visibleMetrics.push(...metrics.avg_util);
-    if (showMetrics.down_pct) visibleMetrics.push(...metrics.down_pct);
-    if (showMetrics.wait_pct) visibleMetrics.push(...metrics.wait_pct);
-    if (showMetrics.setup_conv_pct) visibleMetrics.push(...metrics.setup_conv_pct);
-    if (showMetrics.idle_pct) visibleMetrics.push(...metrics.idle_pct);
+    const visible = METRICS.filter((m) => showMetrics[m.key]);
+    const pctVisible = visible.filter((m) => m.axis === 0);
+    const countVisible = visible.filter((m) => m.axis === 1);
 
+    // Left axis (%) scales to the largest visible % value; AVG UTIL pins it to 100.
     let yMax = 100;
-    if (visibleMetrics.length > 0) {
-      const dataMax = Math.max(...visibleMetrics);
-      if (showMetrics.avg_util) {
-        yMax = 100;
-      } else {
-        yMax = Math.max(dataMax * 1.2, 20); // 20% padding, min 20
-        yMax = Math.ceil(yMax / 5) * 5; // Round up to nearest 5
-      }
+    if (pctVisible.length > 0 && !showMetrics.avg_util) {
+      const dataMax = Math.max(...pctVisible.flatMap((m) => seriesData(m.key)));
+      yMax = Math.ceil(Math.max(dataMax * 1.2, 20) / 5) * 5;
     }
+
+    // Technician axis is kept at roughly double the largest count, so the bars fill the lower half.
+    const techMax = Math.max(0, ...seriesData('tech_count'));
+    const techAxisMax = Math.max(10, Math.ceil((techMax * 2) / 5) * 5);
 
     const option: EChartsOption = {
       tooltip: {
         trigger: 'axis',
-        axisPointer: { type: 'shadow' },
+        axisPointer: { type: 'line', lineStyle: { color: '#B6B7B9' } },
         formatter: (params: any) => {
           if (!Array.isArray(params)) return '';
           const idx = params[0]?.dataIndex;
           if (idx == null) return '';
           return `<b>${dates[idx]} ${shifts[idx]}</b><br/>` +
-            params.map((p: any) => `<span style="color:${p.color}">●</span> ${p.seriesName}: ${p.value.toFixed(1)}${p.seriesName.includes('%') ? '%' : ''}`).join('<br/>');
+            params.map((p: any) => {
+              const isCount = p.seriesName === 'TECHNICIANS';
+              const text = isCount ? `${p.value}` : `${p.value.toFixed(1)}%`;
+              return `<span style="color:${p.color}">●</span> ${p.seriesName}: ${text}`;
+            }).join('<br/>');
         },
       },
-      legend: {
-        data: ['AVG UTIL %', 'M/C DOWN %', 'WAIT %', 'SETUP+CONV %', 'IDLE %'],
-        top: 0,
-        textStyle: { fontSize: 11 },
-      },
-      grid: { top: 40, left: 50, right: 50, bottom: 50, containLabel: true },
+      grid: { top: 24, left: 16, right: 16, bottom: 16, containLabel: true },
       xAxis: {
         type: 'category',
         data: xLabels,
-        axisLabel: { fontSize: 10, rotate: 45 },
+        axisTick: { show: false },
+        axisLine: { lineStyle: { color: '#B6B7B9' } },
+        axisLabel: { fontSize: 10, color: '#838E93' },
       },
-      yAxis: {
-        type: 'value',
-        name: '%',
-        nameTextStyle: { fontSize: 10 },
-        axisLabel: { fontSize: 10 },
-        min: 0,
-        max: yMax,
-      },
-      series: [
+      yAxis: [
         {
-          name: 'AVG UTIL %',
-          type: 'line',
-          data: metrics.avg_util,
-          stroke: '#2d8e4e',
-          lineStyle: { color: '#2d8e4e', width: 2 },
-          itemStyle: { color: '#2d8e4e' },
-          symbol: 'circle',
-          symbolSize: 4,
-          show: showMetrics.avg_util,
+          type: 'value',
+          name: '% OF SHIFT',
+          nameTextStyle: { fontSize: 9, color: '#838E93', align: 'left' },
+          axisLabel: { fontSize: 10, color: '#838E93' },
+          splitLine: { lineStyle: { color: '#EEEEEE' } },
+          min: 0,
+          max: yMax,
         },
         {
-          name: 'M/C DOWN %',
-          type: 'line',
-          data: metrics.down_pct,
-          lineStyle: { color: '#cc0000', width: 2 },
-          itemStyle: { color: '#cc0000' },
-          symbol: 'circle',
-          symbolSize: 4,
-          show: showMetrics.down_pct,
-        },
-        {
-          name: 'WAIT %',
-          type: 'line',
-          data: metrics.wait_pct,
-          lineStyle: { color: '#e67e22', width: 2 },
-          itemStyle: { color: '#e67e22' },
-          symbol: 'circle',
-          symbolSize: 4,
-          show: showMetrics.wait_pct,
-        },
-        {
-          name: 'SETUP+CONV %',
-          type: 'line',
-          data: metrics.setup_conv_pct,
-          lineStyle: { color: '#1d9ce4', width: 2 },
-          itemStyle: { color: '#1d9ce4' },
-          symbol: 'circle',
-          symbolSize: 4,
-          show: showMetrics.setup_conv_pct,
-        },
-        {
-          name: 'IDLE %',
-          type: 'line',
-          data: metrics.idle_pct,
-          lineStyle: { color: '#702076', width: 2 },
-          itemStyle: { color: '#702076' },
-          symbol: 'circle',
-          symbolSize: 4,
-          show: showMetrics.idle_pct,
+          type: 'value',
+          name: 'TECHNICIANS',
+          nameTextStyle: { fontSize: 9, color: '#838E93', align: 'right' },
+          axisLabel: { fontSize: 10, color: '#838E93' },
+          splitLine: { show: false },
+          min: 0,
+          // Bars stay in the lower part of the chart so they are not read as % values.
+          max: techAxisMax,
+          minInterval: 1,
         },
       ],
+      series: visible.map((m) => (m.axis === 1
+        // Technicians are a count per shift, so they render as bars (light fill, value label on top)
+        // and sit behind the % lines.
+        ? {
+            name: m.label,
+            type: 'bar',
+            yAxisIndex: 1,
+            data: seriesData(m.key),
+            z: 1,
+            barMaxWidth: 28,
+            itemStyle: { color: 'rgba(28,53,94,0.14)', borderColor: 'rgba(28,53,94,0.35)', borderWidth: 1 },
+            label: { show: true, position: 'top', fontSize: 10, color: '#1c355e', fontWeight: 600, formatter: (p: any) => (p.value > 0 ? `${p.value}` : '') },
+          }
+        : {
+            name: m.label,
+            type: 'line',
+            yAxisIndex: m.axis,
+            data: seriesData(m.key),
+            z: 3,
+            lineStyle: { width: 2, color: m.color },
+            itemStyle: { color: m.color },
+            symbol: 'circle',
+            symbolSize: 6,
+            emphasis: { scale: 1.6 },
+          })),
     };
 
     chartOption = option;
@@ -265,37 +277,57 @@
     <span class="date-range">{date ? `Last 7 days ending ${date}` : '—'}</span>
   </div>
 
-  <!-- Metric toggles -->
-  <div class="metric-toggles">
-    {#each [
-      { key: 'avg_util', label: 'AVG UTIL %', color: '#2d8e4e' },
-      { key: 'down_pct', label: 'M/C DOWN %', color: '#cc0000' },
-      { key: 'wait_pct', label: 'WAIT %', color: '#e67e22' },
-      { key: 'setup_conv_pct', label: 'SETUP+CONV %', color: '#1d9ce4' },
-      { key: 'idle_pct', label: 'IDLE %', color: '#702076' },
-    ] as metric (metric.key)}
-      <button
-        class="toggle-btn"
-        class:active={showMetrics[metric.key as keyof typeof showMetrics]}
-        onclick={() => {
-          showMetrics[metric.key as keyof typeof showMetrics] = !showMetrics[metric.key as keyof typeof showMetrics];
-          buildChart();
-        }}
-        style:--color={metric.color}
-      >
-        <span class="toggle-dot"></span>
-        {metric.label}
-      </button>
-    {/each}
-  </div>
-
   {#if loading}
     <div class="chart-placeholder">Loading 7-day trend...</div>
   {:else if error}
     <div class="chart-placeholder error">⚠ {error}</div>
-  {:else if chartOption}
+  {:else if chartOption && trendData}
+    <!-- KPI strip: average of each metric over the 7 days -->
+    <div class="kpi-strip">
+      {#each METRICS.filter((m) => m.kpiLabel) as m (m.key)}
+        <div class="kpi" style:--c={m.color}>
+          <div class="kpi-label">{m.kpiLabel}</div>
+          <div class="kpi-value">{avgOf(seriesData(m.key)).toFixed(1)}%</div>
+        </div>
+      {/each}
+    </div>
+
+    <div class="main-grid">
+      <!-- Series control (acts as the legend) -->
+      <div class="panel">
+        <div class="panel-hd"><span>Series Control</span></div>
+        <div class="tog-list">
+          {#each METRICS as m (m.key)}
+            <button
+              class="tog"
+              class:on={showMetrics[m.key]}
+              onclick={() => toggleMetric(m.key)}
+              style:--c={m.color}
+            >
+              <span class="sw"></span>
+              <span class="dot"></span>
+              <span class="tog-label">{m.label}</span>
+            </button>
+          {/each}
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-hd">
+          <span>Trend — Utilization / Loss (%) &amp; Technicians</span>
+          <span class="hint">HOVER FOR VALUES</span>
+        </div>
+        <div class="axis-note">
+          <b>LEFT AXIS</b> — % of shift time · <b>RIGHT AXIS</b> — technicians · <b>X AXIS</b> — day + shift (N = Night, D = Day)
+        </div>
+        <div class="chart-container">
+          <EChart option={chartOption} height="340px" />
+        </div>
+      </div>
+    </div>
+
     <!-- Performance Trend Table -->
-    {#if trendData && trendData.shift_details}
+    {#if trendData.shift_details}
       <div class="table-wrapper">
         <table class="trend-table">
           <thead>
@@ -335,45 +367,6 @@
         </table>
       </div>
     {/if}
-
-    <div class="chart-container">
-      <EChart option={chartOption} height="300px" />
-    </div>
-
-    {#if trendData}
-      <div class="metrics-summary">
-        <div class="metric-stat">
-          <div class="stat-label">Avg Utilization</div>
-          <div class="stat-value green">
-            {avgOf(trendData.metrics.avg_util).toFixed(1)}%
-          </div>
-        </div>
-        <div class="metric-stat">
-          <div class="stat-label">Avg M/C DOWN %</div>
-          <div class="stat-value red">
-            {(trendData.metrics.down_pct.reduce((a, b) => a + b, 0) / trendData.metrics.down_pct.length).toFixed(1)}%
-          </div>
-        </div>
-        <div class="metric-stat">
-          <div class="stat-label">Avg WAIT %</div>
-          <div class="stat-value orange">
-            {(trendData.metrics.wait_pct.reduce((a, b) => a + b, 0) / trendData.metrics.wait_pct.length).toFixed(1)}%
-          </div>
-        </div>
-        <div class="metric-stat">
-          <div class="stat-label">Avg SETUP+CONV</div>
-          <div class="stat-value blue">
-            {(trendData.metrics.setup_conv_pct.reduce((a, b) => a + b, 0) / trendData.metrics.setup_conv_pct.length).toFixed(1)}%
-          </div>
-        </div>
-        <div class="metric-stat">
-          <div class="stat-label">Avg IDLE %</div>
-          <div class="stat-value purple">
-            {(trendData.metrics.idle_pct.reduce((a, b) => a + b, 0) / trendData.metrics.idle_pct.length).toFixed(1)}%
-          </div>
-        </div>
-      </div>
-    {/if}
   {:else}
     <div class="chart-placeholder">No data available</div>
   {/if}
@@ -409,59 +402,158 @@
     color: #999;
   }
 
-  .metric-toggles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+  /* KPI strip */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
     margin-bottom: 16px;
-    padding: 12px;
-    background: #f5f5f5;
-    border-radius: 4px;
   }
 
-  .toggle-btn {
+  .kpi {
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    border-top: 3px solid var(--c);
+    border-radius: 4px;
+    padding: 10px 12px;
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+  }
+
+  .kpi-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--c);
+    margin-top: 2px;
+  }
+
+  /* Series control + chart */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .panel {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    background: #fafafa;
+    min-width: 0;
+  }
+
+  .panel-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e8e8e8;
+    background: white;
+    border-radius: 4px 4px 0 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #1c355e;
+  }
+
+  .hint {
+    font-size: 10px;
+    font-weight: 400;
+    color: #999;
+    letter-spacing: 0.5px;
+  }
+
+  .axis-note {
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #999;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .axis-note b {
+    color: #333;
+  }
+
+  .tog-list {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tog {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border: 1px solid #ddd;
-    background: white;
+    gap: 10px;
+    padding: 8px;
+    border: none;
     border-radius: 4px;
+    background: none;
     cursor: pointer;
-    font-size: 12px;
-    font-weight: 500;
-    color: #555;
-    transition: all 0.2s ease;
+    text-align: left;
   }
 
-  .toggle-btn:hover {
-    border-color: #999;
-    background: #fafafa;
+  .tog:hover {
+    background: #f1f1f1;
   }
 
-  .toggle-btn.active {
-    border-color: var(--color);
-    background: var(--color);
-    color: white;
+  .sw {
+    width: 30px;
+    height: 16px;
+    border-radius: 8px;
+    background: #ccc;
+    position: relative;
+    flex: none;
+    transition: background 0.15s;
   }
 
-  .toggle-dot {
-    width: 8px;
-    height: 8px;
+  .sw::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: currentColor;
-    opacity: 0.6;
+    background: #fff;
+    transition: left 0.15s;
   }
 
-  .toggle-btn.active .toggle-dot {
-    opacity: 1;
+  .tog.on .sw {
+    background: var(--c);
+  }
+
+  .tog.on .sw::after {
+    left: 16px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--c);
+    flex: none;
+  }
+
+  .tog-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #999;
+  }
+
+  .tog.on .tog-label {
+    color: #333;
   }
 
   .chart-container {
-    background: #fafafa;
-    border-radius: 4px;
+    background: white;
     padding: 8px;
-    margin-bottom: 16px;
   }
 
   .chart-placeholder {
@@ -480,42 +572,8 @@
     border-color: #ffccc3;
   }
 
-  .metrics-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
-  }
-
-  .metric-stat {
-    background: #f9f9f9;
-    border: 1px solid #e8e8e8;
-    border-radius: 4px;
-    padding: 10px;
-    text-align: center;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #999;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-
-  .stat-value {
-    font-size: 16px;
-    font-weight: 700;
-  }
-
-  .stat-value.green { color: #2d8e4e; }
-  .stat-value.red { color: #cc0000; }
-  .stat-value.orange { color: #e67e22; }
-  .stat-value.blue { color: #1d9ce4; }
-  .stat-value.purple { color: #702076; }
-
   .table-wrapper {
-    margin-bottom: 16px;
+    margin-top: 16px;
     border: 1px solid #e3e3e3;
     border-radius: 4px;
     overflow-x: auto;
@@ -583,10 +641,6 @@
     color: #666;
   }
 
-  .trend-table tr.shift-night td.shift-label {
-    color: #666;
-  }
-
   .trend-table tr.shift-day td.shift-label {
     color: #1c9ce4;
   }
@@ -595,5 +649,15 @@
     text-align: right;
     font-variant-numeric: tabular-nums;
     color: #333;
+  }
+
+  @media (max-width: 900px) {
+    .main-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .kpi-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style>

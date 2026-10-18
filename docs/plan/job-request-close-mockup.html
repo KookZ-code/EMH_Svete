@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Request / Close Mockup</title>
+<script src="../../node_modules/echarts/dist/echarts.min.js"></script>
+<style>
+  :root {
+    --primary:#1C355E; --surface:#FFFFFF; --surface-alt:#F8F8F7; --surface-gray:#F1F2F2;
+    --border:#E3E3E3; --text-dark:#2C2C2B; --text-muted:#838E93; --text-disabled:#B6B7B9;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:16px; background:var(--surface-gray); font-family:'Open Sans',Arial,sans-serif; color:var(--text-dark); }
+  .wrap { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:16px; max-width:1500px; margin:auto; }
+  .hd { display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; margin-bottom:16px; border-bottom:1px solid var(--border); }
+  .hd h3 { margin:0; font-size:16px; font-weight:600; color:var(--primary); }
+  .hd span { font-size:12px; color:var(--text-muted); }
+  .mock-tag { font-size:11px; color:#e67e22; font-weight:600; }
+
+  /* KPI strip */
+  .scope-bar { display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:12px; color:var(--text-muted); }
+  .scope-bar select { font-family:inherit; font-size:12px; padding:4px 8px; border:1px solid var(--border); border-radius:4px; background:var(--surface); color:var(--text-dark); }
+  .scope-bar .hint { font-size:11px; }
+  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--surface-alt); border:1px solid var(--border); border-radius:4px; padding:10px 12px; border-top:3px solid var(--c); }
+  .kpi .l { font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; }
+  .kpi .v { font-size:20px; font-weight:700; color:var(--c); margin-top:2px; }
+  .kpi .s { font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+  .main { display:grid; grid-template-columns:220px 1fr; gap:16px; }
+  .panel { border:1px solid var(--border); border-radius:4px; background:var(--surface-alt); }
+  .panel-hd { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--border); background:var(--surface); border-radius:4px 4px 0 0; }
+  .panel-hd b { font-size:12px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--primary); }
+  .panel-hd i { font-style:normal; font-size:10px; color:var(--text-muted); letter-spacing:.5px; }
+  .axis-note { padding:6px 12px; font-size:11px; color:var(--text-muted); border-bottom:1px solid var(--border); line-height:1.5; }
+  .axis-note b { color:var(--text-dark); }
+
+  /* Series control */
+  .tog-list { padding:8px; display:flex; flex-direction:column; gap:4px; }
+  .tog { display:flex; align-items:center; gap:10px; padding:8px; border-radius:4px; cursor:pointer; user-select:none; }
+  .tog:hover { background:var(--surface-gray); }
+  .sw { width:30px; height:16px; border-radius:8px; background:var(--text-disabled); position:relative; transition:background .15s; flex:none; }
+  .sw::after { content:''; position:absolute; top:2px; left:2px; width:12px; height:12px; border-radius:50%; background:#fff; transition:left .15s; }
+  .tog.on .sw { background:var(--c); }
+  .tog.on .sw::after { left:16px; }
+  .dot { width:10px; height:10px; border-radius:50%; background:var(--c); flex:none; }
+  .tog-label { font-size:12px; font-weight:600; color:var(--text-muted); }
+  .tog.on .tog-label { color:var(--text-dark); }
+
+  #chart { width:100%; height:380px; background:var(--surface); }
+
+  @media (max-width:900px) { .main { grid-template-columns:1fr; } .kpis { grid-template-columns:repeat(2,1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd"><h3>📊 Job Request / Close by Type</h3><span class="mock-tag">MOCK — ข้อมูลจำลอง ยังไม่ใช่ข้อมูลจริง</span></div>
+
+  <div class="scope-bar">
+    <span>แสดง KPI:</span><select id="scope"></select>
+    <span class="hint">หรือคลิกแท่งกราฟ (คลิกซ้ำเพื่อกลับไป ทั้งหมด)</span>
+  </div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="main">
+    <div class="panel">
+      <div class="panel-hd"><b>Series Control</b></div>
+      <div class="tog-list" id="togs"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-hd"><b>Job Request / Close</b><i>HOVER FOR VALUES</i></div>
+      <div class="axis-note">
+        <b>LEFT AXIS</b> — จำนวนงาน (stack) · <b>RIGHT AXIS</b> — Close Rate % ·
+        <b>X AXIS</b> — day + shift (N = Night, D = Day)<br/>
+        แท่งซ้าย = <b>Request</b> (สีเต็ม) · แท่งขวา = <b>Close</b> (สีจาง)
+      </div>
+      <div id="chart"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mock data — ค่าจริงของ 12 N (165 / 156) มาจากตาราง WB Report; กะอื่นสร้างขึ้นเพื่อดูรูปแบบ
+  // rd/rs = request M/C DOWN / SETUP+CONV, cd/cs = close M/C DOWN / SETUP+CONV
+  const ROWS = [
+    { x:'12 N', rd:70,  rs:95,  cd:66,  cs:90  },
+    { x:'12 D', rd:85,  rs:95,  cd:70,  cs:80  },
+    { x:'13 N', rd:0,   rs:0,   cd:0,   cs:0   },
+    { x:'13 D', rd:0,   rs:0,   cd:0,   cs:0   },
+    { x:'14 N', rd:60,  rs:90,  cd:55,  cs:85  },
+    { x:'14 D', rd:72,  rs:88,  cd:68,  cs:84  },
+    { x:'15 N', rd:58,  rs:84,  cd:50,  cs:70  },
+    { x:'15 D', rd:80,  rs:95,  cd:76,  cs:92  },
+    { x:'16 N', rd:74,  rs:94,  cd:66,  cs:84  },
+    { x:'16 D', rd:88,  rs:97,  cd:76,  cs:84  },
+    { x:'17 N', rd:62,  rs:88,  cd:58,  cs:82  },
+    { x:'17 D', rd:84,  rs:94,  cd:80,  cs:90  },
+    { x:'18 N', rd:0,   rs:0,   cd:0,   cs:0   },
+    { x:'18 D', rd:8,   rs:12,  cd:6,   cs:8   },
+  ];
+
+  // Single source for toggles, KPI tiles and chart series
+  const METRICS = [
+    { key:'down',    label:'M/C DOWN',    color:'#cc0000', on:true  },
+    { key:'setup',   label:'SETUP+CONV',  color:'#1d9ce4', on:true  },
+    { key:'backlog', label:'BACKLOG',     color:'#1C355E', on:true  },
+    { key:'rate',    label:'CLOSE RATE %', color:'#2d8e4e', on:true  },
+  ];
+  const COLOR = Object.fromEntries(METRICS.map(m => [m.key, m.color]));
+  const isOn = key => METRICS.find(m => m.key === key).on;
+
+  // Derived per-shift values — computed once, used by chart, tooltip and KPI
+  const DERIVED = ROWS.map(r => {
+    const req = r.rd + r.rs, close = r.cd + r.cs;
+    return { ...r, req, close, backlog: req - close, rate: req > 0 ? Math.round(close / req * 1000) / 10 : null };
+  });
+  // KPI scope: -1 = all shifts, otherwise index into DERIVED (set by dropdown or chart click)
+  let sel = -1;
+  const KPI_COLORS = { req:'#1C355E', close:'#1d9ce4', rate:'#2d8e4e', backlog:'#702076' };
+
+  // Totals for a set of shifts; rate is null when there is no request to divide by
+  const summarize = rows => {
+    const req = rows.reduce((s, r) => s + r.req, 0), close = rows.reduce((s, r) => s + r.close, 0);
+    return { req, close, backlog: req - close, rate: req > 0 ? Math.round(close / req * 1000) / 10 : null };
+  };
+
+  function renderKpis() {
+    const k = summarize(sel < 0 ? DERIVED : [DERIVED[sel]]);
+    const scopeName = sel < 0 ? 'ทั้งหมด 14 กะ' : DERIVED[sel].x;
+    const rate = k.rate == null ? '-' : k.rate.toFixed(1) + '%';
+    document.getElementById('kpis').innerHTML = [
+      { l:'Total Request', v:k.req.toLocaleString(), s:scopeName, c:KPI_COLORS.req },
+      { l:'Total Close', v:k.close.toLocaleString(), s:scopeName, c:KPI_COLORS.close },
+      { l:'Close Rate', v:rate, s:'close ÷ request', c:KPI_COLORS.rate },
+      { l:'Backlog', v:k.backlog, s:'request − close', c:KPI_COLORS.backlog },
+    ].map(t => `<div class="kpi" style="--c:${t.c}"><div class="l">${t.l}</div><div class="v">${t.v}</div><div class="s">${t.s}</div></div>`).join('');
+  }
+
+  document.getElementById('togs').innerHTML = METRICS.map(m =>
+    `<div class="tog ${m.on?'on':''}" data-k="${m.key}" style="--c:${m.color}"><div class="sw"></div><span class="dot"></span><span class="tog-label">${m.label}</span></div>`).join('');
+
+  // Request = solid bars, Close = same hue, lighter, so the pair reads as one comparison
+  function bar(name, stack, data, color, isClose) {
+    return {
+      name, type:'bar', stack, data, barMaxWidth:22,
+      itemStyle: isClose
+        ? { color, opacity:0.45, borderColor:color, borderWidth:1 }
+        : { color },
+    };
+  }
+
+  function buildSeries() {
+    const series = [];
+    if (isOn('down')) {
+      series.push(bar('Request · M/C DOWN', 'request', DERIVED.map(r => r.rd), COLOR.down, false));
+      series.push(bar('Close · M/C DOWN',   'close',   DERIVED.map(r => r.cd), COLOR.down, true));
+    }
+    if (isOn('setup')) {
+      series.push(bar('Request · SETUP+CONV', 'request', DERIVED.map(r => r.rs), COLOR.setup, false));
+      series.push(bar('Close · SETUP+CONV',   'close',   DERIVED.map(r => r.cs), COLOR.setup, true));
+    }
+    if (isOn('backlog')) {
+      series.push({ name:'Backlog', type:'line', yAxisIndex:0, data:DERIVED.map(r => r.backlog),
+        color:COLOR.backlog, lineStyle:{ width:2, color:COLOR.backlog }, itemStyle:{ color:COLOR.backlog },
+        symbol:'circle', symbolSize:6, emphasis:{ scale:1.6 } });
+    }
+    if (isOn('rate')) {
+      series.push({ name:'Close Rate %', type:'line', yAxisIndex:1, data:DERIVED.map(r => r.rate),
+        connectNulls:true, lineStyle:{ width:2, color:COLOR.rate, type:'dashed' }, itemStyle:{ color:COLOR.rate },
+        symbol:'diamond', symbolSize:7, emphasis:{ scale:1.6 } });
+    }
+    return series;
+  }
+
+  const chart = echarts.init(document.getElementById('chart'));
+  function render() {
+    chart.setOption({
+      animation:false,
+      grid:{ top:24, left:16, right:16, bottom:16, containLabel:true },
+      tooltip:{
+        trigger:'axis', axisPointer:{ type:'shadow', shadowStyle:{ color:'rgba(28,53,94,0.06)' } },
+        backgroundColor:'#fff', borderColor:'#E3E3E3', borderWidth:1, padding:10,
+        textStyle:{ color:'#2C2C2B', fontSize:11 },
+        formatter: params => {
+          const r = DERIVED[params[0].dataIndex];
+          const rate = r.rate == null ? '-' : r.rate.toFixed(1) + '%';
+          return `<b style="color:#1C355E">${r.x}</b><br/>` +
+            `Request: DOWN ${r.rd} · SETUP ${r.rs} · <b>${r.req}</b><br/>` +
+            `Close: DOWN ${r.cd} · SETUP ${r.cs} · <b>${r.close}</b><br/>` +
+            `Backlog: <b>${r.backlog}</b> · Close Rate: <b>${rate}</b>`;
+        },
+      },
+      xAxis:{ type:'category', data:DERIVED.map(r => r.x), axisLine:{ lineStyle:{ color:'#B6B7B9' } },
+        axisTick:{ show:false }, axisLabel:{ fontSize:10, color:'#838E93' } },
+      yAxis:[
+        { type:'value', min:0, name:'JOBS', nameTextStyle:{ fontSize:9, color:'#838E93', align:'left' },
+          axisLabel:{ fontSize:10, color:'#838E93' }, splitLine:{ lineStyle:{ color:'#EEEEEE' } } },
+        { type:'value', min:0, max:100, name:'CLOSE RATE %', show:isOn('rate'),
+          nameTextStyle:{ fontSize:9, color:'#838E93', align:'right' },
+          axisLabel:{ fontSize:10, color:'#838E93', formatter:'{value}%' }, splitLine:{ show:false } },
+      ],
+      series: buildSeries(),
+    }, true);
+  }
+
+  document.getElementById('togs').addEventListener('click', e => {
+    const el = e.target.closest('.tog'); if (!el) return;
+    const m = METRICS.find(x => x.key === el.dataset.k);
+    m.on = !m.on; el.classList.toggle('on', m.on); render();
+  });
+  // Scope selector: dropdown and chart click both feed setScope()
+  const scopeSel = document.getElementById('scope');
+  scopeSel.innerHTML = '<option value="-1">ทั้งหมด</option>' +
+    DERIVED.map((r, i) => `<option value="${i}">${r.x}</option>`).join('');
+  function setScope(i) { sel = i; scopeSel.value = String(i); renderKpis(); }
+  scopeSel.addEventListener('change', e => setScope(Number(e.target.value)));
+  chart.on('click', p => { if (p.componentType === 'series') setScope(p.dataIndex === sel ? -1 : p.dataIndex); });
+
+  renderKpis();
+  window.addEventListener('resize', () => chart.resize());
+  render();
+</script>
+</body>
+</html>
