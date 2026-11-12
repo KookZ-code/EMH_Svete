@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WB Report PPTX Single Page Goal Mockup</title>
+<style>
+  :root {
+    --primary:#1C355E; --alt:#F8F8F7; --border:#E3E3E3; --text:#2C2C2B; --muted:#838E93; --small:#586674;
+    --red:#CC0000; --orange:#E67E22; --blue:#1D9CE4; --teal:#009688; --purple:#8B5CF6;
+    --good:#2E7D32; --good-bg:#E8F5E9; --bad:#C62828; --bad-bg:#FFEBEE;
+  }
+  * { box-sizing:border-box; margin:0; }
+  body { background:#3b3f45; font-family:'Open Sans','Segoe UI',Arial,sans-serif; color:var(--text); padding:16px 20px 40px; }
+  .intro { color:#e8eaed; font-size:13px; line-height:1.7; max-width:1280px; margin:0 auto 14px; }
+  .intro b { color:#fff; }
+  .label { color:#fff; font-size:15px; font-weight:700; max-width:1280px; margin:22px auto 8px; }
+  .label span { background:#1D9CE4; border-radius:3px; padding:1px 9px; margin-right:8px; font-size:12px; }
+  .slidebox { max-width:1280px; margin:0 auto; overflow:hidden; }
+  .slide { position:relative; width:1280px; height:720px; background:#fff; transform-origin:top left; box-shadow:0 4px 18px rgba(0,0,0,.5); overflow:hidden; }
+  .slide > * { position:absolute; }
+
+  .hdr { left:0; top:0; width:1280px; height:77px; background:var(--primary); color:#fff; }
+  .hdr h1 { position:absolute; left:38px; top:0; height:77px; display:flex; align-items:center; font-size:32px; font-weight:700; }
+  .hdr .sub { position:absolute; right:38px; top:0; height:77px; display:flex; flex-direction:column; justify-content:center; text-align:right; font-size:16px; line-height:1.35; }
+
+  .kc { background:var(--alt); border:1px solid var(--border); border-left:6px solid var(--c); }
+  .kc .kl { position:absolute; left:14px; top:5px; right:6px; font-size:13.3px; font-weight:700; white-space:nowrap; }
+  .kc .kv { position:absolute; left:14px; font-weight:800; color:var(--c); white-space:nowrap; }
+  .kc .kg { position:absolute; left:14px; right:6px; bottom:3px; font-size:10.7px; color:var(--muted); white-space:nowrap; }
+  .dl, .goal { position:absolute; font-size:12px; font-weight:700; border-radius:3px; padding:1px 6px; white-space:nowrap; }
+  .dl.g, .goal.ok  { background:var(--good-bg); color:var(--good); }
+  .dl.b, .goal.bad { background:var(--bad-bg);  color:var(--bad); }
+  .goal { display:inline-flex; align-items:center; gap:4px; border-radius:10px; position:static; }
+  .goal i { width:7px; height:7px; border-radius:50%; background:currentColor; display:inline-block; }
+
+  .lc { background:#fff; border:1px solid var(--border); }
+  .lc .bar { position:absolute; left:0; top:0; right:0; height:5px; background:var(--c); }
+  .lc .p { position:absolute; left:12px; top:4px; font-size:28px; font-weight:800; color:var(--c); line-height:1.1; }
+  .lc .nmrow { position:absolute; left:12px; right:12px; top:36px; display:flex; justify-content:space-between; align-items:baseline; }
+  .lc .nm { font-size:13.3px; font-weight:700; text-transform:uppercase; }
+  .lc .gl { font-size:10.7px; color:var(--muted); }
+  .lc .ln { position:absolute; left:12px; right:12px; display:flex; justify-content:space-between; align-items:center; font-size:10.7px; color:var(--muted); height:17px; white-space:nowrap; }
+  .lc .ln b { color:var(--text); }
+  .lc .tt { position:absolute; left:12px; right:12px; font-size:12px; font-weight:700; color:var(--c); }
+
+  .ttl { font-size:14.7px; font-weight:700; color:var(--primary); white-space:nowrap; }
+  .ttl small { font-size:12px; font-weight:400; color:var(--muted); margin-left:6px; }
+  .chart svg { width:100%; height:100%; display:block; }
+
+  table.hm { border-collapse:separate; border-spacing:0; table-layout:fixed; font-family:inherit; }
+  table.hm td { text-align:center; font-weight:700; font-size:13.3px; padding:0; height:23px; }
+  table.hm td.l { text-align:left; font-size:13.3px; padding-left:2px; }
+  table.hm td.l.s { font-size:12px; font-style:italic; color:var(--muted); font-weight:400; }
+  table.hm td.t { text-align:right; font-size:13.3px; padding-right:2px; }
+  table.hm tr.h td { font-size:12px; color:var(--muted); height:20px; }
+  .foot { font-size:10.7px; color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="intro">
+  <b>Mockup สไลด์หน้าเดียว (รวม goal)</b> · ตั้ง goal ตัวอย่าง: Wait ≤ 60 นาที, Setup ≤ 45 นาที · ข้อมูลเป็นตัวอย่าง (อิงตัวเลขจากภาพล่าสุดของคุณ)<br>
+  การเปลี่ยนที่ทั้งสองแบบเหมือนกัน: การ์ด <b>Wait</b> และ <b>Setup+Conv</b> มีจุดสีและส่วนต่างจาก goal ข้างค่าจริง (เขียว = ไม่เกิน goal, แดง = เกิน) · ตัดหน้า 2 ออก · <b>รอบนี้:</b> การ์ด KPI แถวบนบางลง (0.72 → 0.52 นิ้ว) การ์ดเหนือกราฟ 0.62 นิ้ว กราฟจึงสูงขึ้นจาก 1.37 เป็นราว 2.0 นิ้ว
+</div>
+
+<div class="label"><span>แบบ 1</span>การ์ดเหนือ trend = 3 ค่าเดิม (Wait Down / Wait Setup / Setup MTTR) — ตัวเลขซ้ำกับการ์ดล่าง</div>
+<div class="slidebox" id="b1"><div class="slide" id="s1"></div></div>
+
+<div class="label"><span>แบบ 2</span>การ์ดเหนือ trend = มุมมอง 7 วัน (Avg Wait / Avg Setup / กะที่เกิน goal) — ไม่ซ้ำ และตรงกับกราฟข้างล่าง</div>
+<div class="slidebox" id="b2"><div class="slide" id="s2"></div></div>
+
+<script>
+  const S = 96, pt = v => v * 96 / 72;
+  const GOAL = { wait: 60, setup: 45 };
+  const fmt = m => m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m}m`;
+  const P = (x, y, w, h) => `left:${x*S}px;top:${y*S}px;width:${w*S}px;height:${h*S}px`;
+
+  // geometry (inches) — same constants the PPTX code would use
+  const W = 13.333, MARGIN = .4, CG = .15, GAP = .2;
+  const KW = (W - MARGIN*2 - CG*4) / 5, KY = .9, KH = .52;
+  const LY = KY + KH + .1, LH = 1.1;
+  const botY = 5.72, rowH = .24;               // fixed, so the 4-row event table always ends above the footer
+  const midY = LY + LH + .1, midH = botY - .08 - midY, halfW = (W - MARGIN*2 - GAP) / 2, rightX = MARGIN + halfW + GAP;
+  const cardY = midY + .27, cardH = .62, chartY = cardY + cardH + .04, chartH = midH - (chartY - midY);
+
+  // goal chip: over goal = red "+Nm", at/under = green "-Nm"
+  function chip(actual, goal) {
+    const d = actual - goal, ok = d <= 0;
+    return `<span class="goal ${ok?'ok':'bad'}"><i></i>${d>0?'+':'−'}${Math.abs(d)}m</span>`;
+  }
+  function kcard(x, y, w, h, c) {
+    return `<div class="kc" style="${P(x,y,w,h)};--c:${c.color}">
+      <span class="kl" style="font-size:${pt(c.lsize||10)}px">${c.label}</span>
+      <span class="kv" style="top:${(c.vtop??.25)*S}px;font-size:${pt(c.size||22)}px;line-height:${(c.vh??.4)*S}px">${c.value}</span>
+      ${c.delta ? `<span class="dl ${c.good?'g':'b'}" style="right:8px;top:${(c.dtop??.36)*S}px">${c.delta}</span>` : ''}
+      ${c.goal ? `<span class="kg">${c.goal}</span>` : ''}
+    </div>`;
+  }
+  function lcard(i, c) {
+    const x = MARGIN + i * (KW + CG);
+    const lines = (c.lines || []).map((l, k) =>
+      `<div class="ln" style="top:${54 + k*17}px"><span>${l.t}</span>${l.chip || ''}</div>`).join('');
+    return `<div class="lc" style="${P(x,LY,KW,LH)};--c:${c.color}">
+      <div class="bar"></div><div class="p">${c.pct}</div>
+      <div class="nmrow"><span class="nm">${c.label}</span><span class="gl">${c.goal||''}</span></div>
+      ${lines}<div class="tt" style="top:88px">${c.total}</div></div>`;
+  }
+
+  // ── SVG charts (px = inches*96). Break lines at nulls like the web chart ──
+  const labels = ['04 D','04 N','05 D','05 N','06 D','06 N','07 D','07 N','08 D','08 N','09 D','09 N','10 D','10 N'];
+  const N = labels.length;
+  function frame(w, h, lMax, lTicks, lFmt, rMax, rTicks, rFmt, rMin = 0) {
+    const m = { l:34, r:36, t:20, b:44 }, pw = w - m.l - m.r, ph = h - m.t - m.b;
+    const x = i => m.l + pw * (i + .5) / N, yl = v => m.t + ph - v / lMax * ph, yr = v => m.t + ph - (v - rMin) / (rMax - rMin) * ph;
+    let s = '';
+    for (let k = 0; k <= lTicks; k++) { const v = lMax / lTicks * k;
+      s += `<line x1="${m.l}" x2="${w-m.r}" y1="${yl(v)}" y2="${yl(v)}" stroke="#EEE"/><text x="${m.l-5}" y="${yl(v)+3}" text-anchor="end" font-size="11" fill="#838E93">${lFmt(v)}</text>`; }
+    for (let k = 0; k <= rTicks; k++) { const v = rMin + (rMax - rMin) / rTicks * k;
+      s += `<text x="${w-m.r+5}" y="${yr(v)+3}" font-size="11" fill="#838E93">${rFmt(v)}</text>`; }
+    labels.forEach((l, i) => s += `<text x="${x(i)}" y="${m.t+ph+13}" text-anchor="middle" font-size="10.5" fill="#586674">${l}</text>`);
+    return { s, x, yl, yr, m, pw, ph };
+  }
+  function line(f, arr, color, yfn, sym = 'circle') {
+    let out = '', seg = [];
+    const flush = () => { if (seg.length > 1) out += `<polyline points="${seg.join(' ')}" fill="none" stroke="${color}" stroke-width="2"/>`; seg = []; };
+    arr.forEach((v, i) => v == null ? flush() : seg.push(`${f.x(i)},${yfn(v)}`)); flush();
+    arr.forEach((v, i) => { if (v != null) out += sym === 'circle'
+      ? `<circle cx="${f.x(i)}" cy="${yfn(v)}" r="2.8" fill="${color}"/>`
+      : `<rect x="${f.x(i)-3}" y="${yfn(v)-3}" width="6" height="6" transform="rotate(45 ${f.x(i)} ${yfn(v)})" fill="${color}"/>`; });
+    return out;
+  }
+  function legend(items, w, h) {
+    let x = 34, s = '';
+    items.forEach(([t, c, k]) => {
+      s += k === 'bar' ? `<rect x="${x}" y="${h-14}" width="9" height="9" fill="${c}"/>` : `<line x1="${x}" x2="${x+12}" y1="${h-9}" y2="${h-9}" stroke="${c}" stroke-width="2"/>`;
+      s += `<text x="${x+16}" y="${h-5}" font-size="10.5" fill="#586674">${t}</text>`; x += 24 + t.length * 6.2; });
+    return s;
+  }
+  function trendSvg(w, h) {
+    const f = frame(w, h, 12, 4, v => v, 30, 4, v => v);
+    const down  = [3.8,1.7,1.6,1.3,1.6,1.5,1.5,1.0,null,null,1.4,1.3,1.2,1.3];
+    const wait  = [5.7,10.4,9.3,8.8,5.1,5.6,6.5,3.9,null,null,7.3,11.1,9.6,10.6];
+    const setup = [.8,.9,1,.9,.7,1,.8,.6,null,null,1.1,.9,1,1.2];
+    const idle  = [3.9,3.9,4,2.7,5.7,5.4,5.1,6.1,null,null,6,5.2,4,3.6];
+    const tech  = [27,23,23,21,24,25,23,24,null,null,19,23,22,25];
+    let s = f.s + `<text x="4" y="10" font-size="9.5" fill="#838E93">% OF SHIFT</text><text x="${w-4}" y="10" text-anchor="end" font-size="9.5" fill="#838E93">TECHS</text>`;
+    tech.forEach((v, i) => { if (v == null) return; const bw = f.pw / N * .55, y = f.yr(v);
+      s += `<rect x="${f.x(i)-bw/2}" y="${y}" width="${bw}" height="${f.m.t+f.ph-y}" fill="#D6DCE8"/>`; });
+    s += line(f, down, '#CC0000', f.yl) + line(f, wait, '#E67E22', f.yl) + line(f, setup, '#1D9CE4', f.yl) + line(f, idle, '#702076', f.yl);
+    s += legend([['Technicians','#D6DCE8','bar'],['M/C DOWN %','#CC0000'],['WAIT %','#E67E22'],['SETUP+CONV %','#1D9CE4'],['IDLE %','#702076']], w, h);
+    return `<svg viewBox="0 0 ${w} ${h}">${s}</svg>`;
+  }
+  function jobSvg(w, h) {
+    const f = frame(w, h, 400, 4, v => v, 100, 4, v => v + '%', 0);
+    const req   = [370,375,365,330,345,325,320,220,null,null,305,350,305,325];
+    const close = [360,275,335,320,320,295,295,200,null,null,265,330,275,325];
+    const rate  = req.map((r, i) => r == null ? null : Math.round(close[i] / r * 1000) / 10);
+    let s = f.s + `<text x="4" y="10" font-size="9.5" fill="#838E93">JOBS</text><text x="${w-4}" y="10" text-anchor="end" font-size="9.5" fill="#838E93">CLOSE RATE %</text>`;
+    const bw = f.pw / N * .3;
+    req.forEach((v, i) => { if (v == null) return;
+      const yr = f.yl(v), yc = f.yl(close[i]);
+      s += `<rect x="${f.x(i)-bw-1}" y="${yr}" width="${bw}" height="${f.m.t+f.ph-yr}" fill="#1C355E"/><rect x="${f.x(i)+1}" y="${yc}" width="${bw}" height="${f.m.t+f.ph-yc}" fill="#1D9CE4"/>`; });
+    s += line(f, rate, '#2D8E4E', v => f.yr(Math.max(v, 0)), 'diamond');
+    s += legend([['Request','#1C355E','bar'],['Close','#1D9CE4','bar'],['Close Rate %','#2D8E4E']], w, h);
+    return `<svg viewBox="0 0 ${w} ${h}">${s}</svg>`;
+  }
+
+  // ── Left cards above trend: variant 1 = same 3 numbers, variant 2 = 7-day view ──
+  function leftCards(variant) {
+    const w = (halfW - CG * 2) / 3;
+    let cards;
+    if (variant === 1) {
+      cards = [
+        { label:'Wait · M/C Down (MTTW)', value:fmt(148), color:'#CC0000', goal:'goal ≤ 60m', delta:'+88m', good:false },
+        { label:'Wait · Setup (MTTW)',    value:fmt(102), color:'#CC0000', goal:'goal ≤ 60m', delta:'+42m', good:false },
+        { label:'Setup + Conv (MTTR)',    value:fmt(46),  color:'#CC0000', goal:'goal ≤ 45m', delta:'+1m',  good:false },
+      ];
+    } else {
+      const wait = [92,110,75,64,128,96,70,55,84,132,100,125], setup = [38,52,41,47,44,39,43,36,48,50,45,46];
+      const aw = Math.round(wait.reduce((a,b)=>a+b)/wait.length), as = Math.round(setup.reduce((a,b)=>a+b)/setup.length);
+      const ow = wait.filter(v=>v>GOAL.wait).length, os = setup.filter(v=>v>GOAL.setup).length;
+      cards = [
+        { label:'Avg Wait · 7 วัน',  value:fmt(aw), color:aw>GOAL.wait?'#CC0000':'#2E7D32', goal:'goal ≤ 60m', delta:(aw-GOAL.wait>0?'+':'−')+Math.abs(aw-GOAL.wait)+'m', good:aw<=GOAL.wait },
+        { label:'Avg Setup · 7 วัน', value:fmt(as), color:as>GOAL.setup?'#CC0000':'#2E7D32', goal:'goal ≤ 45m', delta:(as-GOAL.setup>0?'+':'−')+Math.abs(as-GOAL.setup)+'m', good:as<=GOAL.setup },
+        { label:'กะที่เกิน goal', value:`${ow + os}`, color:'#CC0000', goal:`Wait ${ow}/12 · Setup ${os}/12` },
+      ];
+    }
+    return cards.map((c, i) => kcard(MARGIN + i * (w + CG), cardY, w, cardH, { ...c, lsize:9, size:15, vtop:.17, vh:.27, dtop:.2 })).join('');
+  }
+
+  function slide(variant) {
+    const fleet = [
+      { label:'Machines', value:'610', color:'#1C355E' },
+      { label:'Avg Util', value:'84.2%', color:'#FD7F20', delta:'−4.2%', good:false },
+      { label:'M/C Down', value:'142', color:'#CC0000', delta:'−11.4', good:true },
+      { label:'Util < 85%', value:'194', color:'#CC0000', delta:'+35.9', good:false },
+      { label:'Techs', value:'21', color:'#702076' },
+    ];
+    const loss = [
+      { color:'#CC0000', pct:'1.2%', label:'Down Time', lines:[{t:'225 ev · MTTR 24m'}], total:'Total 89h 8m' },
+      { color:'#FD7F20', pct:'9.6%', label:'Wait', goal:'goal ≤ 60m',
+        lines:[{t:'Down MTTW <b>2h 28m</b>', chip:chip(148, 60)}, {t:'Setup MTTW <b>1h 42m</b>', chip:chip(102, 60)}], total:'Total 704h 44m' },
+      { color:'#1D9CE4', pct:'0.9%', label:'Setup + Conv', goal:'goal ≤ 45m',
+        lines:[{t:'MTTR <b>46m</b>', chip:chip(46, 45)}, {t:'88 ev'}], total:'Total 67h 39m' },
+      { color:'#009688', pct:'1%', label:'SBO', lines:[{t:'692 ev · MTTR 6m'}], total:'Total 73h 11m' },
+      { color:'#8B5CF6', pct:'3%', label:'Idle', lines:[{t:'97 ev'}], total:'Total 220h 42m' },
+    ];
+    const hours = ['07','08','09','10','11','12','13','14','15','16','17','18'];
+    const rows = [
+      { l:'M/C DOWN', rgb:[204,0,0], ev:[58,25,35,25,18,22,18,18,21,17,3,0], tot:'260 ev', st:false },
+      { l:'M/C DOWN in state', rgb:[204,0,0], ev:[57,77,86,92,89,97,98,89,91,92,70,37], tot:'peak 98', st:true },
+      { l:'SETUP+CONV', rgb:[29,156,228], ev:[27,20,15,6,12,9,9,9,6,1,0,1], tot:'115 ev', st:false },
+      { l:'SETUP+CONV in state', rgb:[29,156,228], ev:[27,47,54,45,45,49,42,32,27,19,10,5], tot:'peak 54', st:true },
+    ];
+    const cell = (v, mx, rgb) => { const a = mx ? v/mx*.88+.08 : .08, mix = c => Math.round(c*a + 255*(1-a));
+      return `<td style="background:rgb(${rgb.map(mix)});color:${a>.5?'#fff':'#1a1a2e'}">${v||''}</td>`; };
+    const labelCol = 1.6, totCol = 1.3, hourCol = (W - MARGIN*2 - labelCol - totCol) / 12;
+    const tbl = `<table class="hm" style="width:${(W-MARGIN*2)*S}px">
+      <colgroup><col style="width:${labelCol*S}px">${hours.map(()=>`<col style="width:${hourCol*S}px">`).join('')}<col style="width:${totCol*S}px"></colgroup>
+      <tr class="h"><td></td>${hours.map(h=>`<td>${h}</td>`).join('')}<td class="t">TOTAL</td></tr>
+      ${rows.map(r => { const mx = Math.max(...r.ev, 1), hex = `rgb(${r.rgb})`;
+        return `<tr><td class="l ${r.st?'s':''}">${r.l}</td>${r.ev.map(v=>cell(v,mx,r.rgb)).join('')}<td class="t" style="color:${hex};${r.st?'font-style:italic;font-weight:400;font-size:12px':''}">${r.tot}</td></tr>`; }).join('')}
+    </table>`;
+
+    const jobCardW = (halfW - CG * 3) / 4;
+    const job = [
+      { label:'Request', value:'325', color:'#1C355E' }, { label:'Close', value:'325', color:'#1D9CE4' },
+      { label:'Close Rate', value:'100%', color:'#2D8E4E' }, { label:'Remain', value:'0', color:'#702076' },
+    ].map((c, i) => kcard(rightX + i * (jobCardW + CG), cardY, jobCardW, cardH, { ...c, lsize:9, size:15, vtop:.2, vh:.34 })).join('');
+
+    return `
+      <div class="hdr"><h1>Wire Bond — Daily Utilization &amp; Downtime</h1><div class="sub"><div><b>Night Shift</b> · 10 Nov 2026 · 19:00 → 07:00<br>Package: All Packages · 610 machines</div></div></div>
+      ${fleet.map((c, i) => kcard(MARGIN + i * (KW + CG), KY, KW, KH, { ...c, lsize:9.5, size:17, vtop:.17, vh:.31, dtop:.2 })).join('')}
+      ${loss.map((c, i) => lcard(i, c)).join('')}
+      <div class="ttl" style="${P(MARGIN, midY, halfW, .26)}">Trend — Utilization / Loss (%) &amp; Technicians${variant===2?'<small>· การ์ด = ค่าเฉลี่ย 7 วันเทียบ goal</small>':''}</div>
+      ${leftCards(variant)}
+      <div class="chart" style="${P(MARGIN, chartY, halfW, chartH)}">${trendSvg(Math.round(halfW*S), Math.round(chartH*S))}</div>
+      <div class="ttl" style="${P(rightX, midY, halfW, .26)}">Job Request / Close<small>· latest shift 10 N</small></div>
+      ${job}
+      <div class="chart" style="${P(rightX, chartY, halfW, chartH)}">${jobSvg(Math.round(halfW*S), Math.round(chartH*S))}</div>
+      <div class="ttl" style="${P(MARGIN, botY, 6, .26)}">Event Pattern — Hourly (events started)</div>
+      <div style="${P(MARGIN, botY + .28, W - MARGIN*2, rowH*5)}">${tbl}</div>
+      <div class="foot" style="${P(MARGIN, 7.22, 8, .2)}">Source: EMH Dashboard · WB Report · Generated 10 Nov 2026 22:43</div>`;
+  }
+
+  document.getElementById('s1').innerHTML = slide(1);
+  document.getElementById('s2').innerHTML = slide(2);
+  function fit() {
+    for (const id of ['b1', 'b2']) { const box = document.getElementById(id), el = box.firstElementChild;
+      const s = Math.min(1, box.clientWidth / 1280); el.style.transform = `scale(${s})`; box.style.height = `${720*s}px`; }
+  }
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

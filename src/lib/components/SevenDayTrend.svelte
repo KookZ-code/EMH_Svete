@@ -31,6 +31,10 @@
   interface Props {
     date?: string;
     packages?: string;
+    // Optional: receives the loaded 7-day payload so the page can reuse it (e.g. for PPTX export).
+    onLoaded?: (data: unknown) => void;
+    // Optional: which 7-day endpoint to read. Defaults to the WB report so existing WB usage is unchanged.
+    endpoint?: string;
   }
 
   // Single source for the series toggles, KPI tiles and chart lines.
@@ -44,7 +48,7 @@
     { key: 'tech_count', label: 'TECHNICIANS', color: '#1c355e', axis: 1 },
   ];
 
-  let { date = '', packages = '' }: Props = $props();
+  let { date = '', packages = '', onLoaded, endpoint = '/api/v1/wb/report-7day' }: Props = $props();
 
   let loading = $state(true);
   let error = $state<string | null>(null);
@@ -103,7 +107,7 @@
       if (date) params.set('date', date);
       if (packages) params.set('packages', packages);
 
-      const res = await fetch(`/api/v1/wb/report-7day?${params.toString()}`);
+      const res = await fetch(`${endpoint}?${params.toString()}`);
       const json = await res.json();
 
       if (json.error) {
@@ -131,6 +135,7 @@
       }
       trendData = json.data;
       buildChart();
+      onLoaded?.(json.data);
     } catch (e) {
       error = e instanceof Error ? e.message : 'Error loading trend data';
     } finally {

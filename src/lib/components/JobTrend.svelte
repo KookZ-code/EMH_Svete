@@ -44,7 +44,7 @@
   const SERIES: { key: SeriesKey; label: string; color: string }[] = [
     { key: 'down', label: 'M/C DOWN', color: '#cc0000' },
     { key: 'setup', label: 'SETUP+CONV', color: '#1d9ce4' },
-    { key: 'backlog', label: 'BACKLOG', color: '#1c355e' },
+    { key: 'backlog', label: 'REMAIN', color: '#1c355e' },
     { key: 'rate', label: 'CLOSE RATE %', color: '#2d8e4e' },
   ];
   const colorOf = (key: SeriesKey) => SERIES.find((s) => s.key === key)!.color;
@@ -52,9 +52,13 @@
   interface Props {
     date?: string;
     packages?: string;
+    // Optional: receives the loaded shift_details so the page can reuse them (e.g. for PPTX export).
+    onLoaded?: (details: ShiftDetail[]) => void;
+    // Optional: which 7-day endpoint to read. Defaults to the WB report so existing WB usage is unchanged.
+    endpoint?: string;
   }
 
-  let { date = '', packages = '' }: Props = $props();
+  let { date = '', packages = '', onLoaded, endpoint = '/api/v1/wb/report-7day' }: Props = $props();
 
   let loading = $state(true);
   let error = $state<string | null>(null);
@@ -122,7 +126,7 @@
       if (date) params.set('date', date);
       if (packages) params.set('packages', packages);
 
-      const res = await fetch(`/api/v1/wb/report-7day?${params.toString()}`);
+      const res = await fetch(`${endpoint}?${params.toString()}`);
       const json = await res.json();
 
       if (json.error) {
@@ -130,6 +134,7 @@
         return;
       }
       shiftDetails = (json.data as TrendResponse).shift_details ?? [];
+      onLoaded?.(shiftDetails);
     } catch (e) {
       error = e instanceof Error ? e.message : 'Error loading job trend data';
     } finally {
@@ -166,7 +171,7 @@
     }
     if (showSeries.backlog) {
       series.push({
-        name: 'Backlog',
+        name: 'Remain',
         type: 'line',
         yAxisIndex: 0,
         data: rows.map((r) => r.backlog),
@@ -204,7 +209,7 @@
           return `<b style="color:#1c355e">${r.label}</b><br/>` +
             `Request: DOWN ${r.reqDown} · SETUP ${r.reqSetup} · <b>${r.req}</b><br/>` +
             `Close: DOWN ${r.closeDown} · SETUP ${r.closeSetup} · <b>${r.close}</b><br/>` +
-            `Backlog: <b>${r.backlog}</b> · Close Rate: <b>${rate}</b>`;
+            `Remain: <b>${r.backlog}</b> · Close Rate: <b>${rate}</b>`;
         },
       },
       grid: { top: 24, left: 16, right: 16, bottom: 16, containLabel: true },
@@ -292,7 +297,7 @@
         <div class="kpi-sub">close ÷ request</div>
       </div>
       <div class="kpi" style:--c="#702076">
-        <div class="kpi-label">Backlog</div>
+        <div class="kpi-label">Remain</div>
         <div class="kpi-value">{kpi.backlog.toLocaleString()}</div>
         <div class="kpi-sub">request − close</div>
       </div>

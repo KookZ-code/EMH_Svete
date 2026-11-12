@@ -1,6 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
+  import SevenDayTrend from '$lib/components/SevenDayTrend.svelte';
+  import JobTrend from '$lib/components/JobTrend.svelte';
+  import { DA_GOALS, goalDelta } from '$lib/config/da_goals';
+  import { exportReportPptx, buildTrendRows, buildJobRows, buildJobKpi, trimTrendToShift, type WbTrendPayload, type PptxReportData, type PptxTopSymptom } from '$lib/utils/exportPptx';
+
+  // 7-day endpoint for DA (the trend components read from here instead of the WB one).
+  const DA_7DAY = '/api/v1/da/report-7day';
 
   // ── Types ─────────────────────────────────────────────────────────────────
   interface EventItem  { job_type:string; t_start:string; t_end:string; des_job:string; dur_min:number; tech:string; }
@@ -45,6 +52,9 @@
   let kpi          = $state<DaKpi|null>(null);
   let kpi7d        = $state<Partial<DaKpi> & { days: number; down_events?: number; setup_events?: number; idle_pct?: number } | null>(null);
   let pkgLabel     = $state('');
+  // 7-day payloads from the trend components, reused by the PPTX export (not refetched).
+  let trendPayload = $state<WbTrendPayload | null>(null);
+  let jobDetails   = $state<WbTrendPayload['shift_details'] | null>(null);
   let timeRange    = $state('');
   let loading      = $state(false);
   let error        = $state<string|null>(null);
@@ -592,6 +602,36 @@
   }
 
   const top3Down  = $derived(top3Machines(r => r.down_min,                        ['M/C DOWN']));
+
+  // Top 3 M/C DOWN symptoms (des_job) by total down minutes across all machines. Each carries the package
+  // with the most down time on that symptom and that package's share of the symptom's events (pkgPct).
+  function top3DownSymptoms(): PptxTopSymptom[] {
+    type PkgAgg = { min: number; events: number };
+    const cmap = new Map<string, { min: number; count: number; pkgs: Map<string, PkgAgg> }>();
+    for (const r of machines) {
+      for (const e of r.events) {
+        if ((e.job_type || '').toUpperCase() !== 'M/C DOWN') continue;
+        const k = e.des_job?.trim() || 'M/C DOWN';
+        const prev = cmap.get(k) ?? { min: 0, count: 0, pkgs: new Map<string, PkgAgg>() };
+        const pkg = r.package || 'Unknown';
+        const pa = prev.pkgs.get(pkg) ?? { min: 0, events: 0 };
+        prev.pkgs.set(pkg, { min: pa.min + e.dur_min, events: pa.events + 1 });
+        cmap.set(k, { min: prev.min + e.dur_min, count: prev.count + 1, pkgs: prev.pkgs });
+      }
+    }
+    return [...cmap.entries()]
+      .sort((a, b) => b[1].min - a[1].min)
+      .slice(0, 3)
+      .map(([symptom, { min, count, pkgs }]) => {
+        const [topPkg, topAgg] = [...pkgs.entries()].sort((a, b) => b[1].min - a[1].min)[0] ?? ['', { min: 0, events: 0 }];
+        const known = topPkg !== 'Unknown';
+        return {
+          symptom, minutes: min, count,
+          pkg: known ? topPkg : '',
+          pkgPct: known && count > 0 ? Math.round((topAgg.events / count) * 100) : null,
+        };
+      });
+  }
   const top3Wait  = $derived(top3Machines(r => r.wait_down_min+r.wait_setup_min,  ['M/C DOWN']));
   const top3Setup = $derived(top3Machines(r => r.setup_conv_min,                  ['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']));
   const top3Sbo   = $derived(top3Criteria(['SETUP BY OPERATOR']));
@@ -810,6 +850,93 @@
     return `${Math.floor(min/60)}h ${min%60}m`;
   }
 
+  // Machines below DA's low-utilisation line (80%). Used by the slide; the on-page counts use the same rule.
+  const lowUtilCount = $derived(machines.filter(m => m.util_pct < DA_GOALS.utilLowPct).length);
+
+  // Goal chip for the slide, from the shared goalDelta on DA's goals. null = no data, so no chip.
+  function pptxChip(g: ReturnType<typeof goalDelta>) {
+    return g ? { text: g.text, ok: g.ok } : null;
+  }
+
+  // Event count against the 7-day average as "(+63 ev)". Built from delta() so it matches the page's badge.
+  function evDeltaChip(current: number, avg: number | undefined) {
+    const d = deltaN(current, avg, false);
+    if (!d || d.txt === '→ same') return null;
+    return { text: `(${d.txt} ev)`, ok: d.good };
+  }
+
+  // One goal card for the slide: average, its goal, and a chip. "—" when the shift had no events.
+  function goalCard(label: string, actual: number, goal: number) {
+    return { label, value: actual ? fmtMtx(actual) : '—', goalText: `goal ≤ ${goal}m`, chip: pptxChip(goalDelta(actual, goal)) };
+  }
+
+  // Slide builder for DA. Same structure as the WB slide; DA's goals, its own title, and 80% for low utilisation.
+  async function exportPptx() {
+    if (!trendPayload || !jobDetails || machines.length === 0) return;
+    const n = machines.length;
+    const shiftWord = selShift === 'Night' ? 'Night Shift' : 'Day Shift';
+    // Same real-shift rule as WB: the 7-day data can include a newer, unfinished shift, so end at the report's shift.
+    const startHour = timeRange.match(/^(\d{1,2}):/)?.[1];
+    const reportShift = startHour && parseInt(startHour) >= 12 ? 'Night' : selShift;
+    const trend7 = trimTrendToShift(trendPayload, selDate, reportShift);
+    const jobRows = buildJobRows(trend7);
+    const data: PptxReportData = {
+      reportTitle: 'Die Attach — Daily Utilization & Downtime',
+      shiftLabel: shiftWord,
+      subtitle: `${fmtDate(selDate)} · ${timeRange || '—'}`,
+      packageLine: `Package: ${pkgLabel || '—'} · ${n} machines`,
+      kpi: { total: kpi?.total ?? n, n_down: kpi?.n_down ?? 0, avg_util: kpi?.avg_util ?? 0, n_low: lowUtilCount, n_tech: kpi?.n_tech ?? 0 },
+      kpiDelta: {
+        avg_util: kpi && kpi7d?.avg_util != null ? Math.round((kpi.avg_util - kpi7d.avg_util) * 10) / 10 : undefined,
+        n_down: kpi && kpi7d?.n_down != null ? kpi.n_down - kpi7d.n_down : undefined,
+        n_low: kpi && kpi7d?.n_low != null ? lowUtilCount - kpi7d.n_low : undefined,
+      },
+      loss: [
+        { label: 'Down Time', pct: kpi?.down_pct ?? 0, color: '#CC0000',
+          lines: [{ text: `${lossStats.down.events} ev`, delta: evDeltaChip(lossStats.down.events, kpi7d?.down_events), tail: ` · MTTR ${fmtMtx(lossStats.down.mttr)}` }],
+          total: `Total ${fmtMtx(lossStats.down.totalMin)}` },
+        { label: 'Wait', pct: kpi?.wait_pct ?? 0, color: '#FD7F20', goalText: `goal ≤ ${DA_GOALS.waitMin}m`,
+          lines: [
+            { text: `Down MTTW ${fmtMtx(lossStats.wait.mttwDown)}`, chip: pptxChip(goalDelta(lossStats.wait.mttwDown, DA_GOALS.waitMin)) },
+            { text: `Setup MTTW ${fmtMtx(lossStats.wait.mttwSetup)}`, chip: pptxChip(goalDelta(lossStats.wait.mttwSetup, DA_GOALS.waitMin)) },
+          ], total: `Total ${fmtMtx(lossStats.wait.totalMin)}` },
+        { label: 'Setup + Conv', pct: kpi?.setup_conv_pct ?? 0, color: '#1D9CE4', goalText: `goal ≤ ${DA_GOALS.setupMin}m`,
+          lines: [
+            { text: `MTTR ${fmtMtx(lossStats.setup.mttr)}`, chip: pptxChip(goalDelta(lossStats.setup.mttr, DA_GOALS.setupMin)) },
+            { text: `${lossStats.setup.events} ev`, delta: evDeltaChip(lossStats.setup.events, kpi7d?.setup_events) },
+          ], total: `Total ${fmtMtx(lossStats.setup.totalMin)}` },
+        { label: 'SBO', pct: Math.max(0, Math.round(((kpi?.sbo_pct ?? 0) - lossStats.idle.pct) * 10) / 10), color: '#009688',
+          lines: [{ text: `${lossStats.sbo.events} ev · MTTR ${fmtMtx(lossStats.sbo.mttr)}` }], total: `Total ${fmtMtx(lossStats.sbo.totalMin)}` },
+        { label: 'Idle', pct: lossStats.idle.pct, color: '#8B5CF6',
+          lines: lossStats.idle.top3.length
+            ? lossStats.idle.top3.map(t => ({ text: t.criteria.length > 14 ? `${t.criteria.slice(0, 13)}…` : t.criteria, right: `${t.count}ev  ${fmtMtx(Math.round(t.min / t.count))}` }))
+            : [{ text: `${lossStats.idle.events} ev` }],
+          total: `Total ${fmtMtx(lossStats.idle.totalMin)}` },
+      ],
+      goals: [
+        goalCard('Wait · M/C Down', lossStats.wait.mttwDown, DA_GOALS.waitMin),
+        goalCard('Wait · Setup', lossStats.wait.mttwSetup, DA_GOALS.waitMin),
+        goalCard('Setup + Conv MTTR', lossStats.setup.mttr, DA_GOALS.setupMin),
+      ],
+      trend: buildTrendRows(trend7),
+      jobs: jobRows,
+      jobKpi: buildJobKpi(jobRows),
+      top3Down: top3DownSymptoms(),
+      // DA trend has no goal lines (none were asked for), so the chart keeps its plain series.
+      trendGoals: null,
+      heatHours: heatmap?.shiftHours ?? [],
+      heatRows: (heatmap?.rows ?? []).filter(r => r.key !== 'sbo').map(r => ({
+        label: r.label,
+        rgb: r.baseRgb,
+        ev: r.hours.map(h => h.ev),
+        state: r.state,
+        total: hmTotal(r),
+      })),
+      generatedAt: new Date().toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }),
+    };
+    await exportReportPptx(data, `da_report_${selDate}_${selShift}.pptx`);
+  }
+
   onMount(() => { loadPackages(); });
 </script>
 
@@ -822,6 +949,7 @@
     <p>{selShift} Shift &nbsp;·&nbsp; {selDate ? fmtDate(selDate) : '—'} &nbsp;·&nbsp; {timeRange || '—'} &nbsp;·&nbsp; {pkgLabel || 'No package selected'} &nbsp;·&nbsp; {kpi?.total ?? 0} machines</p>
   </div>
   <div class="hdr-actions">
+    <button class="btn-export" onclick={exportPptx} disabled={machines.length===0 || !trendPayload || !jobDetails}>↓ PPTX</button>
     <button class="btn-export" onclick={exportHtml} disabled={machines.length===0}>↓ HTML Report</button>
   </div>
 </div>
@@ -1084,6 +1212,10 @@
       </div><!-- /kpi-row-cards -->
     </div><!-- /loss-row -->
   </div><!-- /kpi-section -->
+
+  <!-- ── 7-Day Trend and Job Request / Close (same as WB; DA endpoint) ───────── -->
+  <SevenDayTrend date={selDate} packages={selPackages.join(',')} endpoint={DA_7DAY} onLoaded={(d) => (trendPayload = d as WbTrendPayload)} />
+  <JobTrend date={selDate} packages={selPackages.join(',')} endpoint={DA_7DAY} onLoaded={(d) => (jobDetails = d as WbTrendPayload['shift_details'])} />
 
   <!-- ── Narrative Insight ────────────────────────────────────────────────── -->
   {#if narrative}

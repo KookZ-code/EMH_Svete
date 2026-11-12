@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WB Report Goal Mockup</title>
+<style>
+  :root {
+    --primary:#1C355E; --surface:#FFFFFF; --alt:#F8F8F7; --gray:#F1F2F2; --border:#E3E3E3;
+    --text:#2C2C2B; --muted:#838E93; --small:#586674;
+    --red:#CC0000; --orange:#E67E22; --blue:#1D9CE4; --teal:#009688; --purple:#8B5CF6; --green:#2E7D32;
+    --good:#2E7D32; --good-bg:#E8F5E9; --bad:#C62828; --bad-bg:#FFEBEE;
+  }
+  * { box-sizing:border-box; margin:0; }
+  body { background:#E9ECEF; font-family:'Open Sans','Segoe UI',Arial,sans-serif; color:var(--text); padding:20px; }
+  .wrap { max-width:1180px; margin:0 auto; display:flex; flex-direction:column; gap:28px; }
+  h2 { font-size:15px; font-weight:700; color:var(--primary); margin-bottom:4px; }
+  .tag { display:inline-block; font-size:11px; font-weight:700; background:var(--primary); color:#fff; border-radius:3px; padding:1px 8px; margin-right:8px; }
+  .note { font-size:12px; color:var(--small); margin-bottom:10px; line-height:1.6; }
+  .note b { color:var(--text); }
+  .page { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:16px; }
+
+  /* goal chip used everywhere */
+  .goal { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; border-radius:10px; padding:1px 8px; white-space:nowrap; }
+  .goal i { width:8px; height:8px; border-radius:50%; background:currentColor; }
+  .goal.ok  { background:var(--good-bg); color:var(--good); }
+  .goal.bad { background:var(--bad-bg);  color:var(--bad); }
+
+  /* A: existing loss cards with goal added */
+  .cards { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  .lc { background:#fff; border:1px solid var(--border); border-top:4px solid var(--c); border-radius:4px; padding:10px 14px; min-height:150px; }
+  .lc .p { font-size:30px; font-weight:800; color:var(--c); line-height:1.1; }
+  .lc .nm { font-size:13px; font-weight:700; text-transform:uppercase; margin-top:2px; }
+  .lc .m { font-size:12px; color:var(--small); margin-top:4px; }
+  .lc .t { font-size:12px; font-weight:700; color:var(--c); margin-top:6px; }
+  .row { display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:12px; margin-top:5px; color:var(--small); }
+  .row b { color:var(--text); }
+  .lc.dim { opacity:.55; }
+  .lc.hl { box-shadow:0 0 0 2px rgba(29,156,228,.25); }
+
+  /* B: goal vs actual strip */
+  .gva { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px; }
+  .gv { background:var(--alt); border:1px solid var(--border); border-radius:4px; padding:10px 14px; }
+  .gv .top { display:flex; justify-content:space-between; align-items:center; }
+  .gv .nm { font-size:12px; font-weight:700; color:var(--small); text-transform:uppercase; letter-spacing:.3px; }
+  .gv .val { font-size:22px; font-weight:800; line-height:1.2; margin-top:2px; }
+  .gv .val small { font-size:12px; font-weight:600; color:var(--muted); margin-left:6px; }
+  .bar { position:relative; height:12px; background:#E3E6E8; border-radius:6px; margin-top:8px; }
+  .bar .fill { position:absolute; left:0; top:0; bottom:0; border-radius:6px; }
+  .bar .mark { position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--text); }
+  .bar-lbl { position:relative; height:14px; font-size:10px; color:var(--small); margin-top:6px; }
+  .bar-lbl span { position:absolute; transform:translateX(-50%); white-space:nowrap; }
+  .gv .src { font-size:10px; color:var(--muted); margin-top:4px; }
+
+  /* C: trend with goal lines */
+  .tr { display:grid; grid-template-columns:200px 1fr; gap:14px; }
+  .ctl { border:1px solid var(--border); border-radius:4px; background:var(--alt); padding:8px; display:flex; flex-direction:column; gap:4px; }
+  .ctl .hd { font-size:11px; font-weight:700; text-transform:uppercase; color:var(--primary); letter-spacing:.5px; padding:2px 6px 6px; }
+  .tog { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; padding:5px 6px; }
+  .sw { width:28px; height:15px; border-radius:8px; background:var(--c); position:relative; flex:none; }
+  .sw::after { content:''; position:absolute; top:2px; left:15px; width:11px; height:11px; border-radius:50%; background:#fff; }
+  .chartbox { border:1px solid var(--border); border-radius:4px; padding:8px; }
+  .chartbox svg { width:100%; height:auto; display:block; }
+  .legend { display:flex; flex-wrap:wrap; gap:4px 14px; font-size:11px; font-weight:600; color:var(--small); margin:2px 6px 4px; }
+  .legend i { display:inline-block; width:14px; height:3px; margin-right:5px; vertical-align:3px; background:var(--c); }
+  .legend i.d { background:none; border-top:2px dashed var(--c); height:0; }
+
+  /* D: slide */
+  .slidebox { overflow:hidden; }
+  .slide { width:1280px; height:720px; background:#fff; display:flex; flex-direction:column; transform-origin:top left; box-shadow:0 4px 18px rgba(0,0,0,.35); }
+  .hdr { background:var(--primary); color:#fff; height:64px; padding:0 32px; display:flex; align-items:center; justify-content:space-between; flex:none; }
+  .hdr h1 { font-size:24px; font-weight:700; }
+  .hdr .sub { font-size:14px; text-align:right; line-height:1.4; opacity:.92; }
+  .sbody { padding:18px 32px 12px; display:flex; flex-direction:column; gap:16px; flex:1; min-height:0; }
+  .big { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .bc { border:1px solid var(--border); border-left:6px solid var(--c); border-radius:4px; background:var(--alt); padding:12px 18px; }
+  .bc .nm { font-size:14px; font-weight:700; text-transform:uppercase; color:var(--small); }
+  .bc .v { font-size:44px; font-weight:800; color:var(--c); line-height:1.1; margin-top:4px; }
+  .bc .v small { font-size:16px; font-weight:600; color:var(--muted); margin-left:6px; }
+  .bc .g { display:flex; align-items:center; justify-content:space-between; margin-top:6px; font-size:15px; font-weight:600; color:var(--small); }
+  .bc .goal { font-size:14px; padding:2px 12px; }
+  .lower { display:grid; grid-template-columns:1fr 330px; gap:16px; flex:1; min-height:0; }
+  .pn { border:1px solid var(--border); border-radius:4px; padding:10px 14px; display:flex; flex-direction:column; min-height:0; }
+  .pn h3 { font-size:15px; font-weight:700; color:var(--primary); margin-bottom:6px; }
+  .pn svg { width:100%; flex:1; min-height:0; }
+  .sum .it { padding:10px 0; border-bottom:1px solid var(--border); }
+  .sum .it:last-child { border-bottom:none; }
+  .sum .k { font-size:13px; font-weight:700; color:var(--small); text-transform:uppercase; }
+  .sum .n { font-size:32px; font-weight:800; line-height:1.15; }
+  .sum .n small { font-size:15px; color:var(--muted); font-weight:600; }
+  .foot { font-size:11px; color:var(--muted); display:flex; justify-content:space-between; flex:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ───────── A: web page, loss cards + goal chip ───────── -->
+  <section>
+    <h2><span class="tag">A</span>หน้า report — เพิ่มสถานะ goal ลงการ์ดเดิม (ไม่เพิ่มพื้นที่)</h2>
+    <p class="note">Goal ตัวอย่าง: <b>Wait ≤ 60 นาที</b> · <b>Setup ≤ 45 นาที</b> — จุดสี + ส่วนต่างจาก goal อยู่ในบรรทัดเดียวกับค่าจริง การ์ดอื่นไม่เปลี่ยน</p>
+    <div class="page">
+      <div class="cards">
+        <div class="lc dim" style="--c:var(--red)">
+          <div class="p">1.2%</div><div class="nm">Down Time</div>
+          <div class="m">225 ev · MTTR 24m</div><div class="t">Total 89h 8m</div>
+        </div>
+        <div class="lc hl" style="--c:#FD7F20">
+          <div class="p">9.6%</div><div class="nm">Wait</div>
+          <div class="row"><span>Down MTTW <b>2h 28m</b></span><span class="goal bad"><i></i>+88m</span></div>
+          <div class="row"><span>Setup MTTW <b>1h 42m</b></span><span class="goal bad"><i></i>+42m</span></div>
+          <div class="row" style="margin-top:6px"><span style="color:var(--muted)">goal ≤ 60m</span><span class="t" style="margin:0">Total 704h 44m</span></div>
+        </div>
+        <div class="lc hl" style="--c:var(--blue)">
+          <div class="p">0.9%</div><div class="nm">Setup + Conv</div>
+          <div class="row"><span>MTTR <b>46m</b></span><span class="goal bad"><i></i>+1m</span></div>
+          <div class="row"><span style="color:var(--muted)">88 ev · goal ≤ 45m</span></div>
+          <div class="t">Total 67h 39m</div>
+        </div>
+        <div class="lc dim" style="--c:var(--teal)">
+          <div class="p">1%</div><div class="nm">SBO</div>
+          <div class="m">692 ev · MTTR 6m</div><div class="t">Total 73h 11m</div>
+        </div>
+        <div class="lc dim" style="--c:var(--purple)">
+          <div class="p">3%</div><div class="nm">Idle</div>
+          <div class="m">97 ev</div><div class="t">Total 220h 42m</div>
+        </div>
+      </div>
+
+      <div class="note" style="margin:16px 0 6px"><b>แถบ Goal vs Actual</b> (วางใต้การ์ด) — ขีดดำคือ goal แท่งคือค่าจริง เห็นทันทีว่าเกินกี่เท่า โดยเฉพาะ Wait ที่เกินหลายเท่า</div>
+      <div class="gva" id="gva"></div>
+    </div>
+  </section>
+
+  <!-- ───────── C: trend with goal lines ───────── -->
+  <section>
+    <h2><span class="tag">B</span>หน้า report — กราฟ trend 7 วัน พร้อมเส้น goal</h2>
+    <p class="note">เส้นประคือ goal จุดสีแดงคือกะที่เกิน goal ข้อมูลใช้ <b>avg_waiting_time</b> และ <b>avg_setup_time</b> ที่ API 7 วันส่งมาอยู่แล้ว ไม่ต้องแก้ backend แต่ยังรวม wait ของ Down และ Setup ไว้ด้วยกัน (แยกกันต้องให้ backend ส่งเพิ่ม) กะที่ไม่มีข้อมูลเว้นเป็นช่องว่าง</p>
+    <div class="page">
+      <div class="tr">
+        <div class="ctl">
+          <div class="hd">Series Control</div>
+          <div class="tog" style="--c:var(--orange)"><span class="sw"></span>AVG WAIT (min)</div>
+          <div class="tog" style="--c:var(--blue)"><span class="sw"></span>AVG SETUP (min)</div>
+          <div class="tog" style="--c:#586674"><span class="sw"></span>SHOW GOAL LINES</div>
+        </div>
+        <div class="chartbox">
+          <div class="legend" id="lgWeb"></div>
+          <div id="chWeb"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── D: pptx page 2 ───────── -->
+  <section>
+    <h2><span class="tag">C</span>PowerPoint หน้า 2 — Goal vs Actual</h2>
+    <p class="note">หน้า 1 คงเดิม หน้า 2 ตัวเลขใหญ่ อ่านจากไกลได้ ใช้ข้อมูลและเกณฑ์เดียวกับหน้าเว็บ</p>
+    <div class="slidebox" id="slidebox">
+      <div class="slide" id="slide">
+        <div class="hdr">
+          <h1>Goal vs Actual — Wait &amp; Setup</h1>
+          <div class="sub"><b>Night Shift</b> · 10 Nov 2026 · 19:00 → 07:00<br>Package: All Packages · 610 machines</div>
+        </div>
+        <div class="sbody">
+          <div class="big">
+            <div class="bc" style="--c:var(--red)">
+              <div class="nm">Wait · M/C Down (MTTW)</div>
+              <div class="v">2h 28m<small>goal ≤ 60m</small></div>
+              <div class="g"><span>เกิน goal 2.5 เท่า</span><span class="goal bad"><i></i>ไม่ผ่าน +88m</span></div>
+            </div>
+            <div class="bc" style="--c:var(--red)">
+              <div class="nm">Wait · Setup (MTTW)</div>
+              <div class="v">1h 42m<small>goal ≤ 60m</small></div>
+              <div class="g"><span>เกิน goal 1.7 เท่า</span><span class="goal bad"><i></i>ไม่ผ่าน +42m</span></div>
+            </div>
+            <div class="bc" style="--c:var(--red)">
+              <div class="nm">Setup + Conv (MTTR)</div>
+              <div class="v">46m<small>goal ≤ 45m</small></div>
+              <div class="g"><span>เกิน goal 1 นาที</span><span class="goal bad"><i></i>ไม่ผ่าน +1m</span></div>
+            </div>
+          </div>
+          <div class="lower">
+            <div class="pn">
+              <h3>7 วันที่ผ่านมา — Avg Wait / Avg Setup (นาที) เทียบ goal</h3>
+              <div class="legend" id="lgSlide"></div>
+              <div id="chSlide" style="flex:1;min-height:0"></div>
+            </div>
+            <div class="pn sum">
+              <h3>สรุป 7 วัน</h3>
+              <div class="it"><div class="k">Wait เกิน goal</div><div class="n" id="sumWait"></div></div>
+              <div class="it"><div class="k">Setup เกิน goal</div><div class="n" id="sumSetup"></div></div>
+              <div class="it"><div class="k">กะล่าสุด</div><div class="n" id="sumLast"></div></div>
+            </div>
+          </div>
+          <div class="foot"><span>Source: EMH Dashboard · WB Report</span><span>Generated 10 Nov 2026 22:43</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  // ── sample data and goals (mock only) ───────────────────────────────────
+  const GOAL = { wait: 60, setup: 45 };                       // minutes
+  const labels = ['04 D','04 N','05 D','05 N','06 D','06 N','07 D','07 N','08 D','08 N','09 D','09 N','10 D','10 N'];
+  const wait  = [92,110,75,64,128,96,70,55,null,null,84,132,100,125];
+  const setup = [38,52,41,47,44,39,43,36,null,null,48,50,45,46];
+  const fmt = m => m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m}m`;
+  const over = (arr, g) => arr.filter(v => v != null && v > g).length;
+  const have = arr => arr.filter(v => v != null).length;
+
+  // ── B: goal vs actual bars ──────────────────────────────────────────────
+  const tiles = [
+    { nm:'Wait · M/C Down (MTTW)', actual:148, goal:GOAL.wait, src:'lossStats.wait.mttwDown' },
+    { nm:'Wait · Setup (MTTW)',    actual:102, goal:GOAL.wait, src:'lossStats.wait.mttwSetup' },
+    { nm:'Setup + Conv (MTTR)',    actual:46,  goal:GOAL.setup, src:'lossStats.setup.mttr' },
+  ];
+  document.getElementById('gva').innerHTML = tiles.map(t => {
+    const scaleMax = Math.max(t.actual, t.goal) * 1.15;
+    const ok = t.actual <= t.goal, col = ok ? 'var(--good)' : 'var(--bad)';
+    const diff = t.actual - t.goal;
+    return `<div class="gv">
+      <div class="top"><span class="nm">${t.nm}</span><span class="goal ${ok?'ok':'bad'}"><i></i>${ok?'ผ่าน':'+'+diff+'m'}</span></div>
+      <div class="val" style="color:${col}">${fmt(t.actual)}<small>goal ≤ ${t.goal}m</small></div>
+      <div class="bar"><div class="fill" style="width:${t.actual/scaleMax*100}%;background:${col}"></div><div class="mark" style="left:${t.goal/scaleMax*100}%"></div></div>
+      <div class="bar-lbl"><span style="left:${t.goal/scaleMax*100}%">goal ${t.goal}m</span></div>
+    </div>`;
+  }).join('');
+
+  // ── SVG line chart with goal lines ──────────────────────────────────────
+  function chart(W, H, big) {
+    const M = { l:big?42:38, r:14, t:12, b:big?30:26 };
+    const PW = W - M.l - M.r, PH = H - M.t - M.b, YMAX = 160;
+    const x = i => M.l + PW * (i + 0.5) / labels.length;
+    const y = v => M.t + PH - v / YMAX * PH;
+    const fs = big ? 12 : 10;
+    let s = '';
+    for (let k = 0; k <= 4; k++) {
+      const v = YMAX / 4 * k;
+      s += `<line x1="${M.l}" x2="${W-M.r}" y1="${y(v)}" y2="${y(v)}" stroke="#EEE"/>`;
+      s += `<text x="${M.l-6}" y="${y(v)+4}" text-anchor="end" font-size="${fs}" fill="#838E93">${v}</text>`;
+    }
+    s += `<text x="${M.l-6}" y="8" text-anchor="end" font-size="${fs-1}" fill="#838E93">MIN</text>`;
+    labels.forEach((l, i) => s += `<text x="${x(i)}" y="${H-M.b+(big?18:16)}" text-anchor="middle" font-size="${fs}" fill="#586674">${l}</text>`);
+    const series = [['#E67E22', wait, GOAL.wait], ['#1D9CE4', setup, GOAL.setup]];
+    series.forEach(([c, arr, g]) => {
+      s += `<line x1="${M.l}" x2="${W-M.r}" y1="${y(g)}" y2="${y(g)}" stroke="${c}" stroke-width="1.6" stroke-dasharray="6 4"/>`;
+      s += `<text x="${W-M.r-2}" y="${y(g)-4}" text-anchor="end" font-size="${fs}" font-weight="700" fill="${c}">goal ${g}</text>`;
+    });
+    series.forEach(([c, arr]) => {           // lines break at nulls
+      let seg = [];
+      const flush = () => { if (seg.length > 1) s += `<polyline points="${seg.join(' ')}" fill="none" stroke="${c}" stroke-width="2.2"/>`; seg = []; };
+      arr.forEach((v, i) => v == null ? flush() : seg.push(`${x(i)},${y(v)}`));
+      flush();
+    });
+    series.forEach(([c, arr, g]) => arr.forEach((v, i) => {
+      if (v == null) return;
+      const bad = v > g;
+      s += `<circle cx="${x(i)}" cy="${y(v)}" r="${big?4.5:3.6}" fill="${bad?'#CC0000':'#fff'}" stroke="${bad?'#CC0000':c}" stroke-width="2"/>`;
+    }));
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${s}</svg>`;
+  }
+  const lg = `<span style="--c:#E67E22"><i></i>AVG WAIT</span><span style="--c:#1D9CE4"><i></i>AVG SETUP</span>
+              <span style="--c:#E67E22"><i class="d"></i>Wait goal ${GOAL.wait}m</span><span style="--c:#1D9CE4"><i class="d"></i>Setup goal ${GOAL.setup}m</span>
+              <span style="--c:#CC0000"><i></i>เกิน goal</span>`;
+  document.getElementById('lgWeb').innerHTML = lg;
+  document.getElementById('lgSlide').innerHTML = lg;
+  document.getElementById('chWeb').innerHTML = chart(900, 280, false);
+  document.getElementById('chSlide').innerHTML = chart(780, 300, true);
+
+  // ── slide summary ───────────────────────────────────────────────────────
+  const ow = over(wait, GOAL.wait), os = over(setup, GOAL.setup);
+  document.getElementById('sumWait').innerHTML  = `${ow} <small>/ ${have(wait)} กะ</small>`;
+  document.getElementById('sumSetup').innerHTML = `${os} <small>/ ${have(setup)} กะ</small>`;
+  const lw = wait[13], ls = setup[13];
+  document.getElementById('sumLast').innerHTML =
+    `<span style="color:${lw>GOAL.wait?'var(--bad)':'var(--good)'}">${lw}m</span><small> wait · </small><span style="color:${ls>GOAL.setup?'var(--bad)':'var(--good)'}">${ls}m</span><small> setup</small>`;
+
+  // ── fit slide to width ──────────────────────────────────────────────────
+  function fit() {
+    const box = document.getElementById('slidebox'), el = document.getElementById('slide');
+    const s = Math.min(1, box.clientWidth / 1280);
+    el.style.transform = `scale(${s})`; box.style.height = `${720 * s}px`;
+  }
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>
