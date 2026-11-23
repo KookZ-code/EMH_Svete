@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { base } from '$app/paths';
   import EChart from './EChart.svelte';
   import type { EChartsOption, BarSeriesOption, LineSeriesOption } from 'echarts';
 
@@ -58,7 +59,7 @@
     endpoint?: string;
   }
 
-  let { date = '', packages = '', onLoaded, endpoint = '/api/v1/wb/report-7day' }: Props = $props();
+  let { date = '', packages = '', onLoaded, endpoint = `${base}/api/v1/wb/report-7day` }: Props = $props();
 
   let loading = $state(true);
   let error = $state<string | null>(null);

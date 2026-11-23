@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { base } from '$app/paths';
   import EChart from './EChart.svelte';
   import type { EChartsOption } from 'echarts';
 
@@ -48,7 +49,7 @@
     { key: 'tech_count', label: 'TECHNICIANS', color: '#1c355e', axis: 1 },
   ];
 
-  let { date = '', packages = '', onLoaded, endpoint = '/api/v1/wb/report-7day' }: Props = $props();
+  let { date = '', packages = '', onLoaded, endpoint = `${base}/api/v1/wb/report-7day` }: Props = $props();
 
   let loading = $state(true);
   let error = $state<string | null>(null);

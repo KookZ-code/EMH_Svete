@@ -7,7 +7,7 @@
   import { exportReportPptx, buildTrendRows, buildJobRows, buildJobKpi, trimTrendToShift, type WbTrendPayload, type PptxReportData, type PptxTopSymptom } from '$lib/utils/exportPptx';
 
   // 7-day endpoint for DA (the trend components read from here instead of the WB one).
-  const DA_7DAY = '/api/v1/da/report-7day';
+  const DA_7DAY = `${base}/api/v1/da/report-7day`;
 
   // ── Types ─────────────────────────────────────────────────────────────────
   interface EventItem  { job_type:string; t_start:string; t_end:string; des_job:string; dur_min:number; tech:string; }

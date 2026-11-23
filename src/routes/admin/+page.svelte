@@ -1,6 +1,7 @@
 <script lang="ts">
   import PageHeader from '$lib/components/PageHeader.svelte'
   import DataTable from '$lib/components/DataTable.svelte'
+  import { base } from '$app/paths'
   import type { PageData } from './$types'
 
   let { data }: { data: PageData } = $props()
@@ -73,7 +74,7 @@
     if (!formUser.username.trim()) { formError = 'Badge code required'; return }
 
     const method = editUser ? 'PUT' : 'POST'
-    const url    = editUser ? `/api/v1/users/${editUser.id}` : '/api/v1/users'
+    const url    = editUser ? `${base}/api/v1/users/${editUser.id}` : `${base}/api/v1/users`
     const body   = editUser
       ? { display_name: editUser.display_name, role: formUser.role }
       : { username: formUser.username, display_name: formUser.username, role: formUser.role }
@@ -87,14 +88,14 @@
     if (!res.ok || json.error) { formError = json.error?.message ?? 'Save failed'; return }
 
     // Reload badge-role list
-    const listRes = await fetch('/api/v1/users')
+    const listRes = await fetch(`${base}/api/v1/users`)
     if (listRes.ok) users = (await listRes.json()).data ?? users
     showForm = false
   }
 
   async function deleteUser(u: UserRow) {
     if (!confirm(`Delete badge "${u.username}"?`)) return
-    await fetch(`/api/v1/users/${u.id}`, { method: 'DELETE' })
+    await fetch(`${base}/api/v1/users/${u.id}`, { method: 'DELETE' })
     users = users.filter(x => x.id !== u.id)
   }
 
@@ -115,7 +116,7 @@
     permsSaving = role
     permsMsg = ''
     const paths = role === 'supervisor' ? [...supervisorPerms] : [...viewerPerms]
-    const res = await fetch(`/api/v1/permissions/${role}`, {
+    const res = await fetch(`${base}/api/v1/permissions/${role}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ paths }),
