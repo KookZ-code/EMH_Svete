@@ -1,4 +1,4 @@
-// src/lib/utils/exportPptx.ts — WB daily report as a single 16:9 slide for presenting.
+// src/lib/utils/exportPptx.ts — WB/DA daily report as 16:9 slides for presenting (WB adds page 2, Wait Tech Monitor).
 //
 // Receives already-computed values from the wb-report page and builds one slide with native
 // PowerPoint charts, so the presenter can still edit them. pptxgenjs is imported dynamically,
@@ -82,6 +82,8 @@ export interface PptxReportData {
   top3Down: PptxTopSymptom[];
   /** Goal lines for the trend charts. Omit when a report has none (DA); the lines are then not drawn. */
   trendGoals?: PptxTrendGoals | null;
+  /** Page 2 "Wait Tech Monitor": one chart per job group. Omit for a single-slide report (DA). */
+  waitTech?: PptxWaitTechChart[] | null;
   generatedAt: string;
 }
 
@@ -520,6 +522,11 @@ export async function exportReportPptx(data: PptxReportData, fileName: string): 
     x: MARGIN, y: FOOTER_Y, w: SLIDE_W - MARGIN * 2, h: 0.2, fontFace: FONT, fontSize: 8, color: C.muted, margin: 0,
   });
 
+  // ── Page 2: Wait Tech Monitor (only when the caller supplies wait-tech data) ─
+  if (data.waitTech) {
+    drawWaitTechSlide(pptx.addSlide(), pptx, data, data.waitTech);
+  }
+
   await pptx.writeFile({ fileName });
   return fileName;
 }
@@ -528,6 +535,112 @@ export async function exportReportPptx(data: PptxReportData, fileName: string): 
 // reason is written down once.
 function gapValues(values: (number | null)[]): number[] {
   return values as number[];
+}
+
+// ── Page 2: Wait Tech Monitor ───────────────────────────────────────────────
+// Counts each job by the minutes it waited for a technician (`wait_min` on closed events), in six buckets,
+// one chart per job group. Open jobs have no wait_min yet, so they are not counted.
+export const WAIT_TECH_BUCKETS = ['1-30', '31-60', '61-120', '121-240', '241-360', '>361'];
+const WAIT_TECH_LIMITS = [30, 60, 120, 240, 360];   // upper bound (minutes) of each bucket except the last
+const WAIT_TECH_GROUPS = [
+  { title: 'M/C DOWN', color: C.down, types: ['M/C DOWN'] },
+  { title: 'SETUP + CONVERT', color: C.setup, types: ['SETUP', 'CONVERT', 'CLEAN MOLD', 'CHANGE CAP'] },
+];
+
+export interface WaitTechMachine {
+  machine_id: string; package?: string;
+  events: { job_type: string; t_start: string; wait_min?: number; des_job?: string }[];
+}
+
+// One chart on page 2. `maxRef` is the machine and start time of the longest wait, e.g. "W/B # 128, 17/11/26 23:00".
+// `maxPackage` and `maxProblem` describe that same longest-wait job.
+export interface PptxWaitTechChart {
+  title: string; color: string; counts: number[]; total: number;
+  maxWait: number; maxRef: string; maxPackage: string; maxProblem: string;
+}
+
+function waitBucketIndex(wait: number): number {
+  const i = WAIT_TECH_LIMITS.findIndex((limit) => wait <= limit);
+  return i < 0 ? WAIT_TECH_BUCKETS.length - 1 : i;
+}
+
+// Event start is "HH:mm" only. On the Night shift an event before 12:00 happened after midnight, so its
+// date is the next day. Returns "dd/mm/yy HH:mm" like the reference page.
+function waitRefTime(date: string, hhmm: string, night: boolean): string {
+  const [y, m, d] = date.split('-').map(Number);
+  const hour = Number(hhmm.slice(0, 2));
+  const dt = new Date(y, m - 1, d + (night && hour < 12 ? 1 : 0));
+  const p = (n: number) => String(n).padStart(2, '0');
+  return `${p(dt.getDate())}/${p(dt.getMonth() + 1)}/${p(dt.getFullYear() % 100)} ${hhmm}`;
+}
+
+export function buildWaitTechCharts(machines: WaitTechMachine[], date: string, night: boolean): PptxWaitTechChart[] {
+  return WAIT_TECH_GROUPS.map((g) => {
+    const counts = WAIT_TECH_BUCKETS.map(() => 0);
+    let total = 0, maxWait = 0, maxRef = '', maxPackage = '', maxProblem = '';
+    for (const m of machines) {
+      for (const e of m.events) {
+        if (!g.types.includes((e.job_type || '').toUpperCase()) || e.wait_min == null) continue;
+        counts[waitBucketIndex(e.wait_min)]++;
+        total++;
+        if (e.wait_min > maxWait) {
+          maxWait = e.wait_min;
+          maxRef = `${m.machine_id}, ${waitRefTime(date, e.t_start, night)}`;
+          maxPackage = m.package ?? '';
+          maxProblem = e.des_job ?? '';
+        }
+      }
+    }
+    return { title: g.title, color: g.color, counts, total, maxWait, maxRef, maxPackage, maxProblem };
+  });
+}
+
+// Page 2: two bar charts side by side (M/C DOWN, SETUP + CONVERT), each with its job total and longest wait.
+function drawWaitTechSlide(
+  slide: { addShape: Function; addText: Function; addChart: Function },
+  pptx: { ShapeType: { rect: string }; ChartType: { bar: string } },
+  data: PptxReportData,
+  charts: PptxWaitTechChart[],
+) {
+  slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: SLIDE_W, h: 0.8, fill: { color: C.primary }, line: { type: 'none' } });
+  slide.addText('Wait Tech Monitor', {
+    x: MARGIN, y: 0.1, w: 8, h: 0.6, fontFace: FONT, fontSize: 24, bold: true, color: 'FFFFFF', valign: 'middle',
+  });
+  slide.addText([
+    { text: `${data.shiftLabel}  ·  ${data.subtitle}`, options: { breakLine: true, bold: true } },
+    { text: data.packageLine },
+  ], { x: 7.6, y: 0.08, w: 5.33, h: 0.64, fontFace: FONT, fontSize: 12, color: 'FFFFFF', align: 'right', valign: 'middle' });
+
+  const PANEL_TOP = 1.0, CHART_TOP = PANEL_TOP + 1.35;
+  const panelW = (SLIDE_W - MARGIN * 2 - GAP) / 2;
+  const chartH = FOOTER_Y - 0.25 - CHART_TOP;
+  charts.forEach((c, i) => {
+    const x = MARGIN + i * (panelW + GAP);
+    slide.addText(c.title, {
+      x, y: PANEL_TOP, w: panelW, h: 0.4, fontFace: FONT, fontSize: 20, bold: true, color: c.color, margin: 0, valign: 'middle',
+    });
+    const maxText = c.total > 0 ? `Max wait: ${Math.round(c.maxWait)} min  (${c.maxRef})` : 'Max wait: —';
+    // Package and problem belong to the same longest-wait job as the Max wait line above them.
+    const detail = c.total > 0
+      ? [{ text: `Package: ${c.maxPackage || '—'}`, options: { breakLine: true } }, { text: `Problem: ${c.maxProblem || '—'}` }]
+      : [];
+    slide.addText([
+      { text: `Total jobs: ${c.total}`, options: { breakLine: true } },
+      { text: maxText, options: { breakLine: true } },
+      ...detail,
+    ], { x, y: PANEL_TOP + 0.42, w: panelW, h: 0.85, fontFace: FONT, fontSize: 12, color: C.text, margin: 0, valign: 'top' });
+    slide.addChart(pptx.ChartType.bar, [{ name: c.title, labels: WAIT_TECH_BUCKETS, values: c.counts }], {
+      x, y: CHART_TOP, w: panelW, h: chartH, fontFace: FONT, fontSize: 10,
+      chartColors: [c.color], barGapWidthPct: 50, showLegend: false,
+      showValue: true, dataLabelPosition: 'outEnd', dataLabelFontSize: 11, dataLabelFontBold: true, dataLabelColor: C.primary,
+      showCatAxisTitle: true, catAxisTitle: 'Wait Tech (minutes)', catAxisLabelFontSize: 10,
+      showValAxisTitle: true, valAxisTitle: 'Number of jobs', valAxisMinVal: 0, valAxisLabelFontSize: 10,
+    });
+  });
+
+  slide.addText(`Source: EMH Dashboard · WB Report  ·  Generated ${data.generatedAt}`, {
+    x: MARGIN, y: FOOTER_Y, w: SLIDE_W - MARGIN * 2, h: 0.2, fontFace: FONT, fontSize: 8, color: C.muted, margin: 0,
+  });
 }
 
 /** WB entry point kept for existing callers; the slide itself is shared with DA. */

@@ -5,10 +5,10 @@
   import JobTrend from '$lib/components/JobTrend.svelte';
   import TechnicianPerformance from '$lib/components/TechnicianPerformance.svelte';
   import { WB_GOALS, goalDelta } from '$lib/config/wb_goals';
-  import { exportReportPptx, buildTrendRows, buildJobRows, buildJobKpi, trimTrendToShift, type WbTrendPayload, type PptxReportData } from '$lib/utils/exportPptx';
+  import { exportReportPptx, buildTrendRows, buildJobRows, buildJobKpi, buildWaitTechCharts, trimTrendToShift, type WbTrendPayload, type PptxReportData } from '$lib/utils/exportPptx';
 
   // ── Types ─────────────────────────────────────────────────────────────────
-  interface EventItem  { job_type:string; t_start:string; t_end:string; des_job:string; dur_min:number; tech:string; }
+  interface EventItem  { job_type:string; t_start:string; t_end:string; des_job:string; dur_min:number; tech:string; wait_min?:number; }
   interface MachineRow {
     machine_id:string; package:string;
     wait_down_min:number; down_min:number; wait_setup_min:number; setup_min:number;
@@ -213,55 +213,28 @@
       const startHour = timeRange.match(/^(\d{1,2}):/)?.[1];
       const actualShift = startHour && parseInt(startHour) >= 12 ? 'Night' : selShift;
 
-      const base7 = Array.from({ length: 7 }, (_, i) => {
-        const dt = new Date(selDate); dt.setDate(dt.getDate() - (i + 1));
-        return dt.toISOString().slice(0, 10);
-      });
-      const hist = await Promise.all(
-        base7.map(dt => fetch(`${base}/api/wb/report?date=${dt}&shift=${actualShift}&packages=${pkgsEnc}`)
-          .then(r => r.json()).catch(() => null))
-      );
-
-      const DOWN_T  = new Set(['M/C DOWN','ENGINEERING DOWN','FACILITY DOWN']);
-      const SETUP_T = new Set(['SETUP','CONVERT','CLEAN MOLD','CHANGE CAP']);
-      const WAIT_T  = new Set(['WAIT']);
-      const valid = hist.filter(h => h?.data?.kpi?.total > 0);
-      if (valid.length > 0) {
-        const kpis = valid.map(h => h.data.kpi as WbKpi);
-        const avg = <T extends keyof WbKpi>(k: T) =>
-          Math.round(kpis.reduce((s, v) => s + (v[k] as number), 0) / kpis.length * 10) / 10;
-        const downEvts  = valid.map(h => (h.data.machines as MachineRow[]).reduce((s, m) =>
-          s + m.events.filter(e => DOWN_T.has((e.job_type||'').toUpperCase())).length, 0));
-        const setupEvts = valid.map(h => (h.data.machines as MachineRow[]).reduce((s, m) =>
-          s + m.events.filter(e => SETUP_T.has((e.job_type||'').toUpperCase())).length, 0));
-        const avgArr = (arr: number[]) => Math.round(arr.reduce((s, v) => s + v, 0) / arr.length);
-        const totalReqJobs = valid.map(h => h.data.tech_summary?.open_jobs ?? 0);
-        const waitDurations = valid.map(h => {
-          const ms = h.data.machines as MachineRow[];
-          const waitEvts = ms.flatMap(m => m.events.filter(e => WAIT_T.has((e.job_type||'').toUpperCase())));
-          return { avg: waitEvts.length > 0 ? Math.round(waitEvts.reduce((s, e) => s + (e.dur_min||0), 0) / waitEvts.length * 10) / 10 : 0,
-                   max: waitEvts.length > 0 ? Math.round(Math.max(...waitEvts.map(e => e.dur_min||0)) * 10) / 10 : 0 };
-        });
-        const idlePcts = valid.map(h => {
-          const ms = h.data.machines as MachineRow[];
-          const fleetMin = ms.length * 720 || 1;
-          const idleMin  = ms.reduce((s, m) =>
-            s + m.events.filter(e =>
-              (e.job_type||'').toUpperCase() === 'SETUP BY OPERATOR' &&
-              /^(idle|wait\s)/i.test(e.des_job||'')
-            ).reduce((sm, e) => sm + (e.dur_min||0), 0), 0);
-          return Math.round(idleMin / fleetMin * 100 * 10) / 10;
-        });
+      // Baseline for the "vs avg" deltas comes from the same 7-day report-7day data the trend chart
+      // averages. Only shifts matching this page's shift are used, and days with no technician data
+      // are dropped, so the deltas compare against the numbers the chart shows.
+      type Trend7Data = { shifts: string[]; metrics: Record<string, number[]>; shift_details: Record<string, number | string>[] };
+      const trendRes: { data?: Trend7Data } | null = await fetch(`${base}/api/v1/wb/report-7day?date=${selDate}&packages=${pkgsEnc}`)
+        .then(r => r.json()).catch(() => null);
+      const t7 = trendRes?.data;
+      const prior = t7
+        ? t7.shifts.map((s, i) => i).filter(i => t7.shifts[i] === actualShift && Number(t7.shift_details[i]?.tech_count ?? 0) > 0)
+        : [];
+      if (t7 && prior.length > 0) {
+        const mean = (xs: number[]) => Math.round(xs.reduce((s, v) => s + v, 0) / xs.length * 10) / 10;
+        const avgM = (key: string) => mean(prior.map(i => Number(t7.metrics[key]?.[i] ?? 0)));
+        const avgD = (key: string) => mean(prior.map(i => Number(t7.shift_details[i]?.[key] ?? 0)));
         kpi7d = {
-          days: valid.length,
-          avg_util: avg('avg_util'), down_pct: avg('down_pct'), wait_pct: avg('wait_pct'),
-          setup_conv_pct: avg('setup_conv_pct'), sbo_pct: avg('sbo_pct'),
-          n_down: avg('n_down'), n_tech: avg('n_tech'), n_low: avg('n_low'), n_full: avg('n_full'),
-          down_events: avgArr(downEvts), setup_events: avgArr(setupEvts),
-          total_request_jobs: avgArr(totalReqJobs),
-          avg_waiting_time: avgArr(waitDurations.map(w => w.avg)),
-          max_waiting_time: Math.max(...waitDurations.map(w => w.max)),
-          idle_pct: Math.round(idlePcts.reduce((s,v)=>s+v,0)/idlePcts.length*10)/10,
+          days: prior.length,
+          avg_util: avgM('avg_util'), down_pct: avgM('down_pct'), wait_pct: avgM('wait_pct'),
+          setup_conv_pct: avgM('setup_conv_pct'), idle_pct: avgM('idle_pct'),
+          n_tech: avgD('tech_count'), total_request_jobs: avgD('total_request_jobs'),
+          down_events: avgD('down_jobs'), setup_events: avgD('setup_jobs'),
+          avg_waiting_time: avgD('avg_waiting_time'),
+          max_waiting_time: Math.max(...prior.map(i => Number(t7.shift_details[i]?.max_waiting_time ?? 0))),
         };
       }
     } catch (e) { error = e instanceof Error ? e.message : 'Error'; }
@@ -536,6 +509,8 @@
       top3Down: top3DownSymptoms(),
       // Goal lines come from the same config as the goal chips, so the slide and the web page agree.
       trendGoals: { waitPct: WB_GOALS.waitPct, closeRatePct: WB_GOALS.closeRatePct },
+      // Page 2: wait-tech buckets from the events already on this page (no extra API call).
+      waitTech: buildWaitTechCharts(machines, selDate, reportShift === 'Night'),
       heatHours: heatmap?.shiftHours ?? [],
       heatRows: (heatmap?.rows ?? []).filter(r => r.key !== 'sbo').map(r => ({
         label: r.label,
